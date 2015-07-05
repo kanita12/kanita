@@ -1,0 +1,22 @@
+<html>
+
+<body>
+    <p>
+        ผู้ลา : รหัสพนักงาน {{empid}}
+        <br/>ชื่อ นามสกุล {{empfullname}}
+    </p>
+    <p>
+        สาเหตุ : {{leavecontent}}
+    </p>
+    <p>
+        วันที่ขอลา : {{leavestartdate}} {{leavestarttime}} จนถึง {{leaveenddate}} {{leaveendtime}}
+    </p>
+    <p>
+        จัดการ
+        <br/>
+        <a href="{{siteurl}}/headman/Verifyleave/approve_from_email/{{headmanid}}/{{leaveid}}">อนุมัติ</a> &nbsp;/&nbsp;
+        <a href="{{siteurl}}/headman/Verifyleave/disapprove_from_email/{{headmanid}}/{{leaveid}}">ไม่อนุมัติ</a>
+    </p>
+</body>
+
+</html>

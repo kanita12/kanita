@@ -1,0 +1,384 @@
+<html>
+
+<head>
+    <title>ใบลางาน</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <!--jQuery-->
+    <script type="text/javascript" src="../assets/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery-ui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/js/jquery-ui/jquery-ui.css">
+    <!--Bootstrap-->
+    <script type="text/javascript" src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/bootstrap.css">
+    <!--Other-->
+    <script type="text/javascript" src="../assets/js/common.js"></script>
+    <script src="../assets/js/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/js/sweetalert2/dist/sweetalert2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/basic.css">
+    <style type="text/css">
+    .adlesse-hidden {
+        display: none!important;
+    }
+    
+    .adlesse-invisible {
+        visibility: hidden!important;
+    }
+    
+    .adlesse-actionpanel {
+        padding: 0!important;
+        margin: 0!important;
+        position: absolute!important;
+        z-index: 3999!important;
+        border: solid #000000 1px!important;
+        background: #ffffff!important;
+        font-family: sans-serif!important;
+        font-weight: normal!important;
+        font-size: 10px!important;
+        text-decoration: none!important;
+        color: #000000!important;
+    }
+    
+    .adlesse-actionpanel a {
+        padding: 0!important;
+        margin: 0!important;
+        background: none repeat scroll 0 0 transparent!important;
+        font-family: sans-serif!important;
+        font-weight: normal!important;
+        font-size: 10px!important;
+        text-decoration: none!important;
+        color: #000000!important;
+        display: inline-block !important
+    }
+    
+    .adlesse-actionpanel a:hover {
+        text-decoration: underline!important;
+    }
+    
+    .adlesse-trans-65 {
+        opacity: 0.65;
+        filter: alpha(opacity=65);
+        -moz-opacity: 0.65;
+        filter: progid: DXImageTransform.Microsoft.Alpha(Opacity=65);
+        -khtml-opacity: 0.65;
+        -ms-filter: 'progid:DXImageTransform.Microsoft.Alpha(Opacity=65)';
+    }
+    
+    .adlesse-rounded-corner {
+        -moz-border-radius: 3px;
+        -webkit-border-radius: 3px;
+        -khtml-border-radius: 3px;
+        border-radius: 3px;
+    }
+    
+    .adlesse-actionpanel-menu {
+        position: absolute!important;
+        z-index: 3999!important;
+        background: #ffffff!important;
+        font-family: sans-serif!important;
+        font-weight: normal!important;
+        font-size: 10px!important;
+        text-decoration: none!important;
+        color: #000000!important;
+        border: 1px solid #000000;
+        text-align: center!important;
+        padding: 0!important;
+        margin: 5px!important;
+        margin-top: 1px!important;
+        min-width: 55px;
+    }
+    
+    .adlesse-actionpanel-menu-h {
+        margin: 5px;
+        list-style-type: none;
+    }
+    
+    .adlesse-actionpanel-menu-v {
+        list-style-type: none;
+    }
+    
+    .adlesse-actionpanel-menu-h li {
+        background: #ffffff;
+        cursor: pointer;
+        display: inline-block;
+        padding: 5px;
+        zoom: 1;
+        *display: inline;
+        border-right: 1px solid #cccccc
+    }
+    
+    .adlesse-actionpanel-menu-v li {
+        background: #ffffff;
+        cursor: pointer;
+        padding: 3px;
+        border-bottom: 1px solid #000000;
+    }
+    
+    .adlesse-widget-div {}
+    
+    .adlesse-widget-iframe {
+        border: 0px;
+        position: relative;
+        z-index: 205!important
+    }
+    </style>
+</head>
+
+<body>
+    <!-- <a class="txtblue16" href="HOME.html">HOME</a><br/>
+  <a class="txtblue16" href="Request_additional_personnel.html">ส่งคำขอเพิ่มบุคลากร</a><br/>
+  <a class="txtblue16" href="organizationalChart.html">แผนผังองค์กร</a><br/>
+   <a class="txtblue16" href="JobVacancies.html">ตำแหน่งงานว่าง</a><br/>
+  <a class="txtblue16" href="Leave.html">การลางาน</a><br/>
+   <a class="txtblue16" href="approveLeave.html">อนุมัติการลางาน</a><br/>
+   <a class="txtblue16" href="regulation.html">กฎเกณฑ์และข้อบังคับ</a><br/>
+   <a class="txtblue16" href="Reportleave.html">รายงานเวลาเข้า-ออกงาน</a><br/>
+   <a class="txtblue16" href="Userprofile.html">ข้อมูลพนักงาน</a><br/>
+   <a class="txtblue16" href="Worktime.html">เวลางาน</a><br/>
+   <a class="txtblue16" href="sendE-mail.html">ส่งอีเมลล์</a><br/> -->
+    <!-- Header -->
+    <div id="divHeader" class="header w-row">
+        <div class="w-col w-col-4">
+        </div>
+        <div id="namesystem" class="w-col w-col-8 jumbotron form__HR">
+            <h1>Welcome To Human Resources System</h1>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- ชื่อหน้า และ member -->
+    <div class="w-row">
+        <!-- <button type="button" class="close" data-dismiss="alert">×</button> -->
+        <!-- member -->
+        <div id="divMember" class="w-col w-col-8 w-row form--memberall">
+            <div class="w-col w-col-2">
+                <img src="../assets/images/people.png" class="cssimgmember" alt="553f845e2568456c5fb41ac7_people.png">
+            </div>
+            <div class="w-col w-col-10">
+                <div class="form--memberall__row">
+                    <b>นางสาว xxxxxxxx xxxxxxxxxxx</b>
+                    <b>หน่วยงาน xxxxxxxxxxxxxx</b>
+                    <b>แผนก xxxxxxxxxxxxxx</b>
+                    <b>ตำแหน่ง xxxxxxxxxxxxxx</b>
+                    <b>สถานะ xxxxxxxxxxxxxx</b>
+                </div>
+                <div class="w-row">
+                    <a href="#" class="form--memberall__button w-col w-col-4 btn btn-info">
+                                        ข้อมูลส่วนตัว</a>
+                    <a href="#" class="form--memberall__button w-col w-col-4 btn btn-info">
+                                        ลางาน</a>
+                    <a href="#" class="form--memberall__button w-col w-col-4 btn btn-info">
+                                        ส่งข้อความถึง HR</a>
+                </div>
+            </div>
+        </div>
+        <!-- member -->
+        <!-- ชื่อหัวข้อ -->
+        <div class="w-col w-col-4 form__title">
+            <!-- แก้ไขหัวข้อ -->
+            <b class="form--title__text40">Leave Report</b>
+            <br/>
+            <b class="form--title__text20">ใบลางาน</b>
+            <!-- แก้ไขหัวข้อ -->
+        </div>
+        <!-- ชื่อหัวข้อ -->
+    </div>
+    <!-- ชื่อหน้า และ member -->
+    <!-- menu -->
+    <div id="divmenu" class="menu">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="nav navbar-brand" href="http://www.efarmstore.com/index.php">
+                        <b>หน้าแรก</b>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                                            ข้อมูลส่วนตัว
+                                        <span class="caret"></span>
+                                        </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="Worktime.html">เวลาเข้า-ออก</a></li>
+                                <!-- <li><a href="http://www.efarmstore.com/index.php/Userprofile">แก้ไขข้อมูลส่วนตัว</a></li> -->
+                                <li><a href="Userprofile.html">แก้ไขข้อมูลส่วนตัว</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                                            ลางาน<span class="caret">
+                                        </span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="Leave.html">รายการลา</a></li>
+                                <li><a href="addLeave.html">ส่งใบลา</a></li>
+                                <li><a href="Reportleave.html">รายงานการลา</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                            ข้อความ<span class="caret"></span>
+                        </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="headman/Message.html">รายการข้อความ</a></li>
+                                <li><a href="headman/sendMessageheadman.html">
+                                  ส่งข้อความถึงหัวหน้า</a></li>
+                                <li><a href="hr/sendMessagehr.html">ส่งข้อความถึง HR</a></li>
+                            </ul>
+                        </li>
+                        <!-- about company -->
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">บริษัท<span class="caret"></span>
+                        </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="http://www.efarmstore.com/index.php/company/regulation">กฏเกณฑ์-ข้อบังคับ</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/company/organization">แผนผังองค์กร</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/company/wantedposition">ตำแหน่งงานว่าง</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/company/Holiday">วันหยุดประจำปี</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/Activity">กิจกรรมภายในองค์กร</a></li>
+                            </ul>
+                        </li>
+                        <!-- about company -->
+                        <!-- เมนู HEAD MAN -->
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">เมนูหัวหน้า 
+                            <span class="caret"></span>
+                          </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="headman/Yourteam.html">รายชื่อทีมตัวเอง</a></li>
+                                <li><a href="headman/Verifyleave.html">ตรวจสอบใบลาลูกทีม</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/headman/Requestemployee">คำขอเพิ่มลูกทีม</a></li>
+                                <li><a href="#">ตรวจสอบข้อความจากลูกทีม</a></li>
+                            </ul>
+                        </li>
+                        <!-- เมนู HEAD MAN -->
+                        <!-- เมนู HR -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle " data-toggle="dropdown" aria-expanded="false" id="MENU HR">เมนู HR
+                            <span class="caret"></span>
+                          </a>
+                            <ul class="dropdown-menu" aria-labelledby="MENU HR">
+                                <li><a href="http://www.efarmstore.com/index.php/hr/Employee">รายชื่อพนักงานทั้งหมด</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/hr/Verifyleave">ตรวจสอบการลางาน</a></li>
+                                <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
+                                <li><a href="#">คำขอเพิ่มลูกทีม</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/hr/News">จัดการข่าวสาร</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/hr/Activity">จัดการกิจกรรม</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/hr/Regulation">จัดการกฎเกณฑ์-ข้อบังคับ</a></li>
+                                <li><a href="#">จัดการแผนผังองค์กร</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/hr/Holiday">จัดการวันหยุดประจำปี</a></li>
+                                <li><a href="#">เขียนใบลาแทน</a></li>
+                                <li><a href="#">ปรับเงินเดือนพนักงาน</a></li>
+                                <!-- การปรับเงินเดือนมีแบบ ปรับทั้งหมด , ปรับเป็นแผนก , ปรับเป็นตำแหน่ง , ปรับเป็ฯรายบุคคล , ปรับเป็นรายทีม -->
+                            </ul>
+                        </li>
+                        <!-- เมนู HR -->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://www.efarmstore.com/index.php/logout">ออกจากระบบ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- menu -->
+    <div id="content" class="form">
+        <div class="alert alert-dismissible alert-info form__width90">
+            <!-- ประเภทการลา -->
+            <div class="fr-text form__center">
+                <b>ใบลาป่วย</b>
+                <!-- <div id="divLeaveDetail"></div> -->
+            </div>
+            <div class="form__right">
+                <p>เขียนที่ : ผ่านระบบ HR</p>
+                <span>วันที่ <u>01</u></span>
+                <span>เดือน <u>มีนาคม</u></span>
+                <span>พ.ศ.  <u>2558</u></span>
+            </div>
+            <!-- ประเภทการลา -->
+            <div>
+                <!-- รายละเอียดการลางาน -->
+                <div class="form__padding">
+                    <b>เรื่อง <u>ขอลาป่วย</u></b>
+                    <br/>
+                    <b>เรียน <u>คณะผู้บริหาร ฝ่ายบุคคล และหัวหน้าแผนก</u></b>
+                    <br/>
+                </div>
+                <!-- ข้อมูลพนักงาน -->
+                <div class="form__padding alert-success">
+                    <span>ข้าพเจ้า</span>
+                    <span><b>ชื่อ-นามสกุล :</b> Test Employee001</span>
+                    <br/>
+                    <span><b>ตำแหน่ง :</b> หัวหน้าพนักงานบัญชี</span>
+                    <span><b>แผนก :</b> โปรแกรมเมอร์</span>
+                    <span><b>รหัสพนักงาน</b> testemp001</span>
+                </div>
+                <div class="form__padding alert-warning">
+                    <span><b>หัวหน้างาน :</b> ชื่อ xxxxx xxxxxxx</span>
+                    <span><b>ประจำแผนก :</b> บัญชี</span>
+                </div>
+                <br/>
+                <div class="form__padding">
+                    <span><b>เนื่องจาก : </b>ในตอนเช้ามีอาการปวดหัว จนเป็นลม จึงได้ทำการพบแพทย์</span>
+                </div>
+                <!-- เพราะฉะนั้นจึงขอลาหยุดใน-->
+                <div class="form__padding">
+                    <p>เพราะฉะนั้นจึงขอลาหยุดใน</p>
+                    <div>
+                        <b> วันที่ :<u> 01-01-2558</u></b>
+                        <b>เวลา :<u> 8.00 น.</u></b>
+                        <b>จนถึงวันที่ :<u> 02-01-2558</u></b>
+                        <b>เวลา : <u> 17.00 น.</u></b>
+                    </div>
+                </div>
+                <!-- เพราะฉะนั้นจึงขอลาหยุดใน-->
+                <!-- เอกสารแนบ -->
+                <div class="form__padding">
+                    <b>เอกสารแนบ :</b>
+                    <img src="../assets/images/ใบรับรองแพทย์.png" class="cssimgmember" alt="553f845e2568456c5fb41ac7_people.png">
+                    <!-- เอกสารแนบ -->
+                </div>
+                <div class="form__right">
+                    <div class="form__float_right">
+                        <div class="form__padding">
+                            <b>จึงเรียนมาเพื่อทราบ</b>
+                            <br/>
+                            <b>ขอแสดงความนับถือ</b>
+                            <br/>
+                            <u>สุจรรยา ทับทอง</u>
+                            <br/>
+                            <b>พนักงาน</b>
+                        </div>
+                        <div class="form__padding">
+                            <b>ผู้อนุมัติ</b>
+                            <u>หัวหน้างาน กระจำสายงาน</u>
+                            <br/>
+                            <b>หัวหน้างาน</b>
+                        </div>
+                        <div class="form__padding">
+                            <b>ผู้อนุมัติ</b>
+                            <u>เจ้าของบรืษัท หรือ HR หรือ  อื่นๆ</u>
+                            <br/>
+                            <b>ผู้บริหาร/กรรมการผู้จัดการ</b>
+                        </div>
+                    </div>
+                </div>
+                <!-- รายละเอียดการลางาน -->
+            </div>
+        </div>
+        <div class="form__float_right">
+            <a href="#" class="btn btn-primary">Print Report</a>
+            <a href="#" class="btn btn-primary">Save Report</a>
+        </div>
+    </div>
+    <div id="divfooter"></div>
+</body>
+
+</html>

@@ -1,0 +1,20 @@
+สวัสดี {{headman_fullname}}
+<br>
+มีลูกทีมขอทำงานล่วงเวลา มีรายละเอียดดังนี้
+<br>
+รหัสพนักงาน : {{owner_emp_id}}
+<br>
+ชื่อ - นามสกุล : {{owner_fullname}}
+<br>
+ตำแหน่ง : {{owner_positionname}}
+<br>
+ขอทำงานล่วงเวลาในวันที่ : {{ot_date}}
+<br>
+ตั้งแต่เวลา {{ot_time_from}} จนถึง {{ot_time_to}}
+<br>
+<br>
+จัดการ
+<br>
+<a href="{{site_url}}/overtime/detail/{{ot_id}}">รายละเอียด</a>
+<a href="{{site_url}}/overtime/instant_approve_disapprove_ot_by_headman/approve/{{headman_user_id}}/{{en_ot_id}}">อนุมัติ</a>
+<a href="{{site_url}}/overtime/instant_approve_disapprove_ot_by_headman/disapprove/{{headman_user_id}}/{{en_ot_id}}">ไม่อนุมัติ</a>

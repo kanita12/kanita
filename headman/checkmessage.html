@@ -1,0 +1,242 @@
+<html>
+
+<head>
+    <title>ข้อความจากลูกทีม</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta charset="UTF-8">
+    <!--jQuery-->
+    <script type="text/javascript" src="../assets/js/jquery-1.11.2.min.js"></script>
+    <script type="text/javascript" src="../assets/js/jquery-ui/jquery-ui.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/js/jquery-ui/jquery-ui.css">
+    <!--Bootstrap-->
+    <script type="text/javascript" src="../assets/bootstrap/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/bootstrap/bootstrap.css">
+    <!--Other-->
+    <script type="text/javascript" src="../assets/js/common.js"></script>
+    <script src="../assets/js/sweetalert2/dist/sweetalert2.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="../assets/js/sweetalert2/dist/sweetalert2.css">
+    <link rel="stylesheet" type="text/css" href="../assets/css/basic.css">
+</head>
+
+<body>
+    <!-- <a class="txtblue16" href="HOME.html">HOME</a><br/>
+  <a class="txtblue16" href="Request_additional_personnel.html">ส่งคำขอเพิ่มบุคลากร</a><br/>
+  <a class="txtblue16" href="organizationalChart.html">แผนผังองค์กร</a><br/>
+   <a class="txtblue16" href="JobVacancies.html">ตำแหน่งงานว่าง</a><br/>
+  <a class="txtblue16" href="Leave.html">การลางาน</a><br/>
+   <a class="txtblue16" href="approveLeave.html">อนุมัติการลางาน</a><br/>
+   <a class="txtblue16" href="regulation.html">กฎเกณฑ์และข้อบังคับ</a><br/>
+   <a class="txtblue16" href="Reportleave.html">รายงานเวลาเข้า-ออกงาน</a><br/>
+   <a class="txtblue16" href="Userprofile.html">ข้อมูลพนักงาน</a><br/>
+   <a class="txtblue16" href="Worktime.html">เวลางาน</a><br/>
+   <a class="txtblue16" href="sendE-mail.html">ส่งอีเมลล์</a><br/> -->
+    <!-- Header -->
+    <div id="divHeader" class="header w-row">
+        <div class="w-col w-col-4">
+        </div>
+        <div id="namesystem" class="w-col w-col-8 jumbotron form__HR">
+            <h1>Welcome To Human Resources System</h1>
+        </div>
+    </div>
+    <!-- Header -->
+    <!-- ชื่อหน้า และ member -->
+    <div class="w-row">
+        <!-- <button type="button" class="close" data-dismiss="alert">×</button> -->
+        <!-- member -->
+        <div id="divMember" class="w-col w-col-8 w-row form--memberall">
+            <div class="w-col w-col-2">
+                <img src="../assets/images/people.png" class="cssimgmember" alt="553f845e2568456c5fb41ac7_people.png">
+            </div>
+            <div class="w-col w-col-10">
+                <div class="form--memberall__row">
+                    <b>นางสาว xxxxxxxx xxxxxxxxxxx</b>
+                    <b>หน่วยงาน xxxxxxxxxxxxxx</b>
+                    <b>แผนก xxxxxxxxxxxxxx</b>
+                    <b>ตำแหน่ง xxxxxxxxxxxxxx</b>
+                    <b>สถานะ xxxxxxxxxxxxxx</b>
+                </div>
+                <div class="w-row">
+                    <a href="#" class="form--memberall__button w-col w-col-4 btn btn-info">
+                                        ข้อมูลส่วนตัว</a>
+                    <a href="#" class="form--memberall__button w-col w-col-4 btn btn-info">
+                                        ลางาน</a>
+                    <a href="#" class="form--memberall__button w-col w-col-4 btn btn-info">
+                                        ส่งข้อความถึง HR</a>
+                </div>
+            </div>
+        </div>
+        <!-- member -->
+        <!-- ชื่อหัวข้อ -->
+        <div class="w-col w-col-4 form__title">
+            <!-- แก้ไขหัวข้อ -->
+            <b class="form--title__text40">Message</b>
+            <br/>
+            <b class="form--title__text20">ข้อความจากลูกทีม</b>
+            <!-- แก้ไขหัวข้อ -->
+        </div>
+        <!-- ชื่อหัวข้อ -->
+    </div>
+    <!-- ชื่อหน้า และ member -->
+    <!-- menu -->
+    <div id="divmenu" class="menu">
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    <a class="nav navbar-brand" href="http://www.efarmstore.com/index.php">
+                        <b>หน้าแรก</b>
+                    </a>
+                </div>
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                                            ข้อมูลส่วนตัว
+                                        <span class="caret"></span>
+                                        </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="Worktime.html">เวลาเข้า-ออก</a></li>
+                                <!-- <li><a href="http://www.efarmstore.com/index.php/Userprofile">แก้ไขข้อมูลส่วนตัว</a></li> -->
+                                <li><a href="Userprofile.html">แก้ไขข้อมูลส่วนตัว</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                                            ลางาน<span class="caret">
+                                        </span></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="Leave.html">รายการลา</a></li>
+                                <li><a href="addLeave.html">ส่งใบลา</a></li>
+                                <li><a href="Reportleave.html">รายงานการลา</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                            ข้อความ<span class="caret"></span>
+                        </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="headman/Message.html">รายการข้อความ</a></li>
+                                <li><a href="headman/sendMessageheadman.html">
+                                  ส่งข้อความถึงหัวหน้า</a></li>
+                                <li><a href="hr/sendMessagehr.html">ส่งข้อความถึง HR</a></li>
+                            </ul>
+                        </li>
+                        <!-- about company -->
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">บริษัท<span class="caret"></span>
+                        </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="http://www.efarmstore.com/index.php/company/regulation">กฏเกณฑ์-ข้อบังคับ</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/company/organization">แผนผังองค์กร</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/company/wantedposition">ตำแหน่งงานว่าง</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/company/Holiday">วันหยุดประจำปี</a></li>
+                                <li><a href="http://www.efarmstore.com/index.php/Activity">กิจกรรมภายในองค์กร</a></li>
+                            </ul>
+                        </li>
+                        <!-- about company -->
+                        <!-- เมนู HEAD MAN -->
+                        <li class="dropdown">
+                            <a href="" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">เมนูหัวหน้า 
+                            <span class="caret"></span>
+                          </a>
+                            <ul class="dropdown-menu" role="menu">
+                                <li><a href="headman/Yourteam.html">รายชื่อทีมตัวเอง</a></li>
+                                <li><a href="headman/Verifyleave.html">ตรวจสอบใบลาลูกทีม</a></li>
+                                <li><a href="headman/Requestemployee.html">คำขอเพิ่มลูกทีม</a></li>
+                                <li><a href="headman/message.html">ตรวจสอบข้อความจากลูกทีม</a></li>
+                            </ul>
+                        </li>
+                        <!-- เมนู HEAD MAN -->
+                        <!-- เมนู HR -->
+                        <li class="dropdown">
+                            <a href="#" class="dropdown-toggle " data-toggle="dropdown" aria-expanded="false" id="MENU HR">เมนู HR
+                            <span class="caret"></span>
+                          </a>
+                            <ul class="dropdown-menu" aria-labelledby="MENU HR">
+                                <li><a href="hr/Employee.html">รายชื่อพนักงานทั้งหมด</a></li>
+                                <li><a href="hr/Verifyleave.html">ตรวจสอบการลางาน</a></li>
+                                <li><a href="hr/message.html">ตรวจสอบข้อความจากพนักงาน</a></li>
+                                <li><a href="hr/Requestemployee.html">คำขอเพิ่มลูกทีม</a></li>
+                                <li><a href="hr/News.html">จัดการข่าวสาร</a></li>
+                                <li><a href="hr/Activity.html">จัดการกิจกรรม</a></li>
+                                <li><a href="hr/Regulation.html">จัดการกฎเกณฑ์-ข้อบังคับ</a></li>
+                                <li><a href="hr/Regulation.html">จัดการแผนผังองค์กร</a></li>
+                                <li><a href="hr/Holiday.html">จัดการวันหยุดประจำปี</a></li>
+                                <li><a href="hr/addleave.html">เขียนใบลาแทน</a></li>
+                                <li><a href="#">ปรับเงินเดือนพนักงาน</a></li>
+                                <!-- การปรับเงินเดือนมีแบบ ปรับทั้งหมด , ปรับเป็นแผนก , ปรับเป็นตำแหน่ง , ปรับเป็ฯรายบุคคล , ปรับเป็นรายทีม -->
+                            </ul>
+                        </li>
+                        <!-- เมนู HR -->
+                    </ul>
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="http://www.efarmstore.com/index.php/logout">ออกจากระบบ</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- menu -->
+    <div id="content" class="form">
+        <div class="w-row">
+            <div class="w-col w-col-3"></div>
+            <div class="w-col w-col-3">
+                <div class="form-group">
+                    <select class="form-control" id="select">
+                        <option>ดูข้อความเดือน</option>
+                        <option>มกราคม</option>
+                        <option>กุมภาพันธ์</option>
+                        <option>มีนาคม</option>
+                        <option>เมษายน</option>
+                    </select>
+                </div>
+            </div>
+            <div class="w-col w-col-3">
+                <a href="#" class="btn btn-success form-control">ข้อความใหม่วันนี้</a>
+            </div>
+            <div class="w-col w-col-3">
+                <a href="#" class="btn btn-primary form-control">ข้อความยังไม่ได้ตอบกลับ
+                            </a>
+            </div>
+        </div>
+        <!-- ข้อความจากลูกทีม -->
+        <div class="alert-warning form__padding">
+            <b>ข้อความจากลูกทีม</b>
+            <b class="alert-link w-row">
+                <a class="w-col w-col-3 form--title__text14">02-02-2015</a>
+                <a class="w-col w-col-7 form--title__text14" href="message.html">
+                    ขอเปลี่ยนเอกสารทางการเงิน</a>
+                <a class="w-col w-col-2 form--title__text14">Yongyee</a>
+            </b>
+            <b class="alert-link w-row">
+                <a class="w-col w-col-3 form--title__text14">02-02-2015</a>
+                <a class="w-col w-col-7 form--title__text14" href="message.html">
+                    ขอเปลี่ยนเอกสารทางการเงิน</a>
+                <a class="w-col w-col-2 form--title__text14">Yongyee</a>
+            </b>
+            <b class="alert-link w-row">
+                <a class="w-col w-col-3 form--title__text14">02-02-2015</a>
+                <a class="w-col w-col-7 form--title__text14" href="message.html">
+                    ขอเปลี่ยนเอกสารทางการเงิน</a>
+                <a class="w-col w-col-2 form--title__text14">Yongyee</a>
+            </b>
+            <b class="alert-link w-row">
+                <a class="w-col w-col-3 form--title__text14">02-02-2015</a>
+                <a class="w-col w-col-7 form--title__text14" href="message.html">
+                    ขอเปลี่ยนเอกสารทางการเงิน</a>
+                <a class="w-col w-col-2 form--title__text14">Yongyee</a>
+            </b>
+            
+        </div>
+        <!-- ข้อความจากลูกทีม -->
+    </div>
+    <div id="divfooter"></div>
+</body>
+
+</html>

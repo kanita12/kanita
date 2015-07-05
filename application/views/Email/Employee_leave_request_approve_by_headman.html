@@ -1,0 +1,25 @@
+<html>
+<body>
+	<p>
+		มีการอนุมัติใบลาของลูกทีมโดยหัวหน้าทีม
+มีรายละเอียดดังนี้
+</p>
+    <p>
+        ผู้ลา : รหัสพนักงาน {{empid}}
+        <br/>ชื่อ นามสกุล {{empfullname}}
+    </p>
+    <p>
+        สาเหตุ : {{leavecontent}}
+    </p>
+    <p>
+        วันที่ขอลา : {{leavestartdate}} {{leavestarttime}} จนถึง {{leaveenddate}} {{leaveendtime}}
+    </p>
+    <p>
+        จัดการ
+        <br/>
+        <a href="{{siteurl}}/Leave/instant_hr_approve_disapprove_from_email/approve/{{hruserid}}/{{leaveid}}">อนุมัติ</a> &nbsp;/&nbsp;
+        <a href="{{siteurl}}/Leave/instant_hr_approve_disapprove_from_email/disapprove/{{hruserid}}/{{leaveid}}">ไม่อนุมัติ</a>
+    </p>
+</body>
+
+</html>

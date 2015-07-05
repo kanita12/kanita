@@ -1,0 +1,342 @@
+body {
+    margin-top: 30px;
+    margin-right: 40px;
+    padding-top: 10px;
+    padding-bottom: 0px;
+    background-color: #002e42;
+    background-image: url('../images/bg4.jpg');
+    background-position: 50% 0px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    font-family: Roboto, sans-serif;
+    color: #333;
+    font-size: 16px;
+    line-height: 24px;
+
+}
+/* สไตล์ของกล่อง header */
+
+.header {
+    width: 100%;
+    display: inline-block;
+    color: white;
+    font-size: 100%;
+    text-align: right;
+    line-height: 15px;
+}
+
+.menu {
+    display: inline-block;
+    width: 80%;
+    text-align: center;
+    float: right;
+    color: white;
+    font-size: 16px;
+    line-height: 20px;
+}
+
+.form {
+    display: inline-block;
+    float: right;
+    padding: 2% 5% 5% 5%;
+    margin-top: -22px;
+    width: 80%;
+    border-radius: 0px 0px 20px 20px;
+    background-color: rgba(255, 255, 255, 0.89);
+    list-style-type: none;
+}
+
+.form--text14 {
+    font-size: 14px;
+}
+/*Title*/
+
+.form__title {
+    vertical-align: bottom;
+    text-align: right;
+    float: right;
+    padding-top: 5%;
+    padding-right: 2%;
+    width: 30%;
+}
+.form__HR{
+    font-size: 100%;
+    color: rgba(33, 89, 129, 0.98);
+}
+
+.form--title__text40 {
+    font-size: 40px;
+    color: #07698B;
+}
+
+.form--title__text25 {
+    font-size: 25px;
+    color: #07698B;
+}
+
+.form--title__text20 {
+    font-size: 20px;
+    color: #07698B;
+}
+/*Title*/
+/*content*/
+.form__bggreen{
+    background-color: #356635;
+}
+.form--content__button {
+    font-size: 14px;
+    /*line-height: 20px;*/
+    color: #ffffff;
+    display: inline-block;
+    text-align: center;
+    /*height: 30px;*/
+}
+.form--incontent__box-5 {
+    margin-top: -5%;
+}
+.form--incontent__box {
+    margin-top: 10%;
+}
+
+.form--incontent {
+    padding: 20px;
+    margin: 10px;
+    border-radius: 20px;
+    display: inline-block;
+}
+
+.form__center{
+    text-align: center; 
+
+}
+.form__right{
+    text-align: right;
+}
+.form__padding{
+    padding: 2%;
+    margin: 2%;
+}
+.form__padding2{
+    padding: 2%;
+}
+.form__padding5{
+    padding: 5%;
+}
+.form__float_right{
+    float: right;
+    width: 50%;
+    text-align: center;
+}
+.form__float_left30{
+    float: left;
+    width: 30%;
+    text-align: center;
+}
+
+.form__float_right70{
+    float: right;
+    width: 70%;
+    text-align: center;
+}
+.form--image{
+    margin-left: 25px;
+}
+
+.form__width90 {
+    width: 90%;
+    font-size: 16px;
+    margin: 2% 5% 5% 5%;
+    padding: 2%;
+    display: inline-block;
+}
+
+.form__width100 {
+    width: 100%;
+}
+.form__width80 {
+    width: 80%;
+    display: inline-block;
+
+}
+.form__width46 {
+    width: 46%;
+    display: inline-block;
+
+}
+
+.form__width40 {
+    width: 40%;
+    display: inline-block;
+
+}
+.form__width30 {
+    width: 30%;
+    display: inline-block;
+
+}
+.form__width20 {
+    width: 20%;
+    display: inline-block;
+
+}
+.form__width10 {
+    width: 10%;
+    display: inline-block;
+
+}
+.form__height100 {
+    height:100%;
+}
+.form__height30 {
+    height: 30px;
+}
+.form__height5 {
+    height:5%;
+}
+/*content*/
+/*Member Home*/
+
+.form--memberHome {
+    text-align: center;
+    border-radius: 20px 20px 20px 20px;
+    padding: 10px;
+    background-color: rgba(75, 157, 181, 0.34);
+}
+
+.form--memberHome__row {
+    display: inline-block;
+    color: #034B64;
+    font-size: 16px;
+    padding: 2%;
+    line-height: 20px;
+}
+/*Member Home*/
+/*Member All*/
+
+.form--memberall {
+    text-align: center;
+    border-radius: 20px 20px 0px 0px;
+    padding: 10px;
+    margin-top: 20px;
+    width: 60%;
+    float: right;
+    background-color: rgba(33, 89, 129, 0.52);
+}
+
+.form--memberall__row {
+    display: inline-block;
+    color: #ffffff;
+    font-size: 14px;
+    padding: 2%;
+    line-height: 20px;
+}
+
+.form--memberall__button {
+    width: 30%;
+    margin: 5px;
+    height: 30px;
+    font-size: 12px;
+    margin-bottom: 10px;
+    text-align: center;
+    line-height: 8px;
+}
+
+/**** Start Main Body Section ****/
+
+.mainbody-section {
+    padding-top: 50px;
+    padding-bottom: 30px;
+}
+
+.menu-item {
+    color: #fff;
+    padding-top: 20px;
+    padding-bottom: 20px;
+    margin-bottom: 30px;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+    
+}
+
+.menu-item a {
+    color: #fff;
+    display: block;
+    -webkit-transition: all 0.3s;
+    transition: all 0.3s;
+}
+
+.menu-item a p {
+    font-family: 'Oswald', sans-serif;
+    font-weight: 300;
+    font-size: 20px;
+}
+
+.menu-item a i {
+    font-size: 50px;
+    padding-bottom: 20px;
+}
+
+.menu-item:hover a {
+    text-decoration: none;
+    //color: #333;
+    animation: wobble;
+    -webkit-animation: wobble;
+    animation-duration: 1000ms;
+    -webkit-animation-duration: 1000ms;
+}
+
+/*Member All*/
+
+.form--search {}
+/* สไตล์พิเศษของกล่อง form ชนิด login  */
+
+.form--login {}
+/* สไตล์ของ input แบบ submit ในกล่อง form  */
+
+.form__input--submit {}
+/* สไตล์ของปุ่ม submit ในกล่อง form ชนิด search  */
+
+.form--search__submit {}
+/* สไตล์ของปุ่ม submit ในกล่อง form ชนิด login  */
+
+.form--login__submit {}
+
+@media (max-width: 1200px) {
+    body {
+        height: 100%;
+        margin-top: 0px;
+        background-size: auto;
+        text-align: left;
+    }
+}
+
+@media (max-width: 1200px) {
+    .cssdivcontent {
+        margin-top: 20px;
+    }
+}
+
+@media (max-width: 1200) {
+    .cssdivcontent {
+        margin-top: 0px;
+        border-radius: 20px;
+    }
+}
+
+.table--leave
+{
+
+}
+.table--leave .approve
+{
+    background-color: green;
+}
+.table--leave .disapprove
+{
+    background-color: red;
+}
+.table--leave .wait
+{
+    background-color: white;
+}

@@ -1,0 +1,34 @@
+<html>
+	<body>
+		สวัสดี {{hr_fullname}}
+		<br>
+		{{headman_fullname}} มีการอนุมัติคำขอทำงานล่วงเวลาของลูกทีม
+		<br>
+		มีรายละเอียดดังนี้
+		<br>
+		รหัสพนักงาน : {{owner_emp_id}}
+		<br>
+		ชื่อ-นามสกุล : {{owner_fullname}}
+		<br>
+		หน่วยงาน : {{owner_institution}}
+		<br>
+		แผนก : {{owner_department}}
+		<br>
+		ตำแหน่ง  : {{owner_position}}
+		<br>
+		ขอทำงานล่วงเวลาในวันที่ {{ot_date}}
+		<br>
+		ตั้งแต่เวลา {{ot_time_from}} จนถึง {{ot_time_to}}
+		<br>
+		ดำเนินการ
+		<a href="{{site_url}}/overtime/detail/{{ot_id}}">
+		ดูรายละเอียด
+		</a>
+		<a href="{{site_url}}/overtime/instant_approve_disapprove_ot_by_hr/approve/{{hr_user_id}}/{{en_ot_id}}">
+		อนุมัติทันที
+		</a>
+		<a href="{{site_url}}/overtime/instant_approve_disapprove_ot_by_hr/disapprove/{{hr_user_id}}/{{en_ot_id}}">
+		ไม่อนุมัติทันที
+		</a>
+	</body>	
+</html>
