@@ -79,6 +79,7 @@ class News extends CI_Controller
 				$data["value_show_start_date"] = dateThaiFormatUn543FromDB($query["news_show_start_date"]);
 				$data["value_show_end_date"]   = dateThaiFormatUn543FromDB($query["news_show_end_date"]);
 				$data["value_news_image"]      = $query_image;
+				$data["value_news_id"]	       = $news_id;
 				//load view
 				parent::setHeaderAdmin("ข่าวสาร / ".$this->lang->line("title_page_news_edit"));
 				$this->load->view("admin/News/Add",$data);
@@ -117,6 +118,7 @@ class News extends CI_Controller
 			$data["value_show_start_date"] = "";
 			$data["value_show_end_date"]   = "";
 			$data["value_news_image"]      = array();
+			$data["value_news_id"]	       = 0;
 			//load view
 			parent::setHeaderAdmin("ข่าวสาร / ".$this->lang->line("title_page_news_add"));
 			$this->load->view("admin/News/Add",$data);
@@ -127,6 +129,7 @@ class News extends CI_Controller
 	{
 		//get post value
 		$post                 = $this->input->post(NULL,TRUE);
+		$news_id 			  = intval($post["hd_news_id"]);
 		$newstype_id          = $post["input_newstype"];
 		$news_topic           = $post["input_topic"];
 		$news_detail          = $post["input_detail"];
@@ -143,8 +146,46 @@ class News extends CI_Controller
 		$data["news_create_date"]        = date('Y-m-d H:i:s');
 		$data["news_latest_update_by"]   = $this->user_id;
 		$data["news_latest_update_date"] = date('Y-m-d H:i:s');
-		//insert news
-		$news_id = $this->news->insert($data);
+		$data["news_status"]             = 1;
+		//insert or edit news
+		if($news_id === 0)
+		{
+			$news_id = $this->news->insert($data);
+		}
+		else
+		{
+			$where = array("news_id" => $news_id);
+			$this->news->update($data,$where);
+		}
+		
+	}
+	public function delete()
+	{
+		if($_POST)
+		{
+			$data = array(
+					"news_status"=>"-999"
+					,"news_latest_update_date"=>date('Y-m-d H:i:s')
+					,"news_latest_update_by"=>$this->user_id
+					);
+			$where = array("news_id"=>$this->input->post("id"));
+			$this->news->update($data,$where);
+		}
+	}
+	public function uploader()
+	{
+		$news_id = intval($this->input->post("news_id"));
+		if($news_id === 0)
+		{
+			$data = array();
+			$data["news_newstype_id"]        = 0;
+			$data["news_topic"]              = "";
+			$data["news_detail"]             = "";
+			$data["news_latest_update_by"]   = $this->user_id;
+			$data["news_latest_update_date"] = date('Y-m-d H:i:s');
+			$data["news_status"]             = "-999";
+			$news_id = $this->news->insert($data);
+		}
 		//check image upload
 		$config = array();
 		$config['upload_path'] = $this->config->item("upload_news_image");
@@ -154,10 +195,10 @@ class News extends CI_Controller
 		//load library upload
 		$this->load->library('upload', $config);
 		$this->load->library('image_lib');
-		$count_file = count($_FILES["files"]["name"]);
-		for($i = 0; $i < $count_file; $i++)
+
+		if($_FILES["file"]["name"] != "")
     	{
-    		$name = $_FILES["files"]["name"][$i];
+    		$name = $_FILES["file"]["name"];
     		$path = "";
 			// get file name from form
 			$temp_name = explode(".",$name);
@@ -167,10 +208,10 @@ class News extends CI_Controller
 			$encripted_pic_name = $temp_new_name . "_" . md5( date_create()->getTimestamp()) . "." . $fileExtension;
 			// set data for upload
 			$_FILES["userfile"]['name']     = $encripted_pic_name;
-			$_FILES["userfile"]['type']     = $_FILES["files"]['type'][$i];
-			$_FILES["userfile"]['tmp_name'] = $_FILES["files"]['tmp_name'][$i];
-			$_FILES["userfile"]['error']    = $_FILES["files"]['error'][$i];
-			$_FILES["userfile"]['size']     = $_FILES["files"]['size'][$i];
+			$_FILES["userfile"]['type']     = $_FILES["file"]['type'];
+			$_FILES["userfile"]['tmp_name'] = $_FILES["file"]['tmp_name'];
+			$_FILES["userfile"]['error']    = $_FILES["file"]['error'];
+			$_FILES["userfile"]['size']     = $_FILES["file"]['size'];
 			//upload
 			if ($this->upload->do_upload("userfile")) 
 			{
@@ -191,6 +232,13 @@ class News extends CI_Controller
 				$config1['thumb_marker']   = '_thumb';
 				$this->image_lib->initialize($config1);
 				$this->image_lib->resize();
+
+				echo json_encode(array(
+					'status' => 'ok',
+					'news_id' => $news_id,
+					'filepath' => $path,
+					'filename'=>$name
+					));
 			}
 			else 
 			{
@@ -198,19 +246,6 @@ class News extends CI_Controller
 				print_r($error);
 			}
     	}
-	}
-	public function delete()
-	{
-		if($_POST)
-		{
-			$data = array(
-					"news_status"=>"-999"
-					,"news_latest_update_date"=>date('Y-m-d H:i:s')
-					,"news_latest_update_by"=>$this->user_id
-					);
-			$where = array("news_id"=>$this->input->post("id"));
-			$this->news->update($data,$where);
-		}
 	}
 }
 /* End of file News.php */

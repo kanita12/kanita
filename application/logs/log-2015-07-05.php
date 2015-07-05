@@ -68,3 +68,43 @@ ERROR - 2015-07-05 17:44:16 --> 404 Page Not Found: admin/Res/materialize.svg
 ERROR - 2015-07-05 17:46:07 --> 404 Page Not Found: admin/Res/materialize.svg
 ERROR - 2015-07-05 17:46:34 --> 404 Page Not Found: admin/Res/materialize.svg
 ERROR - 2015-07-05 17:46:48 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:20:19 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:20:21 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:20:23 --> 404 Page Not Found: admin/News/res
+ERROR - 2015-07-05 21:20:29 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:21:37 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:29:00 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:29:33 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:30:15 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:30:49 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:32:29 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:33:05 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:33:15 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:33:22 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:33:46 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:49:20 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:52:40 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:53:01 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:55:08 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:55:40 --> 404 Page Not Found: admin/Res/materialize.svg
+ERROR - 2015-07-05 21:59:59 --> Severity: Notice --> Undefined variable: config /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 218
+ERROR - 2015-07-05 21:59:59 --> Severity: Notice --> Undefined index: files /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 220
+ERROR - 2015-07-05 22:06:53 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:06:59 --> Severity: Notice --> Undefined index: files /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 239
+ERROR - 2015-07-05 22:07:11 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:07:22 --> Severity: Notice --> Undefined index: files /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 239
+ERROR - 2015-07-05 22:08:39 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:10:06 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:10:11 --> You did not select a file to upload.
+ERROR - 2015-07-05 22:10:15 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:10:28 --> You did not select a file to upload.
+ERROR - 2015-07-05 22:14:01 --> Severity: Parsing Error --> syntax error, unexpected 'exit' (T_EXIT), expecting ',' or ';' /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 242
+ERROR - 2015-07-05 22:14:19 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:15:55 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:16:01 --> Severity: Notice --> Undefined variable: i /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 243
+ERROR - 2015-07-05 22:16:01 --> Severity: Notice --> String offset cast occurred /Applications/MAMP/htdocs/hrsystem/application/controllers/admin/News.php 243
+ERROR - 2015-07-05 22:16:01 --> The filetype you are attempting to upload is not allowed.
+ERROR - 2015-07-05 22:16:51 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:17:13 --> Severity: Notice --> Undefined variable: news_id /Applications/MAMP/htdocs/hrsystem/application/views/admin/News/Add.php 3
+ERROR - 2015-07-05 22:34:51 --> 404 Page Not Found: admin/Uploader/index
+ERROR - 2015-07-05 22:36:49 --> 404 Page Not Found: Undefined/index

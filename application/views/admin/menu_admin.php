@@ -1,6 +1,6 @@
 <ul id="nav-mobile" class="side-nav fixed" style="width: 200px;">
   <li class="logo"><a id="logo-container" href="<?php echo site_url('admin/dashboard'); ?>" class="brand-logo">
-      <object id="front-page-logo" type="image/svg+xml" data="res/materialize.svg">Your browser does not support SVG</object></a>
+     <!--  <object id="front-page-logo" type="image/svg+xml" data="res/materialize.svg">Your browser does not support SVG</object> -->Admin HR System</a>
   </li>
   <li class="bold"><a href="<?php echo site_url('admin/dashboard') ?>">หน้าแรก</a></li>
   <li class="no-padding">
