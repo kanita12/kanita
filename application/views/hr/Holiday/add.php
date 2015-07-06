@@ -1,76 +1,57 @@
-<?php echo form_open($formURL);?>
-<?php echo form_hidden("hdHID",$HID); ?>
-<table>
-<tr>
-	<td>
-		ชื่อวันหยุด
-	</td>
-	<td>
-		<?php echo form_input(array("name"=>"txtHName","id"=>"txtHName","value"=>$vHName));?>
-	</td>
-</tr>
-<tr>
-	<td>
-		คำอธิบาย
-	</td>
-	<td>
-		<?php echo form_textarea(array("name"=>"txtHDesc","id"=>"txtHDesc","value"=>$vHDesc));?>
-	</td>
-</tr>
-<tr>
-	<td>
-		วันที่
-	</td>
-	<td>
-		<?php echo form_input(array("name"=>"txtHDate","id"=>"txtHDate","class"=>"datepicker","value"=>$vHDate));?>
-	</td>
-</tr>
-<tr>
-	<td>
-	</td>
-	<td>
-		<button class="btn btn-default" onclick="checkBeforeSubmit();">ส่งข้อความ</button>
-	</td>
-</table>
-
+<input type="hidden" id="hd_validation" name="hd_validation" value="<?php echo validation_errors(); ?>">
+<?php echo form_open();?>
+<input type="hidden" id="hd_hid" name="hd_hid" value="<?php echo $value_hid ?>">
+ชื่อ : <input type="text" id="input_name" name="input_name" value="<?php echo set_value("input_name",$value_name) ?>">
+<br>
+คำอธิบาย : <textarea id="input_desc" name="input_desc"><?php echo $value_desc ?></textarea>
+<br>
+วันที่ : <input type="text" id="input_date" name="input_date" value="<?php echo set_value("input_date",$value_date) ?>">
+<br>
+<input type="submit" value="บันทึก" onclick="return check_before_submit();">
 <?php echo form_close(); ?>
-<script type="text/javascript" src="<?php echo bootstrap_url()."js/bootstrap-datepicker.js";?>"></script>
-		<script type="text/javascript">
-		$(document).ready(function(){
 
-			$(".datepicker").datepicker({
-	            format: "yyyy-mm-dd"
-	        })
-	        .on('changeDate', function(ev){
-	            //window.location.href = "?day=" + ev.format();
-	            $.ajax({
-			        url: "<?php echo site_url("Holiday/ajaxHoliday")?>",
-			        type: 'POST',
-			        data: {"date":$(this).val()}, // $(this).serialize(); you can use this too
-			        success: function(data){
-			        	if(data=="false"){
-			        		alert("วันหยุดนี้มีการเพิ่มแล้วกรุณาเลือกวันอื่น");
-			        		$(".datepicker").val("");
-			        	}
-			        }
-
-			    });
-	        });
-			
+<script type="text/javascript" src="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.js"></script>
+<link rel="stylesheet" href="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.css" media="screen" charset="utf-8" />
+<script type="text/javascript">
+	$(document).ready(function(){
+		$('#input_date').datetimepicker({
+			timepicker:false,
+			format:'d/m/Y',
+			lang:'th',
+			closeOnDateSelect:true
 		});
-		function checkBeforeSubmit(){
-			var hName = $("[id$='txtHName']");
-			var hDate = $("[id$='txtHDate']");
-			if(hName.val()==""){
-				alert("กรุณากรอกชื่อวันหยุด");
-				hName.focus();
-			}
-			else if(hDate.val()==""){
-				alert("กรุณาเลือกวันหยุด");
-				hDate.focus();
-			}
-			else{
-				hName.parents("form").submit();
-			}
+
+		if($.trim($("#hd_validation").val()) !== "")
+		{
+			swal
+			({
+				title: "กรุณากรอกข้อมูลให้ครบ",
+				html: validation,
+				type: "error"
+			});
 		}
-		</script>
+	});
+	function check_before_submit()
+	{
+		var name = $("#input_name").val();
+		var date = $("#input_date").val();
+		var msg	= "";
+		if($.trim(name) === ""){ msg += "- ชื่อวันหยุด<br>"; }
+		if($.trim(date) === ""){ msg += "- วันที่<br>"; }
+		if(msg !== "")
+		{
+			swal(
+			{
+				title: "กรุณากรอกข้อมูลเหล่านี้",
+				html: msg,
+				type: "error"
+			});
+			return false;
+		}
+		else
+		{
+			return true;
+		}
+		return false;
+	}
+</script>

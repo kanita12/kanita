@@ -38,6 +38,13 @@ class Holiday_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
     }
+    public function get_detail_by_id($hid){
+        $this->db->select("HID,HDate,HName,HDesc");
+        $this->db->from($this->table);
+        $this->db->where("HID",$hid);
+        $query = $this->db->get();
+        return $query;
+    }
     public function getListForCalendar($rangeStart,$rangeEnd)
     {
         $this->db->select("HID,HDate,HName,HDesc");
@@ -47,12 +54,15 @@ class Holiday_model extends CI_Model
         $query = $this->db->get();
         return $query;
     }
-    public function insert($data){
-    		$this->db->insert($this->table, $data);
+    public function insert($data)
+    {
+    	$this->db->insert($this->table, $data);
+        return $this->db->insert_id();
     }
     public function update($data,$where){
     	$this->db->where($where);
 		$this->db->update($this->table,$data);
+        return $this->db->affected_rows();
     }
     public function delete($where)
     {

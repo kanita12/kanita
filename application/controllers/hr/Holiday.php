@@ -1,105 +1,149 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 class Holiday extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
 		$CI =& get_instance();
+		//load model
 		$CI->load->model("Holiday_Model","holiday");
+		$CI->load->library("form_validation");
 	}
 	public function index()
 	{
-		self::getList();
+		$this->search();
 	}
-	public function getList()
+	public function search($year = 0)
 	{
-		$wantYear = date("Y");
-		if($_POST){
-			$wantYear = $this->input->post("ddlYear");
-		}else{
-			$wantYear = getdate();
-			$wantYear = $wantYear["year"];
-		}
+		$year = $year === 0 ? date("Y") : $year;
+
 		$data= array();
-		$data["query"] = $this->holiday->getList($wantYear);
-		$data["ddlYear"] = $this->holiday->getListForDropDown();
-		$data["nowYear"] = $wantYear;
-		parent::setHeader("วันหยุด");
+		$data["query"]		=	$this->holiday->getList($year);
+		$data["ddlYear"]	=	$this->holiday->getListForDropDown();
+		$data["nowYear"]	=	$year;
+
+		parent::setHeader("วันหยุด","HR");
 		$this->load->view("hr/Holiday/List",$data);
 		parent::setFooter();
 	}
-
-	public function addHoliday(){
-		$data= array();
-		$data["formURL"] = site_url("hr/Holiday/saveHoliday");
-		$data["vHName"] = "";
-		$data["vHDesc"] = "";
-		$data["vHDate"] = "";
-		$data["HID"] = 0;
-		parent::setHeader("เพิ่มวันหยุด");
-		$this->load->view("hr/Holiday/add",$data);
-		parent::setFooter();
-	}
-
-	public function saveHoliday(){
-		$this->load->model("Holiday_Model","holiday");
-		$data= array();
-		$postData = $this->input->post();
-		$data["HName"] = $postData["txtHName"];
-		$data["HDesc"] = $postData["txtHDesc"];
-		$data["HDate"] = $postData["txtHDate"];
-		$data["HID"] = 0;
-		$this->holiday->insert($data);
-		redirect(site_url("hr/Holiday"));
-	}
-	public function seditHoliday(){
-		$this->load->model("Holiday_Model","holiday");
-		$data= array();
-		$postData = $this->input->post();
-		$data["HName"] = $postData["txtHName"];
-		$data["HDesc"] = $postData["txtHDesc"];
-		$data["HDate"] = $postData["txtHDate"];
-		$where=array();
-		$where["HID"] = $postData["hdHID"];
-		$this->holiday->update($data,$where);
-		redirect(site_url("hr/Holiday"));
-	}
-	public function editHoliday($holidayID){
-		$this->load->model("Holiday_Model","holiday");
-		$data= array();
-		$data["formURL"] = site_url("hr/Holiday/seditHoliday");
-		$data["vHName"] = "";
-		$data["vHDesc"] = "";
-		$data["vHDate"] = "";
-		$data["HID"] = $holidayID;
-		$query = $this->holiday->getDetail($holidayID);
-		if($query->num_rows()>0){
-			$query = $query->result_array();
-			$query = $query[0];
-			$data["vHName"] = $query["HName"];
-			$data["vHDesc"] = $query["HDesc"];
-			$data["vHDate"] = $query["HDate"];
+	public function add()
+	{
+		//form validation
+		$rules = array(
+					array(
+						"field"=>"input_name",
+						"label"=>"ชื่อวันหยุด",
+						"rules"=>"trim|required|max_length[200]"
+					),
+					array(
+						"field"=>"input_date",
+						"label"=>"วันหยุด",
+						"rules"=>"trim|required"
+					)
+				);
+		$this->form_validation->set_rules($rules);
+		$this->form_validation->set_message("max_length","- ข้อความไม่เกิน 200 ตัวอักษร");
+		$this->form_validation->set_message("required","- กรอกหัวข้อข่าว");
+		if ($this->form_validation->run() === TRUE)
+		{
+			$this->_save();
+			redirect("hr/Holiday");
+			exit();
 		}
-		parent::setHeader("เพิ่มวันหยุด");
-		$this->load->view("hr/Holiday/add",$data);
-		parent::setFooter();
+		else
+		{
+			$data = array();
+			$data["value_name"]	=	"";
+			$data["value_desc"]	=	"";
+			$data["value_date"]	=	"";
+			$data["value_hid"]	=	0;
+			parent::setHeader("เพิ่มวันหยุด","HR");
+			$this->load->view("hr/Holiday/add",$data);
+			parent::setFooter();
+		}
 	}
-	public function deleteHoliday($holidayID){
-		$this->load->model("Holiday_Model","holiday");
-		$where = array();
-		$where["HID"] = $holidayID;
+	private function _save()
+	{
+		//get post data
+		$post = $this->input->post(NULL,TRUE);
+		$hid = intval($post["hd_hid"]);
+		$name = $post["input_name"];
+		$desc = $post["input_desc"];
+		$date = dbDateFormatFromThaiUn543($post["input_date"]);
+		//set data
+		$data = array();
+		$data["HDate"] = $date;
+		$data["HName"] = $name;
+		$data["HDesc"] = $desc;
+		//insert
+		if($hid !== 0)//edit
+		{
+			$where = array("HID"=>$hid);
+			$this->holiday->update($data,$where);
+		}
+		else //insert
+		{
+			$this->holiday->insert($data);
+		}
+	}
+	public function edit($hid)
+	{
+		//form validation
+		$rules = array(
+					array(
+						"field"=>"input_name",
+						"label"=>"ชื่อวันหยุด",
+						"rules"=>"trim|required|max_length[200]"
+					),
+					array(
+						"field"=>"input_date",
+						"label"=>"วันหยุด",
+						"rules"=>"trim|required"
+					)
+				);
+		$this->form_validation->set_rules($rules);
+		$this->form_validation->set_message("max_length","- ข้อความไม่เกิน 200 ตัวอักษร");
+		$this->form_validation->set_message("required","- กรอกหัวข้อข่าว");
+		if ($this->form_validation->run() === TRUE)
+		{
+			$this->_save();
+			redirect("hr/Holiday");
+			exit();
+		}
+		else
+		{
+			$query = $this->holiday->get_detail_by_id($hid);
+			$query = $query->row_array();
+
+			$data = array();
+			$data["value_name"]	=	$query["HName"];
+			$data["value_desc"]	=	$query["HDesc"];
+			$data["value_date"]	=	dateThaiFormatUn543FromDB($query["HDate"]);
+			$data["value_hid"]	=	$hid;
+			parent::setHeader("แก้ไขวันหยุด","HR");
+			$this->load->view("hr/Holiday/add",$data);
+			parent::setFooter();
+		}
+	}
+	public function delete()
+	{
+		$hid = $this->input->post("id");
+		$where = array("HID"=>$hid);
 		$this->holiday->delete($where);
-		redirect(site_url("hr/Holiday"));
 	}
-	public function ajaxHoliday(){
+	public function ajaxHoliday()
+	{
 		$postData = $this->input->post();
-		$this->load->model("Holiday_Model","holiday");
 		$query = $this->holiday->checkDate($postData["date"]);
-		if($query->num_rows()>0){
+		if($query->num_rows()>0)
+		{
 			echo "false";
 		}
-		else{
+		else
+		{
 			echo "true";
 		}
 	}
 }
+/* End of file Holiday.php */
+/* Location: ./application/controllers/hr/Holiday.php */
