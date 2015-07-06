@@ -2,29 +2,35 @@
 <div>
 <?php echo $query["MContent"]; ?>
 </div>
-
+<br/>
+<br/>
+<br/>
 <div>
-	<br/><br/><br/>
-<?php foreach($queryReply->result_array() as $row){ ?>
-<div>
-	<div>
-		<?php echo $row["MContent"]; ?>
-	</div>
-	<div>
-		โดย
-		<?php 
-		$empDetail =  getEmployeeDetailByuserID($row["M_UserID"]);
-		echo $empDetail["Username"];?>
-		เมื่อ
-		<?php echo $row["MCreatedDate"]; ?>
-	</div>
+	<?php foreach($queryReply->result_array() as $row){ ?>
+		<div class="message__reply">
+			<div>
+				<?php echo $row["MContent"]; ?>
+			</div>
+			<div>
+				โดย
+				<?php 
+				$empDetail =  getEmployeeDetailByuserID($row["M_UserID"]);
+				echo $empDetail["EmpFullnameThai"];?>
+				&nbsp;เมื่อ
+				<?php echo date_time_thai_format_from_db($row["MCreatedDate"]); ?>
+			</div>
+		</div>
+	<?php } ?>
 </div>
-<?php } ?>
-<br/><br/>
-</div>
-
-
-
+<br/>
+<br/>
+<style type="text/css">
+.message__reply
+{
+	border:1px solid #000;
+	padding: 10px;
+}
+</style>
 <?php
 echo form_open(site_url("Message/saveReply"));
 echo form_hidden("hdMID",$query["MID"]);

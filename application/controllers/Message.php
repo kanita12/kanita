@@ -1,11 +1,11 @@
-<?php
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 class Message extends CI_Controller
 {
 	public function __construct()
 	{
 		parent::__construct();
-
 		$CI =& get_instance();
+		//load model
 		$CI->load->model("Hrmessage_model","message");
 	}
 	public function index()
@@ -17,11 +17,11 @@ class Message extends CI_Controller
 	{
 		$config = array();
 		$config["total_rows"] = $this->message->count_all_by_user_id($this->user_id);
-		
+		//init config
 		$this->pagination->initialize($config);
-
+		//get page
 		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-
+		//set data
 		$data = array();
 		$data["query"] = $this->message->getList($this->user_id,$this->pagination->per_page, $page);
 		$data["links"] = $this->pagination->create_links();
@@ -42,11 +42,11 @@ class Message extends CI_Controller
 			$content = $this->input->post("input_message");
 
 			$data = array();
-			$data["MSubject"] = $subject;
-			$data["MContent"] = $content;
-			$data["M_UserID"] = $this->user_id;
-			$data["MCreatedDate"] = getDateTimeNow();
-			$data["MLatestUpdate"] = getDateTimeNow();
+			$data["MSubject"] 		= $subject;
+			$data["MContent"] 		= $content;
+			$data["M_UserID"] 		= $this->user_id;
+			$data["MCreatedDate"] 	= getDateTimeNow();
+			$data["MLatestUpdate"] 	= getDateTimeNow();
 
 			$this->message->insert($data);
 		}
@@ -61,8 +61,9 @@ class Message extends CI_Controller
 			$query = $query->row_array();
 			
 			$data = array();
-			$data["query"] = $query;
+			$data["query"] 		= $query;
 			$data["queryReply"] = $this->message->getListReply($messageID);
+			$data["MID"]		= $messageID;
 
 			parent::setHeader("ข้อความถึง HR","Message");
 			$this->load->view("Message/Detail",$data);
@@ -76,20 +77,23 @@ class Message extends CI_Controller
 
 	public function saveReply()
 	{
+		$messageID = 0;
 		if($_POST)
 		{
 			$messageID = $this->input->post("hdMID");
 			$content = $this->input->post("txtContent");
 
 			$data = array();
-			$data["MContent"] = $content;
-			$data["M_UserID"] = $this->empID;
-			$data["MReplyToID"] = $messageID;
-			$data["MCreatedDate"] = getDateTimeNow();
-			$data["MLatestUpdate"] = getDateTimeNow();
+			$data["MContent"] 		= $content;
+			$data["M_UserID"] 		= $this->user_id;
+			$data["MReplyToID"] 	= $messageID;
+			$data["MCreatedDate"] 	= getDateTimeNow();
+			$data["MLatestUpdate"] 	= getDateTimeNow();
 			
 			$this->message->insert($data);
-			redirect(site_url("Message/detail/".$messageID));
 		}
+		redirect(site_url("Message/detail/".$messageID));
 	}
 }
+/* End of file Message.php */
+/* Location: ./application/controllers/Message.php */
