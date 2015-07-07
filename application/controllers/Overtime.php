@@ -1,21 +1,19 @@
-<?php
-/**
-* about OT
-*/
+<?php defined('BASEPATH') OR exit('No direct script access allowed');
 class Overtime extends CI_Controller
 {
-	private $log_type_send_mail_headman_success = 'send email to headman';
-	private $log_type_send_mail_headman_error = 'error send email to headman';
-	private $request_ot_success = 'ส่งใบขอทำงานล่วงเวลาเรียบร้อยแล้ว';
-	private $request_ot_success_error_send_mail = 'ส่งใบขอทำงานล่วงเวลาเรียบร้อยแล้ว แต่ไม่สามารถส่งอีเมล์หาหัวหน้าได้';
-	private $request_ot_error = 'ผิดพลาด!!  ไม่สามารถบันทึกใบคำขอทำงานล่วงเวลาได้ กรุณาลองใหม่ภายหลัง';
+	private static $log_type_send_mail_headman_success = 'send email to headman';
+	private static $log_type_send_mail_headman_error = 'error send email to headman';
+	private static $request_ot_success = 'ส่งใบขอทำงานล่วงเวลาเรียบร้อยแล้ว';
+	private static $request_ot_success_error_send_mail = 'ส่งใบขอทำงานล่วงเวลาเรียบร้อยแล้ว แต่ไม่สามารถส่งอีเมล์หาหัวหน้าได้';
+	private static $request_ot_error = 'ผิดพลาด!!  ไม่สามารถบันทึกใบคำขอทำงานล่วงเวลาได้ กรุณาลองใหม่ภายหลัง';
 
 	public function __construct()
 	{
 		parent::__construct();
+		
 		$CI =& get_instance();
 
-		//load core model for use all function in class
+		//load model
 		$CI->load->model('Worktime_ot_model','ot');
 		$CI->load->model('Worktime_ot_log_model','otlog');
 		$CI->load->model('Emp_headman_model','headman');
@@ -29,18 +27,13 @@ class Overtime extends CI_Controller
 	 * หน้ารายการข้อมูลการขอทำงานล่วงเวลา
 	 * @return [type]
 	 */
-	public function search($year = 0, $month = 0, $user_id = 0)
+	public function search($year = 0, $month = 0)
 	{
-		if($user_id != 0)
-		{
-			$this->user_id = intval($user_id);
-		}
-		
 		$config = array();
 		$config['total_rows'] = $this->ot->count_all();
 		$this->load->library('pagination', $config);
-
 		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+
 		$query = $this->ot->get_list($this->pagination->per_page,$page,$this->user_id,$year,$month);
 		$query_year = $this->ot->get_data_exists_year($this->user_id);
 		$query_month = $this->ot->get_data_exists_month($this->user_id);
@@ -63,22 +56,27 @@ class Overtime extends CI_Controller
 		$data['options_year'] 	= $options_year;
 		$data['options_month'] 	= $options_month;
 
-		parent::setHeader('รายการขอทำงานล่วงเวลา');
+		parent::setHeader('รายการขอทำงานล่วงเวลา',"OT");
 		$this->load->view('worktime/ot_list',$data);
 		parent::setFooter();
 	}
 
 	public function add()
 	{
+		if($_POST)
+		{
+			$this->_save();
+			exit();
+		}
 		$data = array();
-		$data['form_url'] = site_url('Overtime/save');
+		$data['form_url'] = "";
 
 		parent::setHeader('แบบฟอร์มขอทำงานล่วงเวลา','OT');
 		$this->load->view('worktime/ot_add', $data);
 		parent::setFooter();
 	}
 
-	public function save()
+	private function _save()
 	{
 		if( $_POST )
 		{
@@ -89,43 +87,38 @@ class Overtime extends CI_Controller
 			$ot_remark 		= $post['input_ot_remark'];
 
 			$data = array();
-			$data['wot_date'] 			= dbDateFormatFromThai($ot_date);
+			$data['wot_date'] 			= dbDateFormatFromThaiUn543($ot_date);
 			$data['wot_time_from'] 		= $ot_time_from;
 			$data['wot_time_to']		= $ot_time_to;
 			$data['wot_request_hour'] 	= timeDiff($ot_time_from,$ot_time_to);
 			$data['wot_request_by'] 	= $this->user_id;
 			$data['wot_request_date'] 	= getDateTimeNow();
-			$data['wot_workflow_id'] 	= 1;
+			$data['wot_workflow_id'] 	= 12;
 			$data['wot_status_id'] 		= 1;
 
 			$new_id = $this->ot->insert($data);
 
 			insert_log_ot($new_id,'add','ส่งใบคำขอทำงานล่วงเวลา');
 
-			//send email to headman
-			$send = $this->send_email_ot_to_headman('add',$new_id);
-			if($send == 'success')
-			{
-				insert_log_ot($new_id,$log_type_send_mail_headman_success,'ส่งอีเมล์ใบคำขอทำงานล่วงเวลาหาหัวหน้าสำเร็จ');
-			}
-			else
-			{
-				insert_log_ot($new_id,$log_type_send_mail_headman_error,'ส่งอีเมล์ใบคำขอทำงานล่วงเวลาหาหัวหน้า ผิดพลาด '.$send);
-			}
+			//run workflow
+			$this->load->library("WorkflowSystem");
+			$this->workflowsystem->set_require_data($new_id,"overtime","request");
+			$process = $this->workflowsystem->run();
 			
+			redirect("Overtime");
 			//alert after all process
-			if( $new_id > 0 && $send == 'success')
-			{
-				echo swalc($request_ot_success,'','success','window.location.href = "'.site_url('Overtime').'"');
-			}
-			else if( $new_id > 0 && $send != 'success' )
-			{
-				echo swalc($request_ot_success_error_send_mail,'','warning','window.location.href = "'.site_url('Overtime').'"');	
-			}
-			else
-			{
-				echo swalc($request_ot_error,'','error','window.location.href = "'.site_url('Overtime').'"');
-			}
+			// if( $new_id > 0 && $send == 'success')
+			// {
+			// 	echo swalc($request_ot_success,'','success','window.location.href = "'.site_url('Overtime').'"');
+			// }
+			// else if( $new_id > 0 && $send != 'success' )
+			// {
+			// 	echo swalc($request_ot_success_error_send_mail,'','warning','window.location.href = "'.site_url('Overtime').'"');	
+			// }
+			// else
+			// {
+			// 	echo swalc($request_ot_error,'','error','window.location.href = "'.site_url('Overtime').'"');
+			// }
 		}
 	}
 
@@ -1024,3 +1017,5 @@ class Overtime extends CI_Controller
 		
 	}
 }
+/* End of file Overtime.php */
+/* Location: ./application/controllers/Overtime.php */

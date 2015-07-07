@@ -37,10 +37,11 @@ class WorkflowSystem
 		$CI->load->model("Workflow_condition_model","condition");
 		$CI->load->model("Workflow_process_model","process");
 		$CI->load->model("Leave_model","leave");
-		$CI->load->model('Leavetimedetail_model','leavetime');
+		$CI->load->model("Leavetimedetail_model","leavetime");
 		$CI->load->model("Emp_headman_model","headman");
 		$CI->load->model("Users_Model","user");
 		$CI->load->model("Employees_Model","employee");
+		$CI->load->model("Worktime_ot_model","ot");
 	}
 	/**
 	 * first step of workflow system
@@ -51,10 +52,10 @@ class WorkflowSystem
 	 */
 	public function set_require_data($main_id = '',$type = '',$condition = '',$remark = '')
 	{
-		if( $main_id != '' ) $this->main_id = $main_id;
-		if( $type != '' ) $this->type = $type;
-		if( $condition != '' ) $this->condition = $condition;
-		if( $remark != '' ) $this->remark = $remark;
+		if( $main_id != '' ){ $this->main_id = $main_id; }
+		if( $type != '' ){ $this->type = $type; }
+		if( $condition != '' ){ $this->condition = $condition; }
+		if( $remark != '' ){ $this->remark = $remark; }
 		$this->setWorkflowData();
 	}
 
@@ -68,7 +69,7 @@ class WorkflowSystem
 		{
 			$this->typeID = $query->wft_id;
 		}
-
+		//get now workflow id , name
 		if( $this->type == "leave" )
 		{
 			$query = $CI->leave->getDetailByLeaveID($this->main_id);
@@ -84,7 +85,21 @@ class WorkflowSystem
 				}
 			}
 		}
-
+		else if($this->type == "overtime")
+		{
+			$query = $CI->ot->get_detail_by_id($this->main_id);
+			$query = $query->row_array();
+			$this->main_detail = $query;
+			if(count($query) > 0)
+			{
+				$this->workflow_id = $query["wot_workflow_id"];
+				$query = $CI->workflow->get_detail($this->workflow_id)->row();
+				if( count($query) > 0 )
+				{
+					$this->workflow_name = $query->WFName;
+				}
+			}
+		}
 		//get workflow condition id by workflow id , condition
 		$query = $CI->condition->getDetailByWorkflowIDAndCondition($this->workflow_id,$this->condition)->row();
 
@@ -144,27 +159,29 @@ class WorkflowSystem
 	{
 		$ci =& get_instance();
 		//ใช้ $this->type, $this->main_id,
-		if( $this->type === "leave" )
+		if(count($this->main_detail) > 0)
 		{
-			if( count($this->main_detail) > 0 )
-			{			
-				
+			if($this->type === "leave")
+			{
 				$this->user_id = 	intval($this->main_detail["L_UserID"]);
+			}
+			else if($this->type === "overtime")
+			{
+				$this->user_id = 	intval($this->main_detail["wot_request_by"]);
+			}
 
-				$this->user_detail = $this->get_emp_detail_by_user_id($this->user_id);
+			$this->user_detail = $this->get_emp_detail_by_user_id($this->user_id);
 
-				$query = $ci->headman->get_list_by_user_id($this->user_id,$level)->row();
-				if( count($query) > 0 )
-				{
-					$this->headman_user_id = $query->eh_headman_user_id;
-					//set headman detail at $this->headman_detail;
-					$this->headman_detail = $this->get_emp_detail_by_user_id($this->headman_user_id);
-					return TRUE;
-				}
-				return FALSE;
+			$query = $ci->headman->get_list_by_user_id($this->user_id,$level)->row();
+			if( count($query) > 0 )
+			{
+				$this->headman_user_id = $query->eh_headman_user_id;
+				//set headman detail at $this->headman_detail;
+				$this->headman_detail = $this->get_emp_detail_by_user_id($this->headman_user_id);
+				return TRUE;
 			}
 			return FALSE;
-		} 
+		}
 		return FALSE;
 	}
 	private function get_hr_detail()
@@ -190,6 +207,10 @@ class WorkflowSystem
 	}
 	private function send_email_to_headman()
 	{
+		$body;
+		$search = array();
+		$replace = array();
+		$subject = "";
 		$returner = "";
 		$ci =& get_instance();
 
@@ -202,6 +223,7 @@ class WorkflowSystem
 			$leave_end_date    = $this->main_detail['LEndDate'].' '.$this->main_detail['LEndTime'];
 			$leave_attach_file = $this->main_detail['LAttachFile'];
 			$leave_attach_file_name = $this->main_detail["LAttachFilename"];
+			//อย่าลืมเปลี่ยนการวนลูปเพราะมีการเปลี่ยนแลง table ใหม่
 			$this->email_attach_file[0]["filepath"] = $leave_attach_file;
 			$this->email_attach_file[0]["filename"] = $leave_attach_file_name;
 			
@@ -281,6 +303,54 @@ class WorkflowSystem
 									);
 			}
 		}
+		else if($this->type === "overtime")
+		{
+			$ot_id          = $this->main_id;
+			$ot_date        = $this->main_detail['wot_date'];
+			$ot_remark     = $this->main_detail['wot_remark'];
+			$ot_time_from  = $this->main_detail['wot_time_from'];
+			$ot_time_to    = $this->main_detail['wot_time_to'];		
+		
+			$owner_emp_id      = $this->user_detail['EmpID'];
+			$owner_firstname   = $this->user_detail['EmpFirstnameThai'];
+			$owner_fullname    = $this->user_detail["EmpFullnameThai"];
+			$owner_email       = $this->user_detail['EmpEmail'];
+			$owner_position    = $this->user_detail['PositionName'];
+			
+			$headman_user_id   = $this->headman_user_id;
+			$headman_email     = $this->headman_detail['EmpEmail'];
+			$headman_fullname  = $this->headman_detail['EmpFullnameThai'];
+
+			if( $this->condition == 'request')
+			{
+				$subject = 'ลูกทีม '.$owner_firstname.' ขอทำงานล่วงเวลา ';
+				$body = file_get_contents(APPPATH.'/views/Email/request_ot_to_headman.html');	
+				$search = array(	
+					'{{headman_fullname}}'
+					,'{{owner_emp_id}}'
+					,'{{owner_fullname}}'
+					,'{{owner_positionname}}'
+					,'{{ot_date}}'
+					,'{{ot_time_from}}'
+					,'{{ot_time_to}}'
+					,'{{ot_id}}'
+					,'{{headman_user_id}}'
+					,'{{en_ot_id}}'
+				);
+				$replace = array(
+					$headman_fullname
+					,$owner_emp_id
+					,$owner_fullname
+					,$owner_position
+					,dateThaiFormatFromDB($ot_date)
+					,$ot_time_from
+					,$ot_time_to
+					,$ot_id
+					,encrypt_decrypt('encrypt',$headman_user_id)
+					,encrypt_decrypt('encrypt',$ot_id)
+				);
+			}
+		}
 		$body          = str_replace($search, $replace, $body);
 		$this->body    = $body;
 		$this->subject = $subject;
@@ -307,6 +377,7 @@ class WorkflowSystem
 		} 
 		else 
 		{
+			
 			return 'success';
 		}
 	}
@@ -374,6 +445,7 @@ class WorkflowSystem
 		}
 		else
 		{
+			
 			$this->send_email_to_headman();
 			return TRUE;
 		}
@@ -419,7 +491,7 @@ class WorkflowSystem
 		$ci =& get_instance();
 		$ci->load->helper("log_helper");
 		$process = $this->_request_document_from_headman(1);
-		log_message('error','process === '.$process);
+		
 		if( $process === TRUE )
 		{
 			$log_type = 'headman_level_1_request_document';
@@ -486,7 +558,7 @@ class WorkflowSystem
 		$ci =& get_instance();
 		$ci->load->helper("log_helper");
 		$process = $this->_request_document_from_headman(2);
-		log_message('error','process === '.$process);
+		
 		if( $process === TRUE )
 		{
 			$log_type = 'headman_level_2_request_document';
@@ -553,7 +625,7 @@ class WorkflowSystem
 		$ci =& get_instance();
 		$ci->load->helper("log_helper");
 		$process = $this->_request_document_from_headman(3);
-		log_message('error','process === '.$process);
+		
 		if( $process === TRUE )
 		{
 			$log_type = 'headman_level_3_request_document';

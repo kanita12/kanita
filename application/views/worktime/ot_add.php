@@ -21,7 +21,6 @@
 			timepicker:false,
 			format:'d/m/Y',
 			lang:'th',
-			yearOffset:543,
 			closeOnDateSelect:true
 		 });
 		$('#input_ot_time_from , #input_ot_time_to').datetimepicker({

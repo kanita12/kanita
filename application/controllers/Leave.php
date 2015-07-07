@@ -1247,8 +1247,5 @@ class Leave extends CI_Controller
 			// 	echo swalc('สำเร็จ!!','บันทึกการลาของคุณพร้อมส่งอีเมล์ให้หัวหน้าเรียบร้อยแล้ว','success',"window.location.href = '".site_url("Leave")."'");
 			// }
 		}
-
 	}
-
-
 }

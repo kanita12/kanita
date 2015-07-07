@@ -14,8 +14,7 @@
                 </div>
                 <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
                     <ul class="nav navbar-nav">
-                        <!-- about company -->
-                        <li class="dropdown">
+                        <li id="company" class="dropdown">
                             <a href="" class="dropdown-toggle " data-toggle="dropdown" role="button" aria-expanded="false">บริษัท<span class="caret"></span>
                         </a>
                             <ul class="dropdown-menu" role="menu">
@@ -26,8 +25,7 @@
                                 <li><a href="<?php echo site_url('Activity') ?>">กิจกรรมภายในองค์กร</a></li>
                             </ul>
                         </li>
-                        <!-- about company -->
-                        <li>
+                        <li id="profile">
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">
                                 ข้อมูลส่วนตัว
                                 <span class="caret"></span>
@@ -35,15 +33,25 @@
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo site_url('Worktime'); ?>">เวลาเข้า-ออก</a></li>
                                 <li><a href="<?php echo site_url('Userprofile'); ?>">แก้ไขข้อมูลส่วนตัว</a></li>
-                                <li><a href="<?php echo site_url('Overtime') ?>" >ลงเวลาทำ OT</a>
+                                </li>
+                            </ul>
+                        </li>
+                        <li id="profile">
+                            <a class="dropdown-toggle" href="#" data-toggle="dropdown">
+                                OT
+                                <span class="caret"></span>
+                            </a>
+                            <ul class="dropdown-menu">
+                                <li><a href="<?php echo site_url('Overtime') ?>">รายการ OT</a></li>
+                                <li><a href="<?php echo site_url('Overtime/add') ?>">ส่งใบขอทำ OT</a></li>
                                 <li><a href="<?php echo site_url('Overtime/exchange_ot') ?>" >แลกเวลาทำ OT</a>
                                 </li>
                             </ul>
                         </li>
                         <li>
                             <a class="dropdown-toggle" href="#" data-toggle="dropdown">
-                                            ลางาน<span class="caret">
-                                        </span></a>
+                                ลางาน<span class="caret"></span>
+                            </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo site_url('Leave'); ?>">รายการลา</a></li>
                                 <li><a href="<?php echo site_url('Leave/add') ?>">ส่งใบลา</a></li>
