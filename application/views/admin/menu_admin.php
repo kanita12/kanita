@@ -25,8 +25,8 @@
         <div class="collapsible-body" style="">
           <ul>
           	<li><a href="<?php echo site_url('admin/Workflow/condition/'); ?>">Condition</a></li>
-		<li><a href="<?php echo site_url('admin/Workflow/worker/'); ?>">Worker</a></li>
-		<li><a href="<?php echo site_url('admin/Workflow/process/'); ?>">Process</a></li>
+        		<li><a href="<?php echo site_url('admin/Workflow/worker/'); ?>">Worker</a></li>
+        		<li><a href="<?php echo site_url('admin/Workflow/process/'); ?>">Process</a></li>
           </ul>
         </div>
       </li>

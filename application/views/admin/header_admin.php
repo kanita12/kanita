@@ -7,7 +7,6 @@
 	<link rel="stylesheet" type="text/css" href="<?php echo js_url(); ?>sweetalert2/dist/sweetalert2.css">
 
 	<link type="text/css" rel="stylesheet" href="<?php echo css_url() ?>my_materialize.css"  media="screen,projection"/>
-    <!-- <link type="text/css" rel="stylesheet" href="<?php echo materialize_url() ?>css/materialize.min.css"  media="screen,projection"/> -->
     <script type="text/javascript" src="<?php echo materialize_url() ?>js/materialize.min.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>

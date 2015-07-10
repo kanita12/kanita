@@ -50,9 +50,9 @@ class Leave extends CI_Controller
 		$data['paging_link']   = $this->pagination->create_links();
 		$data["query"]         = $this->leave->get_list($this->user_id,$this->pagination->per_page,$page,$leavetype_id,$workflow_id);
 		$data["topic"]         = "รายการใบลา";
-		$data["ddlLeaveType"]  = $this->leavetype->getListForDropDown();
+		$data["ddlLeaveType"]  = $this->leavetype->getListForDropDown("ประเภทการลา");
 		$data["vddlLeaveType"] = $leavetype_id;
-		$data["ddlWorkFlow"]   = $this->workflow->getListForDropDown();
+		$data["ddlWorkFlow"]   = $this->workflow->getListForDropDown("ขั้นตอน");
 		$data["vddlWorkFlow"]  = $workflow_id;
 
 		//load view

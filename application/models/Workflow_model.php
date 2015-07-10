@@ -30,15 +30,15 @@ class Workflow_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
-	public function getListForDropDown()
+	public function getListForDropDown($firstKey = "--เลือก--")
 	{
 		$returner = array();
 		$this->db->select("WFID,WFName");
 		$this->db->from($this->table);
 		$this->db->where("WF_StatusID","1");
 		$query = $this->db->get();
+		$returner[0] = $firstKey;
 		if($query->num_rows()>0){
-			$returner[0] = "--เลือก--";
 			foreach($query->result_array() as $row){
 				$returner[$row["WFID"]] = $row["WFName"];
 			}

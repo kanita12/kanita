@@ -2199,6 +2199,8 @@ table {
     transition: background-color .25s ease; }
     table.hoverable > tbody > tr:hover {
       background-color: #f2f2f2; }
+  table.highlight > tbody > tr:hover {
+  background-color: #f2f2f2; }
   table.centered thead tr th, table.centered tbody tr td {
     text-align: center; }
 
@@ -5252,7 +5254,7 @@ nav {
     height: 100%; }
     nav .nav-wrapper i {
       display: block;
-      font-size: 2rem; }
+      /*font-size: 2rem;*/ }
   @media only screen and (min-width : 993px) {
     nav a.button-collapse {
       display: none; } }
@@ -5745,7 +5747,7 @@ small {
   height: 7px;
   width: 14px;
   border-radius: 0 0 14px 14px;
-  background-color: #323232;
+  background-color: #000;
   z-index: -1;
   -webkit-transform-origin: 50% 10%;
   -moz-transform-origin: 50% 10%;
@@ -6119,6 +6121,7 @@ a.waves-effect .waves-ripple {
   background-color: #fff; }
   .side-nav .collapsible-body li a {
     margin: 0 1rem 0 2rem; }
+
 
 .collapsible.popout {
   border: none;
@@ -6963,7 +6966,7 @@ select {
   padding-bottom: 60px;
   background-color: #fff;
   z-index: 999;
-  overflow-y: auto;
+  /*overflow-y: auto;*/
   will-change: left; }
   .side-nav.right-aligned {
     will-change: right;
@@ -8485,6 +8488,11 @@ a.button-collapse.top-nav {
   text-align: center;
   vertical-align: middle; }
 
+
+@media only screen and (max-width: 600px) {
+    .side-nav .material-icons {
+      line-height:inherit; } 
+    }
 .material-icons.icon-demo {
   line-height: 50px; }
 

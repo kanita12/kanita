@@ -6,15 +6,15 @@ class Leavetype_model extends CI_Model
 	{
 		parent::__construct();
 	}
-	public function getListForDropDown()
+	public function getListForDropDown($firstKey = "--เลือก--")
 	{
 		$returner = array();
 		$this->db->select("LTID,LTName");
 		$this->db->from($this->table);
 		$this->db->where("LT_StatusID","1");
 		$query = $this->db->get();
+		$returner[0] = $firstKey;
 		if($query->num_rows()>0){
-			$returner[0] = "--เลือก--";
 			foreach($query->result_array() as $row){
 				$returner[$row["LTID"]] = $row["LTName"];
 			}
