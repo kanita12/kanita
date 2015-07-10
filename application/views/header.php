@@ -11,7 +11,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo js_url(); ?>jquery-ui/jquery-ui.css">
     <!--Bootstrap-->
     <script type="text/javascript" src="<?php echo bootstrap_url() ?>js/bootstrap.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="<?php echo bootstrap_url() ?>bootstrap.css" />
+    <link rel="stylesheet" type="text/css" href="<?php echo bootstrap_url() ?>css/bootstrap.css" />
     <!--Other-->
     <script type="text/javascript" src="<?php echo js_url();?>common.js"></script>
     <script src="<?php echo js_url(); ?>sweetalert2/dist/sweetalert2.min.js"></script> 

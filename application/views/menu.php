@@ -32,7 +32,7 @@
                             </a>
                             <ul class="dropdown-menu">
                                 <li><a href="<?php echo site_url('Worktime'); ?>">เวลาเข้า-ออก</a></li>
-                                <li><a href="<?php echo site_url('Userprofile'); ?>">แก้ไขข้อมูลส่วนตัว</a></li>
+                                <li><a href="<?php echo site_url('Userprofile'); ?>">ข้อมูลส่วนตัว</a></li>
                                 </li>
                             </ul>
                         </li>

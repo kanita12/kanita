@@ -11,6 +11,10 @@ function img_url()
 {
 	return base_url().'assets/images/';
 }
+function mdl_url()
+{
+	return base_url().'assets/mdl/';
+}
 function vendor_url() 
 {
 	return base_url().'assets/vendor/';

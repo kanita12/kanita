@@ -1,8 +1,7 @@
 ﻿<?php
-
 class Employee extends CI_Controller 
 {
-    public function __construct()
+	public function __construct()
     {
 		parent::__construct();
 		$CI =& get_instance();
@@ -17,8 +16,13 @@ class Employee extends CI_Controller
 		$CI->load->model('User_roles_model','userroles');
 		$CI->load->model('Emp_history_work_model','hiswork');
 		$CI->load->model('Emp_history_study_model','hisstudy');
-		$this->emp_id = $CI->session->userdata('empid');
-		$this->user_id = floatval($CI->session->userdata('userid'));
+		$CI->load->model("nametitle_model", "nametitle");
+		$CI->load->model("province_model", "province");
+		$CI->load->model("bank_model", "bank");
+		$CI->load->model("banktype_model", "banktype");
+		$CI->load->model("common_model", "common");
+		$CI->load->model('Institution_Model','institution');
+		$CI->load->model('MartialStatus_Model','mars');
 	}
 
 	public function index()
@@ -28,13 +32,6 @@ class Employee extends CI_Controller
 
 	public function setDefaultDataPage()
 	{
-		$this->load->model("nametitle_model", "nametitle");
-		$this->load->model("province_model", "province");
-		$this->load->model("bank_model", "bank");
-		$this->load->model("banktype_model", "banktype");
-		$this->load->model("common_model", "common");
-		$this->load->model('Institution_Model','institution');
-		$this->load->model('MartialStatus_Model','mars');
 		$data = array();
 		$data["nowTitle"] = "เพิ่มพนักงานใหม่";
 		$data["FormUrl"] = site_url("hr/Employee/AddEmployee");
@@ -178,6 +175,7 @@ class Employee extends CI_Controller
 		$this->load->view("hr/Employee/ListEmployee", $data);
 		parent::setFooter();
 	}
+
 	public function ajaxEmployee()
 	{
 		$data = array();
@@ -218,7 +216,6 @@ class Employee extends CI_Controller
 
 
 		 $this->load->view("hr/Employee/ListEmployee", $data);
-
 	}
 
 	public function Register()
@@ -669,11 +666,8 @@ class Employee extends CI_Controller
 		parent::setHeader('รายละเอียดพนักงาน');
 		$this->load->view("hr/Employee/Register", $data);
 		parent::setFooter();
-
 	}
-
 	
-
 	function uploadImg($fuControlName, $uploadPath = "")
 	{
 		$nowPath = "";
