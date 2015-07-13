@@ -1,5 +1,5 @@
 <nav class="red lighten-2" role="navigation">
-    <div class="nav-wrapper container"><a id="logo-container" href="#" class="brand-logo">HRS</a>
+    <div class="nav-wrapper container"><a id="logo-container" href="<?php echo site_url() ?>" class="brand-logo">HRS</a>
       <ul id="main-menu-nav" class="right hide-on-med-and-down">
         <li>
             <a class="dropdown-button-f" href="#!" data-activates="ddl_company">

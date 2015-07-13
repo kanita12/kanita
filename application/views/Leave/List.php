@@ -1,8 +1,10 @@
+<div class="row right-align">
 <a href="<?php echo site_url("Leave/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+</div>
 
 <div class="row">
 	<div class="input-field col s12">
-		<div class="col s2 m2 offset-m3 l2 offset-l4 right-align">
+		<div class="col s2 m1 l1 left-align">
 			<a href="#!"><i class="medium material-icons">search</i></a>
 		</div>
 		<div class="col s6 m4 l3">

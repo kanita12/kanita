@@ -8,89 +8,139 @@
 	<input type="hidden" id="hdWorkDateStart" name="hdWorkDateStart" value="<?php echo $workDateStart ?>"/>
 	<input type="hidden" id="hdWorkDateEnd" name="hdWorkDateEnd" value="<?php echo $workDateEnd ?>"/>
 
-	<div class="form__padding5 alert alert-dismissible alert-info">
-		<div class="w-row form--text14">
-			<strong>แบบฟอร์มการลางาน</strong>
-			<br/><br/>
-	        <div class="fr-text">
-	        	ประเภทการลา
-	        	<?php echo form_dropdown("ddlLeaveType",$ddlLeaveType,$vddlLeaveType,"id='ddlLeaveType'"); ?>
-	        	<div id="divLeaveDetail">
-	        		<?php echo $vdetailLeave; ?>
-	            </div>
-	    	</div>
-		</div>
-		<div class="form__padding">
-			รายละเอียดการลางาน
-			<br>
-			<p>รหัสพนักงาน <?php echo $queryEmployee["EmpID"];?></p>
-			<p>ชื่อ-นามสกุล <?php echo $queryEmployee["EmpFirstnameThai"]." ".$queryEmployee["EmpLastnameThai"]; ?></p>
-			<br/>
-			<p>แผนก <?php echo $queryEmployee["DepartmentName"]; ?></p>
-			<p>ตำแหน่ง <?php echo $queryEmployee["PositionName"]; ?></p>
-			<br/>
-			<?php $headman_detail = get_headman_detail_by_employee_user_id($queryEmployee['UserID']); ?>
-			<?php if ( count($headman_detail) > 0 ) : ?>
-				<p>หัวหน้างาน : <?php echo $headman_detail["EmpFullnameThai"]; ?></p>
-		    	<p>ประจำแผนก : <?php echo $headman_detail["DepartmentName"]; ?></p>
-			<?php endif ?>
-		</div>
-		<div class="w-row">
-	        <p class="w-col w-col-2 form__padding2 form__right">เนื่องจาก</p>
-	        <textarea class="w-col w-col-9" name="txtBecause" cols="60" rows="8" 
-	        id="txtBecause"><?php echo $vleaveBecause ?></textarea>
-	    </div>
-	    <div class="w-row form__padding">
-	        <p>เพราะฉะนั้นจึงขอลาหยุดใน</p>
-	        <p class="w-col w-col-6">
-	            <b>วันที่ :</b>
-	        	<input id="txtStartDate" name="txtStartDate" data-format="dd/MM/yyyy" type="text" class="add-on" readonly="true"  value="<?php echo $vworkDateStart ?>">
-	        </p>
-	        <p class="w-col w-col-6">
-	            <b>เวลา :</b>
-	            <input id="txtStartTime" name="txtStartTime" data-format="hh:mm" type="text" class="add-on" readonly="true"  value="<?php echo $vworkTimeStart ?>">
-	        </p>
-	        <p class="w-col w-col-6">
-	            <b>จนถึงวันที่ :</b>
-	            <input id="txtEndDate" name="txtEndDate" data-format="dd/MM/yyyy" type="text" class="add-on" readonly="true"  value="<?php echo $vworkDateEnd ?>">
-	        </p>
-	        <p class="w-col w-col-6">
-	            <b>เวลา :</b>
-	            <input id="txtEndTime" name="txtEndTime" data-format="hh:mm" type="text" class="add-on" readonly="true"  value="<?php echo $vworkTimeEnd ?>">
-	        </p>
-	    </div>
-	    <div class="w-row form__padding">
-			<p>เอกสารแนบ :</p>
-			<br>
-			<div id="div_document">
-				<?php
-				if(count($query_leave_doc) > 0) //for edit
-				{
-					$i = 1;
-					foreach ($query_leave_doc as $row) 
-					{
-						echo form_upload(array("name" => "fuDocument[]", "id" => "fuDocument_".$i,"multiple"));
-						echo anchor(base_url($row["ldoc_filepath"]), $row['ldoc_filename'], 'target="_blank"');
-						echo "<span onclick=\"delete_doc('".$row["ldoc_id"]."');\">ลบ</span>";
-						$i++;
-					}
-				}
-				else
-				{
-					for ($i = 0; $i < 3; $i++) 
-					{ 
-						echo form_upload(array("name" => "fuDocument[]", "id" => "fuDocument_".$i,"multiple"));
-					}
-				}
-				?>
-			</div>
-			<?php echo anchor('javascript:void(0);', 'เพิ่มช่องอัพโหลดอีก', 'onclick="return add_file_control();"'); ?>
-		</div>
-	    <div style=" padding-top: 20px;text-align:right;">
-	            <input class="btn btn-primary" type="submit" value="บันทึก" onclick="return checkBeforeSubmit();"> &nbsp;
-	            <input class="btn btn-primary" type="reset" value="ยกเลิก">
-	    </div>
+<div class="row">
+	<div class="input-field col s12 m6 l5">
+		<?php echo form_dropdown("ddlLeaveType",$ddlLeaveType,$vddlLeaveType,"id='ddlLeaveType'"); ?>
+		<label>ประเภทการลา</label>
 	</div>
+	<div class="col s12 m6 l7">
+		<div id="divLeaveDetail">
+			<?php echo $vdetailLeave; ?>
+    </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+			<h4 class="header">รายละเอียดการลา</h4>
+			<div class="col s6">
+				<table>
+					<tr>
+						<td>รหัสพนักงาน</td>
+						<td>:</td>
+						<td><?php echo $queryEmployee["EmpID"];?></td>
+					</tr>
+					<tr>
+						<td>ชื่อ-นามสกุล</td>
+						<td>:</td>
+						<td><?php echo $queryEmployee["EmpFullnameThai"];?></td>
+					</tr>
+					<tr>
+						<td>แผนก</td>
+						<td>:</td>
+						<td><?php echo $queryEmployee["DepartmentName"];?></td>
+					</tr>
+					<tr>
+						<td>ตำแหน่ง</td>
+						<td>:</td>
+						<td><?php echo $queryEmployee["PositionName"];?></td>
+					</tr>
+					<?php $headman_detail = get_headman_detail_by_employee_user_id($queryEmployee['UserID']); ?>
+					<?php if ( count($headman_detail) > 0 ) : ?>
+						<tr>
+							<td>หัวหน้างาน</td>
+							<td>:</td>
+							<td><?php echo $headman_detail["EmpFullnameThai"];?></td>
+						</tr>
+						<tr>
+							<td>ประจำแผนก</td>
+							<td>:</td>
+							<td><?php echo $headman_detail["DepartmentName"];?></td>
+						</tr>
+					<?php endif ?>
+				</table>
+			</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div class="input-field">
+		 	<textarea name="txtBecause" id="txtBecause" class="materialize-textarea"><?php echo $vleaveBecause ?></textarea>
+	    <label for="txtBecause">เนื่องจาก</label>
+	  </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div class="input-field col s3">
+			<input type="text" id="txtStartDate" name="txtStartDate" value="<?php echo $vworkDateStart; ?>">
+			<label for="txtStartDate">วันที่ขอลา</label>
+		</div>
+		<div class="input-field col s2">
+			<input type="text" id="txtStartTime" name="txtStartTime" value="<?php echo $vworkTimeStart ?>">
+			<label for="txtStartTime">เวลา</label>
+		</div>
+		<div class="input-field col s2">
+			&nbsp;
+		</div>
+		<div class="input-field col s3">
+			<input type="text" id="txtEndDate" name="txtEndDate" value="<?php echo $vworkDateEnd; ?>">
+			<label for="txtEndDate">ลาถึงวันที่</label>
+		</div>
+		<div class="input-field col s2">
+			<input type="text" id="txtEndTime" name="txtEndTime" value="<?php echo $vworkTimeEnd ?>">
+			<label for="txtEndTime">เวลา</label>
+		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div class="file-field input-field">
+		  <div class="btn">
+		    <span>File</span>
+		    <input type="file" name="fuDocument[]" id="fuDocument" multiple>
+	    </div>
+	    <div class="file-path-wrapper">
+	     	<input class="file-path validate" type="text" placeholder="Upload one or more files">
+	    </div>
+	  </div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div id="div_document">
+				<?php if(count($query_leave_doc) > 0): ?> 
+					<ul class="collection with-header"><li class="collection-header"><h4>เอกสาร</h4></li>
+						<?php foreach ($query_leave_doc as $row): ?>						
+			        <li class="collection-item">
+			        	<div>
+			        		<a href="<?php echo base_url($row["ldoc_filepath"]) ?>">
+			        			<?php echo $row['ldoc_filename'] ?>
+			        		</a>
+			        		<a href="javascript:void(0);" class="secondary-content red-text" onclick="delete_doc('<?php echo $row["ldoc_id"] ?>');">
+			        			<i class="material-icons">delete</i>
+			        		</a>
+			        	</div>
+			        </li>
+					<?php endforeach ?>
+					</ul>
+				<?php endif ?>
+
+			</div>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+<div class="row">
+	<div class="col s4">
+		<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+		  <i class="material-icons right">send</i>
+		</button>
+	</div>
+  <div class="col s4 offset-s5 m3 offset-m5 right-align">
+  	<a class="waves-effect waves-light btn red">ยกเลิก</a>
+  </div>
+</div>
+</div>
 <?php echo form_close(); ?>
 <script type="text/javascript" src="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.js"></script>
 <link rel="stylesheet" href="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.css" media="screen" title="no title" charset="utf-8" />

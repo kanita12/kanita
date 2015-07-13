@@ -20,6 +20,11 @@
     <script type="text/javascript">
         $(document).ready(function()
         {
+            var page = window.location.pathname;
+            if(page == "/home" || page == "/")
+            {
+                $("#card_userdetail").hide();
+            }
             //default control for materialize
             $(".dropdown-button-f").dropdown({
                 hover: true,
@@ -40,6 +45,7 @@
             $('select').material_select();
             $('.tooltipped').tooltip({delay: 50});
             $(".button-collapse").sideNav();
+            //$('.materialize-textarea').trigger('autoresize');
         });
     </script>
 </head>
@@ -49,7 +55,7 @@
       <h1 class="header center orange-text">
         Human Resources System
       </h1>
-      <div class="card-panel center light-blue lighten-5">
+      <div id="card_userdetail" class="card-panel center light-blue lighten-5">
         <?php echo $emp_detail['EmpNameTitleThai'] ?>
         <?php echo $emp_detail['EmpFirstnameThai'] ?>
         <?php echo $emp_detail['EmpLastnameThai'] ?>
@@ -58,3 +64,5 @@
         ตำแหน่ง<?php echo $emp_detail['PositionName'] ?>
       </div>
       <div class="card-panel">
+        <h2 class="header"><?php echo $title_eng ?> / <?php echo $title ?></h2>
+        <div class="section">

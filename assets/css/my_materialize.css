@@ -2548,6 +2548,7 @@ span.badge {
 
 .no-padding {
   padding: 0 !important; }
+.no-margin{margin:0 !important;}
 
 @font-face {
   font-family: "Material-Design-Icons";
@@ -5588,6 +5589,14 @@ small {
     .card .card-content p {
       margin: 0;
       color: inherit; }
+    .card .card-content p.flow-text{
+      font-size:1.35rem;
+    }
+    @media only screen and (min-width : 601px) and (max-width : 725px) {
+      .card .card-content p.flow-text{
+        font-size:0.99rem; } }
+
+
     .card .card-content .card-title {
       line-height: 48px; }
   .card .card-action {

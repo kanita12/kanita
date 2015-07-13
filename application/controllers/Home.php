@@ -12,7 +12,7 @@ class Home extends CI_Controller
 	public function defaults()
 	{	
 		parent::setHeader();
-		$this->load->view("defaults");
+		$this->load->view("home");
 		parent::setFooter();
 	}
 }

@@ -347,11 +347,12 @@ function uploadFileControl($fuControlName, $uploadPath = "",$leave_id = "",$save
 	$ci->load->library('image_lib');
 
 	$files = $_FILES;
-    $cpt = count($_FILES[$fuControlName]['name']);
-
-
+  $cpt = count($_FILES[$fuControlName]['name']);
+  
 	for($i = 0; $i < $cpt; $i++)
     {
+
+
 		if($files[$fuControlName]['name'][$i] !== "")
 		{
 			$name = $files[$fuControlName]['name'][$i];
@@ -401,17 +402,17 @@ function uploadFileControl($fuControlName, $uploadPath = "",$leave_id = "",$save
 				}
 				else if($save_database === "editleave")
 				{
-					//เช็คว่าอันดับนี้ id นี้มีข้อมูลอยู่หรือเปล่า ถ้ามีอยู่ก็ทำการอัพเดทอันใหม่เข้าไป
-					//ถ้าไม่มีก็ทำการ insert เข้าไป
-					$doc = $ci->leavedoc->get_detail_by_leave_id_and_order($leave_id,$j);
-					$doc = $doc->result_array();
-					if(count($doc) > 0)
-					{
-						//ทำการปรับ is_delet = 1
-						$where = array("ldoc_id",$doc["ldoc_id"]);
-						$data = array("is_delete",1);
-						$ci->leavedoc->update($data,$where);
-					}
+					// //เช็คว่าอันดับนี้ id นี้มีข้อมูลอยู่หรือเปล่า ถ้ามีอยู่ก็ทำการอัพเดทอันใหม่เข้าไป
+					// //ถ้าไม่มีก็ทำการ insert เข้าไป
+					// $doc = $ci->leavedoc->get_detail_by_leave_id_and_order($leave_id,$j);
+					// $doc = $doc->result_array();
+					// if(count($doc) > 0)
+					// {
+					// 	//ทำการปรับ is_delet = 1
+					// 	$where = array("ldoc_id",$doc["ldoc_id"]);
+					// 	$data = array("is_delete",1);
+					// 	$ci->leavedoc->update($data,$where);
+					// }
 					$data = array();
 					$data["ldoc_lid"] = $leave_id;
 					$data["ldoc_filepath"] = $nowPath;

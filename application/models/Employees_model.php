@@ -52,7 +52,7 @@ class Employees_model extends CI_Model
 	public function getDetailByUserID($userID)
 	{
 		$this->db->select("User_EmpID");
-		$this->db->from("T_Users");
+		$this->db->from($this->table_user);
 		$this->db->where("UserID",floatval($userID));
 		$query = $this->db->get();
 		if($query->num_rows() > 0)
