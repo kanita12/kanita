@@ -26,7 +26,7 @@ class Verifyleave extends CI_Controller
 	}
 	public function search($keyword = '0',$leavetype_id = "0",$workflow_id = '0')
 	{
-		$searchKeyword = $keyword !== "0" ? urldecode($keyword) : "0";
+		$searchKeyword = $keyword !== "0" ? urldecode($keyword) : "";
 		$searchType = $leavetype_id !== "0" ? $leavetype_id : "0";
 		$searchWorkflow = $workflow_id !== "0" ? $workflow_id : "0";
 
@@ -47,5 +47,66 @@ class Verifyleave extends CI_Controller
 		parent::setHeader("รายการใบลาผู้ใต้บังคับบัญชา",'Leave');
 		$this->load->view("headman/leave/verifylist",$data);
 		parent::setFooter();
+	}
+	public function instant_approve_disapprove()
+	{
+		if($_POST)
+		{
+			$post = $this->input->post(NULL,TRUE);
+			$leave_id = $post["id"];
+			$type = $post["type"];
+			$headman_user_id = $this->user_id;
+			$this->_instant_headman_approve_disapprove($type,$headman_user_id,$leave_id);
+		}
+	}
+	private function _instant_headman_approve_disapprove($type,$headman_user_id,$leave_id)
+	{
+		$this->load->model("Emp_headman_model","empheadman");
+
+		$headman_level = 0;
+		$remark = "ทำรายการผ่านหน้ารายการ";
+
+		//check you is a headman this owner request
+		$checker = is_your_leave_headman($headman_user_id,$leave_id);
+		if( $checker === TRUE )
+		{
+			//เช็คว่าหัวหน้าที่จะทำการอนุมัตินี้ เป็นหัวหน้าระดับที่เท่าไหร่ แล้วตรงกันกับระดับของ Workflow มั้ย
+			$query = $this->leave->getDetailByLeaveID($leave_id)->row_array();
+			if( count($query) > 0 )
+			{
+				$user_id = $query["L_UserID"];
+				$workflow_id = $query["L_WFID"];
+				$query2 = $this->empheadman->get_list_by_user_id($user_id)->result_array();
+				if( count($query2) > 0 )
+				{
+					foreach ($query2 as $qu) 
+					{
+						if( intval($qu["eh_headman_user_id"]) === intval($headman_user_id) )
+						{
+							$headman_level = $qu["eh_headman_level"];
+							break;
+						}
+					}
+					//หลังจากได้เลเวลของ headman ของตัวเองมาแล้วก็เอาไปเทียบกับ Workflow ตอนนี้
+					$query2 = $this->workflow->get_detail($workflow_id);
+					$query2 = $query2->row_array();
+					if( count($query2) > 0 )
+					{
+						$workflow_name = $query2["WFName"];
+						if( strpos(strtolower($workflow_name), 'level '.$headman_level) !== FALSE )
+						{
+							$this->load->library("WorkflowSystem");
+							$this->workflowsystem->set_require_data($leave_id,"leave",$type,$remark);// leave_id,leave,approve/disapprove
+							$process = $this->workflowsystem->run();
+							echo $this->workflowsystem->get_data("next_step_name");
+						}
+						else
+						{
+							echo swalc("ผิดพลาด","ไม่สามารถทำการอนุมัติใบลาได้","error");
+						}
+					}
+				}
+			}	
+		}
 	}
 }

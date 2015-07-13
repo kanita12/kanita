@@ -156,14 +156,14 @@ class Leave_model extends CI_Model
 	/************************************************
 	 * ส่วนของหัวหน้า
 	 ************************************************/
-	public function count_list_for_verify($user_id="",$searchType="0",$searchKeyword="0",$searchWorkflow="0")
+	public function count_list_for_verify($user_id="",$searchType="0",$searchKeyword="",$searchWorkflow="0")
 	{
 		$this->db->select("LID");
 		$this->db->from($this->table_headman);
 		$this->db->where("eh_headman_user_id",$user_id);
 		$this->db->join($this->table_user,"eh_user_id = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		if( $searchKeyword != "0" )
+		if( $searchKeyword != "" )
 		{
 			$this->db->group_start();
 			$this->db->like("EmpFirstnameThai",$searchKeyword);
@@ -186,7 +186,7 @@ class Leave_model extends CI_Model
 	}
 
 
-	public function get_list_for_verify($user_id,$limit=30,$start=0,$searchType="0",$searchKeyword="0",$searchWorkflow="0")
+	public function get_list_for_verify($user_id,$limit=30,$start=0,$searchType="0",$searchKeyword="",$searchWorkflow="0")
 	{
 		$this->db->limit($limit,$start);
 		$this->db->select("LID,LTName,L_UserID,LBecause,LStartDate,LStartTime,LEndDate,LEndTime,LAttachFile".
@@ -197,7 +197,7 @@ class Leave_model extends CI_Model
 		$this->db->where("eh_headman_user_id",$user_id);
 		$this->db->join($this->table_user,"eh_user_id = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		if( $searchKeyword != "0" )
+		if( $searchKeyword != "" )
 		{
 			$this->db->group_start();
 			$this->db->like("EmpFirstnameThai",$searchKeyword);

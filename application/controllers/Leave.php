@@ -771,61 +771,8 @@ class Leave extends CI_Controller
 						}
 					}
 				}
-
-			}
-
-			
+			}	
 		}
-
-		
-
-		// if($headman_userid > 0)
-		// {
-		// 	$query = $this->leave->getDetailForVerify($leave_id,$headman_userid);
-		// 	if($query->num_rows() > 0)
-		// 	{
-		// 		$query = $query->result_array();
-		// 		$query = $query[0];
-
-		// 		if( intval($query["L_WFID"]) > 1 )
-		// 		{
-		// 			echo swalc("ไม่สามารถทำคำสั่งได้","เนื่องจากมีการอนุมัติ/ไม่อนุมัติไปแล้ว","error");
-		// 		}
-		// 		else
-		// 		{
-		// 			$where = array();
-		// 			$where["LID"] = $leave_id;
-
-		// 			$data = array();
-		// 			$data["L_WFID"] = $workflow_id;
-
-		// 			$this->leave->update($data,$where);
-
-		// 			log_leave($log_type,$leave_id,$log_detail,$headman_userid);
-		// 			//ส่งอีเมล์ต่อไปให้ ฝ่ายบุคคลเลย
-
-		// 			if($type == 'approve')
-		// 			{
-		// 				$this->send_mail_to_leave_hr($leave_id);
-		// 			}
-		// 			else if( $type == 'disapprove' )
-		// 			{
-		// 				$this->send_mail_result_request_to_leave_owner($leave_id);
-		// 				//ถ้าไม่อนุมัติ ทำการคืนวันโควต้าให้ผู้ขอ
-		// 			}
-		// 			echo swalc("สำเร็จ",$alert_success,"success");
-		// 		}
-
-		// 	}
-		// 	else
-		// 	{
-		// 		echo swalc("ผิดพลาด","ไม่สามารถทำการอนุมัติใบลาได้","error");
-		// 	}
-		// }
-		// else
-		// {
-		// 	echo swalc("ผิดพลาด","ไม่สามารถทำการอนุมัติใบลาได้","error");
-		// }
 	}
 
 	public function instant_hr_approve_disapprove_from_email($type,$hr_user_id,$leave_id)

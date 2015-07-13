@@ -418,13 +418,13 @@ class WorkflowSystem
 				$query = $ci->condition->get_list($this->next_step)->row();
 				if( count($query) > 0 )
 				{
-					if( $query->wfc_condition === "pass" )
+					if( $query->wfc_condition === "pass" )//ถ้า condition เป็นทางผ่าน
 					{
 						$this->next_step = $query->wfc_next_wf_id;
 						$this->have_pass = TRUE;
 						$this->go_to_next_step();
 					} 
-					else if( $this->have_pass === TRUE )
+					else if( $this->have_pass === TRUE ) //ถ้าเคยผ่าน pass มาแล้ว
 					{
 						$this->have_pass = FALSE;
 						$this->condition = "request";
