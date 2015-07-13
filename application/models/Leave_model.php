@@ -156,14 +156,14 @@ class Leave_model extends CI_Model
 	/************************************************
 	 * ส่วนของหัวหน้า
 	 ************************************************/
-	public function count_list_for_verify($user_id="",$searchType="0",$searchKeyword="")
+	public function count_list_for_verify($user_id="",$searchType="0",$searchKeyword="0",$searchWorkflow="0")
 	{
 		$this->db->select("LID");
 		$this->db->from($this->table_headman);
 		$this->db->where("eh_headman_user_id",$user_id);
 		$this->db->join($this->table_user,"eh_user_id = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		if( $searchKeyword != "" )
+		if( $searchKeyword != "0" )
 		{
 			$this->db->group_start();
 			$this->db->like("EmpFirstnameThai",$searchKeyword);
@@ -180,23 +180,24 @@ class Leave_model extends CI_Model
 			$this->db->where("L_LTID",$searchType);
 		}
 		$this->db->join($this->table_workflow,"L_WFID = WFID","left");
+		if($searchWorkflow != "0"){ $this->db->where("L_WFID",$searchWorkflow);}
 		return $this->db->count_all_results();
 		
 	}
 
 
-	public function get_list_for_verify($user_id,$limit=30,$start=0,$searchType="0",$searchKeyword="")
+	public function get_list_for_verify($user_id,$limit=30,$start=0,$searchType="0",$searchKeyword="0",$searchWorkflow="0")
 	{
 		$this->db->limit($limit,$start);
 		$this->db->select("LID,LTName,L_UserID,LBecause,LStartDate,LStartTime,LEndDate,LEndTime,LAttachFile".
 			",L_WFID,WFName,L_StatusID,LCreatedDate,LLatestUpdate".
-			",EmpFirstnameThai,EmpLastnameThai"
+			",EmpFirstnameThai,EmpLastnameThai,eh_headman_level"
 		);
 		$this->db->from($this->table_headman);
 		$this->db->where("eh_headman_user_id",$user_id);
 		$this->db->join($this->table_user,"eh_user_id = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		if( $searchKeyword != "" )
+		if( $searchKeyword != "0" )
 		{
 			$this->db->group_start();
 			$this->db->like("EmpFirstnameThai",$searchKeyword);
@@ -208,11 +209,12 @@ class Leave_model extends CI_Model
 		$this->db->join($this->table,"UserID = L_UserID","left");
 		$this->db->where("L_StatusID",1);
 		$this->db->join($this->table_leavetype,"L_LTID = LTID","left");
-		if( $searchType != 0 )
+		if( $searchType != "0" )
 		{
 			$this->db->where("L_LTID",$searchType);
 		}
 		$this->db->join($this->table_workflow,"L_WFID = WFID","left");
+		if($searchWorkflow != "0"){ $this->db->where("L_WFID",$searchWorkflow);}
 		$this->db->order_by("L_WFID","ASC")->order_by("LCreatedDate","DESC");
 		return $this->db->get();
 	}

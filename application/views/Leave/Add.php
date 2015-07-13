@@ -130,16 +130,16 @@
 </div>
 <div class="divider"></div>
 <div class="section">
-<div class="row">
-	<div class="col s4">
-		<button class="btn waves-effect waves-light" type="submit" name="action">Submit
-		  <i class="material-icons right">send</i>
-		</button>
+	<div class="row">
+		<div class="col s4">
+			<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+			  <i class="material-icons right">send</i>
+			</button>
+		</div>
+	  <div class="col s4 offset-s5 m3 offset-m5 right-align">
+	  	<a class="waves-effect waves-light btn red">ยกเลิก</a>
+	  </div>
 	</div>
-  <div class="col s4 offset-s5 m3 offset-m5 right-align">
-  	<a class="waves-effect waves-light btn red">ยกเลิก</a>
-  </div>
-</div>
 </div>
 <?php echo form_close(); ?>
 <script type="text/javascript" src="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.js"></script>
@@ -147,9 +147,10 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
-		if($("#hdPagetype").val() === "editdoc")
+		var page_type = $("#hdPagetype")val();
+		if(page_type === "editdoc")
 		{
-			disable_all_controls();
+			disable_all_controls(false);
 		}
 		var workTimeStart = $("#hdWorkTimeStart").val();
 		var workTimeEnd = $("#hdWorkTimeEnd").val();
@@ -221,9 +222,10 @@
 			getLeaveDetail();
 		});
 	});
-	function disable_all_controls()
+	function disable_all_controls(all)
 	{
-		$(":input").not("[id^='fuDocument_']").not("[type='submit']").not("[type='reset']").not("[type='hidden']").attr("disabled","disabled");
+
+			$(":input").not("[id^='fuDocument_']").not("[type='submit']").not("[type='reset']").not("[type='hidden']").attr("disabled","disabled");
 	}
 	function getHour(time)
 	{
