@@ -3,15 +3,15 @@
 		<div class="input-field col s2 m2 l1 left-align">
 			<a href="#!"><i class="medium material-icons">search</i></a>
 		</div>
-		<div class="input-field col s10 m4 l4">
+		<div class="input-field col s10 m5 l3">
 			<input type="text" id='input_keyword' value="<?php echo $value_keyword ?>">
 			<label for="input_keyword">คำค้นหา</label>
 		</div>
-		<div class="input-field col s12 m4 l5">
+		<div class="input-field col s12 m5 l2">
 			<?php echo form_dropdown("ddlLeaveType",$ddlLeaveType,$vddlLeaveType,"id='ddlLeaveType'");?>
 			<label for="input_keyword">ประเภทการลา</label>
 		</div>
-		<div class="input-field col s12 m4 l5">
+		<div class="input-field col s12 m7 l4">
 			<?php echo form_dropdown("ddlWorkFlow",$ddlWorkFlow,$vddlWorkFlow,"id='ddlWorkFlow'");?>
 			<label for="input_keyword">อยู่ในขั้นตอน</label>
 		</div>
