@@ -30,9 +30,9 @@ class Overtime extends CI_Controller
 	public function search($year = 0, $month = 0)
 	{
 		$config = array();
-		$config['total_rows'] = $this->ot->count_all();
+		$config['total_rows'] = $this->ot->count_all($year,$month);
 		$this->load->library('pagination', $config);
-		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+		$page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
 
 		$query = $this->ot->get_list($this->pagination->per_page,$page,$this->user_id,$year,$month);
 		$query_year = $this->ot->get_data_exists_year($this->user_id);
@@ -54,7 +54,9 @@ class Overtime extends CI_Controller
 		$data = array();
 		$data['query'] 			= $query->result_array();
 		$data['options_year'] 	= $options_year;
+		$data["value_year"] = $year;
 		$data['options_month'] 	= $options_month;
+		$data["value_month"] = $month;
 
 		parent::setHeader('รายการขอทำงานล่วงเวลา',"OT");
 		$this->load->view('worktime/ot_list',$data);
@@ -69,7 +71,6 @@ class Overtime extends CI_Controller
 			exit();
 		}
 		$data = array();
-		$data['form_url'] = "";
 
 		parent::setHeader('แบบฟอร์มขอทำงานล่วงเวลา','OT');
 		$this->load->view('worktime/ot_add', $data);

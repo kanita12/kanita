@@ -37,6 +37,7 @@
 				</td>
 				<td><?php echo $row["wfname"];?></td>
 				<td>
+					<!-- ตรงรายละเอียด ให้ชี้แล้วมีายละเอียดขึ้นอ่านได้เลย -->
 					<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light blue" onclick="gotoURL('<?php echo site_url("Leave/detail/".$row["lid"]);?>');">
 						<i class="material-icons">info_outline</i>
 					</a>
