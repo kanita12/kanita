@@ -40,11 +40,11 @@
 					<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light blue" onclick="gotoURL('<?php echo site_url("Overtime/detail/".$row["wot_id"]);?>');">
 						<i class="material-icons">info_outline</i>
 					</a>
-					<?php if($row["wot_workflow_id"] == 1)://1 is send request , 11 request document ?>
-							<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light blue" onclick="gotoURL('<?php echo site_url("Overtime/edit/".$row["wot_id"]);?>');">
+					<?php if($row["wot_workflow_id"] == 12)://1 is send request , 11 request document ?>
+							<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light" onclick="gotoURL('<?php echo site_url("Overtime/edit/".$row["wot_id"]);?>');">
 								<i class="material-icons">edit</i>
 							</a>
-							<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light blue" onclick="if(checkBeforeDelete())gotoURL('<?php echo site_url("Overtime/delete/".$row["wot_id"]);?>');">
+							<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light red" onclick="if(checkBeforeDelete())gotoURL('<?php echo site_url("Overtime/delete/".$row["wot_id"]);?>');">
 								<i class="material-icons">delete</i>
 							</a>
 					<?php endif ?>

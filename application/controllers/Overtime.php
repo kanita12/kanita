@@ -1,11 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
 class Overtime extends CI_Controller
 {
-	private static $log_type_send_mail_headman_success = 'send email to headman';
-	private static $log_type_send_mail_headman_error = 'error send email to headman';
-	private static $request_ot_success = 'ส่งใบขอทำงานล่วงเวลาเรียบร้อยแล้ว';
-	private static $request_ot_success_error_send_mail = 'ส่งใบขอทำงานล่วงเวลาเรียบร้อยแล้ว แต่ไม่สามารถส่งอีเมล์หาหัวหน้าได้';
-	private static $request_ot_error = 'ผิดพลาด!!  ไม่สามารถบันทึกใบคำขอทำงานล่วงเวลาได้ กรุณาลองใหม่ภายหลัง';
+	private $workflow_start_id = 12;
 
 	public function __construct()
 	{
@@ -52,10 +48,10 @@ class Overtime extends CI_Controller
 		}
 
 		$data = array();
-		$data['query'] 			= $query->result_array();
-		$data['options_year'] 	= $options_year;
+		$data["query"] 			= $query->result_array();
+		$data["options_year"] 	= $options_year;
 		$data["value_year"] = $year;
-		$data['options_month'] 	= $options_month;
+		$data["options_month"] 	= $options_month;
 		$data["value_month"] = $month;
 
 		parent::setHeader('รายการขอทำงานล่วงเวลา',"OT");
@@ -71,65 +67,86 @@ class Overtime extends CI_Controller
 			exit();
 		}
 		$data = array();
-
+		$data["value_ot_date"] = "";
+		$data["value_ot_time_from"] = "";
+		$data["value_ot_time_to"] = "";
+		$data["value_ot_remark"] = "";
 		parent::setHeader('แบบฟอร์มขอทำงานล่วงเวลา','OT');
 		$this->load->view('worktime/ot_add', $data);
 		parent::setFooter();
 	}
 
-	private function _save()
+	private function _save($ot_id = 0)
 	{
+		$this->load->library("WorkflowSystem");
 		if( $_POST )
 		{
-			$post = $this->input->post();
-			$ot_date 		= $post['input_ot_date'];
-			$ot_time_from 	= $post['input_ot_time_from'];
-			$ot_time_to 	= $post['input_ot_time_to'];
-			$ot_remark 		= $post['input_ot_remark'];
+			$post = $this->input->post(NULL,TRUE);
+			$ot_date      = $post['input_ot_date'];
+			$ot_time_from = $post['input_ot_time_from'];
+			$ot_time_to   = $post['input_ot_time_to'];
+			$ot_remark    = $post['input_ot_remark'];
 
 			$data = array();
-			$data['wot_date'] 			= dbDateFormatFromThaiUn543($ot_date);
-			$data['wot_time_from'] 		= $ot_time_from;
-			$data['wot_time_to']		= $ot_time_to;
-			$data['wot_request_hour'] 	= timeDiff($ot_time_from,$ot_time_to);
-			$data['wot_request_by'] 	= $this->user_id;
-			$data['wot_request_date'] 	= getDateTimeNow();
-			$data['wot_workflow_id'] 	= 12;
-			$data['wot_status_id'] 		= 1;
-
-			$new_id = $this->ot->insert($data);
-
-			insert_log_ot($new_id,'add','ส่งใบคำขอทำงานล่วงเวลา');
-
-			//run workflow
-			$this->load->library("WorkflowSystem");
-			$this->workflowsystem->set_require_data($new_id,"overtime","request");
-			$process = $this->workflowsystem->run();
+			$data['wot_date']         = dbDateFormatFromThaiUn543($ot_date);
+			$data['wot_time_from']    = $ot_time_from;
+			$data['wot_time_to']      = $ot_time_to;
+			$data["wot_remark"]       = $ot_remark;
+			$data['wot_request_hour'] = timeDiff($ot_time_from,$ot_time_to);
+			$data['wot_request_by']   = $this->user_id;
 			
-			redirect("Overtime");
+			$data['wot_workflow_id']  = $this->workflow_start_id;
+			$data['wot_status_id']    = 1;
+			if($ot_id === 0)
+			{
+				$data['wot_request_date'] = getDateTimeNow();
+				$ot_id = $this->ot->insert($data);
+				insert_log_ot($ot_id,'add','ส่งใบคำขอทำงานล่วงเวลา');
+				$this->workflowsystem->set_require_data($ot_id,"overtime","request");
+			}
+			else
+			{
+				$data['wot_latest_update'] = getDateTimeNow();
+				$where = array("wot_id"=>$ot_id);
+				$affected = $this->ot->update($data,$where);
+				insert_log_ot($ot_id,'edit','แก้ไขใบคำขอทำงานล่วงเวลา');
+				$this->workflowsystem->set_require_data($ot_id,"overtime","editrequest");
+			}
+			//run workflow
+			$process = $this->workflowsystem->run();
+
 			//alert after all process
-			// if( $new_id > 0 && $send == 'success')
-			// {
-			// 	echo swalc($request_ot_success,'','success','window.location.href = "'.site_url('Overtime').'"');
-			// }
-			// else if( $new_id > 0 && $send != 'success' )
-			// {
-			// 	echo swalc($request_ot_success_error_send_mail,'','warning','window.location.href = "'.site_url('Overtime').'"');	
-			// }
-			// else
-			// {
-			// 	echo swalc($request_ot_error,'','error','window.location.href = "'.site_url('Overtime').'"');
-			// }
+			if( $ot_id > 0 && $process == 'success')
+			{
+				echo swalc("บันทึกเรียบร้อย",'','success','window.location.href = "'.site_url('Overtime').'"');
+			}
+			else if( $ot_id > 0 && $process != 'success' )
+			{
+				echo swalc("บันทึกเรียบร้อย",'แต่ไม่สามารถส่งอีเมล์ได้','warning','window.location.href = "'.site_url('Overtime').'"');	
+			}
+			else
+			{
+				echo swalc("ผิดพลาด กรุณาลองใหม่ภายหลัง",'','error','window.location.href = "'.site_url('Overtime').'"');
+			}
 		}
 	}
-
 	public function edit($ot_id)
 	{
-		$query = $this->ot->get_detail_by_id($ot_id)->row();
+		if($_POST)
+		{
+			$this->_save($ot_id);
+			exit();
+		}
+		$query = $this->ot->get_detail_by_id($ot_id)->row_array();
 		if( count($query) > 0 )
 		{
+			$data = array();
+			$data["value_ot_date"] = dateThaiFormatUn543FromDB($query["wot_date"]);
+			$data["value_ot_time_from"] = $query["wot_time_from"];
+			$data["value_ot_time_to"] = $query["wot_time_to"];
+			$data["value_ot_remark"] = $query["wot_remark"];
 			parent::setHeader("แก้ไขใบขอทำงานล่วงเวลา","OT");
-			$this->load->view('worktime/ot_detail',$data);
+			$this->load->view('worktime/ot_add',$data);
 			parent::setFooter();
 		}
 

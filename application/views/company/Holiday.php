@@ -1,13 +1,29 @@
 <input type="hidden" id="hdUrl" value="<?php echo $ajaxUrl; ?>"/>
-<h1><?php echo $topicPage ?></h1>
-<br/>
-<br/>
-<div id='calendar'></div>
-<div>
-	<?php foreach ($query as $row): ?>
-		<?php echo dateThaiFormatFromDB($row["HDate"]) ?>
-		<?php echo $row["HName"] ?>
-	<?php endforeach ?>
+<div class="section">
+	<div id='calendar'></div>
+</div>
+<div class="divider"></div>
+<div class="section">
+	<div class="row">
+		<div class="col s12 m8 offset-m2 l6 offset-l3 center-align">
+			<table class="bordered highlight">
+				<thead>
+					<tr>
+						<th>วันที่</th>
+						<th>ชื่อวันหยุด</th>
+					</tr>
+				</thead>
+				<tbody>
+					<?php foreach ($query as $row): ?>
+						<tr>
+							<td><?php echo dateThaiFormatUn543FromDB($row["HDate"]) ?></td>
+							<td><?php echo $row["HName"] ?></td>
+						</tr>
+					<?php endforeach ?>
+				</tbody>
+			</table>
+		</div>
+	</div>
 </div>
 
 <link rel='stylesheet' href='<?php echo js_url() ?>fullcalendar/fullcalendar.css' />

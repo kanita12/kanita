@@ -2,15 +2,15 @@
 <div class="row">
 	<div class="col s12">
 		<div class="input-field col s12 l4">
-			<input type="text" id="input_ot_date" name="input_ot_date">
+			<input type="text" id="input_ot_date" name="input_ot_date" value="<?php echo $value_ot_date ?>">
 			<label for="input_ot_date">วันที่</label>
 		</div>
 		<div class="input-field col s6 l4">
-			<input type='text' id='input_ot_time_from' name='input_ot_time_from'>
+			<input type='text' id='input_ot_time_from' name='input_ot_time_from' value="<?php echo $value_ot_time_from ?>">
 			<label for="input_ot_time_from">ตั้งแต่เวลา</label>
 		</div>
 		<div class="input-field col s6 l4">
-			<input type='text' id='input_ot_time_to' name='input_ot_time_to'>
+			<input type='text' id='input_ot_time_to' name='input_ot_time_to' value="<?php echo $value_ot_time_to ?>">
 			<label for="input_ot_time_to">จนถึงเวลา</label>
 		</div>
 	</div>
@@ -18,7 +18,7 @@
 <div class="row">
 	<div class="col s12">
 		<div class="input-field col s12">
-			<textarea name='input_ot_remark' id='input_ot_remark' class="materialize-textarea"></textarea>
+			<textarea name='input_ot_remark' id='input_ot_remark' class="materialize-textarea"><?php echo $value_ot_remark ?></textarea>
 			<label for="input_ot_remark">หมายเหตุ</label>
 		</div>
 	</div>

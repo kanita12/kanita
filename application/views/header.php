@@ -56,12 +56,11 @@
         Human Resources System
       </h1>
       <div id="card_userdetail" class="card-panel center light-blue lighten-5">
-        <?php echo $emp_detail['EmpNameTitleThai'] ?>
-        <?php echo $emp_detail['EmpFirstnameThai'] ?>
-        <?php echo $emp_detail['EmpLastnameThai'] ?>
-        หน่วยงาน<?php echo $emp_detail['InstitutionName'] ?>
-        แผนก<?php echo $emp_detail['DepartmentName'] ?>
-        ตำแหน่ง<?php echo $emp_detail['PositionName'] ?>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">รหัสพนักงาน <?php echo $emp_detail["EmpID"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat"><?php echo $emp_detail["EmpFullnameThai"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">หน่วยงาน <?php echo $emp_detail["InstitutionName"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">แผนก <?php echo $emp_detail["DepartmentName"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">ตำแหน่ง <?php echo $emp_detail["PositionName"] ?></a>
       </div>
       <div class="card-panel">
         <!-- for large -->
