@@ -10,7 +10,8 @@
                 <li><a href="<?php echo site_url('company/organization') ?>">แผนผังองค์กร</a></li>
                 <li><a href="<?php echo site_url('company/wantedposition') ?>">ตำแหน่งงานว่าง</a></li>
                 <li><a href="<?php echo site_url('company/Holiday') ?>">วันหยุดประจำปี</a></li>
-                <li><a href="<?php echo site_url('Activity') ?>">กิจกรรมภายในองค์กร</a></li>
+                <li><a href="<?php echo site_url('news') ?>">ข่าวสาร</a></li>
+                <li><a href="<?php echo site_url('Activity') ?>">กิจกรรม</a></li>
             </ul>
         </li>
         <?php if (is_hr()): ?>

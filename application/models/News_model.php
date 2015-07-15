@@ -24,10 +24,14 @@ class News_model extends CI_Model
 		);
 		$this->db->from($this->table);
 		$this->db->where("news_status",1);
+		if($newstype_id > 0)
+		{
+			$this->db->where("news_newstype_id",$newstype_id);
+		}
 		if($show_all === FALSE)
 		{
-			$this->db->where("IFNULL(news_show_start_date,NOW()) <= NOW()");
-			$this->db->where("IFNULL(news_show_end_date,NOW()) >= NOW()");
+			$this->db->where("IF(news_show_start_date = '0000-00-00',NOW(),news_show_start_date) <= NOW()");
+			$this->db->where("IF(news_show_end_date = '0000-00-00',NOW(),news_show_end_date) >= NOW()");
 		}
 		$this->db->join($this->table_type,"news_newstype_id = newstype_id","left");
 

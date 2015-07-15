@@ -45,7 +45,7 @@
             $('select').material_select();
             $('.tooltipped').tooltip({delay: 50});
             $(".button-collapse").sideNav();
-            //$('.materialize-textarea').trigger('autoresize');
+            $('.materialboxed').materialbox();
         });
     </script>
 </head>

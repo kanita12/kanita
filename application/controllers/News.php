@@ -1,13 +1,14 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-class Activity extends CI_Controller
+class News extends CI_Controller
 {
-	private $newstype_id = 2;
+	private $newstype_id = 1;
 	private $page_segment = 4;
 	public function __construct()
 	{
 		parent::__construct();
 		$ci =& get_instance();
 		$ci->load->model("News_model","news");
+		$ci->load->model("News_image_model","newsimage");
 	}
 	public function index()
 	{
@@ -28,17 +29,27 @@ class Activity extends CI_Controller
 		$data = array();
 		$data["query"] = $query;
 
-		parent::setHeader("รายการกิจกรรม","Activity");
+		parent::setHeader("รายการข่าวสาร","News");
 		$this->load->view("News/news_list.php",$data);
 		parent::setFooter();
 	}
 	public function detail($news_id)
 	{
 		$query = $this->news->get_detail_by_id($news_id);
+		$query = $query->result_array();
+		$query = $query[0];
 
+		$query_image = $this->newsimage->get_list_by_news_id($news_id);
+		$query_image = $query_image->result_array();
+		
 		$data = array();
 		$data["query"] = $query;
+		$data["query_image"] = $query_image;
+ 
+		parent::setHeader($query["news_topic"],"News");
+		$this->load->view("News/news_detail.php",$data);
+		parent::setFooter();
 	}
 }
-/* End of file Activity.php */
-/* Location: ./application/controllers/Activity.php */
+/* End of file News.php */
+/* Location: ./application/controllers/News.php */
