@@ -26,7 +26,7 @@ class Login extends CI_Controller
             {
                 if(!empty($this->redirect_url))
                 {
-                    redirect($this->redirect_url);
+                    redirect(site_url($this->redirect_url));
                     exit();
                 }
                 else

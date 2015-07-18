@@ -104,7 +104,6 @@ class CI_Controller {
 	public function myFirstLoad()
 	{
 		self::$instance =& $this;
-		
 		$nowPage = strtolower($this->uri->uri_string());
 		$method_depth_2 = $this->uri->segment(2);
 		$not_login_method_depth_2 = array("instant_headman_approve_disapprove_from_email");
@@ -142,13 +141,13 @@ class CI_Controller {
 
 				if($this->session->userdata('loggedin') != true)
 				{
-					redirect(site_url('admin/login'));
+					$this->redirect_to(site_url('admin/login'));
 				}
 				else
 				{
 					if($this->acl->hasPermission('access_admin') != true)
 					{
-						redirect(site_url('admin/login'));
+						$this->redirect_to(site_url('admin/login'));
 					}
 				}
 			}
@@ -159,20 +158,31 @@ class CI_Controller {
 			{
 				if($this->session->userdata('loggedin') != true)
 				{
-					redirect(site_url('login'));
+					$this->redirect_to(site_url('login'));
 				}
 				else
 				{
 			
 					if($this->acl->hasPermission('access_site') != true)
 					{
-						redirect(site_url('login'));
+						$this->redirect_to(site_url('login'));
 					}
 				}
 			}
 		}	
 	}
-	
+	private function redirect_to($url)
+	{
+		$nowPage = trim(strtolower($this->uri->uri_string()));
+		if($nowPage === "")
+		{
+			redirect($url);
+		}
+		else
+		{
+			redirect($url."?redirect=".$nowPage);
+		}
+	}
 	public function setHeader($title="หน้าแรก",$title_eng='Home')
 	{
 		self::$instance =& $this;

@@ -46,7 +46,7 @@ class Emp_headman_model extends CI_Model
 	{
 		return $this->db->where("eh_headman_user_id",$user_id)->count_all_results($this->table);
 	}
-	public function get_team_list_by_headman_user_id($user_id)
+	public function get_team_list_by_headman_user_id($user_id,$keyword = "")
 	{
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai, ".
 			",EmpIDCardImg,EmpPictureImg".
@@ -60,7 +60,19 @@ class Emp_headman_model extends CI_Model
 		$this->db->join($this->table_employee,'EmpID = User_EmpID','left');
 		$this->db->join($this->table_position, "Emp_PositionID = PID",'left');
 		$this->db->join($this->table_department, "Emp_DepartmentID = DID",'left');
-		$this->db->where('eh_headman_user_id',$user_id)->where('Emp_StatusID',1);;
+		$this->db->where('eh_headman_user_id',$user_id)->where('Emp_StatusID',1);
+		if($keyword !== "")
+		{
+			$this->db->group_start();
+			$this->db->like("EmpFirstnameThai",$keyword);
+			$this->db->or_like("EmpLastnameThai",$keyword);
+			$this->db->or_like("EmpFirstnameEnglish",$keyword);
+			$this->db->or_like("EmpLastnameEnglish",$keyword);
+			$this->db->or_like("EmpEmail",$keyword);
+			$this->db->or_like("PName",$keyword);
+			$this->db->or_like("DName",$keyword);
+			$this->db->group_end();
+		}
 		$query = $this->db->get();
 		return $query;
 	}

@@ -12,20 +12,13 @@
             scrollToID("[id$='b-container']");});
       }
      </script>
-     <input type="hidden" id="hdEmpID" value="<?php echo $empID ?>"/>
-     <?php
-if($returner != ""){ ?>
-  <a href="<?php echo $returner; ?>">ย้อนกลับ</a>
-  <h2><?php echo $topic; ?> <?php echo $beforeEmpID.$empID ?></h2>
-<?php } else{
-     ?>
-      <h2><?php echo $topic; ?></h2>
-      <?php } ?>
-      <br/><br/>
-
-      <?php echo form_dropdown("ddlMonth",$ddlMonth,$vddlMonth,"id='ddlMonth'");?>
+     <input type="hidden" id="hdEmpID" value="<?php echo $empID?>"/>
+     <?php if ($returner !== ""): ?>
+       <a href="<?php echo $returner?>" class="btn waves-effect waves-light">ย้อนกลับ</a>
+     <?php endif?>
+      <?php echo form_dropdown("ddlMonth", $ddlMonth, $vddlMonth, "id='ddlMonth'");?>
       &nbsp;
-      <?php echo form_dropdown("ddlYear",$ddlYear,$vddlYear,"id='ddlYear'");?>
+      <?php echo form_dropdown("ddlYear", $ddlYear, $vddlYear, "id='ddlYear'");?>
       &nbsp;
       <button class="btn btn-default" onclick="checkBeforeSubmit()">ค้นหา</button>
 
@@ -45,18 +38,19 @@ if($returner != ""){ ?>
       					เวลาเลิกงาน
       				</td>
       			</tr>
-      			<?php foreach($query->result_array() as $row){ ?>
+      			<?php foreach ($query->result_array() as $row) {?>
       			<tr>
       				<td>
-      					<?php echo $row['WTDate']; ?>
+      					<?php echo $row['WTDate'];?>
       				</td>
       				<td>
-      					<?php echo $row['WTTimeStart']; ?>
+      					<?php echo $row['WTTimeStart'];?>
       				</td>
       				<td>
-      					<?php echo $row['WTTimeEnd']; ?>
+      					<?php echo $row['WTTimeEnd'];?>
       				</td>
       			</tr>
-      			<?php } ?>
+      			<?php }
+?>
       		</tbody>
       	</table>

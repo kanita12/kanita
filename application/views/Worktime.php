@@ -1,6 +1,6 @@
-<link rel='stylesheet' href='<?php echo js_url() ?>fullcalendar/fullcalendar.css' />
-<script src='<?php echo js_url() ?>fullcalendar/lib/moment.min.js'></script>
-<script src='<?php echo js_url() ?>fullcalendar/fullcalendar.js'></script>
+<link rel='stylesheet' href='<?php echo js_url()?>fullcalendar/fullcalendar.css' />
+<script src='<?php echo js_url()?>fullcalendar/lib/moment.min.js'></script>
+<script src='<?php echo js_url()?>fullcalendar/fullcalendar.js'></script>
 <script type="text/javascript">
 $(document).ready(function() {
 
@@ -10,7 +10,7 @@ $(document).ready(function() {
     	timezones:'Asia/Bangkok',
 			header: {
 				left: 'prev,next today',
-				center: 'title',	
+				center: 'title',
 			},
 			eventLimit: true, // allow "more" link when too many events
 			events: {
@@ -27,8 +27,5 @@ $(document).ready(function() {
 
 });
 </script>
-<div class="jumbotron">
-<h1>เวลาเข้า-ออก</h1>
-</div>
-<br/><br/>
+
 <div id='calendar'></div>

@@ -8,6 +8,7 @@ class Activity extends CI_Controller
 		parent::__construct();
 		$ci =& get_instance();
 		$ci->load->model("News_model","news");
+		$ci->load->model("News_image_model","newsimage");
 	}
 	public function index()
 	{
@@ -29,15 +30,25 @@ class Activity extends CI_Controller
 		$data["query"] = $query;
 
 		parent::setHeader("รายการกิจกรรม","Activity");
-		$this->load->view("News/news_list.php",$data);
+		$this->load->view("Activity/activity_list.php",$data);
 		parent::setFooter();
 	}
 	public function detail($news_id)
 	{
 		$query = $this->news->get_detail_by_id($news_id);
+		$query = $query->result_array();
+		$query = $query[0];
 
+		$query_image = $this->newsimage->get_list_by_news_id($news_id);
+		$query_image = $query_image->result_array();
+		
 		$data = array();
 		$data["query"] = $query;
+		$data["query_image"] = $query_image;
+ 
+		parent::setHeader($query["news_topic"],"Activity");
+		$this->load->view("Activity/Activity_detail.php",$data);
+		parent::setFooter();
 	}
 }
 /* End of file Activity.php */

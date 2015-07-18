@@ -1,8 +1,6 @@
 <?php
 class Yourteam extends CI_Controller
 {
-
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -15,34 +13,17 @@ class Yourteam extends CI_Controller
 	}
 	public function index()
 	{
-		$this->my_team();
+		$this->search();
 	}
-	public function my_team()
+	public function search($keyword = "")
 	{
-		 $data = array();
-		 $data["vddlDepartment"] = 0;
-		 $data["vddlPosition"] = 0;
-		 $data["vtxtKeyword"] = "";
-		 $sKeyword = "";
-		 $sDepartment = "";
-		 $sPosition = "";
-		if($_POST)
-		{
-			$pData = $this->input->post();
-			$sKeyword = $pData["txtKeyword"];
-			$sDepartment = $pData["ddlDepartment"];
-			$sPosition = $pData["ddlPosition"];
-			$data["vddlDepartment"] = $sDepartment;
-			$data["vddlPosition"] = $sPosition;
-			$data["vtxtKeyword"] = $sKeyword;
-		}
+		$keyword = urldecode($keyword);
 
-		$data["addButtonLink"] = "";
-		$data["addButtonText"] = "";
-
-		$data["query"] = $this->empheadman->get_team_list_by_headman_user_id($this->user_id);
-
-		parent::setHeader("รายชื่อทีมของคุณ",'Team');
+		$data = array();
+		$data["query"] = $this->empheadman->get_team_list_by_headman_user_id($this->user_id,$keyword);
+		$data["value_keyword"] = $keyword;
+		
+		parent::setHeader("รายชื่อทีมของคุณ","Headman");
 		$this->load->view("headman/Yourteam", $data);
 		parent::setFooter();
 	}
