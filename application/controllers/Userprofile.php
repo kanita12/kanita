@@ -28,8 +28,27 @@ class Userprofile extends CI_Controller
   {
     redirect("Userprofile/userinfo");
   }
-  public function userinfo()
+  private function change_user_id($emp_id)
   {
+    $returner = "";
+    if($emp_id !== "")
+    { 
+      //check can see this profile is_your_headman or is_hr
+      $user_detail = getEmployeeDetail($emp_id);
+      if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+      {
+        $this->emp_id = $emp_id;
+        $this->user_id = $user_detail["UserID"];
+
+        $returner = $emp_id;
+      }
+    }
+    return $returner;
+  }
+  public function userinfo($emp_id = "")
+  {
+    $emp_id = $this->change_user_id($emp_id);
+
     $rules = array(
       array(
         "field" => "input_new_password",
@@ -64,8 +83,11 @@ class Userprofile extends CI_Controller
     $data["query"] = $query;
     $data["query_headman"] = $query_headman;
 
+    $data_open = array();
+    $data_open["emp_id"] = $emp_id;
+
     parent::setHeader("ข้อมูลพนักงาน", "User Profile");
-    $this->load->view("Userprofile/Open");
+    $this->load->view("Userprofile/Open",$data_open);
     $this->load->view("Userprofile/Userinfo", $data);
     $this->load->view("Userprofile/Close");
     parent::setFooter();
@@ -88,8 +110,10 @@ class Userprofile extends CI_Controller
     }
     return false;
   }
-  public function profileinfo()
+  public function profileinfo($emp_id = "")
   {
+    $emp_id = $this->change_user_id($emp_id);
+
     $query = getEmployeeDetailByUserID($this->user_id);
 
     $data = array();
@@ -186,42 +210,58 @@ class Userprofile extends CI_Controller
       $data["query_history_study"] = $query->result_array();
     }
 
+    $data_open = array();
+    $data_open["emp_id"] = $emp_id;
+
     parent::setHeader("ประวัติส่วนตัว", "User Profile");
-    $this->load->view("Userprofile/Open");
+    $this->load->view("Userprofile/Open",$data_open);
     $this->load->view('Userprofile/Profileinfo', $data);
     $this->load->view("Userprofile/Close");
     parent::setFooter();
   }
-  public function historyworkinfo()
+  public function historyworkinfo($emp_id = "")
   {
+    $emp_id = $this->change_user_id($emp_id);
+
     $query = getEmployeeDetailByUserID($this->user_id);
     $query_history_work = $this->hiswork->get_list_by_user_id($this->user_id);
     $query_history_work = $query_history_work->result_array();
+    
     $data = array();
     $data["query_history_work"] = $query_history_work;
 
+    $data_open = array();
+    $data_open["emp_id"] = $emp_id;
+    
     parent::setHeader("ประวัติการทำงาน", "Userprofile");
-    $this->load->view("Userprofile/Open");
+    $this->load->view("Userprofile/Open",$data_open);
     $this->load->view('Userprofile/Historyworkinfo', $data);
     $this->load->view("Userprofile/Close");
     parent::setFooter();
   }
   public function historystudyinfo()
   {
+    $emp_id = $this->change_user_id($emp_id);
+
     $query = getEmployeeDetailByUserID($this->user_id);
     $query_history_study = $this->hisstudy->get_list_by_user_id($this->user_id);
     $query_history_study = $query_history_study->result_array();
     $data = array();
     $data["query_history_study"] = $query_history_study;
 
+    $data_open = array();
+    $data_open["emp_id"] = $emp_id;
+
     parent::setHeader("ประวัติการศึกษา", "Userprofile");
-    $this->load->view("Userprofile/Open");
+    $this->load->view("Userprofile/Open",$data_open);
     $this->load->view('Userprofile/Historystudyinfo', $data);
     $this->load->view("Userprofile/Close");
     parent::setFooter();
   }
   public function othercontactinfo()
   {
+    $emp_id = $this->change_user_id($emp_id);
+
     $query = getEmployeeDetailByUserID($this->user_id);
     if (count($query) > 0) {
       $province_id = $query["EmpFriend_ProvinceID"];
@@ -245,8 +285,11 @@ class Userprofile extends CI_Controller
       $data["queryDistrict"] = $this->district->getListForDropDown($province_id, $amphur_id);
       $data["queryZipcode"] = $this->zipcode->getListForDropDown($province_id, $amphur_id, $district_id);
 
+      $data_open = array();
+      $data_open["emp_id"] = $emp_id;
+
       parent::setHeader();
-      $this->load->view("Userprofile/Open");
+      $this->load->view("Userprofile/Open",$data_open);
       $this->load->view('Userprofile/Othercontactinfo', $data);
       $this->load->view("Userprofile/Close");
       parent::setFooter();
@@ -254,6 +297,8 @@ class Userprofile extends CI_Controller
   }
   public function documentinfo()
   {
+    $emp_id = $this->change_user_id($emp_id);
+
     $query = getEmployeeDetailByUserID($this->user_id);
     $data = array();
     $data["queryBank"] = $this->bank->getListForDropDown();
@@ -265,8 +310,11 @@ class Userprofile extends CI_Controller
     $data["empBankImg"] = $query['EmpBankImg'];
     $data["query"] = $query;
 
+    $data_open = array();
+    $data_open["emp_id"] = $emp_id;
+
     parent::setHeader("เอกสาร", "Userprofile");
-    $this->load->view("Userprofile/Open");
+    $this->load->view("Userprofile/Open",$data_open);
     $this->load->view('Userprofile/Documentinfo', $data);
     $this->load->view("Userprofile/Close");
     parent::setFooter();

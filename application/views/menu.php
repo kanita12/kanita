@@ -7,8 +7,8 @@
             </a>
             <ul id="ddl_company" class="dropdown-content">
                 <li><a href="<?php echo site_url('company/regulation')?>">กฏเกณฑ์-ข้อบังคับ</a></li>
-                <li><a href="<?php echo site_url('company/organization')?>" disabled>แผนผังองค์กร</a></li>
-                <li><a href="<?php echo site_url('company/wantedposition')?>">ตำแหน่งงานว่าง</a></li>
+                <!-- <li><a href="<?php echo site_url('company/organization')?>" disabled>แผนผังองค์กร</a></li> -->
+                <!-- <li><a href="<?php echo site_url('company/wantedposition')?>">ตำแหน่งงานว่าง</a></li> -->
                 <li><a href="<?php echo site_url('company/Holiday')?>">วันหยุดประจำปี</a></li>
                 <li><a href="<?php echo site_url('news')?>">ข่าวสาร</a></li>
                 <li><a href="<?php echo site_url('Activity')?>">กิจกรรม</a></li>
@@ -44,7 +44,7 @@
                     <li><a href="<?php echo site_url('headman/Verifyleave')?>">ตรวจสอบใบลาลูกทีม</a></li>
                     <li><a href="<?php echo site_url('headman/Verifyot')?>">ตรวจสอบ OT ลูกทีม</a></li>
                     <li><a href="<?php echo site_url('headman/Sendotinsteadteam')?>">ส่ง OT แทนลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('headman/Requestemployee')?>">คำขอเพิ่มลูกทีม</a></li>
+                    <!-- <li><a href="<?php echo site_url('headman/Requestemployee')?>">คำขอเพิ่มลูกทีม</a></li> -->
                 </ul>
             </li>
         <?php endif?>

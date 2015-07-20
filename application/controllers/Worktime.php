@@ -80,7 +80,7 @@ class Worktime extends CI_Controller
   //Show pattern calendar
   public function showCalendar()
   {
-    parent::setHeader("เวลาเข้า-ออกงาน");
+    parent::setHeader("เวลาเข้า-ออกงาน","User Profile");
     $this->load->view("Worktime");
     parent::setFooter();
   }

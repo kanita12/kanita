@@ -30,7 +30,7 @@ class Activity extends CI_Controller
 		$data["query"] = $query;
 
 		parent::setHeader("รายการกิจกรรม","Activity");
-		$this->load->view("Activity/activity_list.php",$data);
+		$this->load->view("Activity/Activity_list.php",$data);
 		parent::setFooter();
 	}
 	public function detail($news_id)

@@ -33,10 +33,13 @@
         <td><?php echo $row["EmpEmail"] ?></td>
         <td><?php echo $row["EmpMobilePhone"] ?></td>
         <td>
-          <a href="<?php echo site_url("headman/Yourteam/Detail/".$row['EmpID']); ?>" target="_self">
+          <a href="<?php echo site_url("Userprofile/userinfo/".$row['EmpID']); ?>" target="_blank">
             ดูรายละเอียด
           </a>
-          <a href="javascript:void(0);" onclick="backupValue();gotoURL('<?php  echo site_url("Worktime/showTime/".$row['EmpID']); ?>');">
+          <!-- <a href="<?php echo site_url("headman/Yourteam/Detail/".$row['EmpID']); ?>" target="_self">
+            ดูรายละเอียด
+          </a> -->
+          <a href="javascript:void(0);" onclick="backupValue();gotoURL('<?php  echo site_url("Worktime/showTime/".$row['EmpID']); ?>');" target="_blank">
             ตรวจสอบเวลาเข้า-ออก
           </a> 
         </td>
