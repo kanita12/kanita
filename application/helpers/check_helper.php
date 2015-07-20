@@ -41,7 +41,33 @@ function is_your_leave($user_id,$leave_id)
 
 	return $checker;
 }
+function is_your_ot_headman($user_id,$ot_id)
+{
+	$checker = false;
 
+	$ci =& get_instance();
+	$ci->load->model('Worktime_ot_model','ot');
+	$ci->load->model('Emp_headman_model','empheadman');
+	$query = $ci->ot->get_detail_by_id($ot_id);
+	if($query->num_rows() > 0)
+	{
+		$query = $query->result_array();
+		$query = $query[0];
+		$ot_user_id = $query['wot_request_by'];
+
+		$query = $ci->empheadman->get_list_by_user_id($ot_user_id);
+
+		foreach ($query->result() as $row) 
+		{
+			if( $row->eh_headman_user_id == $user_id )
+			{
+				$checker = true;
+				break;
+			}
+		}
+	}
+	return $checker;
+}
 function is_your_leave_headman($user_id,$leave_id)
 {
 	$checker = false;

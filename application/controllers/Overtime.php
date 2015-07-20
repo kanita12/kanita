@@ -505,7 +505,7 @@ class Overtime extends CI_Controller
 		if( $query->num_rows() > 0 )
 		{
 			$ot_detail = $query->row_array();
-			if( intval($ot_detail['wot_workflow_id']) > 1 )
+			if( intval($ot_detail['wot_workflow_id']) > 12 )
 			{
 				echo swalc('ผิดพลาด!!!','คุณไม่สามารถทำรายการใบคำขอทำงานล่วงเวลานี้ได้เพราะคำขอนี้มีการอนุมัติ/ไม่อนุมัติไปแล้ว','error');		
 			}

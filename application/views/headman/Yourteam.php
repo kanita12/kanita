@@ -39,7 +39,7 @@
           <!-- <a href="<?php echo site_url("headman/Yourteam/Detail/".$row['EmpID']); ?>" target="_self">
             ดูรายละเอียด
           </a> -->
-          <a href="javascript:void(0);" onclick="backupValue();gotoURL('<?php  echo site_url("Worktime/showTime/".$row['EmpID']); ?>');" target="_blank">
+          <a href="<?php  echo site_url("Worktime/show/".$row['EmpID']); ?>" onclick="backupValue();" target="_blank">
             ตรวจสอบเวลาเข้า-ออก
           </a> 
         </td>

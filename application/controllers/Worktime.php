@@ -12,7 +12,7 @@ class Worktime extends CI_Controller
   public function index()
   {
     //$this->showTime($this->session->userdata('empid'),"worktime");
-    $this->showCalendar();
+    $this->show();
   }
 
   public function ajaxShowTime($empID, $from = "hrworktime")
@@ -78,15 +78,50 @@ class Worktime extends CI_Controller
 
   }
   //Show pattern calendar
-  public function showCalendar()
+  public function show($emp_id = "")
   {
-    parent::setHeader("เวลาเข้า-ออกงาน","User Profile");
-    $this->load->view("Worktime");
+    if($emp_id !== "")
+    { 
+      //check can see this profile is_your_headman or is_hr
+      $user_detail = getEmployeeDetail($emp_id);
+      if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+      {
+        $this->emp_id = $emp_id;
+        $this->user_id = $user_detail["UserID"];
+
+        parent::setHeader("เวลาเข้า-ออกงาน ".$emp_id,"User Profile");
+      }
+      else
+      {
+        $emp_id = "";
+        parent::setHeader("เวลาเข้า-ออกงาน","User Profile");
+      }
+    }
+    else
+    {
+      parent::setHeader("เวลาเข้า-ออกงาน","User Profile");
+    }
+
+    $data = array();
+    $data["emp_id"] = $emp_id;
+
+    $this->load->view("Worktime",$data);
     parent::setFooter();
   }
-  public function feed()
+  public function feed($emp_id = "")
   {
     require FCPATH . 'assets/js/fullcalendar/demos/php/utils.php';
+
+    if($emp_id !== "")
+    { 
+      //check can see this profile is_your_headman or is_hr
+      $user_detail = getEmployeeDetail($emp_id);
+      if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+      {
+        $this->emp_id = $emp_id;
+        $this->user_id = $user_detail["UserID"];
+      }
+    }
 
     // Short-circuit if the client did not give us a date range.
     if (!isset($_POST['start']) || !isset($_POST['end'])) {
@@ -108,7 +143,7 @@ class Worktime extends CI_Controller
     // Read and parse our events JSON file into an array of event data arrays.
     $this->load->model("Worktime_model", "worktime");
 
-    $query = $this->worktime->getListForCalendar($this->userID, $range_start, $range_end);
+    $query = $this->worktime->getListForCalendar($this->user_id, $range_start, $range_end);
     $output_arrays = array();
     if ($query->num_rows() > 0) {
       foreach ($query->result_array() as $row) {

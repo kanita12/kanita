@@ -5,7 +5,9 @@
 $(document).ready(function() {
 
     // page is now ready, initialize the calendar...
-
+    var emp_id = $("#hd_emp_id").val();
+    var site_url = $("#hd_site_url").val();
+    var ajax_url = site_url+"Worktime/feed/"+emp_id;
     $('#calendar').fullCalendar({
     	timezones:'Asia/Bangkok',
 			header: {
@@ -14,7 +16,7 @@ $(document).ready(function() {
 			},
 			eventLimit: true, // allow "more" link when too many events
 			events: {
-				url: 'Worktime/feed',
+				url: ajax_url,
         		type: 'POST',
 				error: function() {
 					$('#script-warning').show();
@@ -27,5 +29,6 @@ $(document).ready(function() {
 
 });
 </script>
-
+<input type="hidden" name="hd_emp_id" id="hd_emp_id" value="<?php echo $emp_id ?>">
+<input type="hidden" name="hd_site_url" id="hd_site_url" value="<?php echo site_url(); ?>">
 <div id='calendar'></div>

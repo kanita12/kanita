@@ -16,12 +16,13 @@ class Worktime_ot_model extends CI_Model
 	/**
 	 * headman section
 	 */
-	public function headman_get_list($headman_user_id)
+	public function headman_get_list($headman_user_id,$emp_id = "0",$year = "0",$month ="0")
 	{
 		$this->db->select(	'wot_id, wot_date, wot_time_from, wot_time_to, wot_request_hour, '.
 							'wot_remark, wot_request_by, wot_request_date, wot_workflow_id, '.
 							'wot_status_id, wot_otx_id '.
-							',WFName workflow_name'
+							',WFName workflow_name'.
+							',eh_headman_level'
 		);
 		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) emp_fullname_thai",false);
 		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS emp_fullname_english ",false);
@@ -32,6 +33,18 @@ class Worktime_ot_model extends CI_Model
 		$this->db->join($this->table_employee,'EmpID = User_EmpID','left');
 		$this->db->join($this->table_headman,'UserID = eh_user_id','left');
 		$this->db->where('eh_headman_user_id',intval($headman_user_id));
+		if($emp_id != "0")
+		{
+			$this->db->where("EmpID",$emp_id);
+		}
+		if($year != "0")
+		{
+			$this->db->where("YEAR(wot_request_date)",$year);
+		}
+		if($month != "0")
+		{
+			$this->db->where("MONTH(wot_request_date)",$month);
+		}
 		$this->db->order_by('wot_workflow_id','asc')->order_by('wot_request_date','desc');
 		$query = $this->db->get();
 		return $query;

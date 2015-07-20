@@ -1,17 +1,43 @@
-<?php echo form_open($form_url) ?>
-	<div>
-		เลือกผู้ใต้บังคับบัญชา <?php echo form_dropdown('input_team', $dropdown_team, $value_team,"id='input_team'"); ?>
-		<br>
-		วัน/เดือน/ปี : <input type='text' id='input_ot_date' name='input_ot_date'>
-		<br>
-		เวลา : <input type='text' id='input_ot_time_from' name='input_ot_time_from'>
-		จนถึงเวลา : <input type='text' id='input_ot_time_to' name='input_ot_time_to'>
-		<br>
-		หมายเหตุ : <textarea name='input_ot_remark' id='input_ot_remark'></textarea>
-		<br>
-		<input type='submit' value='บันทึก' onclick="return confirm_before_submit();">
-		<input type='reset' onclick='window.location.href = <?php echo site_url('overtime'); ?>'>
+<?php echo form_open() ?>
+<div class="row">
+	<div class="col s12">
+		<div class="input-field col s12">
+			<?php echo form_dropdown('input_team', $dropdown_team, $value_team,"id='input_team'"); ?>
+			<label for="input_team">เลือกผู้ใต้บังคับบัญชา</label>
+		</div>
+		<div class="input-field col s12 l4">
+			<input type="text" id="input_ot_date" name="input_ot_date">
+			<label for="input_ot_date">วันที่</label>
+		</div>
+		<div class="input-field col s6 l4">
+			<input type='text' id='input_ot_time_from' name='input_ot_time_from' >
+			<label for="input_ot_time_from">ตั้งแต่เวลา</label>
+		</div>
+		<div class="input-field col s6 l4">
+			<input type='text' id='input_ot_time_to' name='input_ot_time_to'>
+			<label for="input_ot_time_to">จนถึงเวลา</label>
+		</div>
 	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<div class="input-field col s12">
+			<textarea name='input_ot_remark' id='input_ot_remark' class="materialize-textarea"></textarea>
+			<label for="input_ot_remark">หมายเหตุ</label>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+	<div class="row">
+		<div class="col s4">
+			<button class="btn waves-effect waves-light" type="submit" name="action" onclick="return check_before_submit();">บันทึก</button>
+		</div>
+		<div class="col s4 offset-s4 right-align">
+			<a href="<?php echo site_url("overtime") ?>" class="btn waves-effect waves-light red">ยกเลิก</a>
+		</div>
+	</div>
+</div>
 <?php echo form_close(); ?>
 
 <script type="text/javascript" src="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.js"></script>
@@ -23,7 +49,6 @@
 			timepicker:false,
 			format:'d/m/Y',
 			lang:'th',
-			yearOffset:543,
 			closeOnDateSelect:true
 		 });
 		$('#input_ot_time_from , #input_ot_time_to').datetimepicker({
@@ -32,38 +57,28 @@
 			format:'H:i'
 		});
 	});
-
-	function confirm_before_submit()
+	function check_before_submit()
 	{
-		var text = "";
-		var user_id = $("#input_team option:selected").val();
-		var team = $("#input_team option:selected").text();
 		var date = $("#input_ot_date").val();
 		var time_from = $("#input_ot_time_from").val();
 		var time_to = $("#input_ot_time_to").val();
 		var msg = "";
-
-		if(parseInt(user_id) === 0)
+		if($.trim(date) === "")
 		{
-			msg += "-เลือกผู้ใต้บังคับบัญชา<br>";
+			msg += "- วันที่<br>";
 		}
-		if(date === "")
+		if($.trim(time_from) === "")
 		{
-			msg += "-วันที่ต้องการทำ<br>";
+			msg += "- ตั้งแต่เวลา<br>";
 		}
-		if(time_from === "")
+		if($.trim(time_to) === "")
 		{
-			msg += "-เวลาเริ่ม<br>";
-		}
-		if(time_to === "")
-		{
-			msg += "-เวลาสิ้นสุด";
+			msg += "- จนถึงเวลา";
 		}
 		if(msg !== "")
 		{
-			swal
-			({
-				title: "กรุณากรอกข้อมูลต่อไปนี้",
+			swal({
+				title : "กรุณากรอกข้อมูลให้ครบ",
 				html: msg,
 				type: "error"
 			});
@@ -71,31 +86,9 @@
 		}
 		else
 		{
-			text = 	team+"<br>"+
-					"ในวันที่ "+date+"<br>"+
-					"ตั้งแต่เวลา "+time_from+" จนถึง "+time_to;
-			swal({
-				title: "ต้องการส่งใบคำขอทำ OT แทน ",
-				html: text,
-				type: "warning",
-				showCancelButton: true,
-				confirmButtonText: "ใช่",
-				cancelButtonText: "ยกเลิก",
-				closeOnConfirm: true,
-				closeOnCancel: true
-			},function(isConfirm)
-			{
-				if(isConfirm)
-				{
-					$("form").submit();
-					return false;
-				}
-				else
-				{
-					return false;
-				}
-			});
+			return true;
 		}
+
 		return false;
 	}
 </script>

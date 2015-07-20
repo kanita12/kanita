@@ -33,8 +33,10 @@ function getMonthName($intMonth)
 function get_month_name_thai($month)
 {
 	$month_name_eng = date('F', strtotime("2015-$month-01"));
-	$array_month_name_eng = array(	'January'=>'มกราคม'
-									,'Febuary'=>'กุมภาพันธ์'
+	$array_month_name_eng = array(	
+									''=>''
+									,'January'=>'มกราคม'
+									,'February'=>'กุมภาพันธ์'
 									,'March'=>'มีนาคม'
 									,'April'=>'เมษายน'
 									,'May'=>'พฤษภาคม'

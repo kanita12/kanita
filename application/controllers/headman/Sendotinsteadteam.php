@@ -1,6 +1,8 @@
 <?php
 class Sendotinsteadteam extends CI_Controller
 {
+	private $workflow_start_id = 12;
+	private $workflow_end_id = 21;
 	public function __construct()
 	{
 		parent::__construct();
@@ -62,6 +64,11 @@ class Sendotinsteadteam extends CI_Controller
 	}
 	public function add()
 	{
+		if($_POST)
+		{
+			$this->_save();
+			exit();
+		}
 		$query = $this->headman->get_team_list_by_headman_user_id($this->user_id);
 		$query = $query->result_array();
 
@@ -70,7 +77,7 @@ class Sendotinsteadteam extends CI_Controller
 		$data["dropdown_team"] = $this->convert_array_to_dropdown($query,"UserID","EmpFullnameThai");
 		$data["value_team"] = 0;
 		
-		parent::setHeader();
+		parent::setHeader("ส่งใบคำขอทำงานล่วงเวลาแทน","Headman");
 		$this->load->view("headman/Ot/send_instead_add",$data);
 		parent::setFooter();
 	}
@@ -82,6 +89,53 @@ class Sendotinsteadteam extends CI_Controller
 			$text[$row[$key]] = $row[$value];
 		}
 		return $text;
+	}
+	private function _save($ot_id = 0)
+	{
+		$this->load->library("WorkflowSystem");
+		if( $_POST )
+		{
+			$post = $this->input->post(NULL,TRUE);
+			$ot_request_by  = $post['input_team'];
+			$ot_date      = $post['input_ot_date'];
+			$ot_time_from = $post['input_ot_time_from'];
+			$ot_time_to   = $post['input_ot_time_to'];
+			$ot_remark    = $post['input_ot_remark'];
+
+			$data = array();
+			$data['wot_date']         = dbDateFormatFromThaiUn543($ot_date);
+			$data['wot_time_from']    = $ot_time_from;
+			$data['wot_time_to']      = $ot_time_to;
+			$data["wot_remark"]       = $ot_remark;
+			$data['wot_request_hour'] = timeDiff($ot_time_from,$ot_time_to);
+			$data['wot_request_by']   = $ot_request_by;
+			$data['wot_workflow_id']  = $this->workflow_end_id;
+			$data['wot_status_id']    = 1;
+			$data['wot_headman_user_id_send_instead'] = $this->user_id;
+			if($ot_id === 0)
+			{
+				$data['wot_request_date'] = getDateTimeNow();
+				$ot_id = $this->ot->insert($data);
+				insert_log_ot($ot_id,'headman add instead','ส่งใบคำขอทำงานล่วงเวลาแทนผู้ใต้บังคับบัญชา');
+				$this->workflowsystem->set_require_data($ot_id,"overtime","success");
+			}
+			//run workflow
+			$process = $this->workflowsystem->run();
+
+			//alert after all process
+			if( $ot_id > 0 && $process == 'success')
+			{
+				echo swalc("บันทึกเรียบร้อย",'','success','window.location.href = "'.site_url('headman/Sendotinsteadteam').'"');
+			}
+			else if( $ot_id > 0 && $process != 'success' )
+			{
+				echo swalc("บันทึกเรียบร้อย",'แต่ไม่สามารถส่งอีเมล์ได้','warning','window.location.href = "'.site_url('headman/Sendotinsteadteam').'"');	
+			}
+			else
+			{
+				echo swalc("ผิดพลาด กรุณาลองใหม่ภายหลัง",'','error','window.location.href = "'.site_url('headman/Sendotinsteadteam').'"');
+			}
+		}
 	}
 	public function save()
 	{

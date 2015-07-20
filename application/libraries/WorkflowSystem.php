@@ -321,7 +321,7 @@ class WorkflowSystem
 			$headman_email     = $this->headman_detail['EmpEmail'];
 			$headman_fullname  = $this->headman_detail['EmpFullnameThai'];
 
-			if( $this->condition == 'request')
+			if( $this->condition == 'request' || $this->condition == 'approve')
 			{
 				$subject = 'ลูกทีม '.$owner_firstname.' ขอทำงานล่วงเวลา ';
 				$body = file_get_contents(APPPATH.'/views/Email/request_ot_to_headman.html');	
@@ -391,6 +391,11 @@ class WorkflowSystem
 			$this->main_detail = $ci->leave->get_detail_for_verify($this->main_id,$this->headman_user_id)->row_array();
 			return TRUE;
 		}
+		else if($this->type == "overtime")
+		{
+			$this->main_detail = $ci->ot->get_detail_by_id($this->main_id)->row_array();
+			return TRUE;
+		}
 		return FALSE;
 	}
 	private function _request_document_from_headman($level)
@@ -413,6 +418,31 @@ class WorkflowSystem
 				$where = array("LID"=>$this->main_id);
 				$data = array("L_WFID"=>$this->next_step);
 				$ci->leave->update($data,$where);
+
+				//check if next step is pass then auto go 
+				$query = $ci->condition->get_list($this->next_step)->row();
+				if( count($query) > 0 )
+				{
+					if( $query->wfc_condition === "pass" )//ถ้า condition เป็นทางผ่าน
+					{
+						$this->next_step = $query->wfc_next_wf_id;
+						$this->have_pass = TRUE;
+						$this->go_to_next_step();
+					} 
+					else if( $this->have_pass === TRUE ) //ถ้าเคยผ่าน pass มาแล้ว
+					{
+						$this->have_pass = FALSE;
+						$this->condition = "request";
+						$this->setWorkflowData();// leave_id,leave,approve/disapprove
+						$this->run();
+					}
+				}
+			}
+			else if( $this->type == "overtime" )
+			{
+				$where = array("wot_id"=>$this->main_id);
+				$data = array("wot_workflow_id"=>$this->next_step);
+				$ci->ot->update($data,$where);
 
 				//check if next step is pass then auto go 
 				$query = $ci->condition->get_list($this->next_step)->row();
