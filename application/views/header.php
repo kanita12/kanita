@@ -52,6 +52,7 @@
               in_duration: 300, // Transition in duration
               out_duration: 200, // Transition out duration
             });
+            $('.scrollspy').scrollSpy();
         });
     </script>
 </head>

@@ -64,6 +64,8 @@ system/cache/ci_session225c8898f29a2586af9171776d36f07eacfa81cd
 
 system/cache/ci_session0229d11a7f45384f9563870292be24b01ae001a5
 
+application/logs/
+
 application/logs/log-2015-07-07.php
 
 application/logs/log-2015-07-08.php
@@ -79,3 +81,5 @@ application/logs/log-2015-07-14.php
 application/logs/log-2015-07-15.php
 
 application/logs/log-2015-07-20.php
+
+application/logs/log-2015-07-21.php

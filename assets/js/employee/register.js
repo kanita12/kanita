@@ -403,64 +403,130 @@ function gen_history_study_template()
 			date_to_month   = date_to[1];
 			date_to_year    = date_to[0];
 
-
-			text 	= 	"<div id='history_study_number_"+i+"'>"+
-						"สถานศึกษา : <input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]' value='"+academy+"'>"+
-						"<br/>วิชาเอก : <input type='text' id='history_study_major_"+i+"' name='history_study_major[]' value='"+major+"'>"+
-						"<br/>คำอธิบาย : <textarea id='history_study_desc_"+i+"' name='history_study_desc[]'>"+desc+"</textarea>"+
-						"<br/>ระยะเวลา : "+
-						"<select id='history_study_date_from_day_"+i+"' name='history_study_date_from_day[]'>"+
-						gen_option_day_for_dropdown(date_from_day)+
-						"</select>"+
-						"<select id='history_study_date_from_month_"+i+"' name='history_study_date_from_month[]'>"+
-						gen_option_month_for_dropdown(date_from_month)+
-						"</select>"+
-						"<select id='history_study_date_from_year_"+i+"' name='history_study_date_from_year[]'>"+
-						gen_option_year_for_dropdown(date_from_year)+
-						"</select>"+
-						" ถึง "+
-						"<select id='history_study_date_to_day_"+i+"' name='history_study_date_to_day[]'>"+
-						gen_option_day_for_dropdown(date_to_day)+
-						"</select>"+
-						"<select id='history_study_date_to_month_"+i+"' name='history_study_date_to_month[]'>"+
-						gen_option_month_for_dropdown(date_to_month)+
-						"</select>"+
-						"<select id='history_study_date_to_year_"+i+"' name='history_study_date_to_year[]'>"+
-						gen_option_year_for_dropdown(date_to_year)+
-						"</select>"+
-						"";
+			text 	= 	"<div class='card'>\
+							<div class='card-content'>\
+								<div id='history_study_number_"+i+"'>\
+									<div class='row'>\
+										<div class='input-field'>\
+											<input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]' value='"+academy+"'>\
+											<label for='history_study_academy_"+i+"'>สถานศึกษา</label>\
+										</div>\
+										<div class='input-field'>\
+											<input type='text' id='history_study_major_"+i+"' name='history_study_major[]' value='"+major+"'>\
+											<label for='history_study_major_"+i+"'>วิชาเอก</label>\
+										</div>\
+										<div class='input-field'>\
+											<textarea id='history_study_desc_"+i+"' name='history_study_desc[]' class='materialize-textarea'>"+desc+"</textarea>\
+											<label for='history_study_desc_"+i+"'>คำอธิบาย</label>\
+										</div>\
+									</div>\
+									<div class='row'>\
+										<div class='input-field col s4'>\
+											<select id='history_study_date_from_day_"+i+"' name='history_study_date_from_day[]'>\
+												"+gen_option_day_for_dropdown(date_from_day)+"\
+											</select>\
+											<label for='history_study_date_from_day_"+i+"'>ตั้งแต่</label>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_study_date_from_month_"+i+"' name='history_study_date_from_month[]'>\
+												"+gen_option_month_for_dropdown(date_from_month)+"\
+											</select>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_study_date_from_year_"+i+"' name='history_study_date_from_year[]'>\
+												"+gen_option_year_for_dropdown(date_from_year)+"\
+											</select>\
+										</div>\
+									</div>\
+									<div class='row'>\
+										<div class='input-field col s4'>\
+											<select id='history_study_date_to_day_"+i+"' name='history_study_date_to_day[]'>\
+												"+gen_option_day_for_dropdown(date_to_day)+"\
+											</select>\
+											<label for='history_study_date_to_day_"+i+"'>จนถึง</label>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_study_date_to_month_"+i+"' name='history_study_date_to_month[]'>\
+												"+gen_option_month_for_dropdown(date_to_month)+"\
+											</select>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_study_date_to_year_"+i+"' name='history_study_date_to_year[]'>\
+												"+gen_option_year_for_dropdown(date_to_year)+"\
+											</select>\
+										</div>\
+									</div>\
+								</div>\
+							</div>\
+						<div>\
+						";
 			$('#history_study_list').append(text);
+			$("#history_study_number_"+i+" select").material_select();
 		}
 	}
 	else
 	{
 		i++;
-		text 	= 	"<div id='history_study_number_"+i+"'>"+
-					"สถานศึกษา : <input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]'>"+
-					"<br/>วิชาเอก : <input type='text' id='history_study_major_"+i+"' name='history_study_major[]'>"+
-					"<br/>คำอธิบาย : <textarea id='history_study_desc_"+i+"' name='history_study_desc[]'></textarea>"+
-					"<br/>ระยะเวลา : "+
-					"<select id='history_study_date_from_day_"+i+"' name='history_study_date_from_day[]'>"+
-					gen_option_day_for_dropdown()+
-					"</select>"+
-					"<select id='history_study_date_from_month_"+i+"' name='history_study_date_from_month[]'>"+
-					gen_option_month_for_dropdown()+
-					"</select>"+
-					"<select id='history_study_date_from_year_"+i+"' name='history_study_date_from_year[]'>"+
-					gen_option_year_for_dropdown()+
-					"</select>"+
-					" ถึง "+
-					"<select id='history_study_date_to_day_"+i+"' name='history_study_date_to_day[]'>"+
-					gen_option_day_for_dropdown(true)+
-					"</select>"+
-					"<select id='history_study_date_to_month_"+i+"' name='history_study_date_to_month[]'>"+
-					gen_option_month_for_dropdown(true)+
-					"</select>"+
-					"<select id='history_study_date_to_year_"+i+"' name='history_study_date_to_year[]'>"+
-					gen_option_year_for_dropdown(true)+
-					"</select>"+
-					"";
+		
+		text 	= 	"<div class='card'>\
+						<div class='card-content'>\
+							<div id='history_study_number_"+i+"'>\
+								<div class='row'>\
+									<div class='input-field'>\
+										<input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]'>\
+										<label for='history_study_academy_"+i+"'>สถานศึกษา</label>\
+									</div>\
+									<div class='input-field'>\
+										<input type='text' id='history_study_major_"+i+"' name='history_study_major[]'>\
+										<label for='history_study_major_"+i+"'>วิชาเอก</label>\
+									</div>\
+									<div class='input-field'>\
+										<textarea id='history_study_desc_"+i+"' name='history_study_desc[]' class='materialize-textarea'></textarea>\
+										<label for='history_study_desc_"+i+"'>คำอธิบาย</label>\
+									</div>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s4'>\
+										<select id='history_study_date_from_day_"+i+"' name='history_study_date_from_day[]'>\
+											"+gen_option_day_for_dropdown()+"\
+										</select>\
+										<label for='history_study_date_from_day_"+i+"'>ตั้งแต่</label>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_study_date_from_month_"+i+"' name='history_study_date_from_month[]'>\
+											"+gen_option_month_for_dropdown()+"\
+										</select>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_study_date_from_year_"+i+"' name='history_study_date_from_year[]'>\
+											"+gen_option_year_for_dropdown()+"\
+										</select>\
+									</div>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s4'>\
+										<select id='history_study_date_to_day_"+i+"' name='history_study_date_to_day[]'>\
+											"+gen_option_day_for_dropdown()+"\
+										</select>\
+										<label for='history_study_date_to_day_"+i+"'>จนถึง</label>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_study_date_to_month_"+i+"' name='history_study_date_to_month[]'>\
+											"+gen_option_month_for_dropdown()+"\
+										</select>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_study_date_to_year_"+i+"' name='history_study_date_to_year[]'>\
+											"+gen_option_year_for_dropdown()+"\
+										</select>\
+									</div>\
+								</div>\
+							</div>\
+						</div>\
+					<div>\
+					";
 		$('#history_study_list').append(text);
+		$("#history_study_number_"+i+" select").material_select();
 	}
 }
 function gen_history_work_template()
@@ -497,68 +563,136 @@ function gen_history_work_template()
 			date_to_day     = date_to[2];
 			date_to_month   = date_to[1];
 			date_to_year    = date_to[0];
-			text 	= 	"<div id='history_work_number_"+i+"'>"+
-						"บริษัท : <input type='text' id='history_work_company_"+i+"' name='history_work_company[]' value='"+company+"'>"+
-						"<br/>ตำแหน่งงาน : <input type='text' id='history_work_position_"+i+"' name='history_work_position[]' value='"+position+"'>"+
-						"<br/>เมือง : <input type='text' id='history_work_district_"+i+"' name='history_work_district[]' value='"+district+"'>"+
-						"<br/>คำอธิบาย : <textarea id='history_work_desc_"+i+"' name='history_work_desc[]'>"+desc+"</textarea>"+
-						"<br/>ระยะเวลา : "+
-						"<select id='history_work_date_from_day_"+i+"' name='history_work_date_from_day[]'>"+
-						gen_option_day_for_dropdown(date_from_day)+
-						"</select>"+
-						"<select id='history_work_date_from_month_"+i+"' name='history_work_date_from_month[]'>"+
-						gen_option_month_for_dropdown(date_from_month)+
-						"</select>"+
-						"<select id='history_work_date_from_year_"+i+"' name='history_work_date_from_year[]'>"+
-						gen_option_year_for_dropdown(date_from_year)+
-						"</select>"+
-						
-						
-						" ถึง "+
-						"<select id='history_work_date_to_day_"+i+"' name='history_work_date_to_day[]'>"+
-						gen_option_day_for_dropdown(date_to_day)+
-						"</select>"+
-						"<select id='history_work_date_to_month_"+i+"' name='history_work_date_to_month[]'>"+
-						gen_option_month_for_dropdown(date_to_month)+
-						"</select>"+
-						"<select id='history_work_date_to_year_"+i+"' name='history_work_date_to_year[]'>"+
-						gen_option_year_for_dropdown(date_to_year)+
-						"</select>"+
-						"";
+			text 	= 	"<div class='card'>\
+							<div class='card-content'>\
+								<div id='history_work_number_"+i+"'>\
+									<div class='row'>\
+										<div class='input-field'>\
+											<input type='text' id='history_work_company_"+i+"' name='history_work_company[]' value='"+company+"'>\
+											<label for='history_work_company_"+i+"'>บริษัท</label>\
+										</div>\
+										<div class='input-field'>\
+											<input type='text' id='history_work_position_"+i+"' name='history_work_position[]' value='"+position+"'>\
+											<label for='history_work_position_"+i+"'>ตำแหน่งงาน</label>\
+										</div>\
+										<div class='input-field'>\
+											<input type='text' id='history_work_district_"+i+"' name='history_work_district[]' value='"+district+"'>\
+											<label for='history_work_district_"+i+"'>เมือง</label>\
+										</div>\
+										<div class='input-field'>\
+											<textarea id='history_work_desc_"+i+"' name='history_work_desc[]' class='materialize-textarea'>"+desc+"</textarea>\
+											<label for='history_work_desc_"+i+"'>คำอธิบาย</label>\
+										</div>\
+									</div>\
+									<div class='row'>\
+										<div class='input-field col s4'>\
+											<select id='history_work_date_from_day_"+i+"' name='history_work_date_from_day[]'>\
+												"+gen_option_day_for_dropdown(date_from_day)+"\
+											</select>\
+											<label for='history_work_date_from_day_"+i+"'>ตั้งแต่</label>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_work_date_from_month_"+i+"' name='history_work_date_from_month[]'>\
+												"+gen_option_month_for_dropdown(date_from_month)+"\
+											</select>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_work_date_from_year_"+i+"' name='history_work_date_from_year[]'>\
+												"+gen_option_year_for_dropdown(date_from_year)+"\
+											</select>\
+										</div>\
+									</div>\
+									<div class='row'>\
+										<div class='input-field col s4'>\
+											<select id='history_work_date_to_day_"+i+"' name='history_work_date_to_day[]'>\
+												"+gen_option_day_for_dropdown(date_to_day)+"\
+											</select>\
+											<label for='history_work_date_to_day_"+i+"'>จนถึง</label>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_work_date_to_month_"+i+"' name='history_work_date_to_month[]'>\
+												"+gen_option_month_for_dropdown(date_to_month)+"\
+											</select>\
+										</div>\
+										<div class='input-field col s4'>\
+											<select id='history_work_date_to_year_"+i+"' name='history_work_date_to_year[]'>\
+												"+gen_option_year_for_dropdown(date_to_year)+"\
+											</select>\
+										</div>\
+									</div>\
+								</div>\
+							</div>\
+						<div>\
+						";
 			$('#history_work_list').append(text);
+			$("#history_work_number_"+i+" select").material_select();
 		}
 	}
 	else
 	{
 		i++;
-		text 	= 	"<div id='history_work_number_"+i+"'>"+
-					"บริษัท : <input type='text' id='history_work_company_"+i+"' name='history_work_company[]'>"+
-					"<br/>ตำแหน่งงาน : <input type='text' id='history_work_position_"+i+"' name='history_work_position[]'>"+
-					"<br/>เมือง : <input type='text' id='history_work_district_"+i+"' name='history_work_district[]'>"+
-					"<br/>คำอธิบาย : <textarea id='history_work_desc_"+i+"' name='history_work_desc[]'></textarea>"+
-					"<br/>ระยะเวลา : "+
-					"<select id='history_work_date_from_day_"+i+"' name='history_work_date_from_day[]'>"+
-					gen_option_day_for_dropdown()+
-					"</select>"+
-					"<select id='history_work_date_from_month_"+i+"' name='history_work_date_from_month[]'>"+
-					gen_option_month_for_dropdown()+
-					"</select>"+
-					"<select id='history_work_date_from_year_"+i+"' name='history_work_date_from_year[]'>"+
-					gen_option_year_for_dropdown()+
-					"</select>"+
-					
-					
-					" ถึง "+
-					"<select id='history_work_date_to_day_"+i+"' name='history_work_date_to_day[]'>"+
-					gen_option_day_for_dropdown(true)+
-					"</select>"+
-					"<select id='history_work_date_to_month_"+i+"' name='history_work_date_to_month[]'>"+
-					gen_option_month_for_dropdown(true)+
-					"</select>"+
-					"<select id='history_work_date_to_year_"+i+"' name='history_work_date_to_year[]'>"+
-					gen_option_year_for_dropdown(true)+
-					"</select>"+
-					"";
+		text 	= 	"<div class='card'>\
+						<div class='card-content'>\
+							<div id='history_work_number_"+i+"'>\
+								<div class='row'>\
+									<div class='input-field'>\
+										<input type='text' id='history_work_company_"+i+"' name='history_work_company[]'>\
+										<label for='history_work_company_"+i+"'>บริษัท</label>\
+									</div>\
+									<div class='input-field'>\
+										<input type='text' id='history_work_position_"+i+"' name='history_work_position[]'>\
+										<label for='history_work_position_"+i+"'>ตำแหน่งงาน</label>\
+									</div>\
+									<div class='input-field'>\
+										<input type='text' id='history_work_district_"+i+"' name='history_work_district[]'>\
+										<label for='history_work_district_"+i+"'>เมือง</label>\
+									</div>\
+									<div class='input-field'>\
+										<textarea id='history_work_desc_"+i+"' name='history_work_desc[]' class='materialize-textarea'></textarea>\
+										<label for='history_work_desc_"+i+"'>คำอธิบาย</label>\
+									</div>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s4'>\
+										<select id='history_work_date_from_day_"+i+"' name='history_work_date_from_day[]'>\
+											"+gen_option_day_for_dropdown()+"\
+										</select>\
+										<label for='history_work_date_from_day_"+i+"'>ตั้งแต่</label>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_work_date_from_month_"+i+"' name='history_work_date_from_month[]'>\
+											"+gen_option_month_for_dropdown()+"\
+										</select>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_work_date_from_year_"+i+"' name='history_work_date_from_year[]'>\
+											"+gen_option_year_for_dropdown()+"\
+										</select>\
+									</div>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s4'>\
+										<select id='history_work_date_to_day_"+i+"' name='history_work_date_to_day[]'>\
+											"+gen_option_day_for_dropdown()+"\
+										</select>\
+										<label for='history_work_date_to_day_"+i+"'>จนถึง</label>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_work_date_to_month_"+i+"' name='history_work_date_to_month[]'>\
+											"+gen_option_month_for_dropdown()+"\
+										</select>\
+									</div>\
+									<div class='input-field col s4'>\
+										<select id='history_work_date_to_year_"+i+"' name='history_work_date_to_year[]'>\
+											"+gen_option_year_for_dropdown()+"\
+										</select>\
+									</div>\
+								</div>\
+							</div>\
+						</div>\
+					<div>\
+					";
 		$('#history_work_list').append(text);
+		$("#history_work_number_"+i+" select").material_select();
 	}
 }

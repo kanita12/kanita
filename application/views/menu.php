@@ -20,7 +20,7 @@
                     เมนู Hr<i class="material-icons right">arrow_drop_down</i>
                 </a>
                 <ul id="ddl_hr" class="dropdown-content">
-                    <li><a href="<?php echo site_url('hr/Employee');?>">รายชื่อพนักงานทั้งหมด</a></li>
+                    <li><a href="<?php echo site_url('hr/Employees');?>">รายชื่อพนักงานทั้งหมด</a></li>
                     <li><a href="<?php echo site_url('hr/Verifyleave')?>">ตรวจสอบการลางาน</a></li>
                     <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
                     <li><a href="#">คำขอเพิ่มลูกทีม</a></li>

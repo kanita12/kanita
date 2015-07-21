@@ -4,6 +4,7 @@ class Employees_model extends CI_Model
 	private $table 			= 't_employees';
 	private $table_user 	= 't_users';
 	private $table_position = 't_position';
+	private $table_department = 't_department';
 
 	public function __construct()
 	{
@@ -16,11 +17,19 @@ class Employees_model extends CI_Model
 		$this->db->select('EmpID');
 		//เพื่อทำ paging ใช้คู่กับ function getList ด้วยเงื่อนไขที่เหมือนกัน
 		$this->db->from($this->table);
+		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
 		$this->db->where("Emp_StatusID",1);
-		if($searchDepartment !=0) $this->db->where("Emp_DepartmentID",$searchDepartment);
+		if($searchDepartment != 0) $this->db->where("Emp_DepartmentID",$searchDepartment);
 		if($searchPosition != 0) $this->db->where("Emp_PositionID",$searchPosition);
 		if($searchKeyword != "") {
-			$this->db->where("(EmpID LIKE '%".$searchKeyword."%' OR EmpUsername LIKE '%".$searchKeyword."%' OR EmpFirstname LIKE '%".$searchKeyword."%' OR EmpLastname LIKE '%".$searchKeyword."%')");
+			$this->db->group_start();
+			$this->db->like("EmpID",$searchKeyword);
+			$this->db->or_like("Username",$searchKeyword);
+			$this->db->or_like("EmpFirstnameThai",$searchKeyword);
+			$this->db->or_like("EmpFirstnameEnglish",$searchKeyword);
+			$this->db->or_like("EmpLastnameThai",$searchKeyword);
+			$this->db->or_like("EmpLastnameEnglish",$searchKeyword);
+			$this->db->group_end();
 		}
 		return $this->db->count_all_results();
 	}
@@ -28,22 +37,26 @@ class Employees_model extends CI_Model
 	function getList($limit, $start,$searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1) {
 		$this->db->limit($limit, $start);
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,PName,DName");
+		//for fullname thai and english
+		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
+		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
 		$this->db->from($this->table);
-		$this->db->join("t_position", "Emp_PositionID = PID",'left');
-		$this->db->join("t_department", "Emp_DepartmentID = DID",'left');
-		$this->db->join('t_users','EmpID = User_EmpID','left');
+		$this->db->join($this->table_position, "Emp_PositionID = PID",'left');
+		$this->db->join($this->table_department, "Emp_DepartmentID = DID",'left');
+		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
 		$this->db->where("Emp_StatusID",$searchStatus);
 
 		if($searchDepartment !=0) $this->db->where("Emp_DepartmentID",$searchDepartment);
 		if($searchPosition != 0) $this->db->where("Emp_PositionID",$searchPosition);
 		if($searchKeyword != "") {
-			$this->db->where("(EmpID LIKE '%".$searchKeyword."%' 
-				OR Username LIKE '%".$searchKeyword."%' 
-				OR EmpFirstnameThai LIKE '%".$searchKeyword."%'
-				OR EmpFirstnameEnglish LIKE '%".$searchKeyword."%'
-				OR EmpLastnameThai LIKE '%".$searchKeyword."%'
-				OR EmpLastnameEnglish LIKE '%".$searchKeyword."%'
-				)");
+			$this->db->group_start();
+			$this->db->like("EmpID",$searchKeyword);
+			$this->db->or_like("Username",$searchKeyword);
+			$this->db->or_like("EmpFirstnameThai",$searchKeyword);
+			$this->db->or_like("EmpFirstnameEnglish",$searchKeyword);
+			$this->db->or_like("EmpLastnameThai",$searchKeyword);
+			$this->db->or_like("EmpLastnameEnglish",$searchKeyword);
+			$this->db->group_end();
 		}
 		$query = $this->db->get();
 		return $query;
