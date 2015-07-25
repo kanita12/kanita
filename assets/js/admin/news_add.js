@@ -83,7 +83,6 @@ function update_file_progress(id, percent)
 $(document).ready(function()
 {
 	initUploader();
-	$('select').material_select();
 	//show validate error
 	var validation = $("#hd_validation_errors").val();
 	if($.trim(validation) !== "")

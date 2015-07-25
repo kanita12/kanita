@@ -3,7 +3,85 @@ $(document).ready(function() {
 	var department = $("#ddlDepartment").val();
 	var emp_id = $("#hdEmpID").val();
 	var site_url = $("#hd_site_url").val();
-
+	//set input only numeric
+	 $("#txtSalary,#txtTelePhone,#txtMobilePhone,#txtIDCard,#txtHeight,#txtWeight").keydown(function (e) {
+        // Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        // Ensure that it is a number and stop the keypress
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+    });
+	//limit text
+	$("#txtIDCard").keydown(function(e){
+		// Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+		else if($(this).val().length > 12)
+		{
+			e.preventDefault();
+		}
+	});
+	$("#txtHeight,#txtWeight").keydown(function(e){
+		// Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+		else if($(this).val().length > 2)
+		{
+			e.preventDefault();
+		}
+	});
+	//menu collection add/remove class active
+	$(".collection > .collection-item").click(function(){
+			activeCollection(this);
+	});
+	//left menu for scroll bottom position fix
+	var menu = $('#menu');
+	var menu_width = menu.width();
+	$(document).scroll(function(){
+        if ( $(this).scrollTop() >= $(window).height() - menu.height() ){
+        menu.css("position","fixed").css("top",50).css("width",menu_width);
+        } else {
+        menu.css("position","relative").css("top",0);
+        }
+	});
+	//check validation_errors if have then alert
+	var validation_errors = $("#hd_validation_errors").val();
+	if(validation_errors != "")
+	{
+		swal({
+			title: "ผิดพลาด",
+			html: validation_errors,
+			type: "error"
+		});
+	}
+	//set date picker
+	$('#txtStartWorkDate,#txtSuccessTrialWorkDate,#txtPromiseStartWorkDate').datetimepicker({
+		timepicker:false,
+		format:'d/m/Y',
+		lang:'th',
+		closeOnDateSelect:true
+	});
+	//dropdownlist
 	if( department !== "0" )
 	{
 		if( $("#hd_emp_headman_level_1").val() !== "" )
@@ -50,17 +128,14 @@ $(document).ready(function() {
 		}
 		
 	}
-
-	$(".datepicker").datepicker({
-		format: "dd/mm/yyyy"
-	});
 	$("[id$='ddlAddressProvince']").change(function() {
 		$.ajax({
 			type : "POST",
 			url : site_url+"hr/AjaxEmployee/getListAmphur/" + $(this).val(),
 			success : function(data) {
 				$("[id$='ddlAddressAmphur']").html(data);
-
+				$('#ddlAddressAmphur').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 				$("[id$='ddlAddressAmphur']").change();
 			}
 		});
@@ -72,7 +147,8 @@ $(document).ready(function() {
 			url : site_url+"hr/AjaxEmployee/getListDistrict/" + provinceID + "/" + $(this).val(),
 			success : function(data) {
 				$("[id$='ddlAddressDistrict']").html(data);
-
+				$('#ddlAddressDistrict').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 				$("[id$='ddlAddressDistrict']").change();
 			}
 		});
@@ -85,6 +161,8 @@ $(document).ready(function() {
 			url : site_url+"hr/AjaxEmployee/getListZipcode/" + provinceID + "/" + amphurID + "/" + $(this).val(),
 			success : function(data) {
 				$("[id$='ddlAddressZipcode']").html(data);
+				$('#ddlAddressZipcode').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 			}
 		});
 	});
@@ -96,7 +174,8 @@ $(document).ready(function() {
 			url : site_url+"hr/AjaxEmployee/getListAmphur/" + $(this).val(),
 			success : function(data) {
 				$("[id$='ddlAddressAmphurFriend']").html(data);
-
+				$('#ddlAddressAmphurFriend').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 				$("[id$='ddlAddressAmphurFriend']").change();
 			}
 		});
@@ -108,7 +187,8 @@ $(document).ready(function() {
 			url : site_url+"hr/AjaxEmployee/getListDistrict/" + provinceID + "/" + $(this).val(),
 			success : function(data) {
 				$("[id$='ddlAddressDistrictFriend']").html(data);
-
+				$('#ddlAddressDistrictFriend').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 				$("[id$='ddlAddressDistrictFriend']").change();
 			}
 		});
@@ -121,6 +201,8 @@ $(document).ready(function() {
 			url : site_url+"hr/AjaxEmployee/getListZipcode/" + provinceID + "/" + amphurID + "/" + $(this).val(),
 			success : function(data) {
 				$("[id$='ddlAddressZipcodeFriend']").html(data);
+				$('#ddlAddressZipcodeFriend').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 			}
 		});
 	});
@@ -131,7 +213,8 @@ $(document).ready(function() {
 			type : "POST",
 			url : site_url+"hr/AjaxEmployee/getListDepartment/" + ID,
 			success : function(data) {
-				$("[id$='ddlDepartment']").html(data);
+				$("[id$='ddlDepartment']").html(data).material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 			}
 		});
 	});
@@ -141,14 +224,17 @@ $(document).ready(function() {
 			type : "POST",
 			url : site_url+"hr/AjaxEmployee/getListPosition/" + ID,
 			success : function(data) {
-				$("[id$='ddlPosition']").html(data);
+				$("[id$='ddlPosition']").html(data).material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+
 			}
 		});
 		$.ajax({
 			type : "POST",
 			url : site_url+"hr/AjaxEmployee/get_list_headman/" + ID+"/"+emp_id,
 			success : function(data) {
-				$("[id$='ddlHeadman_level_1']").html(data);
+				$("[id$='ddlHeadman_level_1']").html(data).material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
 			}
 		});
 
@@ -157,13 +243,15 @@ $(document).ready(function() {
 	$('#ddlHeadman_level_1').change(function()
 	{
 		var ID = $('#ddlDepartment').val();
+		
 		if( $(this).val() != 0 )
 		{
 			$.ajax({
 				type : "POST",
 				url : site_url+"hr/AjaxEmployee/get_list_headman/" + ID+"/"+emp_id+"/"+$(this).val(),
 				success : function(data) {
-					$("[id$='ddlHeadman_level_2']").html(data);
+					$("[id$='ddlHeadman_level_2']").html(data).material_select();
+					$("select").closest('.input-field').children('span.caret').remove();
 				}
 			});
 		}
@@ -178,6 +266,8 @@ $(document).ready(function() {
 				url : site_url+"hr/AjaxEmployee/get_list_headman/" + ID+"/"+emp_id+"/"+$('#ddlHeadman_level_1').val()+"/"+$(this).val(),
 				success : function(data) {
 					$("[id$='ddlHeadman_level_3']").html(data);
+					$('#ddlHeadman_level_3').material_select();
+					$("select").closest('.input-field').children('span.caret').remove();
 				}
 			});
 		}
@@ -186,9 +276,24 @@ $(document).ready(function() {
 	gen_history_study_template();
 	gen_history_work_template();
 });
-
-function checkBeforeSubmit() 
+function activeCollection(obj)
 {
+	obj = $(obj);
+	var now_active = "";
+	$(".collection > a").each(function(){
+		if($(this).hasClass("active"))
+		{
+			now_active = $(this).attr("href");
+		}
+		$(this).removeClass("active");
+	});
+	
+	$(".collection > a[href='"+obj.attr("href")+"']").addClass("active");
+
+}
+function check_before_submit() 
+{
+
 	var empID 			= $("#txtEmpID").val();
 	var inst 			= $("#ddlInstitution").val();
 	var dept 			= $("#ddlDepartment").val();
@@ -200,6 +305,8 @@ function checkBeforeSubmit()
 	var email 			= $("#txtEmail").val();
 	var idcard 			= $("#txtIDCard").val();
 	var msg = '';
+	$("input[type=text][type=select]").click();
+	
 	if(empID == '')
 	{
 		msg += '- รหัสพนักงาน';
@@ -527,6 +634,8 @@ function gen_history_study_template()
 					";
 		$('#history_study_list').append(text);
 		$("#history_study_number_"+i+" select").material_select();
+		var obj_card = $("#history_study_number_"+i).parent().parent();
+		obj_card.effect("highlight", {}, 2000);
 	}
 }
 function gen_history_work_template()
@@ -694,5 +803,7 @@ function gen_history_work_template()
 					";
 		$('#history_work_list').append(text);
 		$("#history_work_number_"+i+" select").material_select();
+		var obj_card = $("#history_work_number_"+i).parent().parent();
+		obj_card.effect("highlight", {}, 2000);
 	}
 }

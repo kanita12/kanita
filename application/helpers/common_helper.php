@@ -331,7 +331,7 @@ function isWeekend($date) {
 function uploadFileControl($fuControlName, $uploadPath = "",$leave_id = "",$save_database = "") 
 {
 	$ci =& get_instance();
-	$ci->load->model("Leave_document_model","leavedoc");
+	$ci->load->model("Leave_documents_model","leavedoc");
 
 	$nowPath = "";
 	$nowName ="";
@@ -349,12 +349,10 @@ function uploadFileControl($fuControlName, $uploadPath = "",$leave_id = "",$save
 	$ci->load->library('image_lib');
 
 	$files = $_FILES;
-  $cpt = count($_FILES[$fuControlName]['name']);
+  	$cpt = count($_FILES[$fuControlName]['name']);
   
 	for($i = 0; $i < $cpt; $i++)
     {
-
-
 		if($files[$fuControlName]['name'][$i] !== "")
 		{
 			$name = $files[$fuControlName]['name'][$i];

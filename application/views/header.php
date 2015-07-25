@@ -70,10 +70,12 @@
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">ตำแหน่ง <?php echo $emp_detail["PositionName"] ?></a>
       </div>
       <div class="card-panel">
+        <?php if($show_header_title === TRUE): ?>
         <!-- for large -->
         <h2 class="header hide-on-med-and-down"><?php echo $title_eng ?> / <?php echo $title ?></h2>
         <!-- for medium -->
         <h4 class="header hide-on-small-only hide-on-large-only"><?php echo $title_eng ?> / <?php echo $title ?></h4>
         <!-- for small -->
         <h5 class="header hide-on-med-and-up"><?php echo $title_eng ?> / <?php echo $title ?></h5>
+        <?php endif ?>
         <div class="section">

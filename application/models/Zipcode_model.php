@@ -18,7 +18,7 @@ class Zipcode_model extends CI_Model{
         $query = $this->db->get();
         $dropDownList = array();
          $dropDownList[0] = "--เลือก--";
-        if ($query->num_rows > 0) {
+        if ($query->num_rows() > 0) {
            
             foreach ($query->result() as $dropdown) {
                 $dropDownList[$dropdown->ZIPCODE_ID] = $dropdown->ZIPCODE;

@@ -1,41 +1,30 @@
+<script type="text/javascript" src="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.js"></script>
+<link rel="stylesheet" href="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.css" media="screen" title="no title" charset="utf-8" />
 <script type="text/javascript" src="<?php echo js_url().'employee/register.js'; ?>"></script>
-<script type="text/javascript">
-	$(document).ready(function(){
-		$(".collection > .collection-item").click(function(){
-			activeCollection(this);
-		});
-
-		var menu = $('#menu');
-		$(document).scroll(function(){
-	        if ( $(this).scrollTop() >= $(window).height() - menu.height() ){
-	        menu.css("position","fixed").css("top",50).css("width","250px");
-	        } else {
-	        menu.css("position","relative").css("top",0);
-	        }
-    	});
-	});
-
-	function activeCollection(obj)
-	{
-		obj = $(obj);
-		var now_active = "";
-		$(".collection > a").each(function(){
-			if($(this).hasClass("active"))
-			{
-				now_active = $(this).attr("href");
-			}
-			$(this).removeClass("active");
-		});
-		
-		$(".collection > a[href='"+obj.attr("href")+"']").addClass("active");
-
-	}
-</script>
-
+<input type="hidden" id="hd_validation_errors" value="<?php echo validation_errors(); ?>">
+<?php echo form_open_multipart($FormUrl);  ?>
 <div class="row">
 	<!-- Left menu -->
-	<div class="col s12 m3 l3">
-        <ul id="menu" class="collection">
+	<div class="col s12 l3">
+		<div>
+			<!-- for large -->
+	        <h2 class="header hide-on-med-and-down"><?php echo $menu_header ?></h2>
+			<h4 class="header hide-on-med-and-down right-align" style="line-height: 0.1;"><?php echo $menu_sub_header ?></h4>
+	        <!-- for medium -->
+	        <h4 class="header hide-on-small-only hide-on-large-only"><?php echo $menu_header_medium ?></h4>
+	        <!-- for small -->
+	        <h5 class="header hide-on-med-and-up"><?php echo $menu_header_small ?></h5>
+    	</div>
+    	<br>
+        <ul id="menu" class="collection hide-on-med-and-down">
+            <a class="collection-item active" href="#userinfo">ข้อมูลพนักงาน</a>
+            <a class="collection-item" href="#profileinfo">ประวัติส่วนตัว</a>
+            <a class="collection-item" href="#historyworkinfo">ประวัติการทำงาน</a>
+            <a class="collection-item" href="#historystudyinfo">ประวัติการศึกษา</a>
+            <a class="collection-item" href="#othercontactinfo">บุคคลอื่นที่ติดต่อได้</a>
+            <a class="collection-item" href="#documentinfo">เอกสาร</a>
+        </ul>
+        <ul id="menu_mobile" class="collection hide-on-large-only">
             <a class="collection-item active" href="#userinfo">ข้อมูลพนักงาน</a>
             <a class="collection-item" href="#profileinfo">ประวัติส่วนตัว</a>
             <a class="collection-item" href="#historyworkinfo">ประวัติการทำงาน</a>
@@ -45,7 +34,7 @@
         </ul>
         &nbsp;
     </div>
-	<div class="col s12 m9 l9 card-panel">
+	<div class="col s12 m12 l9 card-panel">
 		<div id="userinfo" class="section">
 			<h4 class="header">ข้อมูลพนักงาน</h4>
 			<?php
@@ -64,11 +53,9 @@
 					$descriptionPassword = "<p class='flow-text center-align red-text'>* พาสเวิร์ดอัตโนมัติเลขท้าย 4 ตัวสุดท้ายของเลขบัตรประชาชน</p>";
 
 				}
-
-				echo form_open_multipart($FormUrl); 
 			?>
 			<input type='hidden' id='hdEmpPassword' name='hdEmpPassword' value='<?php echo $empPassword ?>'>
-			<input type='hidden' id='hdEmpID' name='hdEmpID' value='<?php echo $empID ?>'>
+			<input type='hidden' id='hdEmpID' name='hdEmpID' value='<?php echo $empID == "" ? 0 : $empID ?>'>
 			<input type="hidden" id="hd_emp_headman_level_1" value="<?php echo $empHeadmanID_level_1 ?>">
 			<input type="hidden" id="hd_emp_headman_level_2" value="<?php echo $empHeadmanID_level_2 ?>">
 			<input type="hidden" id="hd_emp_headman_level_3" value="<?php echo $empHeadmanID_level_3 ?>">
@@ -146,7 +133,7 @@
 			<div class="row">
 				<div class="col s12">
 					<div class="input-field col s12">
-						<input type="text" id="txtSalary" name="txtSalary" value="<?php echo $empSalary;?>">
+						<input type="number" id="txtSalary" class="validate" name="txtSalary" value="<?php echo $empSalary;?>">
 						<label for="txtSalary">เงินเดือน</label>
 					</div>
 				</div>
@@ -268,11 +255,11 @@
 						<input type="text" name="gender_hidden" id="gender_hidden" value="0" style="display:none;">
 						<label for="gender_hidden">เพศ</label>
 						<p>
-							<input name="rdoSex" type="radio" id="male" value="m" <?php echo set_value('rdoSex', $empSex) === "M" ? "checked" : "";?> />
+							<input name="rdoSex" type="radio" id="male" value="M" <?php echo set_value('rdoSex', $empSex) === "M" ? "checked" : "";?> />
 							<label for="male">ชาย</label>
 						</p>
 						<p>
-							<input name="rdoSex" type="radio" id="female" value="f" <?php echo set_value('rdoSex', $empSex) === "F" ? "checked" : "";?> />
+							<input name="rdoSex" type="radio" id="female" value="F" <?php echo set_value('rdoSex', $empSex) === "F" ? "checked" : "";?> />
 							<label for="female">หญิง</label>
 						</p>
 					</div>
@@ -286,7 +273,8 @@
 							<label for="txtWeight">น้ำหนัก</label>
 						</div>
 						<div class="input-field col s4">
-							<input type="text" name="txtBlood" id="txtBlood" class="validate" value="<?php echo $empBlood?>">
+							<?php echo form_dropdown('txtBlood', array(0=>"--เลือก--","A"=>"A","B"=>"B","AB"=>"AB","O"=>"O"), $empBlood,'id="txtBlood"'); ?>
+							<!-- <input type="text" name="txtBlood" id="txtBlood" class="validate" value="<?php echo $empBlood?>"> -->
 							<label for="txtBlood">กรุ๊ปเลือด</label>
 						</div>
 						<div class="input-field col s4">
@@ -340,12 +328,15 @@
 							<label for="rdoMilitaryStatus_2">ผ่านเกณฑ์ทหาร</label>
 						</span>
 						<p>
-							<input name="rdoMilitaryStatus" id="rdoMilitaryStatus_3" type="radio" value="3"
-							<?php echo set_value('militarystatus', $empMilitaryStatus) == 3 ? "checked" : "";?> >
-							<label for="rdoMilitaryStatus_3">ได้รับการยกเว้นเนื่องจาก</label>
-						</p>
-						<p>
-							<textarea name="txtMilitaryReason" id="txtMilitaryReason" class="materialize-textarea"><?php echo $empMilitaryReason?></textarea>
+							<span>
+								<input name="rdoMilitaryStatus" id="rdoMilitaryStatus_3" type="radio" value="3"
+								<?php echo set_value('militarystatus', $empMilitaryStatus) == 3 ? "checked" : "";?> >
+								<label for="rdoMilitaryStatus_3">ได้รับการยกเว้นเนื่องจาก</label>
+							</span>
+							<span>
+								<input type="text" name="txtMilitaryReason" id="txtMilitaryReason" value="<?php echo $empMilitaryReason?>">
+								<!--<textarea name="txtMilitaryReason" id="txtMilitaryReason" class="materialize-textarea"><?php echo $empMilitaryReason?></textarea> -->
+							</span>
 						</p>
 					</div>
 				</div>
@@ -354,7 +345,7 @@
 			<div class="row">
 				<div class="col s12">
 					<div class="input-field col s12">
-						<input type="text" id="txtIDCard" name="txtIDCard" value="<?php echo $empIDCard?>">
+						<input type="number" id="txtIDCard" name="txtIDCard" value="<?php echo $empIDCard?>" length="13">
 						<label for="txtIDCard">รหัสบัตรประชาชน</label>
 					</div>
 				</div>
@@ -481,11 +472,11 @@
 						<label for="ddlNameTitleFriend">คำนำหน้า</label>
 					</div>
 					<div class="input-field col s4">
-						<input readonly="true" type="text" id="txtFirstnameFriend" name="txtFirstnameFriend" class="validate" value="<?php echo $empFirstnameFriend?>">
+						<input type="text" id="txtFirstnameFriend" name="txtFirstnameFriend" class="validate" value="<?php echo $empFirstnameFriend?>">
 						<label for="txtFirstnameFriend">ชื่อ</label>
 					</div>
 					<div class="input-field col s5">
-						<input readonly="true" type="text" id="txtLastnameFriend" name="txtLastnameFriend" class="validate" value="<?php echo $empLastnameFriend?>">
+						<input type="text" id="txtLastnameFriend" name="txtLastnameFriend" class="validate" value="<?php echo $empLastnameFriend?>">
 						<label for="txtLastnameFriend">นามสกุล</label>
 					</div>
 				</div>
@@ -561,7 +552,7 @@
 					</div>
 					<div class="input-field col s6">
 						<input type="text" name="txtBankAccountNumber" id="txtBankAccountNumber" value="<?php echo $empBankNumber ?>">
-						<label for="txtBankAccountNumber">ประเภทบัญชี</label>
+						<label for="txtBankAccountNumber">เลขบัญชี</label>
 					</div>
 				</div>
 				<div class="col s12">
@@ -589,7 +580,7 @@
 				<div class="col s2">
 					<input type="submit" onclick="return check_before_submit();" class="btn" value="บันทึก">
 				</div>
-				<div class="col s2 offset-s8 right-align"> 
+				<div class="col s2 offset-s6 m2 offset-m8 right-align"> 
 					<a href="<?php echo site_url('hr/Employees') ?>" class="btn red lighten-1 right-align">ยกเลิก</a>
 				</div>
 			</div>

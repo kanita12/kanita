@@ -10,7 +10,26 @@ class Employees_model extends CI_Model
 	{
 		parent::__construct();
 	}
-
+	public function get_new_id()
+	{
+		$new_id = "emp001";
+		$this->db->select("User_EmpID");
+		$this->db->from($this->table_user);
+		$this->db->order_by("UserID","DESC");
+		$this->db->limit(1);
+		$query = $this->db->get();
+		if($query->num_rows() > 0)
+		{
+			$query = $query->row_array();	
+			$id = $query["User_EmpID"];//format xxx000
+			$result = preg_split('/(?<=\d)(?=[a-z])|(?<=[a-z])(?=\d)/i', $id);
+			$num = intval($result[1]);
+			$num++;
+			$new_id_num = str_pad((int)$num,3 ,"0",STR_PAD_LEFT);
+			$new_id = $result[0].$new_id_num;
+		}
+		return $new_id;
+	}
 
 	public function countAll($searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1)
 	{
@@ -236,30 +255,34 @@ class Employees_model extends CI_Model
 		$table = $this->table;
 		//now value has ./ before real path, then split that
 		$value = explode("./", $value);
-		$uploadFolder = $value[1];
+		if(isset($value[1])){
 
-		switch ($fieldName) {
-			case 'fuEmpPicture' :
-				$column = "EmpPictureImg";
-				break;
-			case 'fuIDCard' :
-				$column = "EmpIDCardImg";
-				break;
-			case 'fuAddressImg' :
-				$column = "EmpAddressImg";
-				break;
-			case 'fuDocRegisterJobImg' :
-				$column = "EmpDocRegisterJobImg";
-				break;
-			case 'fuBank' :
-				$column = "EmpBankImg";
-				break;
-		}
-		if ($column != "") {
-			$data = array();
-			$data[$column] = $uploadFolder;
-			$this->db->where(array($empField => $empID));
-			$this->db->update($table, $data);
+
+			$uploadFolder = $value[1];
+
+			switch ($fieldName) {
+				case 'fuEmpPicture' :
+					$column = "EmpPictureImg";
+					break;
+				case 'fuIDCard' :
+					$column = "EmpIDCardImg";
+					break;
+				case 'fuAddressImg' :
+					$column = "EmpAddressImg";
+					break;
+				case 'fuDocRegisterJobImg' :
+					$column = "EmpDocRegisterJobImg";
+					break;
+				case 'fuBank' :
+					$column = "EmpBankImg";
+					break;
+			}
+			if ($column != "") {
+				$data = array();
+				$data[$column] = $uploadFolder;
+				$this->db->where(array($empField => $empID));
+				$this->db->update($table, $data);
+			}
 		}
 	}
 

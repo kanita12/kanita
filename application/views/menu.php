@@ -22,14 +22,13 @@
                 <ul id="ddl_hr" class="dropdown-content">
                     <li><a href="<?php echo site_url('hr/Employees');?>">รายชื่อพนักงานทั้งหมด</a></li>
                     <li><a href="<?php echo site_url('hr/Verifyleave')?>">ตรวจสอบการลางาน</a></li>
-                    <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
-                    <li><a href="#">คำขอเพิ่มลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('hr/News')?>">จัดการข่าวสาร</a></li>
-                    <li><a href="<?php echo site_url('hr/Activity')?>">จัดการกิจกรรม</a></li>
+                    <!-- <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
+                    <li><a href="#">คำขอเพิ่มลูกทีม</a></li> -->
+                    <li><a href="<?php echo site_url('hr/News')?>">จัดการข่าวสาร & กิจกรรม</a></li>
                     <li><a href="<?php echo site_url('hr/Regulation')?>">จัดการกฎเกณฑ์-ข้อบังคับ</a></li>
-                    <li><a href="#">จัดการแผนผังองค์กร</a></li>
+                    <!-- <li><a href="#">จัดการแผนผังองค์กร</a></li> -->
                     <li><a href="<?php echo site_url('hr/Holiday')?>">จัดการวันหยุดประจำปี</a></li>
-                    <li><a href="#">เขียนใบลาแทน</a></li>
+                    <!-- <li><a href="#">เขียนใบลาแทน</a></li> -->
                     <li><a href="<?php echo site_url('hr/salary')?>">ปรับเงินเดือนพนักงาน</a></li>
                 </ul>
             </li>

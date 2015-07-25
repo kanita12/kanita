@@ -24,6 +24,8 @@ class Employees extends CI_Controller
         $CI->load->model('Users_Model','users');
         $CI->load->model('User_roles_model','userroles');
         $CI->load->model('Zipcode_Model','zipcode');
+
+
 	}
     public function index()
     {
@@ -60,6 +62,7 @@ class Employees extends CI_Controller
           array("field" => "txtUsername", "label" => "Username", "rules" => "required"),
         );
         $this->form_validation->set_rules($rules);
+        $this->form_validation->set_message("required","กรุณากรอก {field}");
         if ($this->form_validation->run() === true) 
         {
           $this->AddEmployee();
@@ -69,7 +72,7 @@ class Employees extends CI_Controller
         {
             $data = $this->setDefaultDataPage();
             
-            parent::setHeader('เพิ่มพนักงานใหม่', 'Register');
+            parent::setHeader('เพิ่มพนักงานใหม่', 'Register', FALSE);
             $this->load->view("hr/Employee/Register", $data);
             parent::setFooter();
         }
@@ -78,7 +81,11 @@ class Employees extends CI_Controller
     {    
         $data = array();
         $data["nowTitle"] = "เพิ่มพนักงานใหม่";
-        $data["FormUrl"] = site_url("hr/Employee/AddEmployee");
+        $data["menu_header"] = "Persanel";
+        $data["menu_sub_header"] = "Add Employee";
+        $data["menu_header_medium"] = "Register / เพิ่มพนักงานใหม่";
+        $data["menu_header_small"] = "Register / เพิ่มพนักงานใหม่";
+        $data["FormUrl"] = "";
         $data["queryNameTitleThai"] = $this->nametitle->getListForDropDownThai();
         $data["queryNameTitleEnglish"] = $this->nametitle->getListForDropDownEnglish();
         $data["queryProvince"] = $this->province->getListForDropDown();
@@ -104,7 +111,7 @@ class Employees extends CI_Controller
         $data['empHeadmanID'] = '';
         $data['empInstitutionID'] = '';
         $data['ddlInstitution'] = '';
-        $data["empID"] = "";
+        $data["empID"] = $this->employees->get_new_id();;
         $data["empNameTitleThai"] = "";
         $data["empFirstnameThai"] = "";
         $data["empLastnameThai"] = "";
@@ -130,7 +137,7 @@ class Employees extends CI_Controller
         $data["empMartialStatus"] = "";
         $data["empMilitaryStatus"] = "";
         $data["empMilitaryReason"] = "";
-        $data["empUsername"] = "";
+        $data["empUsername"] = $data["empID"];
         $data["empPassword"] = "";
         $data["empIDCard"] = "";
         $data["empIDCardImg"] = "";
@@ -178,14 +185,11 @@ class Employees extends CI_Controller
         $data["query_history_study"] = array();
         return $data;
     }
-
     private function AddEmployee()
     {
-
         if ($_POST) 
         {
-          $pdata = $this->input->post(null, true);
-
+          $pdata = $this->input->post(NULL,TRUE);
           $username = $pdata['txtUsername'];
           $newPassword = substr($pdata['txtIDCard'], -4); //Password คือ 4 ตัวท้ายบัตรประชาชน
           $empID = $pdata['txtEmpID'];
@@ -204,6 +208,7 @@ class Employees extends CI_Controller
 
             //Insert ลง T_Employees
             $this->employees->insertEmp($pdata);
+
 
             //insert emp headman level 1 - 3 [ddlHeadman_level_1,ddlHeadman_level_2,ddlHeadman_level_3]
             for ($i = 1; $i <= 3; $i++) {
@@ -280,23 +285,18 @@ class Employees extends CI_Controller
             $contFile = array("fuEmpPicture", "fuIDCard", "fuAddress", "fuDocRegisterJob", "fuBank");
             foreach ($contFile as $file) {
               if ($file !== null) {
-                log_message('error', 'start ' . $file);
                 $nowPath = $this->uploadImg($file, $this->config->item('upload_employee') . $newUserID);
-                log_message('error', 'end ' . $file);
                 if ($nowPath != "") {
                   $this->employees->updateImage($empID, $file, $nowPath);
                 }
               }
             }
-            parent::setHeader();
-            $this->load->view('success', array('url' => site_url('hr/Employee')));
-            parent::setFooter();
-
+            echo swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url('hr/Employees/Detail/'.$newUserID)."'");
           } else {
-            echo "<script>alert('รหัสพนักงานนี้ไม่สามารถใช้ได้');history.back();</script>";
+            echo swalc("รหัสพนักงานนี้ไม่สามารถใช้งานได้","","error","history.back();");
           }
         } else {
-          redirect(site_url("/hr/EmployeeRegister"));
+          redirect(site_url("/hr/Employees/Register"));
         }
     }
     public function EditEmployee()
@@ -337,9 +337,9 @@ class Employees extends CI_Controller
           $data['Emp_ProvinceID'] = $empData['ddlAddressProvince'];
           $data['Emp_ZipcodeID'] = $empData['ddlAddressZipcode'];
           //dbDateFormatFromThai is function from common_helper
-          $data['EmpStartWorkDate'] = dbDateFormatFromThai($empData['txtStartWorkDate']);
-          $data['EmpPromiseStartWorkDate'] = dbDateFormatFromThai($empData['txtPromiseStartWorkDate']);
-          $data['EmpSuccessTrialWorkDate'] = dbDateFormatFromThai($empData['txtSuccessTrialWorkDate']);
+          $data['EmpStartWorkDate'] = dbDateFormatFromThaiUn543($empData['txtStartWorkDate']);
+          $data['EmpPromiseStartWorkDate'] = dbDateFormatFromThaiUn543($empData['txtPromiseStartWorkDate']);
+          $data['EmpSuccessTrialWorkDate'] = dbDateFormatFromThaiUn543($empData['txtSuccessTrialWorkDate']);
           $data['EmpSalary'] = $empData['txtSalary'];
           $data['EmpCallname'] = $empData['txtCallName'];
           $data['EmpTelephone'] = $empData['txtTelePhone'];
@@ -352,7 +352,7 @@ class Employees extends CI_Controller
           $data['EmpNationality'] = $empData['txtNationality'];
           $data['EmpRace'] = $empData['txtRace'];
           $data['EmpReligion'] = $empData['txtReligion'];
-          $data['Emp_MARSID'] = !isset($empData['rdoMaritalStatus']) ? 0 : $empData['rdoMaritalStatus'];
+          $data['Emp_MARSID'] = !isset($empData['rdoMartialStatus']) ? 0 : $empData['rdoMartialStatus'];
           $data['EmpMilitaryStatus'] = !isset($empData['rdoMilitaryStatus']) ? 0 : $empData['rdoMilitaryStatus'];
           $data['EmpMilitaryReason'] = $empData['txtMilitaryReason'];
           $data['Emp_BankID'] = $empData['ddlBank'];
@@ -371,10 +371,13 @@ class Employees extends CI_Controller
           $data['EmpFriend_ZipcodeID'] = $empData['ddlAddressZipcodeFriend'];
           $data['EmpLatestUpdate'] = date('Y-m-d H:i:s');
           $this->employees->edit($data, $where);
+
           $userID = floatval($this->users->getUserIDByEmpID($empID));
 
+          //upload edit
           $contFile = array("fuEmpPicture", "fuIDCard", "fuAddress", "fuDocRegisterJob", "fuBank");
           foreach ($contFile as $file) {
+
             $nowPath = $this->uploadImg($file, $this->config->item('upload_employee') . $userID);
             if ($nowPath != "") {
               $this->employees->updateImage($empID, $file, $nowPath);
@@ -408,8 +411,8 @@ class Employees extends CI_Controller
           $ehw_date_to_day = $empData['history_work_date_to_day'];
           $ehw_date_to_month = $empData['history_work_date_to_month'];
           $ehw_date_to_year = $empData['history_work_date_to_year'];
-          log_message("error", "company count " . count($ehw_company));
-          $this->hisstudy->delete_from_user_id($userID);
+          
+          $this->hiswork->delete_from_user_id($userID);
           for ($i = 0; $i < count($ehw_company); $i++) {
             if ($ehw_company[$i] != "") {
               $this->hiswork->insert(
@@ -451,10 +454,7 @@ class Employees extends CI_Controller
               );
             }
           }
-
-          parent::setHeader();
-          $this->load->view('success', array('url' => site_url('hr/Employee')));
-          parent::setFooter();
+          swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url("hr/Employees/Detail/".$empID)."'");
         }
       }
     public function Detail($empID)
@@ -462,13 +462,16 @@ class Employees extends CI_Controller
         $user_id = 0;
         $data = $this->setDefaultDataPage();
         $data["nowTitle"] = "แก้ไขข้อมูลพนักงาน";
-        $data["FormUrl"] = site_url("hr/Employee/EditEmployee");
+        $data["FormUrl"] = site_url("hr/Employees/EditEmployee");
+        $data["menu_sub_header"] = "Edit Employee";
+        $data["menu_header_medium"] = "Edit / แก้ไขข้อมูลพนักงาน";
+        $data["menu_header_small"] = "Edit / แก้ไขข้อมูลพนักงาน";
         $query = $this->employees->getDetailByEmpID($empID);
         if ($query->num_rows() > 0) {
           $query = $query->result_array();
           $query = $query[0];
           $user_id = $query["UserID"];
-          $data["empID"] = $query['EmpID'];
+          $data["empID"] = $empID;
           $data['empInstitutionID'] = $query['Emp_InstitutionID'];
           $data['queryDepartment'] = $this->department->getListForDropDown($data['empInstitutionID']);
           $data["empDepartmentID"] = $query['Emp_DepartmentID'];
@@ -476,11 +479,31 @@ class Employees extends CI_Controller
           $data['empPositionID'] = $query['Emp_PositionID'];
 
           //get headman
+          //gen headman dropdown by department
+          
           $query_headman = $this->empheadman->get_list_by_user_id($user_id);
-          if ($query_headman->num_rows() > 0) {
-            foreach ($query_headman->result_array() as $qh) {
-              $data["empHeadmanID_level_" . $qh["eh_headman_level"]] = $qh["eh_headman_user_id"];
+          $headman_rows = $query_headman->num_rows();
+          if ($headman_rows > 0) {
+            $query_headman = $query_headman->result_array();
+            for ($i=0; $i < $headman_rows ; $i++) { 
+              $headman_level = $query_headman[$i]["eh_headman_level"];
+              $data["empHeadmanID_level_" . $query_headman[$i]["eh_headman_level"]] = $query_headman[$i]["eh_headman_user_id"];
+              if($headman_level == 1)
+              {
+                $data["queryHeadman_level_1"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"]);
+              }
+              else if($headman_level == 2)
+              {
+                $data["queryHeadman_level_2"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"],$data["empHeadmanID_level_1"]);
+              }
+              else{
+                $data["queryHeadman_level_3"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"],$data["empHeadmanID_level_1"],$data["empHeadmanID_level_2"]);
+              }
             }
+          }
+          else
+          {
+            $data["queryHeadman_level_1"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"]);
           }
 
           //dateThaiFormatFromDB is function from common_helper.
@@ -522,6 +545,7 @@ class Employees extends CI_Controller
           //bind dropdownlist district,amphur,province
           $data["empAddressProvince"] = $query['Emp_ProvinceID'];
           $data['queryAmphur'] = $this->amphur->getListForDropDown($data['empAddressProvince']);
+
           $data["empAddressAmphur"] = $query['Emp_AmphurID'];
           $data['queryDistrict'] = $this->district->getListForDropDown($data['empAddressProvince'], $data['empAddressAmphur']);
           $data["empAddressDistrict"] = $query['Emp_DistrictID'];
@@ -573,7 +597,7 @@ class Employees extends CI_Controller
           $query = $this->hisstudy->get_list_by_user_id($user_id);
           $data["query_history_study"] = $query->result_array();
         }
-        parent::setHeader('รายละเอียดพนักงาน');
+        parent::setHeader('รายละเอียดพนักงาน',"HR",FALSE);
         $this->load->view("hr/Employee/Register", $data);
         parent::setFooter();
     }
@@ -606,7 +630,7 @@ class Employees extends CI_Controller
             $filename = $imageData["file_name"];
 
             $config1 = array();
-            $config1['source_image'] = $filename; //from $config['upload_path'] .'/'. $filename
+            $config1['source_image'] = $config['upload_path']."/" .$filename; //from $config['upload_path'] .'/'. $filename
             $config1['maintain_ratio'] = true;
             $config1['width'] = 150;
             $config1['height'] = 150;
@@ -772,6 +796,24 @@ class Employees extends CI_Controller
       echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employee/user_roles/' . $user_id) . '"');
     }
   }
+  public function get_list_headman($department_id,$emp_id = "",$selected_level_1 = 0,$selected_level_2 = 0)
+    {
+      $text = array(0=>"--เลือก--");
+      $query = $this->employees->get_list_by_department($department_id);
+        if( $query->num_rows() > 0 )
+        {
+            foreach ($query->result_array() as $row) 
+            {
+                if( $emp_id != $row["EmpID"] && 
+                    $row['UserID'] != $selected_level_1 && 
+                    $row['UserID'] != $selected_level_2 )
+                {
+                  $text[$row["UserID"]] = $row["EmpFullnameThai"];
+                }
+            }
+        }
+        return $text;
+    }
 }
 /* End of file Employees.php */
 /* Location: ./application/controllers/hr/Employees.php */

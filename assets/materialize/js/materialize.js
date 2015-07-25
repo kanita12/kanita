@@ -2796,14 +2796,16 @@ $(document).ready(function(){
       // Wrap Elements
       $select.wrap(wrapper);
       // Add Select Display Element
+      
       var dropdownIcon = $('<span class="caret">&#9660;</span>');
+
       if ( $select.is(':disabled') )
         dropdownIcon.addClass('disabled');
 
       var $newSelect = $('<input type="text" class="select-dropdown" readonly="true" ' + (($select.is(':disabled')) ? 'disabled' : '') + ' data-activates="select-options-' + uniqueID +'" value="'+ label.html() +'"/>');
       $select.before($newSelect);
-      $newSelect.before(dropdownIcon);
-
+	  $newSelect.before(dropdownIcon);
+      
       $('body').append(options);
       // Check if section element is disabled
       if (!$select.is(':disabled')) {

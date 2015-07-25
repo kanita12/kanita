@@ -10,18 +10,49 @@ class Verifyleave extends CI_Controller
 	{
 		parent::__construct();
 		$CI =& get_instance();
+		//load model
+		$CI->load->model("Common_model","common");
+		$CI->load->model("Department_model","department");
 		$CI->load->model("Leave_model","leave");
 		$CI->load->model("Leavelog_model","leavelog");
-		$this->empID = $this->session->userdata("empid");
-		$this->userID = $this->session->userdata("userid");
+		$CI->load->model("Leavetype_model","leavetype");
+		$CI->load->model("Position_model","position");
 	}
 	public function index()
 	{
 		$this->search();
 
 	}
+	public function search($keyword = "0",$leavetype="0",$department = "0",$position = "0",$year = "0",$month = "0")
+	{
+		$keyword = urldecode($keyword);//use for decode thai language
 
-	public function search()
+		$config = array();
+		$config["total_rows"] = $this->leave->hr_count_all($keyword,$leavetype,$department,$position,$year,$month);
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+		$query = $this->leave->hr_get_list($this->pagination->per_page,$page,$keyword,$leavetype,$department,$position,$year,$month);
+
+		$data = array();
+		$data["query"] = $query;
+		$data["ddlLeaveType"]  = $this->leavetype->getListForDropDown("ประเภทการลา");
+		$data["ddlDepartment"] = $this->department->getListForDropDown();
+		$data["ddlPosition"] = $this->position->getListForDropDown();
+		$data["ddlYear"] = $this->common->getYearForDropDown("thai");
+		$data["ddlMonth"] = $this->common->getMonth1To12("thai");
+		$data["value_keyword"] = $keyword == "0" ? "" : $keyword;
+		$data["value_leavetype"] = $leavetype;
+		$data["value_department"] = $department;
+		$data["value_position"] = $position;
+		$data["value_year"] = $year;
+		$data["value_month"] = $month;
+
+
+		parent::setHeader("ตรวจสอบใบลา");
+		$this->load->view("hr/Leave/verifylist",$data);
+		parent::setFooter();
+	}
+	public function search_old()
 	{	
 		$empID = "";
 		$userID = 0;//ส่ง userid = 0 คือคนที่ไม่มีหัวหน้าให้ส่งเรื่องโดยตรงถึง HR ได้เลย
@@ -43,7 +74,7 @@ class Verifyleave extends CI_Controller
 		$searchType = "";
 		
 		$config = array();
-		$config["total_rows"] = $this->leave->countAllVerify($userID,$searchType,$searchKeyword);
+		$config["total_rows"] = $this->leave->hr_count_all($userID,$searchType,$searchKeyword);
 		 $this->pagination->initialize($config);
 		 $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
 		 $data = array();

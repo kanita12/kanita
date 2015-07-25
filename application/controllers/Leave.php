@@ -569,11 +569,12 @@ class Leave extends CI_Controller
 		if($is_headman === TRUE) { $headman_level = get_headman_level($this->user_id); }
 
 		//Get data to variable $query
-		if($is_my_leave     === TRUE) { $query = $this->leave->getDetail($this->user_id,$leave_id); }
+		if($is_my_leave === TRUE) { $query = $this->leave->getDetail($this->user_id,$leave_id); }
 		else if($is_headman === TRUE || $is_hr === TRUE) { $query = $this->leave->get_detail_for_verify($leave_id); }
 
 		//gen data to view
 		$query = $query->row_array();
+	
 		if(count($query) > 0)
 		{
 			//get leave documents.

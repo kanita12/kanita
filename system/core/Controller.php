@@ -183,7 +183,7 @@ class CI_Controller {
 			redirect($url."?redirect=".$nowPage);
 		}
 	}
-	public function setHeader($title="หน้าแรก",$title_eng='Home')
+	public function setHeader($title="หน้าแรก",$title_eng='Home',$show_header_title = TRUE)
 	{
 		self::$instance =& $this;
 
@@ -194,6 +194,7 @@ class CI_Controller {
 		$data['title'] 		= $title;
 		$data['title_eng'] 	= $title_eng;
 		$data['emp_detail'] = getEmployeeDetail($empID);
+		$data["show_header_title"] = $show_header_title;
 
 		$this->load->view("header",$data);
 	}

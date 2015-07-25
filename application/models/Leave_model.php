@@ -2,11 +2,14 @@
 class Leave_model extends CI_Model
 {
 	private $table = 't_leave';
+	private $table_document = "leave_document";
 	private $table_leavetype = 't_leavetype';
 	private $table_workflow = 't_workflow';
 	private $table_employee = 't_employees';
 	private $table_user = 't_users';
 	private $table_headman = 't_emp_headman';
+	private $table_department = 't_department';
+	private $table_position = 't_position';
 
 	public function countAll($userID="",$searchLeaveType="0",$searchWorkFlow="0")
 	{
@@ -151,7 +154,93 @@ class Leave_model extends CI_Model
 	 * เลือกดูเฉพาะรายบุคคลได้
 	 * ใบลาไหนที่มีผู้ส่งที่ไม่มีหัวหน้า จะแสดงที่ HR
 	 ************************************************/
+	public function hr_count_all($keyword = "0",$leavetype = "0",$department = "0",$position = "0",$year = "0",$month = "0")
+	{
+		$this->db->select("LID");
+		$this->db->from($this->table);
+		$this->db->join($this->table_user,"L_UserID = UserID","left");
+		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
+		$this->db->where("L_WFID",10);//Manual Workflow id
+		if($keyword !== "0")
+		{
+			$this->db->group_start();
+			$this->db->like("EmpFirstnameThai",$keyword);
+			$this->db->or_like("EmpLastnameThai",$keyword);
+			$this->db->or_like("EmpFirstnameEnglish",$keyword);
+			$this->db->or_like("EmpLastnameEnglish",$keyword);
+			$this->db->or_like("EmpID",$keyword);
+			$this->db->group_end();
+		}
+		if($leavetype !== "0")
+		{
+			$this->db->where("L_LTID",$leavetype);
+		}
+		if($department !== "0")
+		{
+			$this->db->where("Emp_DepartmentID",$department);
+		}
+		if($position !== "0")
+		{
+			$this->db->where("Emp_PositionID",$position);
+		}
+		if($year !== "0")
+		{
+			$this->db->where("YEAR(LStartDate)",$year);
+		}
+		if($month !== "0")
+		{
+			$this->db->where("MONTH(LStartDate)",$month);
+		}
 
+		return $this->db->count_all_results();
+	}
+	public function hr_get_list($limit = 30,$start = 1,$keyword = "0",$leavetype = "0",$department = "0",$position = "0",$year = "0",$month = "0")
+	{
+		$this->db->select("LID,L_LTID,L_UserID,LBecause,LStartDate,LStartTime,".
+			"LEndDate,LEndTime,L_WFID,L_StatusID,LCreatedDate,LLatestUpdate,".
+			"LTName,PName,DName");
+		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
+		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->from($this->table);
+		$this->db->join($this->table_leavetype,"L_LTID = LTID","left");
+		$this->db->join($this->table_user,"L_UserID = UserID","left");
+		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
+		$this->db->join($this->table_department,"Emp_DepartmentID = DID","left");
+		$this->db->join($this->table_position,"Emp_PositionID = PID","left");
+		$this->db->where("L_WFID",10);//Manual Workflow id
+		if($keyword !== "0")
+		{
+			$this->db->group_start();
+			$this->db->like("EmpFirstnameThai",$keyword);
+			$this->db->or_like("EmpLastnameThai",$keyword);
+			$this->db->or_like("EmpFirstnameEnglish",$keyword);
+			$this->db->or_like("EmpLastnameEnglish",$keyword);
+			$this->db->or_like("EmpID",$keyword);
+			$this->db->group_end();
+		}
+		if($leavetype !== "0")
+		{
+			$this->db->where("L_LTID",$leavetype);
+		}
+		if($department !== "0")
+		{
+			$this->db->where("Emp_DepartmentID",$department);
+		}
+		if($position !== "0")
+		{
+			$this->db->where("Emp_PositionID",$position);
+		}
+		if($year !== "0")
+		{
+			$this->db->where("YEAR(LStartDate)",$year);
+		}
+		if($month !== "0")
+		{
+			$this->db->where("MONTH(LStartDate)",$month);
+		}
+		$query = $this->db->get();
+		return $query;
+	}
 
 	/************************************************
 	 * ส่วนของหัวหน้า
@@ -225,14 +314,15 @@ class Leave_model extends CI_Model
 			",L_WFID,WFName,L_StatusID,LCreatedDate,LLatestUpdate "
 		);
 		$this->db->select(",LTName,WFName");
-		$this->db->from($this->table_headman);
+		$this->db->from($this->table);
+		
+		$this->db->join($this->table_headman,"L_UserID = eh_user_id","left");
+		$this->db->join($this->table_leavetype,"L_LTID = LTID","left");
+		$this->db->join($this->table_workflow,"L_WFID = WFID","left");
 		if( $headman_user_id > 0 )
 		{
 			$this->db->where("eh_headman_user_id",$headman_user_id);
 		}
-		$this->db->join($this->table,"L_UserID = eh_user_id","left");
-		$this->db->join($this->table_leavetype,"L_LTID = LTID","left");
-		$this->db->join($this->table_workflow,"L_WFID = WFID","left");
 		$this->db->where("L_StatusID <>","-999");
 		$this->db->where("LID",$leave_id);
 		return $this->db->get();

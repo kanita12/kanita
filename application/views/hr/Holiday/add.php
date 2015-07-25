@@ -1,13 +1,31 @@
 <input type="hidden" id="hd_validation" name="hd_validation" value="<?php echo validation_errors(); ?>">
 <?php echo form_open();?>
 <input type="hidden" id="hd_hid" name="hd_hid" value="<?php echo $value_hid ?>">
-ชื่อ : <input type="text" id="input_name" name="input_name" value="<?php echo set_value("input_name",$value_name) ?>">
-<br>
-คำอธิบาย : <textarea id="input_desc" name="input_desc"><?php echo $value_desc ?></textarea>
-<br>
-วันที่ : <input type="text" id="input_date" name="input_date" value="<?php echo set_value("input_date",$value_date) ?>">
-<br>
-<input type="submit" value="บันทึก" onclick="return check_before_submit();">
+<div class="row">
+	<div class="col s12 input-field">
+		<input type="text" id="input_name" name="input_name" value="<?php echo set_value("input_name",$value_name) ?>">
+		<label for="input_name">ชื่อวันหยุด</label>
+	</div>
+	<div class="col s12 input-field">
+		<textarea id="input_desc" name="input_desc" class="materialize-textarea"><?php echo $value_desc ?></textarea>
+		<label for="input_desc">คำอธิบาย</label>
+	</div>
+	<div class="col s12 input-field">
+		<input type="text" id="input_date" name="input_date" value="<?php echo set_value("input_date",$value_date) ?>">
+		<label for="input_date">วันที่</label>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+	<div class="row">
+		<div class="col s2">
+			<input type="submit" onclick="return check_before_submit();" class="btn" value="บันทึก">
+		</div>
+		<div class="col s2 offset-s6 m2 offset-m8 right-align"> 
+			<a href="<?php echo site_url('hr/Holiday') ?>" class="btn red lighten-1 right-align">ยกเลิก</a>
+		</div>
+	</div>
+</div>
 <?php echo form_close(); ?>
 
 <script type="text/javascript" src="<?php echo js_url() ?>datetimepicker/jquery.datetimepicker.js"></script>

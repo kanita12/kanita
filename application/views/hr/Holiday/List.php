@@ -1,42 +1,67 @@
-<h1>วันหยุดประจำปี <?php echo $nowYear;?></h1>
-<br>
-<a href="<?php echo site_url("hr/Holiday/add") ?>" id="btnAdd" class="addButton">เพิ่มวันหยุด</a>
-<br>
-<br>
-<?php echo form_open(site_url("Holiday/getList"));?>
-<div>
-ปี <?php echo form_dropdown("ddlYear",$ddlYear,$nowYear,"id='ddlYear'");?>
+<div class="row right-align">
+<a href="<?php echo site_url("hr/Holiday/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
 </div>
-<?php echo form_close(); ?>
-<br>
-<div class="CSSTableGenerator">
-	<table>
+<div class="row">
+	<div class="input-field col s12">
+		<div class="col s2 m1 l1 left-align">
+			<a href="#!"><i class="medium material-icons">search</i></a>
+		</div>
+		<div class="input-field col s5 m4 l3">
+			<?php echo form_dropdown("ddlYear",$ddlYear,$nowYear,"id='ddlYear'");?>
+			<label for="ddlYear">ปี</label>
+		</div>
+		<div class="input-field col s3 m3 l3">
+			<?php echo form_dropdown("ddlMonth",$ddlMonth,$nowMonth,"id='ddlMonth'");?>
+			<label for="ddlMonth">เดือน</label>
+		</div>
+		<div class="input-field col s12 m2 l2">
+			<a href="javascript:void(0);" onclick="go_search();" class="btn" >ค้นหา</a>
+		</div>
+	</div>
+</div>
+
+<table class="responsive-table bordered highlight">
+	<thead>
 		<tr>
-			<td>เดือน</td>
-			<td>วันที่</td>
-			<td>ชื่อวันหยุด</td>
-			<td>คำอธิบาย</td>
-			<td>#</td>
+			<th>เดือน</th>
+			<th>วันที่</th>
+			<th>ชื่อวันหยุด</th>
+			<th>คำอธิบาย</th>
+			<th></th>
 		</tr>
+	</thead>
+	<tbody>
 		<?php foreach($query->result_array() as $row){ ?>
 			<tr>
-				<td><?php echo getMonthName($row["HMonth"]);?></td>
+				<td><?php echo get_month_name_thai($row["HMonth"]);?></td>
 				<td><?php echo $row["HDay"];?></td>
 				<td><?php echo $row["HName"];?></td>
 				<td><?php echo $row["HDesc"];?></td>
 				<td>
-					<a href="<?php echo site_url("hr/Holiday/edit/".$row["HID"]);?>">แก้ไข</a>
-					<a href="<?php echo site_url("hr/Holiday/delete/");?>" data-id="<?php echo $row["HID"]; ?>" onclick="return delete_this(this);">ลบ</a>
+					<a href="<?php echo site_url('hr/Holiday/edit/'.$row["HID"]) ?>" 
+						class="btn-floating btn-small waves-effect waves-light blue">
+						<i class="material-icons">edit</i>
+					</a>
+					<a href="<?php echo site_url('hr/Holiday/delete/') ?>"
+						data-id="<?php echo $row["HID"] ?>" 
+						class="btn-floating btn-small waves-effect waves-light red"
+						onclick="return delete_this(this);">
+						<i class="material-icons">delete</i>
+					</a>
 				</td>
 			</tr>
 		<?php } ?>
-	</table>
-</div>
+	</tbody>
+</table>
+
 <script type="text/javascript">
-	$(document).ready(function(){
-		$("[id$='ddlYear']").change(function()
-		{
-			window.location.href = "/hrsystem/hr/Holiday/search/"+$(this).val();
-		});
-	});
+	function go_search()
+	{
+		var year = $("#ddlYear").val();
+		var month = $("#ddlMonth").val();
+		var site_url = "<?php echo site_url() ?>";
+		var redirect_url = site_url+"hr/Holiday/search/"+year+"/"+month;
+		window.location.href = redirect_url;
+		e.preventDefault();
+	}
 </script>

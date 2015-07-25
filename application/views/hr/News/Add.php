@@ -36,14 +36,13 @@
 
 <?php echo form_close(); ?>
 <script src="<?php echo js_url(); ?>miniUpload/js/jquery.knob.js"></script>
-
-        <!-- jQuery File Upload Dependencies -->
-        <script src="<?php echo js_url(); ?>miniUpload/js/jquery.ui.widget.js"></script>
-        <script src="<?php echo js_url(); ?>miniUpload/js/jquery.iframe-transport.js"></script>
-        <script src="<?php echo js_url(); ?>miniUpload/js/jquery.fileupload.js"></script>
-        <script src="<?php echo js_url(); ?>miniUpload/js/script.js"></script>
-        <link rel="stylesheet" type="text/css" href="<?php echo js_url(); ?>miniUpload/css/style.css">
-        <script type="text/javascript" src="<?php echo bootstrap_url()."js/bootstrap-datepicker.js";?>"></script>
+<!-- jQuery File Upload Dependencies -->
+<script src="<?php echo js_url(); ?>miniUpload/js/jquery.ui.widget.js"></script>
+<script src="<?php echo js_url(); ?>miniUpload/js/jquery.iframe-transport.js"></script>
+<script src="<?php echo js_url(); ?>miniUpload/js/jquery.fileupload.js"></script>
+<script src="<?php echo js_url(); ?>miniUpload/js/script.js"></script>
+<link rel="stylesheet" type="text/css" href="<?php echo js_url(); ?>miniUpload/css/style.css">
+<script type="text/javascript" src="<?php echo bootstrap_url()."js/bootstrap-datepicker.js";?>"></script>
 
 <script type="text/javascript">
 $(document).ready(function(){
@@ -63,13 +62,4 @@ function checkBeforeSubmit(){
 	}
 	return false;
 }
-function getNewsPic(){
-
-}
 </script>
-
-
-    
-
-
-

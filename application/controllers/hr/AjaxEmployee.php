@@ -68,21 +68,23 @@ class AjaxEmployee extends CI_Controller
             $nowG = '';
             foreach ($query->result_array() as $row) 
             {
-                if( $emp_id != $row["EmpID"] && $row['UserID'] != $selected_level_1 && $row['UserID'] != $selected_level_2 )
+                if( $emp_id != $row["EmpID"] && 
+                    $row['UserID'] != $selected_level_1 && 
+                    $row['UserID'] != $selected_level_2 )
                 {
                     $nowP = $row['PName'];
-                    if($nowG != $nowP)
-                    {
-                         $text = $text."<optgroup label='".$nowP."'>";
-                         $nowG = $nowP;
-                    }
+                    // if($nowG != $nowP)
+                    // {
+                    //      $text = $text."<optgroup label='".$nowP."'>";
+                    //      $nowG = $nowP;
+                    // }
                    
                     $text = $text."<option value='".intval($row['UserID'])."'>";
                     $text = $text.$row['EmpFullnameThai'];
                     $text = $text.'</option>';
                     if($nowG != $nowP)
                     {
-                        $text = $text."</optgroup>";
+                        //$text = $text."</optgroup>";
                     }
                 }
             }

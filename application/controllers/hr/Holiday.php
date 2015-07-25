@@ -7,22 +7,23 @@ class Holiday extends CI_Controller
 		$CI =& get_instance();
 		//load model
 		$CI->load->model("Holiday_Model","holiday");
-		$CI->load->library("form_validation");
 	}
 	public function index()
 	{
 		$this->search();
 	}
-	public function search($year = 0)
+	public function search($year = 0,$month = 0)
 	{
 		$year = $year === 0 ? date("Y") : $year;
 
 		$data= array();
-		$data["query"]		=	$this->holiday->getList($year);
-		$data["ddlYear"]	=	$this->holiday->getListForDropDown();
+		$data["query"]		=	$this->holiday->getList($year,$month);
+		$data["ddlYear"]	=	$this->common->getYearForDropDown("english",$year-5,$year+1);
 		$data["nowYear"]	=	$year;
+		$data["ddlMonth"] = $this->common->getMonth1To12("thai");
+		$data["nowMonth"] = $month;
 
-		parent::setHeader("วันหยุด","HR");
+		parent::setHeader("วันหยุดประจำปี ".$year,"HR");
 		$this->load->view("hr/Holiday/List",$data);
 		parent::setFooter();
 	}
@@ -43,7 +44,7 @@ class Holiday extends CI_Controller
 				);
 		$this->form_validation->set_rules($rules);
 		$this->form_validation->set_message("max_length","- ข้อความไม่เกิน 200 ตัวอักษร");
-		$this->form_validation->set_message("required","- กรอกหัวข้อข่าว");
+		$this->form_validation->set_message("required","กรุณากรอก {field}");
 		if ($this->form_validation->run() === TRUE)
 		{
 			$this->_save();

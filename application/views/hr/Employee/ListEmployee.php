@@ -43,7 +43,7 @@
 			<td><?php echo $row['DName']; ?></td>
 			<td><?php echo $row['PName']; ?></td>
 			<td>
-				<a href="<?php echo site_url("hr/Employee/Detail/".$row['EmpID']); ?>" target="_self">
+				<a href="<?php echo site_url("hr/Employees/Detail/".$row['EmpID']); ?>" target="_self">
 					แก้ไข
 				</a>
         <br>
@@ -51,11 +51,11 @@
             ตรวจสอบเวลาเข้า-ออก
           </a> 
         <br>
-        <a href="<?php echo site_url('hr/Employee/increase_salary/'.$row['EmpID']); ?>" >
+        <a href="<?php echo site_url('hr/Employees/increase_salary/'.$row['EmpID']); ?>" >
           ปรับเงินเดือน
         </a>
         <br>
-        <a href="<?php echo site_url('hr/Employee/user_roles/'.$row['UserID']); ?>" >
+        <a href="<?php echo site_url('hr/Employees/user_roles/'.$row['UserID']); ?>" >
           สิทธิ์การเข้าใช้งาน
         </a>
 			</td>

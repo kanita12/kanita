@@ -6,11 +6,18 @@ class Holiday_model extends CI_Model
     {
 		parent::__construct();
 	}
-	public function getList($year)
+	public function getList($year = 0,$month = 0)
     {
 		$this->db->select("HID,HDate,year(HDate) HYear,month(HDate) HMonth,day(HDate) HDay,HName,HDesc");
 		$this->db->from($this->table);
-		$this->db->where("year(HDate)",$year);
+        if($year > 0)
+        {
+            $this->db->where("year(HDate)",$year);
+        }
+		if($month > 0)
+        {
+            $this->db->where("MONTH(HDate)",$month);
+        }
 		$this->db->order_by("HDate","ASC");
 		$query = $this->db->get();
 		return $query;
@@ -23,8 +30,9 @@ class Holiday_model extends CI_Model
         $this->db->order_by("year(HDate) DESC");
         $query = $this->db->get();
         $dropDownList = array();
+        $dropDownList[0] = "--เลือก--";
         if ($query->num_rows() > 0) {
-            $dropDownList[0] = "--เลือก--";
+            
             foreach ($query->result() as $dropdown) {
                 $dropDownList[$dropdown->HYear] = $dropdown->HYear;
             }
