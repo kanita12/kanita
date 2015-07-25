@@ -1,7 +1,7 @@
 <?php
 class salary_log_model extends CI_Model
 {
-	private $table = 't_salary_log';
+	private $table = 'salary_log';
 
 	public function __construct()
 	{

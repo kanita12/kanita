@@ -671,10 +671,10 @@ class Employees extends CI_Controller
             $query = $query->row_array();
             //set data to view
             $data = array();
-            $data['form_url'] = site_url('hr/Employee/save_salary');
+            $data['form_url'] = site_url('hr/Employees/saveSalary');
             $data['query'] = $query;
 
-            parent::setHeader('ปรับเงินเดือนพนักงาน');
+            parent::setHeader('ปรับเงินเดือนพนักงาน',"HR");
             $this->load->view('hr/Employee/increase_salary', $data);
             parent::setFooter();
           } else {
@@ -716,7 +716,7 @@ class Employees extends CI_Controller
           $this->load->model('salary_log_model', 'salarylog');
           $this->salarylog->insert($log);
 
-          echo swalc('สำเร็จ', 'บันทึกการปรับเงินเดือนเรียบร้อยแล้ว', 'success', 'window.location.href = "' . site_url('hr/Employee') . '"');
+          echo swalc('สำเร็จ', 'บันทึกการปรับเงินเดือนเรียบร้อยแล้ว', 'success', 'window.location.href = "' . site_url('hr/Employees/increaseSalary/'.$emp_id) . '"');
         }
     }
   /**

@@ -29,7 +29,6 @@
                     <!-- <li><a href="#">จัดการแผนผังองค์กร</a></li> -->
                     <li><a href="<?php echo site_url('hr/Holiday')?>">จัดการวันหยุดประจำปี</a></li>
                     <!-- <li><a href="#">เขียนใบลาแทน</a></li> -->
-                    <li><a href="<?php echo site_url('hr/salary')?>">ปรับเงินเดือนพนักงาน</a></li>
                 </ul>
             </li>
         <?php endif?>
