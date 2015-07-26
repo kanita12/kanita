@@ -26,12 +26,14 @@ class Config extends CI_Controller
   }
   public function leave()
   {
-
     $this->load->model("LeaveCondition_Model","leavecon");
+    $this->load->model("Leavetype_model","leavetype");
+
     $data = array();
     $data["queryLeaveCondition"] = $this->leavecon->getList();
+    $data["query_leave_type"] = $this->leavetype->getListForDropDown();
 
-    parent::setHeaderAdmin();
+    parent::setHeaderAdmin("ตั้งค่าเงื่อนไขการลา");
     $this->load->view("admin/config/Leave",$data);
     parent::setFooterAdmin();
   }
@@ -45,7 +47,6 @@ class Config extends CI_Controller
 
       $text = "";
       $this->load->model("Leavetype_model","leavetype");
-      echo 'aaa';
       $query = $this->leavetype->getList();
       foreach ($query->result_array() as $row) {
         if($leaveType != "" && $leaveType == $row["LTName"])

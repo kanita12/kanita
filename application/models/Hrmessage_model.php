@@ -23,8 +23,12 @@ class Hrmessage_model extends CI_Model
 
 		$this->db->limit($limit, $start);
 		$query = " SELECT * FROM ( ";
-		$query .= " SELECT MID,M_UserID,MSubject,MContent,MCreatedDate,MLatestUpdate,M_StatusID ";
+		$query .= " SELECT MID,M_UserID,MSubject,MContent,MCreatedDate,MLatestUpdate,M_StatusID,EmpID SendEmpID ".
+					", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) SendEmpFullnameThai".
+					", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS SendEmpFullnameEnglish ";
 		$query .= " FROM ".$this->table." a ";
+		$query .= 	" LEFT JOIN t_users users ON users.UserID = a.M_UserID ".
+					" LEFT JOIN t_employees employees ON users.User_EmpID = employees.EmpID";
 		$query .= " WHERE 1=1 ";
 		if($userID != ""){
 			$query .= " AND M_UserID = ".$this->db->escape($userID);
@@ -32,8 +36,11 @@ class Hrmessage_model extends CI_Model
 		$query .= " AND MReplyToID IS NULL ";
 		$query .= " ) data1 ";
 		$query .= " LEFT JOIN ( ";
-		$query .= " SELECT  M_UserID LatestReplyBy,a.MReplyToID ReplyID,MCreatedDate LatestReplyDate ";
+		$query .= " SELECT  M_UserID LatestReplyBy,a.MReplyToID ReplyID,MCreatedDate LatestReplyDate,EmpID ReplyEmpID  , CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) ReplyEmpFullnameThai".
+			", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS ReplyEmpFullnameEnglish ";
 		$query .= " FROM    ".$this->table." a ";
+		$query .= 	" LEFT JOIN t_users users ON users.UserID = a.M_UserID ".
+					" LEFT JOIN t_employees employees ON users.User_EmpID = employees.EmpID";
 		$query .= " INNER JOIN ";
 		$query .= " ( ";
 		$query .= " SELECT  MReplyToID, MAX(MCreatedDate) max_MCreatedDate ";
@@ -44,7 +51,6 @@ class Hrmessage_model extends CI_Model
 		$query .= " ) data2 ON data1.MID = data2.ReplyID ";
 
 		$sql = $this->db->query($query);
-
 		return $sql;
 	}
 	public function getListReply($messageID){

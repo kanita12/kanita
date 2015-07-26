@@ -18,6 +18,7 @@
           {
             menuWidth: 200
           });
+        $('select').material_select();
       });
     </script>
 </head>

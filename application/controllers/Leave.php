@@ -506,8 +506,20 @@ class Leave extends CI_Controller
 			{
 				$query = $query->result_array();
 				$query = $query[0];
-				$returner .= "<p>คุณมีสิทธิ์ในการลาได้ทั้งหมด ".$query["LQQuota"]." วัน";
-				$returner .= "<br/>คุณใช้สิทธิ์ในการลาไปแล้ว ".$query["LQUsedDay"]." วัน ".$query["LQUsedHour"]." ชั่วโมง</p>";
+				$quota = intval($query["LQQuota"]);
+				$used_day = intval($query["LQUsedDay"]);
+				$used_hour = intval($query["LQUsedHour"]);
+				$returner .= "<p>คุณมีสิทธิ์ในการลาได้ทั้งหมด ".$quota." วัน";
+				$returner .= "<br/>คุณใช้สิทธิ์ในการลาไปแล้ว ".$used_day." วัน ".$used_hour." ชั่วโมง</p>";
+				$returner .= "<!--CAN_LEAVE-->";
+				if($used_day >= $quota)
+				{
+					$returner .= "FALSE";
+				}
+				else{
+					$returner .= "TRUE";
+				}
+				$returner .= "<!--CAN_LEAVE-->";
 			}
 			if($type='add')
 			{

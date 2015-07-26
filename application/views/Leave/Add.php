@@ -9,19 +9,8 @@
 	<input type="hidden" id="hdWorkDateEnd" name="hdWorkDateEnd" value="<?php echo $workDateEnd ?>"/>
 
 <div class="row">
-	<div class="input-field col s12 m6 l5">
-		<?php echo form_dropdown("ddlLeaveType",$ddlLeaveType,$vddlLeaveType,"id='ddlLeaveType'"); ?>
-		<label>ประเภทการลา</label>
-	</div>
-	<div class="col s12 m6 l7">
-		<div id="divLeaveDetail">
-			<?php echo $vdetailLeave; ?>
-    </div>
-	</div>
-</div>
-<div class="row">
 	<div class="col s12">
-			<h4 class="header">รายละเอียดการลา</h4>
+			<h4 class="header">รายละเอียดผู้ลา</h4>
 			<div class="col s6">
 				<table>
 					<tr>
@@ -63,7 +52,17 @@
 </div>
 <div class="row">
 	<div class="col s12">
-		<div class="input-field">
+		<h4 class="header">รายละเอียดการลา</h4>
+		<div class="input-field col s12">
+			<?php echo form_dropdown("ddlLeaveType",$ddlLeaveType,$vddlLeaveType,"id='ddlLeaveType'"); ?>
+			<label>ประเภทการลา</label>
+		</div>
+		<div class="col s12">
+			<div id="divLeaveDetail">
+				<?php echo $vdetailLeave; ?>
+	    	</div>
+		</div>
+		<div class="input-field col s12">
 		 	<textarea name="txtBecause" id="txtBecause" class="materialize-textarea"><?php echo $vleaveBecause ?></textarea>
 	    <label for="txtBecause">เนื่องจาก</label>
 	  </div>
@@ -147,7 +146,7 @@
 <script type="text/javascript">
 	$(document).ready(function()
 	{
-		var page_type = $("#hdPagetype")val();
+		var page_type = $("#hdPagetype").val();
 		if(page_type === "editdoc")
 		{
 			disable_all_controls(false);
@@ -160,24 +159,23 @@
 
 		var workDateStart = $("#hdWorkDateStart").val();
 		var workDateEnd = $("#hdWorkDateEnd").val();
-		$('#txtStartDate').datetimepicker({
+		$('#txtStartDate,#txtEndDate').datetimepicker({
 			onGenerate:function( ct ){
-					for (var i = 0; i < 7; i++) {
-						if(i < workDateStart || i > workDateEnd)
-						{
-							jQuery(this).find('.xdsoft_date.xdsoft_day_of_week'+i).addClass('xdsoft_disabled');
-						}
-
+				for (var i = 0; i < 7; i++) {
+					if(i < workDateStart || i > workDateEnd)
+					{
+						jQuery(this).find('.xdsoft_date.xdsoft_day_of_week'+i).addClass('xdsoft_disabled');
 					}
-						//xdsoft_day_of_week0 = Sunday
-						//xdsoft_day_of_week1 = monday
-						//xdsoft_day_of_week2 = tuesday
-						//xdsoft_day_of_week6 = Saturday
-			  },
+
+				}
+				//xdsoft_day_of_week0 = Sunday
+				//xdsoft_day_of_week1 = monday
+				//xdsoft_day_of_week2 = tuesday
+				//xdsoft_day_of_week6 = Saturday
+			},
 			timepicker:false,
 			format:'d/m/Y',
 			lang:'th',
-			
 			closeOnDateSelect:true
 		 });
 		$('#txtStartTime').datetimepicker({
@@ -188,27 +186,7 @@
 			maxTime: workTimeEnd_plus30,
 			defaultTime: workTimeStart
 		});
-		$('#txtEndDate').datetimepicker({
-			onGenerate:function( ct ){
-					for (var i = 0; i < 7; i++) {
-						if(i < workDateStart || i > workDateEnd)
-						{
-							jQuery(this).find('.xdsoft_date.xdsoft_day_of_week'+i).addClass('xdsoft_disabled');
-						}
 
-					}
-
-						//xdsoft_day_of_week0 = Sunday
-						//xdsoft_day_of_week1 = monday
-						//xdsoft_day_of_week2 = tuesday
-						//xdsoft_day_of_week6 = Saturday
-				},
-			timepicker:false,
-			format:'d/m/Y',
-			lang:'th',
-			
-			closeOnDateSelect:true
-		});
 		$('#txtEndTime').datetimepicker({
 			datepicker:false,
 			step:30,
@@ -223,9 +201,22 @@
 		});
 	});
 	function disable_all_controls(all)
-	{
-
+	{		
+		if(all === true)
+		{
+			$("#txtBecause,#txtStartDate,#txtStartTime,#txtEndDate,#txtEndTime,#fuDocument,:input[type='submit']").attr("disabled","disabled");
+		}
+		else
+		{
 			$(":input").not("[id^='fuDocument_']").not("[type='submit']").not("[type='reset']").not("[type='hidden']").attr("disabled","disabled");
+		}
+	}
+	function enable_all_controls(all)
+	{
+		if(all === true)
+		{
+			$("#txtBecause,#txtStartDate,#txtStartTime,#txtEndDate,#txtEndTime,#fuDocument,:input[type='submit']").removeAttr("disabled");
+		}
 	}
 	function getHour(time)
 	{
@@ -301,15 +292,25 @@
 	{
 		var leaveTypeID = $("#ddlLeaveType").val();
 		$.ajax({
-	    type:"POST",
-	    url:"ajaxGetDetailLeave",
-	    data: {id:leaveTypeID},
-	    cache:false,
-	    async:false,
-	    timeout: 30000,
-	    success:function(data) {
-				$("#divLeaveDetail").html(data);
-	    }
+		    type:"POST",
+		    url:"ajaxGetDetailLeave",
+		    data: {id:leaveTypeID},
+		    cache:false,
+		    async:false,
+		    timeout: 30000,
+		    success:function(data) {
+		    	var splitter = data.split("<!--CAN_LEAVE-->");
+		    	var can_leave = splitter[1];
+				$("#divLeaveDetail").html(splitter[0]);
+				if(can_leave === "FALSE")
+				{
+					disable_all_controls(true);
+				}
+				else
+				{
+					enable_all_controls(true);
+				}
+		    }
 		});
 	}
 	function add_file_control()
