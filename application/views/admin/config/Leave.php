@@ -68,6 +68,7 @@
     $("#txtWorkAge").val(0);
     $("#txtCanLeave").val(0);
     $("#hd_cond_leave_id").val(0);
+    return false;
   }
   function toggle_add_section()
   {
@@ -125,7 +126,7 @@
             }
         });
       }
-      else
+      else //add
       {
         $.ajax({
             type: "POST",
@@ -139,13 +140,14 @@
               }
               else
               {
-                $("#listTable").append(data);
+                $("#listTable tbody").append(data);
                 swal('เรียบร้อยแล้ว','','success');
-                toggle_add_section();
+                hide_add_section();
               }
             }
         });
       }
+    return false;
   }
 	function editThis(ID)
 	{

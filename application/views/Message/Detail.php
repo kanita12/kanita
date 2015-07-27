@@ -1,13 +1,8 @@
-<h1> <?php echo $query["MSubject"]; ?></h1>
-<div>
-<?php echo $query["MContent"]; ?>
-</div>
-<br/>
-<br/>
-<br/>
-<div>
+<div class="card-panel"><?php echo $query["MContent"]; ?></div>
+<div class="section">
+	<h4 class="header">ข้อความตอบกลับ</h4>
 	<?php foreach($queryReply->result_array() as $row){ ?>
-		<div class="message__reply">
+		<div class="card-panel">
 			<div>
 				<?php echo $row["MContent"]; ?>
 			</div>
@@ -23,36 +18,29 @@
 	<?php } ?>
 </div>
 <br/>
-<br/>
-<style type="text/css">
-.message__reply
-{
-	border:1px solid #000;
-	padding: 10px;
-}
-</style>
-<?php
-echo form_open(site_url("Message/saveReply"));
-echo form_hidden("hdMID",$query["MID"]);
-echo form_hidden("hdOwnerUserID",$query["M_UserID"]);
-?>
-
-<div>
-ตอบกลับ<br/>
-<?php echo form_textarea("txtContent","","id='txtContent'");?>
-<br/>
-<button class="btn btn-default" onclick="checkBeforeSubmit();">บันทึก</button>
+<div class="divider"></div>
+<div class="section">
+	<?php echo form_open(site_url("Message/saveReply")); ?>
+		<input type="hidden" name="hdMID" id="hdMID" value="<?php echo $query["MID"] ?>">
+		<input type="hidden" name="hdOwnerUserID" id="hdOwnerUserID" value="<?php echo $query["M_UserID"] ?>">
+		<div class="input-field col s12">
+			<textarea id="txtContent" name="txtContent" class="materialize-textarea"></textarea>
+			<label for="txtContent">ตอบกลับ</label>
+		</div>
+		<button class="btn btn-default" onclick="return checkBeforeSubmit();">บันทึก</button>
+	<?php echo form_close();?>
 </div>
-<?php echo form_close();
- ?>
 <script type="text/javascript">
-function checkBeforeSubmit(){
-	if($("[id$='txtContent']").val() == ""){
-		alert("กรุณากรอกข้อความ");
+	function checkBeforeSubmit(){
+
+		if($.trim($("[id$='txtContent']").val()) === ""){
+			swal("กรุณากรอกข้อความ","","error");
+			return false;
+		}
+		else{
+			$("[id$='txtContent']").parents("form").submit();
+			return false;
+		}
+		return false;
 	}
-	else{
-		$("[id$='txtContent']").parents("form").submit();
-	}
-	return false;
-}
 </script>

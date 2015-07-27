@@ -724,13 +724,13 @@ class Employees extends CI_Controller
    * @param  [int,string] $user_id [description]
    * @return [type]          [description]
    */
-  public function userRoles($user_id)
+  public function userroles($user_id)
   {
     $data = array();
     $data['user_id'] = $user_id;
     $data['emp_detail'] = getEmployeeDetailByUserID(intval($user_id));
 
-    parent::setHeader('จัดการสิทธิ์', 'Roles');
+    parent::setHeader('จัดการสิทธิ์ '.$data["emp_detail"]["EmpFullnameThai"], 'Roles');
     $this->load->view('hr/Employee/user_roles_list', $data);
     parent::setFooter();
   }

@@ -25,7 +25,6 @@ class Message extends CI_Controller
 		$data = array();
 		$data["query"] = $this->message->getList($this->user_id,$this->pagination->per_page, $page);
 		$data["links"] = $this->pagination->create_links();
-		$data["topic"] = "ส่งข้อความถึง HR";
 		$data["empID"] = $this->emp_id;
 		$data["userID"] = $this->user_id;
 
@@ -59,13 +58,14 @@ class Message extends CI_Controller
 		if($query->num_rows() > 0)
 		{
 			$query = $query->row_array();
+			$subject = $query["MSubject"];
 			
 			$data = array();
 			$data["query"] 		= $query;
 			$data["queryReply"] = $this->message->getListReply($messageID);
 			$data["MID"]		= $messageID;
 
-			parent::setHeader("ข้อความถึง HR","Message");
+			parent::setHeader($subject,"Message");
 			$this->load->view("Message/Detail",$data);
 			parent::setFooter();
 		}
@@ -93,6 +93,15 @@ class Message extends CI_Controller
 			$this->message->insert($data);
 		}
 		redirect(site_url("Message/detail/".$messageID));
+	}
+	public function delete()
+	{
+		if($_POST)
+		{
+			$post = $this->input->post(NULL,TRUE);
+			$message_id = $post["id"];
+			$this->message->delete_by_id($message_id);
+		}
 	}
 }
 /* End of file Message.php */

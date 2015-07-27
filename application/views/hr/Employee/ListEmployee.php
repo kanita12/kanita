@@ -51,11 +51,11 @@
             ตรวจสอบเวลาเข้า-ออก
           </a> 
         <br>
-        <a href="<?php echo site_url('hr/Employees/increase_salary/'.$row['EmpID']); ?>" >
+        <a href="<?php echo site_url('hr/Employees/increasesalary/'.$row['EmpID']); ?>" >
           ปรับเงินเดือน
         </a>
         <br>
-        <a href="<?php echo site_url('hr/Employees/user_roles/'.$row['UserID']); ?>" >
+        <a href="<?php echo site_url('hr/Employees/userroles/'.$row['UserID']); ?>" >
           สิทธิ์การเข้าใช้งาน
         </a>
 			</td>

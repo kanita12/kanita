@@ -73,5 +73,10 @@ class Hrmessage_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
-
+	public function delete_by_id($message_id)
+	{
+		$this->db->where("MID",$message_id);
+		$this->db->delete($this->table);
+		return $this->db->affected_rows();
+	}
 }

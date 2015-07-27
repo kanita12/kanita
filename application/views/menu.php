@@ -53,6 +53,7 @@
             <ul id="ddl_userprofile" class="dropdown-content">
                 <li><a href="<?php echo site_url('Worktime');?>">เวลาเข้า-ออก</a></li>
                 <li><a href="<?php echo site_url('Userprofile');?>">ข้อมูลส่วนตัว</a></li>
+                <li><a href="<?php echo site_url('Usersalary');?>">เงินเดือน</a></li>
             </ul>
         </li>
         <li>
