@@ -10,7 +10,6 @@
     <script type="text/javascript" src="<?php echo materialize_url() ?>js/materialize.min.js"></script>
 
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script type="text/javascript">
       $(document).ready(function()
       {

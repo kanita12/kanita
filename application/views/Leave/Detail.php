@@ -1,12 +1,6 @@
 <div class="row">
-	<div class="input-field col s12 m6 l5">
-		<input readonly="true" type="text" value="<?php echo $leave_detail['LTName'] ?>">
-		<label>ประเภทการลา</label>
-	</div>
-</div>
-<div class="row">
 	<div class="col s12">
-			<h4 class="header">รายละเอียดการลา</h4>
+			<h4 class="header">รายละเอียดผู้ลา</h4>
 			<div class="col s6">
 				<table>
 					<tr>
@@ -48,7 +42,12 @@
 </div>
 <div class="row">
 	<div class="col s12">
-		<div class="input-field">
+		<h4 class="header">รายละเอียดการลา</h4>
+		<div class="input-field col s12">
+			<input readonly="true" type="text" id="leave_type" value="<?php echo $leave_detail['LTName'] ?>">
+			<label for="leave_type">ประเภทการลา</label>
+		</div>
+		<div class="input-field col s12">
 		 	<textarea readonly="true" name="txtBecause" id="txtBecause" class="materialize-textarea"><?php echo $leave_detail['LBecause'] ?></textarea>
 	    <label for="txtBecause">เนื่องจาก</label>
 	  </div>

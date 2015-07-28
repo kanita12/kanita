@@ -26,12 +26,12 @@
 <table class="responsive-table bordered highlight">
 	<thead>
 		<tr>
-			<th>รหัสพนักงาน	</th>
+			<th width="12%">รหัสพนักงาน</th>
 			<th>Username</th>
 			<th>ชื่อ-นามสกุล</th>
 			<th>แผนก</th>
 			<th>ตำแหน่ง</th>
-			<th></th>
+			<th width="11%"></th>
 		</tr>
   </thead>
   <tbody>
@@ -43,21 +43,29 @@
 			<td><?php echo $row['DName']; ?></td>
 			<td><?php echo $row['PName']; ?></td>
 			<td>
-				<a href="<?php echo site_url("hr/Employees/Detail/".$row['EmpID']); ?>" target="_self">
-					แก้ไข
-				</a>
-        <br>
-        <a href="<?php  echo site_url("Worktime/show/".$row['EmpID']); ?>" onclick="backupValue();" target="_blank">
-            ตรวจสอบเวลาเข้า-ออก
-          </a> 
-        <br>
-        <a href="<?php echo site_url('hr/Employees/increasesalary/'.$row['EmpID']); ?>" >
-          ปรับเงินเดือน
+        <?php if ($this->acl->hasPermission("manage_employee")): ?>
+          <a href="<?php echo site_url("hr/Employees/Detail/".$row['EmpID']); ?>" 
+            class="btn-floating btn-small waves-effect waves-light tooltipped"
+            data-position="bottom" data-tooltip="แก้ไข">
+            <i class="material-icons">edit</i>
+          </a>
+        <?php endif ?>
+        <a href="<?php  echo site_url("Worktime/show/".$row['EmpID']); ?>" 
+            class="btn-floating btn-small waves-effect waves-light orange tooltipped" onclick="backupValue();" target="_blank" data-position="bottom" data-tooltip="ตรวจสอบเวลาเข้า-ออก">
+            <i class="material-icons">query_builder</i>
         </a>
-        <br>
-        <a href="<?php echo site_url('hr/Employees/userroles/'.$row['UserID']); ?>" >
-          สิทธิ์การเข้าใช้งาน
+        <a href="<?php echo site_url('hr/Employees/increasesalary/'.$row['EmpID']); ?>" 
+            class="btn-floating btn-small waves-effect waves-light green tooltipped"
+            data-position="bottom" data-tooltip="ปรับเงินเดือน">
+            <i class="material-icons">trending_up</i>
         </a>
+        <?php if ($this->acl->hasPermission("manage_role")): ?>
+          <a href="<?php echo site_url('hr/Employees/userroles/'.$row['UserID']); ?>" 
+              class="btn-floating btn-small waves-effect waves-light pink tooltipped"
+              data-position="bottom" data-tooltip="สิทธิ์การเข้าใช้งาน">
+              <i class="material-icons">security</i>
+          </a>
+        <?php endif ?>
 			</td>
 		</tr>
 		<?php endforeach ?>

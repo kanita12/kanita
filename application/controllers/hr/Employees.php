@@ -5,7 +5,9 @@ class Employees extends CI_Controller
 	{
         parent::__construct();
         $CI = &get_instance();
-                        //load model
+        //check permission
+        if(!$CI->acl->hasPermission('access_listemployee')){ redirect("home");}
+        //load model
         $CI->load->model('Amphur_Model','amphur');
         $CI->load->model('Bank_model','bank');
         $CI->load->model('Banktype_model','banktype');
@@ -29,8 +31,8 @@ class Employees extends CI_Controller
 	}
     public function index()
     {
-		$this->search();
-	}
+		  $this->search();
+	  }
 	public function search($sKeyword="0",$sDepartment = "0",$sPosition = "0")
 	{
         $sKeyword = $sKeyword == "0" ? "" : urldecode($sKeyword);
@@ -459,6 +461,11 @@ class Employees extends CI_Controller
       }
     public function Detail($empID)
     {
+      if(!$this->acl->hasPermission("manage_employee"))
+      {
+        redirect("hr/Employees");
+        exit();
+      }
         $user_id = 0;
         $data = $this->setDefaultDataPage();
         $data["nowTitle"] = "แก้ไขข้อมูลพนักงาน";
@@ -734,18 +741,18 @@ class Employees extends CI_Controller
     $this->load->view('hr/Employee/user_roles_list', $data);
     parent::setFooter();
   }
-  public function manageUserRoles($user_id)
+  public function manage_user_roles($user_id)
   {
     $data = array();
     $data['user_id'] = intval($user_id);
-    $data['form_url'] = site_url('hr/Employee/save_user_roles');
+    $data['form_url'] = site_url('hr/Employees/save_user_roles');
     $data['emp_detail'] = getEmployeeDetailByUserID(intval($user_id));
 
     parent::setHeader('จัดการ Roles', 'Roles');
     $this->load->view('hr/Employee/manage_user_roles', $data);
     parent::setFooter();
   }
-  public function saveUserRoles()
+  public function save_user_roles()
   {
     $this->load->model('User_roles_model', 'userroles');
     if ($_POST) {
@@ -765,18 +772,18 @@ class Employees extends CI_Controller
       echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employee/user_roles/' . $user_id) . '"');
     }
   }
-  public function manageUserPermissions($user_id)
+  public function manage_user_permissions($user_id)
   {
     $data = array();
     $data['user_id'] = intval($user_id);
-    $data['form_url'] = site_url('hr/Employee/save_user_permissions');
+    $data['form_url'] = site_url('hr/Employees/save_user_permissions');
     $data['emp_detail'] = getEmployeeDetailByUserID(intval($user_id));
 
     parent::setHeader('จัดการ Permissions', 'Permissions');
     $this->load->view('hr/Employee/manage_user_permissions', $data);
     parent::setFooter();
   }
-  public function saveUserPermissions()
+  public function save_user_permissions()
   {
     if ($_POST) {
       $this->load->model('User_permissions_model', 'userpermissions');
@@ -793,7 +800,7 @@ class Employees extends CI_Controller
           }
         }
       }
-      echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employee/user_roles/' . $user_id) . '"');
+      echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employees/userroles/' . $user_id) . '"');
     }
   }
   public function get_list_headman($department_id,$emp_id = "",$selected_level_1 = 0,$selected_level_2 = 0)

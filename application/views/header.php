@@ -15,7 +15,7 @@
 
     <link type="text/css" rel="stylesheet" href="<?php echo css_url() ?>my_materialize.css"  media="screen,projection"/>
     <script type="text/javascript" src="<?php echo materialize_url() ?>js/materialize.js"></script>
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
 
     <script type="text/javascript">
         $(document).ready(function()

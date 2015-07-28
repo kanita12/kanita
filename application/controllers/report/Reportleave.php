@@ -1,25 +1,19 @@
 <?php
 class Reportleave extends CI_Controller
 {
-	private $empID = "";
-	private $userID = 0;
 	public function __construct()
 	{
 		parent::__construct();
-		$CI =& get_instance();
-		$this->empID = $CI->session->userdata("empid");
-		$this->userID = $CI->session->userdata("userid");
-		
+		$ci =& get_instance();		
 	}
 	public function index()
 	{
-		$this->show();
+		$this->search();
 	}
-	public function show()
+	public function search()
 	{
 		$data = array();
-		$data["topicPage"] = "รายงานเวลาเข้า-ออกงาน";
-		parent::setHeader($data["topicPage"]);
+		parent::setHeader("รายงานการลา","Report");
 		$this->load->view("report/leave",$data);
 		parent::setFooter();
 	}

@@ -21,7 +21,7 @@
 			<li class="collection-header">
 			 	<h4 class="header">
 				Permissions ของพนักงาน
-				[<a href="<?php echo site_url('hr/Employee/manage_user_permissions/'.$emp_detail['UserID']) ?>">จัดการ Permissions</a>]
+				[<a href="<?php echo site_url('hr/Employees/manage_user_permissions/'.$emp_detail['UserID']) ?>">จัดการ Permissions</a>]
 				</h4>
 			</li>
 			<?php $perms = $this->acl->perms;

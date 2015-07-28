@@ -1,4 +1,4 @@
-<h2>จัดการ Permissions : <?php echo $emp_detail['EmpFullnameThai'] ?></h2>
+<h4 class="header">รหัสพนักงาน <?php echo $emp_detail["EmpID"] ?> <?php echo $emp_detail['EmpFullnameThai'] ?></h4>
 
 <?php echo form_open($form_url); ?>
 <input type='hidden' name='hd_user_id' id='hd_user_id' value='<?php echo $user_id ?>'>
@@ -10,10 +10,9 @@
     $is_key_exists = true;
     $is_key_inheritted = false;
 ?>
-<br><br>
-<table>
+<table class="responsive-table bordered highlight">
     <tr>
-    	<th></th>
+    	<th width="30%"></th>
     	<th></th>
     </tr>
 	<?php foreach ($aPerms as $k => $v): ?>
@@ -52,7 +51,15 @@
 	    </tr>
     <?php endforeach ?>  
 </table>
-
-<input type="submit" name="Submit" value="Submit" />
-
+<div class="divider"></div>
+<div class="section">
+    <div class="row">
+        <div class="col s2">
+            <input type="submit" class="btn" value="บันทึก">
+        </div>
+        <div class="col s2 offset-s6 m2 offset-m8 right-align"> 
+            <a href="<?php echo site_url('hr/Employees/userroles/'.$emp_detail["EmpID"]) ?>" class="btn red lighten-1 right-align">ยกเลิก</a>
+        </div>
+    </div>
+</div>
 <?php echo form_close(); ?>
