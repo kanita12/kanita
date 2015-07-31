@@ -83,7 +83,7 @@ class CI_Controller {
 		$this->load->initialize();
 		log_message('info', 'Controller Class Initialized');
 		
-		$this->user_id = $this->session->userdata('userid');
+		$this->user_id = intval($this->session->userdata('userid'));
 		$this->emp_id = $this->session->userdata('empid');
 		$this->myFirstLoad();
 	}

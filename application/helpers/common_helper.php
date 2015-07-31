@@ -503,3 +503,31 @@ function sum_show_leave_time($row_time = array())
 	}
 	return $returner;
 }
+function get_total_work_hour()
+{
+	$ci =& get_instance();
+	$ci->load->model("Configuration_Model","configuration");
+
+	$query          = $ci->configuration->getWorkTime();
+	$workTimeStart  = $query["workTimeStart"];//เวลาเริ่มทำงาน
+	$workTimeEnd    = $query["workTimeEnd"];//เวลาเลิกงาน
+
+	$query          = $ci->configuration->getBreakTime();
+	$breakTimeStart = $query["breakTimeStart"];//เวลาเริ่มพัก
+	$breakTimeEnd   = $query["breakTimeEnd"];//เวลาเลิกพัก
+
+	$workHour      = timeDiff($workTimeStart,$workTimeEnd);
+	$breakHour     = timeDiff($breakTimeStart,$breakTimeEnd);
+	$totalWorkHour = $workHour - $breakHour; //Normal about time is 8 hours.
+
+	return $totalWorkHour;
+}
+function calc_ot_by_money_percent($salary,$year,$month,$total_work_hour,$ot_money_percent,$ot_hour)
+{
+	$day_in_month = date('t', mktime(0, 0, 0, $month, 1, $year));
+	$get_ot = $salary / $day_in_month;
+	$get_ot = $get_ot / $total_work_hour;
+	$get_ot = $get_ot * $ot_money_percent;
+	$get_ot = $get_ot * $ot_hour;
+	return ceil($get_ot);
+}

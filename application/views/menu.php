@@ -22,10 +22,15 @@
                 <ul id="ddl_hr" class="dropdown-content">
                     <?php if ($this->acl->hasPermission('access_listemployee')): ?>
                         <li><a href="<?php echo site_url('hr/Employees');?>">รายชื่อพนักงานทั้งหมด</a></li>
+                        <li class="divider"></li>
                     <?php endif ?>
                     <li><a href="<?php echo site_url('hr/Verifyleave')?>">ตรวจสอบการลางาน</a></li>
+                    <li class="divider"></li>
                     <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('hr/Reportot')?>">รายงาน OT พนักงาน</a></li>
                     <!-- <li><a href="#">คำขอเพิ่มลูกทีม</a></li> -->
+                    <li class="divider"></li>
                     <li><a href="<?php echo site_url('hr/News')?>">จัดการข่าวสาร & กิจกรรม</a></li>
                     <li><a href="<?php echo site_url('hr/Regulation')?>">จัดการกฎเกณฑ์-ข้อบังคับ</a></li>
                     <!-- <li><a href="#">จัดการแผนผังองค์กร</a></li> -->
@@ -41,9 +46,12 @@
                 </a>
                 <ul id="ddl_headman" class="dropdown-content">
                     <li><a href="<?php echo site_url('headman/Yourteam')?>">รายชื่อทีมตัวเอง</a></li>
-                    <li><a href="<?php echo site_url('headman/Verifyleave')?>">ตรวจสอบใบลาลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('headman/Verifyot')?>">ตรวจสอบ OT ลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('headman/Sendotinsteadteam')?>">ส่ง OT แทนลูกทีม</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('headman/Verifyleave')?>">ตรวจสอบใบลาผู้ใต้บังคับบัญชา</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('headman/Verifyot')?>">ตรวจสอบ OT ผู้ใต้บังคับบัญชา</a></li>
+                    <li><a href="<?php echo site_url('headman/Sendotinsteadteam')?>">ส่ง OT แทนผู้ใต้บังคับบัญชา</a></li>
+                    <li><a href="<?php echo site_url('headman/Reportot')?>">รายงาน OT ผู้ใต้บังคับบัญชา</a></li>
                     <!-- <li><a href="<?php echo site_url('headman/Requestemployee')?>">คำขอเพิ่มลูกทีม</a></li> -->
                 </ul>
             </li>
@@ -66,6 +74,7 @@
                 <li><a href="<?php echo site_url('Overtime')?>">รายการ OT</a></li>
                 <li><a href="<?php echo site_url('Overtime/add')?>">ส่งใบขอทำ OT</a></li>
                 <li><a href="<?php echo site_url('Overtime/exchange_ot')?>" >แลกเวลาทำ OT</a>
+                <li><a href="<?php echo site_url('Overtime/report')?>" >รายงานการทำงานล่วงเวลา</a>
             </ul>
         </li>
         <li>

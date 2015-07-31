@@ -218,6 +218,36 @@ class Worktime_ot_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
-
+	// User report
+	public function count_all_report($user_id,$year,$month)
+	{
+		$this->db->where("wot_request_by",$user_id);
+		if( $year > 0 ) $this->db->where('year(wot_date)',$year);
+		if( $month > 0 ) $this->db->where('month(wot_date)',$month);
+		$this->db->group_by("year(wot_date)")->group_by("month(wot_date)");
+		return $this->db->count_all_results($this->table);
+	}
+	public function get_list_report($user_id,$year = 0,$month = 0)
+	{
+		$sql = " select a.*,c.empsalary from(
+					select sum(wot_request_hour) sum_hour,month(wot_date) month,year(wot_date) year,wot_request_by from t_worktime_ot 
+						where 1=1
+						and wot_request_by = ".$this->db->escape($user_id);
+		if($year > 0)
+		{
+			$sql .= 	" and YEAR(wot_date) = ".$this->db->escape($year);
+		}
+		if($month > 0)
+		{
+			$sql .= 	" and MONTH(wot_date) = ".$this->db->escape($month);
+		}
+		$sql .=			" group by year(wot_date),month(wot_date)
+					) a
+				left join t_users b on a.wot_request_by = b.userid
+				left join t_employees c on b.user_empid = c.empid
+				";
+		$query = $this->db->query($sql);
+		return $query;
+	}
 	
 }

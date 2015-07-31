@@ -12,10 +12,13 @@ class Home extends CI_Controller
 	public function defaults()
 	{	
 		$this->load->model("News_model","news");
+		$this->load->model("Employees_model","employees");
 		$query = $this->news->get_list(4,0,3);
+		$query_new_emp = $this->employees->get_latest_new_employee();
 
 		$data = array();
 		$data["query_news_alert"] = $query->result_array();
+		$data["query_new_emp"] = $query_new_emp->result_array();
 		parent::setHeader();
 		$this->load->view("home");
 		$this->load->view("footer",$data);

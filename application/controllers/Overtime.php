@@ -13,6 +13,8 @@ class Overtime extends CI_Controller
 		$CI->load->model('Worktime_ot_model','ot');
 		$CI->load->model('Worktime_ot_log_model','otlog');
 		$CI->load->model('Emp_headman_model','headman');
+		$CI->load->model("Worktime_ot_conditions_model","otconditions");
+		$CI->load->model("Ot_pay_log_model","otpaylog");
 	}
 	public function index()
 	{
@@ -1033,6 +1035,28 @@ class Overtime extends CI_Controller
 			echo swalc('บันทึกเรียบร้อยแล้ว','','success','window.location.href = "'.site_url('Overtime').'"');
 		}
 		
+	}
+
+	public function report($year = 0,$month = 0)
+	{
+		//pagination
+		$config = array();
+		$config['total_rows'] = $this->otpaylog->count_all($this->user_id,$year,$month);
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
+		//get data
+		$query = $this->otpaylog->get_list($this->pagination->per_page,$page,5,$year,$month);
+		//set data
+		$data = array();
+		$data["query"] = $query->result_array();
+		$data["ddlMonth"] = $this->common->getMonth1To12("thai");
+		$data["value_month"] = $month;
+		$data["ddlYear"] = $this->common->getYearForDropDown("thai");
+		$data["value_year"] = $year;
+
+		parent::setHeader("รายงานการทำงานล่วงเวลา","OT");
+		$this->load->view("worktime/ot_report",$data);
+		parent::setFooter();
 	}
 }
 /* End of file Overtime.php */

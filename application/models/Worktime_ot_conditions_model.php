@@ -10,7 +10,7 @@ class Worktime_ot_conditions_model extends CI_Model
 	}
 	public function get_list()
 	{
-		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money, wotcond_leave, '.
+		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money_percent, wotcond_leave, '.
 						'wotcond_create_by, wotcond_create_date, '.
 						'wotcond_update_by, wotcond_update_date'
 						);
@@ -22,7 +22,7 @@ class Worktime_ot_conditions_model extends CI_Model
 
 	public function get_list_by_ot_hour($ot_hour)
 	{
-		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money, wotcond_leave, '.
+		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money_percent, wotcond_leave, '.
 						'wotcond_create_by, wotcond_create_date, '.
 						'wotcond_update_by, wotcond_update_date'
 						);
@@ -35,7 +35,7 @@ class Worktime_ot_conditions_model extends CI_Model
 
 	public function get_detail_by_id($cond_id)
 	{
-		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money, wotcond_leave, '.
+		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money_percent, wotcond_leave, '.
 						'wotcond_create_by, wotcond_create_date, '.
 						'wotcond_update_by, wotcond_update_date'
 						);
@@ -47,7 +47,7 @@ class Worktime_ot_conditions_model extends CI_Model
 
 	public function get_detail_by_nearby_ot_hour($ot_hour)
 	{
-		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money, wotcond_leave, '.
+		$this->db->select('wotcond_id, wotcond_ot_hour, wotcond_money_percent, wotcond_leave, '.
 						'wotcond_create_by, wotcond_create_date, '.
 						'wotcond_update_by, wotcond_update_date'
 						);

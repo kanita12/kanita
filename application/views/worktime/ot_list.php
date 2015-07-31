@@ -20,12 +20,16 @@
 <table class="responsive-table bordered highlight">
 	<thead>
 		<tr>
-			<td>#</td>
-			<td>วันที่</td>
-			<td>เวลา</td>
-			<td>จนถึงเวลา</td>
-			<td>สถานะ</td>
-			<td>จัดการ</td>
+			<th rowspan="2">#</th>
+			<th rowspan="2">วันที่</th>
+			<th colspan="2" class="center-align">เวลา</th>
+			<th rowspan="2" class="center-align">ชั่วโมง</th>
+			<th rowspan="2" class="center-align">สถานะ</th>
+			<th rowspan="2">จัดการ</th>
+		</tr>
+		<tr>
+			<th class="center-align">เริ่ม</th>
+			<th class="center-align">สิ้นสุด</th>
 		</tr>
 	</thead>
 	<tbody>
@@ -33,8 +37,9 @@
 			<tr>
 				<td><?php echo $row['wot_id'] ?></td>
 				<td><?php echo dateThaiFormatFromDB($row['wot_date']) ?></td>
-				<td><?php echo $row['wot_time_from'] ?></td>
-				<td><?php echo $row['wot_time_to'] ?></td>
+				<td class="center-align"><?php echo $row['wot_time_from'] ?></td>
+				<td class="center-align"><?php echo $row['wot_time_to'] ?></td>
+				<td class="center-align"><?php echo timeDiff($row['wot_time_from'],$row["wot_time_to"]); ?>
 				<td><?php echo $row['workflow_name'] ?></td>
 				<td>
 					<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light blue" onclick="gotoURL('<?php echo site_url("Overtime/detail/".$row["wot_id"]);?>');">
