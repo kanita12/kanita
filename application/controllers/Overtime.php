@@ -1045,7 +1045,7 @@ class Overtime extends CI_Controller
 		$this->pagination->initialize($config);
 		$page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
 		//get data
-		$query = $this->otpaylog->get_list($this->pagination->per_page,$page,5,$year,$month);
+		$query = $this->otpaylog->get_list($this->pagination->per_page,$page,$this->user_id,$year,$month);
 		//set data
 		$data = array();
 		$data["query"] = $query->result_array();
