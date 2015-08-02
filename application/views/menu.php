@@ -28,6 +28,7 @@
                     <li class="divider"></li>
                     <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
                     <li class="divider"></li>
+                    <li><a href="<?php echo site_url('hr/Overtime')?>">ตรวจสอบ OT พนักงาน</a></li>
                     <li><a href="<?php echo site_url('hr/Reportot')?>">รายงาน OT พนักงาน</a></li>
                     <!-- <li><a href="#">คำขอเพิ่มลูกทีม</a></li> -->
                     <li class="divider"></li>

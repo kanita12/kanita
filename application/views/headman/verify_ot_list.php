@@ -48,6 +48,9 @@
 				<td><?php echo $row['emp_fullname_thai'] ?></td>
 				<td id="<?php echo $row["wot_id"] ?>_workflow_name"><?php echo $row['workflow_name'] ?></td>
 				<td>
+					<a href="<?php echo site_url("Overtime/detail/".$row["wot_id"]);?>" class="btn-floating btn-medium waves-effect waves-light blue" target="_blank">
+						<i class="material-icons">info_outline</i>
+					</a>
 					<?php if($row["workflow_name"] === "รออนุมัติจากหัวหน้างาน Level ".$row["eh_headman_level"]): ?>
 					<!-- Modal Trigger -->
 					  <a class="modal-trigger waves-effect waves-light btn" href="#modal<?php echo $row['wot_id'];?>"><i class="material-icons">reply</i></a>
@@ -77,6 +80,7 @@
 <script type="text/javascript">
 	function approve_disapprove(type,ot_id,obj)
 	{
+		event.preventDefault();
 		var alert_type = "";
 		if(type == "approve"){ alert_type = "อนุมัติ"; }
 		else if(type =="disapprove"){ alert_type = "ไม่อนุมัติ";}
@@ -87,17 +91,20 @@
 			confirmButtonColor: "#DD6B55",   
 			confirmButtonText: "ใช่",
 			cancelButtonText: "เดี๋ยวก่อน",   
-			closeOnConfirm: false 
+			closeOnConfirm: true 
 			},function(){   
 				obj = $(obj);
 				var submit_page = $("#hd_site_url").val()+"headman/Verifyot/approve_disapprove";
-				var remark = $("#"+ot_id+"_input_remark").val()
+				var remark = $("#"+ot_id+"_input_remark").val();
+
 				$.ajax({
 					url: submit_page,
 					type: 'POST',
 					data: {type: type,id:ot_id,remark:remark},
 					success: function(data)
 					{
+						window.location.href = window.location.href;
+						return false;
 						var workflow_name = data;
 						$("#"+ot_id+"_workflow_name").text(workflow_name);
 						$(obj).parent().parent().addClass("lime lighten-3");

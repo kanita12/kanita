@@ -488,13 +488,20 @@ class WorkflowSystem
 		$process = $this->approve_disapprove_from_headman(1);
 		if( $process === TRUE )
 		{
-			$log_type = 'headman_level_1_approve_from_email';
+			$log_type = 'headman_level_1_approve';
 			$log_detail = $this->next_step_name;
 			if( $this->remark !== "" )
 			{
 				$log_detail .= " หมายเหตุเพิ่มเติม : ".$this->remark;
 			}
-			log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			if( $this->type == "leave" )
+			{
+				log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			}
+			else if($this->type == "overtime")
+			{
+				insert_log_ot($this->main_id,$log_type,$log_detail,$this->headman_user_id);
+			}
 		}
 		return $process;
 	}
@@ -506,13 +513,21 @@ class WorkflowSystem
 
 		if( $process === TRUE )
 		{
-			$log_type = 'headman_level_1_disapprove_from_email';
+			$log_type = 'headman_level_1_disapprove';
 			$log_detail = $this->next_step_name;
 			if( $this->remark !== "" )
 			{
 				$log_detail .= " หมายเหตุเพิ่มเติม : ".$this->remark;
 			}
-			log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+		
+			if( $this->type == "leave" )
+			{
+				log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			}
+			else if($this->type == "overtime")
+			{
+				insert_log_ot($this->main_id,$log_type,$log_detail,$this->headman_user_id);
+			}
 		}
 		return $process;
 	}
@@ -555,13 +570,21 @@ class WorkflowSystem
 		$process = $this->approve_disapprove_from_headman(2);
 		if( $process === TRUE )
 		{
-			$log_type = 'headman_level_2_approve_from_email';
+			$log_type = 'headman_level_2_approve';
 			$log_detail = $this->next_step_name;
 			if( $this->remark !== "" )
 			{
 				$log_detail .= " หมายเหตุเพิ่มเติม : ".$this->remark;
 			}
-			log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			
+			if( $this->type == "leave" )
+			{
+				log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			}
+			else if($this->type == "overtime")
+			{
+				insert_log_ot($this->main_id,$log_type,$log_detail,$this->headman_user_id);
+			}
 		}
 		return $process;
 	}
@@ -573,13 +596,21 @@ class WorkflowSystem
 
 		if( $process === TRUE )
 		{
-			$log_type = 'headman_level_2_disapprove_from_email';
+			$log_type = 'headman_level_2_disapprove';
 			$log_detail = $this->next_step_name;
 			if( $this->remark !== "" )
 			{
 				$log_detail .= " หมายเหตุเพิ่มเติม : ".$this->remark;
 			}
-			log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			
+			if( $this->type == "leave" )
+			{
+				log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			}
+			else if($this->type == "overtime")
+			{
+				insert_log_ot($this->main_id,$log_type,$log_detail,$this->headman_user_id);
+			}
 		}
 		return $process;
 	}
@@ -622,13 +653,21 @@ class WorkflowSystem
 		$process = $this->approve_disapprove_from_headman(3);
 		if( $process === TRUE )
 		{
-			$log_type = 'headman_level_3_approve_from_email';
+			$log_type = 'headman_level_3_approve';
 			$log_detail = $this->next_step_name;
 			if( $this->remark !== "" )
 			{
 				$log_detail .= " หมายเหตุเพิ่มเติม : ".$this->remark;
 			}
-			log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			
+			if( $this->type == "leave" )
+			{
+				log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			}
+			else if($this->type == "overtime")
+			{
+				insert_log_ot($this->main_id,$log_type,$log_detail,$this->headman_user_id);
+			}
 		}
 		return $process;
 	}
@@ -640,13 +679,20 @@ class WorkflowSystem
 
 		if( $process === TRUE )
 		{
-			$log_type = 'headman_level_3_disapprove_from_email';
+			$log_type = 'headman_level_3_disapprove';
 			$log_detail = $this->next_step_name;
 			if( $this->remark !== "" )
 			{
 				$log_detail .= " หมายเหตุเพิ่มเติม : ".$this->remark;
 			}
-			log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			if( $this->type == "leave" )
+			{
+				log_leave($log_type,$this->main_id,$log_detail,$this->headman_user_id);
+			}
+			else if($this->type == "overtime")
+			{
+				insert_log_ot($this->main_id,$log_type,$log_detail,$this->headman_user_id);
+			}
 		}
 		return $process;
 	}

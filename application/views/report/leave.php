@@ -26,4 +26,8 @@ $(document).ready(function() {
 
 });
 </script>
+<div class="jumbotron">
+<h1><?php echo $topicPage ?></h1>
+</div>
+<br/><br/>
 <div id='calendar'></div>

@@ -19,7 +19,7 @@ class Home extends CI_Controller
 		$data = array();
 		$data["query_news_alert"] = $query->result_array();
 		$data["query_new_emp"] = $query_new_emp->result_array();
-		parent::setHeader();
+		parent::setHeader("","",FALSE);
 		$this->load->view("home");
 		$this->load->view("footer",$data);
 	}

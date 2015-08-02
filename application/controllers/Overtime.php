@@ -173,41 +173,40 @@ class Overtime extends CI_Controller
 
 	public function detail($ot_id)
 	{
-		$query = $this->ot->get_detail_by_id($ot_id);
+		$is_my = FALSE;
+		$is_hr = is_hr();
+		$is_headman = is_your_ot_headman($this->user_id,$ot_id);
+		$headman_level = 0;
+		$can_approve   = FALSE;
 
+		if($is_headman === TRUE){ $headman_level = get_headman_level($this->user_id); }
+
+
+		//check if my owner or headman or hr
+		$query = $this->ot->get_detail_by_id($ot_id);
 		if( $query->num_rows() > 0 )
 		{
 			$query 					= $query->row_array();
-			$owner_user_id 			= $query['wot_request_by'];
-			$owner_detail			= getEmployeeDetailByUserID($owner_user_id);
-			$is_your_headman 		= is_your_headman($owner_user_id,$this->user_id);
+			$is_my = $this->user_id == $query["wot_request_by"] ? TRUE : FALSE;
 
-			$ok_see					= false;
-			$your_role				= 'owner';
-			if( $this->user_id == $owner_user_id )
+			if($is_hr || $is_headman || $is_my)
 			{
-				$ok_see 	= true;
-				$your_role 	= 'owner';
-			}
-			else if( $is_your_headman == TRUE )
-			{
-				$ok_see 	= true;
-				$your_role 	= 'headman';
-			}
-			else if ( is_hr() )
-			{
-				$ok_see 	= true;
-				$your_role 	= 'hr';
-			}
+				if($query["WFName"] === "รออนุมัติจากหัวหน้างาน Level ".$headman_level) { $can_approve = TRUE; }
+				$query_log = $this->otlog->get_list_by_ot_id($ot_id);
+				$owner_user_id 			= $query['wot_request_by'];
+				$emp_detail			= getEmployeeDetailByUserID($owner_user_id);
 
-			if( $ok_see == true )
-			{
 				$data = array();
 				$data['form_url']		= site_url('Overtime/save_approve_disapprove');
 				$data['query'] 			= $query;
-				$data['owner_detail'] 	= $owner_detail;
-				$data['your_role'] 		= $your_role;
+				$data["query_log"] = $query_log->result_array();
+				$data['emp_detail'] 	= $emp_detail;
 				$data['ot_id']			= $ot_id;
+				$data["is_my"]       = $is_my;
+				$data["is_headman"]        = $is_headman;
+				$data["headman_level"]     = $headman_level;
+				$data["is_hr"]             = $is_hr;
+				$data['can_approve'] = $can_approve;
 
 				parent::setHeader('รายละเอียดใบทำงานล่วงเวลา','OT');
 				$this->load->view('worktime/ot_detail',$data);
