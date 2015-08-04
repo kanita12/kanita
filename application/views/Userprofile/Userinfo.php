@@ -1,4 +1,10 @@
 <input type="hidden" id="hd_validation_error" name="hd_validation_error" value="<?php echo validation_errors()?>">
+<div class="row">
+	<div class="col s12 center-align">
+		<img class="responsive" src="<?php echo base_url().$query["EmpPictureImg"] ?>" height="300" alt="" onerror="this.onerror=null;this.src='<?php echo base_url()."assets/images/no_image.jpg" ?>'">
+	</div>
+</div>
+<br>
 <!-- EmpID & Username -->
 <div class="row">
 	<div class="col s12">

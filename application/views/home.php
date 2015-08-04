@@ -36,7 +36,23 @@
 	    	<div class="col s12">
 				<div class="card hoverable" style="background-color:#EE6E73;">
 					<div class="card-content white-text" style="height:275px;">
-						&nbsp;
+						<div class="row">
+							<div class="col s6">
+								<img class="responsive" src="<?php echo base_url().$emp_detail["EmpPictureImg"] ?>" width="100%" alt="" onerror="this.onerror=null;this.src='<?php echo base_url()."assets/images/no_image.jpg" ?>'">
+							</div>
+							<div class="col s6">
+								<?php echo $emp_detail["EmpFullnameThai"] ?><br>
+								หน่วยงาน <?php echo $emp_detail["InstitutionName"] ?><br>
+								แผนก <?php echo $emp_detail["DepartmentName"] ?><br>
+								ตำแหน่ง <?php echo $emp_detail["PositionName"] ?><br>
+								<br>
+								<div class="card-panel teal accent-4 center-align">
+								ขาดงาน 0 วัน<br>
+								มาสาย 0 วัน<br>
+								ลางานไปแล้ว <?php echo $count_all_can_leave ?> วัน<br>
+								</div>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>

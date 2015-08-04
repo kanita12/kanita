@@ -20,6 +20,15 @@ class Leave_model extends CI_Model
 		if($searchWorkFlow != "0") $this->db->where("L_WFID",$searchWorkFlow);
 		return $this->db->count_all_results();
 	}
+	public function count_all_can_leave($userID,$leave_type="0",$workflow_id="10")
+	{
+		$this->db->select("LID");
+		$this->db->from($this->table);
+		$this->db->where("L_UserID",$userID);
+		if($leave_type != "0") $this->db->where("L_LTID",$leave_type);
+		if($workflow_id != "0") $this->db->where("L_WFID",$workflow_id);
+		return $this->db->count_all_results();
+	}
 	public function get_list($user_id, $row_limit = 30, $row_start = 0, $leavetype_id = 0, $workflow_id = 0 ,$order_by='')
 	{
 		$this->db->limit($row_limit,$row_start);

@@ -239,7 +239,7 @@ class Userprofile extends CI_Controller
     $this->load->view("Userprofile/Close");
     parent::setFooter();
   }
-  public function historystudyinfo()
+  public function historystudyinfo($emp_id = "")
   {
     $emp_id = $this->change_user_id($emp_id);
 
@@ -258,7 +258,7 @@ class Userprofile extends CI_Controller
     $this->load->view("Userprofile/Close");
     parent::setFooter();
   }
-  public function othercontactinfo()
+  public function othercontactinfo($emp_id = "")
   {
     $emp_id = $this->change_user_id($emp_id);
 
@@ -295,7 +295,7 @@ class Userprofile extends CI_Controller
       parent::setFooter();
     }
   }
-  public function documentinfo()
+  public function documentinfo($emp_id = "")
   {
     $emp_id = $this->change_user_id($emp_id);
 
