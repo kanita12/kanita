@@ -1,0 +1,19 @@
+.salary_present{
+	border:1px solid #D0D0D0;
+	border-collapse: inherit;
+}
+.salary_present tr.gray{
+	background-color: #F2F2F2
+}
+.salary_present tbody tr td{
+	color : #606060;
+	font-weight: 300;
+	border-radius: 0;
+}
+.salary_present tbody tr td:first-child{
+	padding-left:30px;
+}
+.salary_present tbody tr.footer td{
+	border-top:1px solid #000;
+	border-bottom:1px solid #000;
+}

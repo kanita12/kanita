@@ -14,6 +14,7 @@
     <link rel="stylesheet" type="text/css" href="<?php echo js_url(); ?>sweetalert2/dist/sweetalert2.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link type="text/css" rel="stylesheet" href="<?php echo css_url() ?>my_materialize.css"  media="screen,projection"/>
+    <link type="text/css" rel="stylesheet" href="<?php echo css_url() ?>hr_style.css"  media="screen,projection"/>
     <script type="text/javascript" src="<?php echo materialize_url() ?>js/materialize.js"></script>
     
 
