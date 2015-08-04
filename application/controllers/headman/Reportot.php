@@ -14,7 +14,6 @@ class Reportot extends CI_Controller
 	}
 	public function search($emp_id = "0",$year = 0,$month = 0)
 	{
-
 		$user_id = 0;
 
 		if($emp_id !== "0")
