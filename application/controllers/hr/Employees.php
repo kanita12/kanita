@@ -253,33 +253,36 @@ class Employees extends CI_Controller
                 );
               }
             }
-
             //insert emp history study if have
             $ehs_academy = $pdata['history_study_academy'];
+            $ehs_education_level = $pdata['history_study_education_level'];
+            $ehs_bachelor = $pdata['history_study_bachelor'];
             $ehs_major = $pdata['history_study_major'];
             $ehs_desc = $pdata['history_study_desc'];
-            $ehs_date_from_day = $pdata['history_study_date_from_day'];
-            $ehs_date_from_month = $pdata['history_study_date_from_month'];
-            $ehs_date_from_year = $pdata['history_study_date_from_year'];
-            $ehs_date_to_day = $pdata['history_study_date_to_day'];
-            $ehs_date_to_month = $pdata['history_study_date_to_month'];
-            $ehs_date_to_year = $pdata['history_study_date_to_year'];
+            $ehs_year_start = $pdata['history_study_year_start'];
+            $ehs_year_end = $pdata['history_study_year_end'];
+            $ehs_grade_avg = $pdata['history_study_grade_avg'];
+            $ehs_degree = $pdata['history_study_degree'];
 
             for ($i = 0; $i < count($ehs_academy); $i++) {
               if ($ehs_academy[$i] != "") {
                 $this->hisstudy->insert(
                   array(
                     'ehs_user_id' => $newUserID,
+                    'ehs_education_level_id' => $ehs_education_level[$i],
                     'ehs_academy' => $ehs_academy[$i],
+                    'ehs_bachelor' => $ehs_bachelor[$i],
                     'ehs_major' => $ehs_major[$i],
                     'ehs_desc' => $ehs_desc[$i],
-                    'ehs_date_from' => dbDateFormatFromThai($ehs_date_from_day[$i] . '/' . $ehs_date_from_month[$i] . '/' . $ehs_date_from_year[$i]),
-                    'ehs_date_to' => dbDateFormatFromThai($ehs_date_to_day[$i] . '/' . $ehs_date_to_month[$i] . '/' . $ehs_date_to_year[$i]),
+                    'ehs_year_start' => $ehs_year_start[$i],
+                    'ehs_year_end' => $ehs_year_end[$i],
+                    'ehs_grade_avg' => $ehs_grade_avg[$i],
+                    'ehs_degree' => $ehs_degree[$i]
                   )
                 );
               }
             }
-
+            
             //Add user id into roles
             $this->userroles->replace_into_roles(2, $newUserID); //2 ตอนนี้เป็น for all user
 
@@ -433,25 +436,29 @@ class Employees extends CI_Controller
 
           //insert emp history study if have
           $ehs_academy = $empData['history_study_academy'];
+          $ehs_education_level = $empData['history_study_education_level'];
+          $ehs_bachelor = $empData['history_study_bachelor'];
           $ehs_major = $empData['history_study_major'];
           $ehs_desc = $empData['history_study_desc'];
-          $ehs_date_from_day = $empData['history_study_date_from_day'];
-          $ehs_date_from_month = $empData['history_study_date_from_month'];
-          $ehs_date_from_year = $empData['history_study_date_from_year'];
-          $ehs_date_to_day = $empData['history_study_date_to_day'];
-          $ehs_date_to_month = $empData['history_study_date_to_month'];
-          $ehs_date_to_year = $empData['history_study_date_to_year'];
+          $ehs_year_start = $empData['history_study_year_start'];
+          $ehs_year_end = $empData['history_study_year_end'];
+          $ehs_grade_avg = $empData['history_study_grade_avg'];
+          $ehs_degree = $empData['history_study_degree'];
           $this->hisstudy->delete_from_user_id($userID);
           for ($i = 0; $i < count($ehs_academy); $i++) {
             if ($ehs_academy[$i] != "") {
               $this->hisstudy->insert(
                 array(
                   'ehs_user_id' => $userID,
+                  'ehs_education_level_id' => $ehs_education_level[$i],
                   'ehs_academy' => $ehs_academy[$i],
+                  'ehs_bachelor' => $ehs_bachelor[$i],
                   'ehs_major' => $ehs_major[$i],
                   'ehs_desc' => $ehs_desc[$i],
-                  'ehs_date_from' => dbDateFormatFromThai($ehs_date_from_day[$i] . '/' . $ehs_date_from_month[$i] . '/' . $ehs_date_from_year[$i]),
-                  'ehs_date_to' => dbDateFormatFromThai($ehs_date_to_day[$i] . '/' . $ehs_date_to_month[$i] . '/' . $ehs_date_to_year[$i]),
+                  'ehs_year_start' => year_english_from_thai($ehs_year_start[$i]),
+                  'ehs_year_end' => year_english_from_thai($ehs_year_end[$i]),
+                  'ehs_grade_avg' => $ehs_grade_avg[$i],
+                  'ehs_degree' => $ehs_degree[$i]
                 )
               );
             }

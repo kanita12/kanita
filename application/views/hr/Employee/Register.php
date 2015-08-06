@@ -156,7 +156,7 @@
 					<div class="col s12">
 						<div class="file-field input-field">
 				            <div class="btn">
-				              <span>รูปถ่าย</span>
+				              <span>รูปถ่ายพนักงาน</span>
 				              <input type="file" name="fuEmpPicture" id="fuEmpPicture">
 				            </div>
 				            <div class="file-path-wrapper">
@@ -450,11 +450,15 @@
 					<?php $i = 0; foreach ($query_history_study as $row): $i++; ?>
 						<input type="hidden" id="hd_history_study_id_<?php echo $i; ?>" name="hd_history_study_id[]" value="<?php echo $row["ehs_id"] ?>">
 						<input type="hidden" id="hd_history_study_user_id_<?php echo $i; ?>" name="hd_history_study_user_id[]" value="<?php echo $row["ehs_user_id"] ?>">
+						<input type="hidden" id="hd_history_study_education_level_<?php echo $i; ?>" name="hd_history_study_education_level[]" value="<?php echo $row["ehs_education_level_id"] ?>">
 						<input type="hidden" id="hd_history_study_academy_<?php echo $i; ?>" name="hd_history_study_academy[]" value="<?php echo $row["ehs_academy"] ?>">
+						<input type="hidden" id="hd_history_study_bachelor_<?php echo $i; ?>" name="hd_history_study_bachelor[]" value="<?php echo $row["ehs_bachelor"] ?>">
 						<input type="hidden" id="hd_history_study_major_<?php echo $i; ?>" name="hd_history_study_major[]" value="<?php echo $row["ehs_major"] ?>">
 						<input type="hidden" id="hd_history_study_desc_<?php echo $i; ?>" name="hd_history_study_desc[]" value="<?php echo $row["ehs_desc"] ?>">
-						<input type="hidden" id="hd_history_study_date_from_<?php echo $i; ?>" name="hd_history_study_date_from[]" value="<?php echo $row["ehs_date_from"] ?>">
-						<input type="hidden" id="hd_history_study_date_to_<?php echo $i; ?>" name="hd_history_study_date_to[]" value="<?php echo $row["ehs_date_to"] ?>">
+						<input type="hidden" id="hd_history_study_year_start_<?php echo $i; ?>" name="hd_history_study_year_start[]" value="<?php echo $row["ehs_year_start"] ?>">
+						<input type="hidden" id="hd_history_study_year_end_<?php echo $i; ?>" name="hd_history_study_year_end[]" value="<?php echo $row["ehs_year_end"] ?>">
+						<input type="hidden" id="hd_history_study_grade_avg_<?php echo $i; ?>" name="hd_history_study_grade_avg[]" value="<?php echo $row["ehs_grade_avg"] ?>">
+						<input type="hidden" id="hd_history_study_degree_<?php echo $i; ?>" name="hd_history_study_degree[]" value="<?php echo $row["ehs_degree"] ?>">
 					<?php endforeach ?>
 					<div id='history_study_list'>
 					</div>

@@ -477,6 +477,29 @@ function gen_option_year_for_dropdown(set_present)
 	};
 	return text;
 }
+function gen_education_level_for_dropdown(id)
+{
+	var education_level = {
+		0:"--เลือก--"
+		,1:"ระดับประถมศึกษา"
+		,2:"ระดับมัธยมศึกษา"
+		,3:"ระดับอาชีวะ หรือวิชาชีพ"
+		,4:"ระดับวิทยาลัย"
+		,5:"ระดับมหาวิทยาลัย"
+		};
+	var text = '';
+	$.each(education_level,function(key,value){
+		if( key === id )
+		{
+			text += "<option value='"+key+"' selected='selected'>"+value+"</option>"
+		}
+		else
+		{
+			text += "<option value='"+key+"'>"+value+"</option>"
+		}
+	});
+	return text;
+}
 function gen_history_study_template()
 {
 	var text = '';
@@ -485,88 +508,87 @@ function gen_history_study_template()
 	if( i < 1 && data_id.size() > 0 )
 	{
 		var academy;
+		var education_level;
+		var bachelor
 		var major;
 		var desc;
-		var date_from;
-		var date_from_day;
-		var date_from_month;
-		var date_from_year;
-		var date_to;
-		var date_to_day;
-		var date_to_month;
-		var date_to_year;
+		var year_start;
+		var year_end;
+		var grade_avg;
+		var degree;
 
 		for (var i = 1; i <= data_id.size(); i++) 
 		{
 			academy         = $("#hd_history_study_academy_"+i).val();
+			education_level = $("#hd_history_study_education_level_"+i).val();
+			bachelor = $("#hd_history_study_bachelor_"+i).val();
 			major           = $("#hd_history_study_major_"+i).val();
 			desc            = $("#hd_history_study_desc_"+i).val();
-			date_from       = $("#hd_history_study_date_from_"+i).val().split("-");
-			date_from_day   = date_from[2];
-			date_from_month = date_from[1];
-			date_from_year  = date_from[0];
-			date_to         = $("#hd_history_study_date_to_"+i).val().split("-");
-			date_to_day     = date_to[2];
-			date_to_month   = date_to[1];
-			date_to_year    = date_to[0];
+			year_start       = $("#hd_history_study_year_start_"+i).val();
+			year_end         = $("#hd_history_study_year_end_"+i).val();
+			grade_avg = $("#hd_history_study_grade_avg_"+i).val();
+			degree = $("#hd_history_study_degree_"+i).val();
 
 			text 	= 	"<div class='card'>\
-							<div class='card-content'>\
-								<div id='history_study_number_"+i+"'>\
-									<div class='row'>\
-										<div class='input-field'>\
-											<input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]' value='"+academy+"'>\
-											<label for='history_study_academy_"+i+"'>สถานศึกษา</label>\
-										</div>\
-										<div class='input-field'>\
-											<input type='text' id='history_study_major_"+i+"' name='history_study_major[]' value='"+major+"'>\
-											<label for='history_study_major_"+i+"'>วิชาเอก</label>\
-										</div>\
-										<div class='input-field'>\
-											<textarea id='history_study_desc_"+i+"' name='history_study_desc[]' class='materialize-textarea'>"+desc+"</textarea>\
-											<label for='history_study_desc_"+i+"'>คำอธิบาย</label>\
-										</div>\
+						<div class='card-content'>\
+							<div id='history_study_number_"+i+"'>\
+								<div class='row'>\
+									<div class='input-field col s12'>\
+										<input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]' \
+										value='"+academy+"'>\
+										<label for='history_study_academy_"+i+"'>ชื่อสถาบันการศึกษา</label>\
 									</div>\
-									<div class='row'>\
-										<div class='input-field col s4'>\
-											<select id='history_study_date_from_day_"+i+"' name='history_study_date_from_day[]'>\
-												"+gen_option_day_for_dropdown(date_from_day)+"\
-											</select>\
-											<label for='history_study_date_from_day_"+i+"'>ตั้งแต่</label>\
-										</div>\
-										<div class='input-field col s4'>\
-											<select id='history_study_date_from_month_"+i+"' name='history_study_date_from_month[]'>\
-												"+gen_option_month_for_dropdown(date_from_month)+"\
-											</select>\
-										</div>\
-										<div class='input-field col s4'>\
-											<select id='history_study_date_from_year_"+i+"' name='history_study_date_from_year[]'>\
-												"+gen_option_year_for_dropdown(date_from_year)+"\
-											</select>\
-										</div>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s6'>\
+										<select id='history_study_education_level_"+i+"' name='history_study_education_level[]'>\
+											"+gen_education_level_for_dropdown(education_level)+"\
+										</select>\
+										<label for='history_study_education_level_"+i+"'>ระดับการศึกษา</label>\
 									</div>\
-									<div class='row'>\
-										<div class='input-field col s4'>\
-											<select id='history_study_date_to_day_"+i+"' name='history_study_date_to_day[]'>\
-												"+gen_option_day_for_dropdown(date_to_day)+"\
-											</select>\
-											<label for='history_study_date_to_day_"+i+"'>จนถึง</label>\
-										</div>\
-										<div class='input-field col s4'>\
-											<select id='history_study_date_to_month_"+i+"' name='history_study_date_to_month[]'>\
-												"+gen_option_month_for_dropdown(date_to_month)+"\
-											</select>\
-										</div>\
-										<div class='input-field col s4'>\
-											<select id='history_study_date_to_year_"+i+"' name='history_study_date_to_year[]'>\
-												"+gen_option_year_for_dropdown(date_to_year)+"\
-											</select>\
-										</div>\
+									<div class='input-field col s6'>\
+										<input type='text' id='history_study_degree_"+i+"' name='history_study_degree[]' \
+										value='"+degree+"'>\
+										<label for='history_study_degree_"+i+"'>วุฒิการศึกษา</label>\
+									</div>\
+									<div class='input-field col s6'>\
+										<input type='text' id='history_study_bachelor_"+i+"' name='history_study_bachelor[]' \
+										value='"+bachelor+"'>\
+										<label for='history_study_bachelor_"+i+"'>คณะ</label>\
+									</div>\
+									<div class='input-field col s6'>\
+										<input type='text' id='history_study_major_"+i+"' name='history_study_major[]' \
+										value='"+major+"'>\
+										<label for='history_study_major_"+i+"'>สาขาวิชา</label>\
+									</div>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s6'>\
+										<select id='history_study_year_start_"+i+"' name='history_study_year_start[]'>\
+											"+gen_option_year_for_dropdown(year_start)+"\
+										</select>\
+										<label for='history_study_year_start_"+i+"'>ปีการศึกษา</label>\
+									</div>\
+									<div class='input-field col s6'>\
+										<select id='history_study_year_end_"+i+"' name='history_study_year_end[]'>\
+											"+gen_option_year_for_dropdown(year_end)+"\
+										</select>\
+										<label for='history_study_year_end_"+i+"'>จนถึง</label>\
+									</div>\
+									<div class='input-field col s12'>\
+										<input type='text' id='history_study_grade_avg_"+i+"' name='history_study_grade_avg[]' \
+										value="+grade_avg+">\
+										<label for='history_study_grade_avg_"+i+"'>เกรดเฉลี่ย</label>\
+									</div>\
+									<div class='input-field col s12'>\
+										<textarea id='history_study_desc_"+i+"' name='history_study_desc[]' class='materialize-textarea'>"+desc+"</textarea>\
+										<label for='history_study_desc_"+i+"'>คำอธิบาย</label>\
 									</div>\
 								</div>\
 							</div>\
-						<div>\
-						";
+						</div>\
+					<div>\
+					";
 			$('#history_study_list').append(text);
 			$("#history_study_number_"+i+" select").material_select();
 		}
@@ -579,53 +601,51 @@ function gen_history_study_template()
 						<div class='card-content'>\
 							<div id='history_study_number_"+i+"'>\
 								<div class='row'>\
-									<div class='input-field'>\
+									<div class='input-field col s12'>\
 										<input type='text' id='history_study_academy_"+i+"' name='history_study_academy[]'>\
-										<label for='history_study_academy_"+i+"'>สถานศึกษา</label>\
+										<label for='history_study_academy_"+i+"'>ชื่อสถาบันการศึกษา</label>\
 									</div>\
-									<div class='input-field'>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s6'>\
+										<select id='history_study_education_level_"+i+"' name='history_study_education_level[]'>\
+											"+gen_education_level_for_dropdown()+"\
+										</select>\
+										<label for='history_study_education_level_"+i+"'>ระดับการศึกษา</label>\
+									</div>\
+									<div class='input-field col s6'>\
+										<input type='text' id='history_study_degree_"+i+"' name='history_study_degree[]'>\
+										<label for='history_study_degree_"+i+"'>วุฒิการศึกษา</label>\
+									</div>\
+									<div class='input-field col s6'>\
+										<input type='text' id='history_study_bachelor_"+i+"' name='history_study_bachelor[]'>\
+										<label for='history_study_bachelor_"+i+"'>คณะ</label>\
+									</div>\
+									<div class='input-field col s6'>\
 										<input type='text' id='history_study_major_"+i+"' name='history_study_major[]'>\
-										<label for='history_study_major_"+i+"'>วิชาเอก</label>\
+										<label for='history_study_major_"+i+"'>สาขาวิชา</label>\
 									</div>\
-									<div class='input-field'>\
+								</div>\
+								<div class='row'>\
+									<div class='input-field col s6'>\
+										<select id='history_study_year_start_"+i+"' name='history_study_year_start[]'>\
+											"+gen_option_year_for_dropdown()+"\
+										</select>\
+										<label for='history_study_year_start_"+i+"'>ปีการศึกษา</label>\
+									</div>\
+									<div class='input-field col s6'>\
+										<select id='history_study_year_end_"+i+"' name='history_study_year_end[]'>\
+											"+gen_option_year_for_dropdown()+"\
+										</select>\
+										<label for='history_study_year_end_"+i+"'>จนถึง</label>\
+									</div>\
+									<div class='input-field col s12'>\
+										<input type='text' id='history_study_grade_avg_"+i+"' name='history_study_grade_avg[]'>\
+										<label for='history_study_grade_avg_"+i+"'>เกรดเฉลี่ย</label>\
+									</div>\
+									<div class='input-field col s12'>\
 										<textarea id='history_study_desc_"+i+"' name='history_study_desc[]' class='materialize-textarea'></textarea>\
 										<label for='history_study_desc_"+i+"'>คำอธิบาย</label>\
-									</div>\
-								</div>\
-								<div class='row'>\
-									<div class='input-field col s4'>\
-										<select id='history_study_date_from_day_"+i+"' name='history_study_date_from_day[]'>\
-											"+gen_option_day_for_dropdown()+"\
-										</select>\
-										<label for='history_study_date_from_day_"+i+"'>ตั้งแต่</label>\
-									</div>\
-									<div class='input-field col s4'>\
-										<select id='history_study_date_from_month_"+i+"' name='history_study_date_from_month[]'>\
-											"+gen_option_month_for_dropdown()+"\
-										</select>\
-									</div>\
-									<div class='input-field col s4'>\
-										<select id='history_study_date_from_year_"+i+"' name='history_study_date_from_year[]'>\
-											"+gen_option_year_for_dropdown()+"\
-										</select>\
-									</div>\
-								</div>\
-								<div class='row'>\
-									<div class='input-field col s4'>\
-										<select id='history_study_date_to_day_"+i+"' name='history_study_date_to_day[]'>\
-											"+gen_option_day_for_dropdown()+"\
-										</select>\
-										<label for='history_study_date_to_day_"+i+"'>จนถึง</label>\
-									</div>\
-									<div class='input-field col s4'>\
-										<select id='history_study_date_to_month_"+i+"' name='history_study_date_to_month[]'>\
-											"+gen_option_month_for_dropdown()+"\
-										</select>\
-									</div>\
-									<div class='input-field col s4'>\
-										<select id='history_study_date_to_year_"+i+"' name='history_study_date_to_year[]'>\
-											"+gen_option_year_for_dropdown()+"\
-										</select>\
 									</div>\
 								</div>\
 							</div>\

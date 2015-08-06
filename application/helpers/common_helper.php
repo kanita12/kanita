@@ -224,6 +224,10 @@ function year_thai($year)
 {
 	return intval($year)+543;
 }
+function year_english_from_thai($year)
+{
+	return intval($year)-543;
+}
 function date_time_thai_format_from_db($date)
 {
 	//from 2009-01-13 to 13/01/2550
