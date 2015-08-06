@@ -70,7 +70,12 @@
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">แผนก <?php echo $emp_detail["DepartmentName"] ?></a>
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">ตำแหน่ง <?php echo $emp_detail["PositionName"] ?></a>
       </div>
-      <div class="card-panel">
+      <?php if ($show_card_panel === TRUE): ?>
+        <div class="card-panel">
+      <?php else: ?>
+        <div>
+      <?php endif ?>
+      
         <?php if($show_header_title === TRUE): ?>
         <!-- for large -->
         <h2 class="header hide-on-med-and-down"><?php echo $title_eng ?> / <?php echo $title ?></h2>

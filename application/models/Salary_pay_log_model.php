@@ -83,4 +83,28 @@ class Salary_pay_log_model extends CI_Model
  		$query = $this->db->get();
  		return $query;
  	}
+ 	public function get_detail_by_year_and_month($user_id,$year,$month)
+ 	{
+ 		$this->db->select("sapay_id,sapay_user_id,sapay_year,sapay_month,".
+			"sapay_salary,sapay_ot,sapay_deduction,sapay_tax,sapay_net,".
+			"sapay_created_date,");
+ 		$this->db->select("sapay_salary + sapay_ot as total_income",false);
+ 		$this->db->select("(sapay_salary + sapay_ot) - sapay_deduction as total_income_deduction",false);
+ 		$this->db->from($this->table);
+ 		$this->db->where("sapay_user_id",$user_id);
+ 		if($year > 0 && $month > 0)
+ 		{
+	 		if($year > 0)
+	 		{
+	 			$this->db->where("sapay_year",$year);
+	 		}
+	 		if($month > 0)
+	 		{
+	 			$this->db->where("sapay_month",$month);
+	 		}
+	 	}
+ 		$this->db->order_by("sapay_created_date","DESC");
+ 		$query = $this->db->get();
+ 		return $query;
+ 	}
 }

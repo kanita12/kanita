@@ -1057,6 +1057,45 @@ class Overtime extends CI_Controller
 		$this->load->view("worktime/ot_report",$data);
 		parent::setFooter();
 	}
+
+	public function printpdf($ot_id)
+	{
+		$this->load->helper('pdf_helper');
+		$query = $this->ot->get_detail_by_id($ot_id);
+		$query = $query->row_array();
+		$query_log = $this->otlog->get_list_only_approve($ot_id);
+		$query_log = $query_log->result_array();
+
+		$date = explode("-",$query["wot_date"]);
+		$month = $date[1];
+		$year = $date[0];		
+		$day = $date[2];
+
+		$data = array();
+		$data["emp_detail"] = getEmployeeDetailByUserID($query["wot_request_by"]);
+		//date
+		$data["day"] = $day;
+		$data["month"] = $month;
+		$data["month_name"] = get_month_name_thai($month);
+		$data["year"] = $year;
+		$data["year_thai"] = year_thai($year);
+		//created date
+		$date = explode("-",explode(" ",$query["wot_request_date"])[0]);
+		$month = $date[1];
+		$year = $date[0];		
+		$day = $date[2];
+		$data["created_day"] = $day;
+		$data["created_month"] = $month;
+		$data["created_month_name"] = get_month_name_thai($month);
+		$data["created_year"] = $year;
+		$data["created_year_thai"] = year_thai($year);
+
+		$data["query"] = $query;
+		$data["query_log"] = $query_log;
+
+		$this->load->view('report/Overtimedetail', $data);
+
+	}
 }
 /* End of file Overtime.php */
 /* Location: ./application/controllers/Overtime.php */

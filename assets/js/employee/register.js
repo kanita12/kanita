@@ -4,7 +4,7 @@ $(document).ready(function() {
 	var emp_id = $("#hdEmpID").val();
 	var site_url = $("#hd_site_url").val();
 	//set input only numeric
-	 $("#txtSalary,#txtTelePhone,#txtMobilePhone,#txtIDCard,#txtHeight,#txtWeight").keydown(function (e) {
+	 $("#txtSalary,#txtIDCard,#txtHeight,#txtWeight").keydown(function (e) {
         // Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
              // Allow: Ctrl+A, Command+A
@@ -20,6 +20,23 @@ $(document).ready(function() {
         }
     });
 	//limit text
+
+	
+	$("#txtTelePhone,#txtMobilePhone").keydown(function(e){
+		// Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+		else if($(this).val().length > 9)
+		{
+			e.preventDefault();
+		}
+	});
 	$("#txtIDCard").keydown(function(e){
 		// Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||

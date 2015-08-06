@@ -1,4 +1,8 @@
 <?php
+function asset_url()
+{
+	return FCPATH.'assets/';
+}
 function css_url() 
 {
 	return base_url().'assets/css/';

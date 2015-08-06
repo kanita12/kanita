@@ -41,6 +41,23 @@ class Usersalary extends CI_Controller
 		$this->load->view("Userprofile/Usersalaryhistory",$data);
 		parent::setFooter();
 	}
+	public function printpdf($year,$month)
+	{
+		$this->load->helper('pdf_helper');
+
+		$query_now_salary = $this->salarypay->get_detail_by_year_and_month($this->user_id,$year,$month);
+		
+		$data = array();
+		$data["emp_detail"] = getEmployeeDetail($this->emp_id);
+		$data["month"] = $month;
+		$data["month_name"] = get_month_name_thai($month);
+		$data["year"] = $year;
+		$data["year_thai"] = year_thai($year);
+		$data["query_now_salary"] = $query_now_salary->row_array();
+
+    	$this->load->view('report/Usersalaryprint', $data);
+    	
+	}
 }
 /* End of file Usersalary.php */
 /* Location: ./application/controllers/Usersalary.php */

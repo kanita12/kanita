@@ -74,7 +74,7 @@ class Employees extends CI_Controller
         {
             $data = $this->setDefaultDataPage();
             
-            parent::setHeader('เพิ่มพนักงานใหม่', 'Register', FALSE);
+            parent::setHeader('เพิ่มพนักงานใหม่', 'Register', FALSE,FALSE);
             $this->load->view("hr/Employee/Register", $data);
             parent::setFooter();
         }
@@ -388,7 +388,6 @@ class Employees extends CI_Controller
               $this->employees->updateImage($empID, $file, $nowPath);
             }
           }
-
           //insert emp headman level 1 - 3 [ddlHeadman_level_1,ddlHeadman_level_2,ddlHeadman_level_3]
           //if edit delete old data
           $this->empheadman->delete_from_user_id($userID);
@@ -611,7 +610,7 @@ class Employees extends CI_Controller
           $query = $this->hisstudy->get_list_by_user_id($user_id);
           $data["query_history_study"] = $query->result_array();
         }
-        parent::setHeader('รายละเอียดพนักงาน',"HR",FALSE);
+        parent::setHeader('รายละเอียดพนักงาน',"HR",FALSE,FALSE);
         $this->load->view("hr/Employee/Register", $data);
         parent::setFooter();
     }

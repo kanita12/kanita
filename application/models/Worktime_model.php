@@ -40,4 +40,16 @@ class Worktime_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
+
+	public function get_list_by_year_and_month($user_id,$year,$month)
+	{
+		$this->db->select("WTID,WTDate,WTTimeStart,WTTimeEnd,WTLatestUpdate,User_EmpID");
+		$this->db->from($this->table);
+		$this->db->where("WT_UserID",$user_id);
+		$this->db->where("year(WTDate)",$year);
+		$this->db->where("month(WTDate)",$month);
+		$this->db->join($this->userTable,'WT_UserID = UserID','left');
+		$query = $this->db->get();
+		return $query;
+	}
 }

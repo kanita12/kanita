@@ -283,10 +283,10 @@ class Employees_model extends CI_Model
 				case 'fuIDCard' :
 					$column = "EmpIDCardImg";
 					break;
-				case 'fuAddressImg' :
+				case 'fuAddress' :
 					$column = "EmpAddressImg";
 					break;
-				case 'fuDocRegisterJobImg' :
+				case 'fuDocRegisterJob' :
 					$column = "EmpDocRegisterJobImg";
 					break;
 				case 'fuBank' :
