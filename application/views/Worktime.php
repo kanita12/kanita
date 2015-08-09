@@ -28,7 +28,25 @@ $(document).ready(function() {
 		});
 
 });
+function printpdf()
+{
+	event.preventDefault();
+	var moment = $('#calendar').fullCalendar('getDate');
+	var year =  moment.format('YYYY');
+	var month = parseInt(moment.format('MM'));
+	var site_url = "<?php echo site_url(); ?>";
+	var redirect_url = site_url+"Worktime/printpdf/"+year+"/"+month;
+	window.open(redirect_url, '_blank');
+	return false;
+}
 </script>
 <input type="hidden" name="hd_emp_id" id="hd_emp_id" value="<?php echo $emp_id ?>">
 <input type="hidden" name="hd_site_url" id="hd_site_url" value="<?php echo site_url(); ?>">
 <div id='calendar'></div>
+<br>
+<div class="divider"></div>
+<div class="section">
+	<div class="center-align">
+		<a href="javascript:void(0);" onclick="printpdf();" class="btn waves-effect waves-light" target="_blank">Print PDF</a>
+	</div>
+</div>

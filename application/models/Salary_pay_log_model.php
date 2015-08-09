@@ -79,7 +79,7 @@ class Salary_pay_log_model extends CI_Model
 
  		$this->db->from($this->table);
  		$this->db->where("sapay_user_id",$user_id);
- 		$this->db->order_by("sapay_created_date","DESC");
+ 		$this->db->order_by("sapay_year","DESC")->order_by("sapay_month","DESC");
  		$query = $this->db->get();
  		return $query;
  	}

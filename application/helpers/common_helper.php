@@ -245,6 +245,41 @@ function date_time_thai_format_from_db($date)
 	}
 	return $newDate;
 }
+function date_thai_format_no_time_full_from_db($date)
+{
+	//date format yyyy-mm-dd hh:ss:ii
+	//to dd/mm/yyyy
+	$newDate = '';
+	if($date != '0000-00-00 00:00:00')
+	{
+		$date_time = explode(' ', $date);
+		$date = explode('-',$date_time[0]);
+		$time = $date_time[1];
+
+		$day = $date[2];
+		$month = $date[1];
+		$year = $date[0];
+		$year_thai = year_thai($year);
+		$month_name = get_month_name_thai($month);
+
+		$newDate = $day." ".$month_name." ".$year_thai;
+	}
+	return $newDate;
+}
+function date_thai_format_no_time_from_db($date)
+{
+	//date format yyyy-mm-dd hh:ss:ii
+	//to dd/mm/yyyy
+	$newDate = '';
+	if($date != '0000-00-00 00:00:00')
+	{
+		$date_time = explode(' ', $date);
+		$date = explode('-',$date_time[0]);
+		$time = $date_time[1];
+		$newDate = $date[2].'/'.$date[1].'/'.($date[0]+543);
+	}
+	return $newDate;
+}
 function dateThaiFormatFromDB($date)
 {
 	//from 2009-01-13 to 13/01/2550
@@ -503,7 +538,15 @@ function sum_show_leave_time($row_time = array())
 		$work_hour = get_work_hour();
 		$day = floor($counter / $work_hour);
 		$hour = $counter % $work_hour;
-		$returner = $day.' วัน '.$hour.' ชั่วโมง';
+		if($hour > 0)
+		{
+			$returner = $day.' วัน '.$hour.' ชั่วโมง';
+		}
+		else
+		{
+			$returner = $day.' วัน';
+		}
+		
 	}
 	return $returner;
 }

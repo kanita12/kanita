@@ -1208,4 +1208,35 @@ class Leave extends CI_Controller
 			// }
 		}
 	}
+
+	public function printpdf($leave_id)
+	{
+		$this->load->helper('pdf_helper');
+		$query = $this->leave->getDetailByLeaveID($leave_id);
+		$query = $query->row_array();
+
+		$query_time_detail = $this->leavetimedetail->getDetailByLeaveID($leave_id);
+		$query_time_detail = $query_time_detail->result_array();
+		//section headman approve
+		$query_log = $this->leavelog->get_list_only_approve($leave_id);
+		$query_log = $query_log->result_array();
+
+		$date = explode("-",$query["LStartDate"]);
+		$month = $date[1];
+		$year = $date[0];		
+		$day = $date[2];
+
+		//set data
+		$data = array();
+		$data["emp_detail"] = getEmployeeDetailByUserID($query["L_UserID"]);
+		$data["day"] = $day;
+		$data["month"] = $month;
+		$data["year"] = $year;
+		$data["query"] = $query;
+		$data["query"]["sum_leave_time"] = sum_show_leave_time($query_time_detail);
+		$data["query_log"] = $query_log;
+
+		$this->load->view('report/leave_detail', $data);
+
+	}
 }

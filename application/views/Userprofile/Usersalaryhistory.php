@@ -9,6 +9,7 @@
 			<th>หักภาษีเงินได้บุคคลธรรมดา</th>
 			<th>เงินได้สุทธิต่อเดือน</th>
 			<th>วันที่ทำรายการ</th>
+			<th></th>
 		</tr>
 	</thead>
 	<tbody>
@@ -22,6 +23,7 @@
 				<td><?php echo $row["sapay_tax"] ?></td>
 				<td><?php echo $row["sapay_net"] ?></td>
 				<td><?php echo date_time_thai_format_from_db($row["sapay_created_date"]); ?></td>
+				<td><a href="<?php echo site_url("Usersalary/printpdf/".$row["sapay_year"]."/".$row["sapay_month"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a></td>
 			</tr>
 		<?php endforeach ?>
 	</tbody>

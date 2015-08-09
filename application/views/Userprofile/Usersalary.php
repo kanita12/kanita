@@ -49,6 +49,7 @@
 					<br><br>
 					<div class="row">
 						<div class="col s12 right-align">
+							<a href="<?php echo site_url("Usersalary/printpdf/".$query_now_salary["sapay_year"]."/".$query_now_salary["sapay_month"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a>
 							<a href="<?php echo site_url("Usersalary/history") ?>" class="btn waves-effect waves-light" target="_blank">ประวัติการจ่ายเงินเดือน</a>
 						</div>
 					</div>

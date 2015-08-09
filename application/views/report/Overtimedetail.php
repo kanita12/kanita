@@ -69,4 +69,4 @@ ob_start();
     $content = ob_get_contents();
 ob_end_clean();
 $obj_pdf->writeHTML($content, true, false, true, false, '');
-$obj_pdf->Output($emp_detail["EmpID"].'_salary_'.$year.'_'.$month.'.pdf', 'I');
+$obj_pdf->Output($emp_detail["EmpID"].'_ot_'.$year.'_'.$month.'.pdf', 'I');

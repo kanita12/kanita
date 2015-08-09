@@ -53,6 +53,9 @@
 								<i class="material-icons">delete</i>
 							</a>
 					<?php endif ?>
+					<?php if ($row["wot_workflow_id"] == 21): ?>
+							<a href="<?php echo site_url("Overtime/printpdf/".$row["wot_id"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a>
+					<?php endif ?>
 				</td>
 			</tr>
 		<?php endforeach ?>

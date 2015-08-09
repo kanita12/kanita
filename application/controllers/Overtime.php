@@ -1080,7 +1080,8 @@ class Overtime extends CI_Controller
 		$data["year"] = $year;
 		$data["year_thai"] = year_thai($year);
 		//created date
-		$date = explode("-",explode(" ",$query["wot_request_date"])[0]);
+		$date1 = explode(" ",$query["wot_request_date"]);
+		$date = explode("-",$date1[0]);
 		$month = $date[1];
 		$year = $date[0];		
 		$day = $date[2];
