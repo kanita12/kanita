@@ -80,10 +80,11 @@ ob_start();
 					<?php foreach ($query_used as $row): ?>
 						<tr>
 							<td><?php echo $row["LTName"] ?></td>
-							<td><?php echo $row["LQUsedDay"] ?></td>
 							<?php if ($row["LTName"] == $query["LTName"]): ?>
+								<td><?php echo intval($row["LQUsedDay"]) - intval($query["sum_leave_time_only_day"]); ?></td>
 								<td><?php echo $query["sum_leave_time_only_day"] ?></td>
 							<?php else: ?>
+								<td><?php echo $row["LQUsedDay"] ?></td>
 								<td>0</td>
 							<?php endif ?>
 							<td><?php echo $row["LQUsedDay"] ?></td>
