@@ -524,7 +524,7 @@ function getLinkUserProfilePicture($userID=0)
 	return $link;
 }
 
-function sum_show_leave_time($row_time = array())
+function sum_show_leave_time($row_time = array(),$only_day = FALSE)
 {
 	$returner = '';
 	$counter = count($row_time);
@@ -538,13 +538,20 @@ function sum_show_leave_time($row_time = array())
 		$work_hour = get_work_hour();
 		$day = floor($counter / $work_hour);
 		$hour = $counter % $work_hour;
-		if($hour > 0)
+		if($only_day === TRUE)
 		{
-			$returner = $day.' วัน '.$hour.' ชั่วโมง';
+			$returner = $day;
 		}
 		else
 		{
-			$returner = $day.' วัน';
+			if($hour > 0)
+			{
+				$returner = $day.' วัน '.$hour.' ชั่วโมง';
+			}
+			else
+			{
+				$returner = $day.' วัน';
+			}
 		}
 		
 	}

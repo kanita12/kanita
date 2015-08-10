@@ -24,9 +24,12 @@ ob_start();
 		.right-align{text-align:right;}
 		h4{font-size:33px;font-weight: normal;line-height:20px;}
 		h5{font-size:23px;font-weight: normal;line-height:10px;}
+		h6{font-size:18px;font-weight: normal;line-height:5px;}
 		table.salary{width:100%;border:1px solid #E0E0E0;border-collapse:inherit;border-spacing: 0;}
 		table.salary tr.header td{border-bottom:1px solid #000;}
 		table.salary tr.footer td{border-top:1px solid #000;border-bottom:1px solid #000;}
+		table.stat{border-top:1px solid #E0E0E0;border-left:1px solid #E0E0E0;width:100%;}
+		table.stat tr td{text-align: center;border-right:1px solid #E0E0E0;border-bottom:1px solid #E0E0E0;}
 	</style>
 	<h4 class="center-align">เอกสารการลางาน</h4>
 	<div class="right-align">
@@ -63,8 +66,30 @@ ob_start();
 	<hr>
 	<table>
 		<tr>
-			<td>
-				สถิติการลาในปีงบประมาณนี้
+			<td class="center-align">
+				<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>
+				<h6>สถิติการลาในปีงบประมาณนี้</h6>
+				<br>
+				<table class="stat" cellpadding="5">
+					<tr>
+						<td >ประเภทลา</td>
+						<td>ลามาแล้ว</td>
+						<td>ลาครั้งนี้</td>
+						<td>รวมเป็น</td>
+					</tr>
+					<?php foreach ($query_used as $row): ?>
+						<tr>
+							<td><?php echo $row["LTName"] ?></td>
+							<td><?php echo $row["LQUsedDay"] ?></td>
+							<?php if ($row["LTName"] == $query["LTName"]): ?>
+								<td><?php echo $query["sum_leave_time_only_day"] ?></td>
+							<?php else: ?>
+								<td>0</td>
+							<?php endif ?>
+							<td><?php echo $row["LQUsedDay"] ?></td>
+						</tr>
+					<?php endforeach ?>
+				</table>
 			</td>
 			<td class="center-align" valign="bottom" style="height:300px">
 				<br>&nbsp;<br>&nbsp;<br>&nbsp;<br>

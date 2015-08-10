@@ -1226,6 +1226,10 @@ class Leave extends CI_Controller
 		$year = $date[0];		
 		$day = $date[2];
 
+		//section used quota
+		$query_used = $this->leavequota->get_stat($query["L_UserID"],$year);
+		$query_used = $query_used->result_array();
+		
 		//set data
 		$data = array();
 		$data["emp_detail"] = getEmployeeDetailByUserID($query["L_UserID"]);
@@ -1234,7 +1238,10 @@ class Leave extends CI_Controller
 		$data["year"] = $year;
 		$data["query"] = $query;
 		$data["query"]["sum_leave_time"] = sum_show_leave_time($query_time_detail);
+		$data["query"]["sum_leave_time_only_day"] = sum_show_leave_time($query_time_detail,TRUE);
+		$data["query_used"] = $query_used;
 		$data["query_log"] = $query_log;
+
 
 		$this->load->view('report/leave_detail', $data);
 
