@@ -245,8 +245,11 @@ class Userprofile extends CI_Controller
 
     $query = getEmployeeDetailByUserID($this->user_id);
     $query_history_study = $this->hisstudy->get_list_by_user_id($this->user_id);
+    $row_count_history_study = $query_history_study->num_rows();
     $query_history_study = $query_history_study->result_array();
+    
     $data = array();
+    $data["row_count_history_study"] = $row_count_history_study;
     $data["query_history_study"] = $query_history_study;
 
     $data_open = array();

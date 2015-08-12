@@ -2060,6 +2060,10 @@ ul {
   height: 1px;
   overflow: hidden;
   background-color: #e0e0e0; }
+  .divider0 {
+  height: 1px;
+  overflow: hidden;
+  background-color: #000; }
 
 blockquote {
   margin: 20px 0;
@@ -6112,10 +6116,12 @@ a.waves-effect .waves-ripple {
   bottom: -100%;
   margin: 0;
   width: 100%;
-  max-height: 45%;
+  max-height: 55%;
   border-radius: 0;
   will-change: bottom, opacity; }
-
+.modal.bottom-sheet.history-study{
+  padding-left:5%;
+}
 .collapsible {
   border-top: 1px solid #ddd;
   border-right: 1px solid #ddd;
