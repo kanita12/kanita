@@ -5,7 +5,7 @@
 	<div class="row">
 	<?php foreach ($query_image as $row): ?>
 	<div class="col s3">
-		<img class="responsive-img materialboxed" width="250" src="<?php echo site_url($row["newsimage_filepath"]) ?>"></li>
+		<img class="responsive-img materialboxed" width="250" src="<?php echo site_url($row["newsimage_filepath"]) ?>">
 	</div>
 	<?php endforeach ?>
 	</div>

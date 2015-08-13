@@ -18,4 +18,10 @@ class News_image_model extends CI_Model
 		$this->db->where("newsimage_news_id",$news_id);
 		return $this->db->get();
 	}
+	public function delete_by_id($newsimage_id)
+	{
+		$this->db->where("newsimage_id",$newsimage_id);
+		$this->db->delete($this->table);
+		return $this->db->affected_rows();
+	}
 }

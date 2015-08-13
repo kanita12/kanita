@@ -42,7 +42,11 @@
 		<div id="file_pic">
 			<?php if (count($value_news_image) > 0): ?>
 				<?php foreach ($value_news_image as $row): ?>
-					<img class="responsive-img" src="<?php echo site_url($row["newsimage_filepath"]); ?>" style="width:200px;">
+					<div class="col s12 m6 l4 newsimage-main" id="newsimage_<?php echo $row["newsimage_id"];?>">
+						<div class="newsimage-image" style="background-image:url(<?php echo site_url($row["newsimage_filepath"]); ?>);">
+							<div class="newsimage-delete-icon"><i class="material-icons" onclick="delete_image('<?php echo $row["newsimage_id"];?>');">clear</i></div>
+						</div>
+					</div>
 				<?php endforeach ?>
 			<?php endif ?>
 		</div>

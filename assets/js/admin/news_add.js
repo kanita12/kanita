@@ -1,7 +1,65 @@
+var url = window.location.protocol+"//"+window.location.hostname+"/hrsystem/";
+
+$(document).ready(function()
+{
+	initUploader();
+	//show validate error
+	var validation = $("#hd_validation_errors").val();
+	if($.trim(validation) !== "")
+	{
+		swal
+		({
+			title: "กรุณากรอกข้อมูลให้ครบ",
+			html: validation,
+			type: "error"
+		});
+	}
+	//set editor
+	$('textarea.editor').ckeditor();
+	//set datepicker
+	$('#input_show_start_date, #input_show_end_date').datetimepicker({
+		timepicker:false,
+		format:'d/m/Y',
+		lang:'th',
+		closeOnDateSelect:true
+	 });
+
+	bind_image();
+});
+function bind_image()
+{
+	$("[id^='newsimage_']").hover(function () {
+        $("[class='newsimage-delete-icon']", this).show();
+    },
+    function () {
+        $("[class='newsimage-delete-icon']", this).hide();
+    });
+}
+function delete_image(newsimage_id)
+{
+	swal({   
+		title: 'แน่ใจนะ?',   
+		type: 'warning',   
+		showCancelButton: true,   
+		confirmButtonColor: '#3085d6',   
+		cancelButtonColor: '#d33',   
+		confirmButtonText: 'ใช่',
+		cancelButtonText: 'ไม่',   
+		closeOnConfirm: false 
+	}, function() {   
+		$.ajax({
+			url: url+'hr/News/delete_newsimage',
+			type: 'POST',
+			data: {newsimage_id: newsimage_id},
+		})
+		.done(function() {
+			$("#newsimage_"+newsimage_id).fadeOut();
+			swal('เรียบร้อยแล้ว!','','success');
+		})
+	});
+}
 function initUploader()
 {
-	var url = window.location.protocol+"//"+window.location.hostname+"/hrsystem/";
-
 	$('#drag-and-drop-zone').dmUploader({
 		url: url+'hr/News/uploader',
 		dataType: 'json',
@@ -30,14 +88,22 @@ function initUploader()
 			var news_id = data.news_id;
 			var filepath = data.filepath;
 			var filename = data.filename;
+			var newsimage_id = data.newsimage_id;
 
 			update_file_status(id, 'success', 'Upload Complete'); 
 			update_file_progress(id, '100%');
 
 			$("#hd_news_id").val(news_id);
 			
-			var text = "<img class='responsive-img' src='"+url+filepath+"' style='width:200px;'>";
+			//var text = "<img class='responsive-img' src='"+url+filepath+"' style='width:200px;'>";
+			var text = "<div class='col s12 m6 l4 newsimage-main' id='newsimage_"+newsimage_id+"'>\
+						<div class='newsimage-image' style='background-image:url("+url+filepath+");'>\
+							<div class='newsimage-delete-icon'><i class='material-icons' onclick='delete_image("+newsimage_id+");'>clear</i></div>\
+						</div>\
+					</div>";
+
 			$("#file_pic").append(text);
+			bind_image();
 		},
 		onUploadError: function(id, message)
 		{
@@ -83,30 +149,7 @@ function update_file_progress(id, percent)
 	$('#uploadFile' + id).find('div.progress').width(percent);
 }
 
-$(document).ready(function()
-{
-	initUploader();
-	//show validate error
-	var validation = $("#hd_validation_errors").val();
-	if($.trim(validation) !== "")
-	{
-		swal
-		({
-			title: "กรุณากรอกข้อมูลให้ครบ",
-			html: validation,
-			type: "error"
-		});
-	}
-	//set editor
-	$('textarea.editor').ckeditor();
-	//set datepicker
-	$('#input_show_start_date, #input_show_end_date').datetimepicker({
-		timepicker:false,
-		format:'d/m/Y',
-		lang:'th',
-		closeOnDateSelect:true
-	 });
-});
+
 function check_before_submit()
 {
 	var newstype = parseInt($("#input_newstype").val());
