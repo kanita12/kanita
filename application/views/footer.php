@@ -7,13 +7,19 @@
 	  				<h3>ประกาศข่าวด่วน</h3>
 	  				<div class="row">
 				 		<?php foreach ($query_news_alert as $row): ?>
-					 		<div class="col s12 m4 l4">
+					 		<div class="col s12 m6 l4">
 					 			<div class="card hoverable tiny" style="background-color:#0ECEAB;">
 						        	<div class="card-content white-text">
 						            	<p><?php echo $row["news_topic"]; ?></p>
 						          	</div>
 						          	<div class="card-action right-align">
-						            	<a href="<?php echo site_url("news/detail/".$row["news_id"]); ?>" class="black-text">อ่านต่อ</a>
+						          		<div class="left">
+										<?php echo date_thai_format_no_time_from_db($row["news_create_date"]); ?>
+										</div>
+										<div class="right">
+						            	<a href="<?php echo site_url("news/detail/".$row["news_id"]); ?>" class="black-text right-align">อ่านต่อ</a>
+						            	</div>
+						            	<div class="clearfix"></div>
 						          	</div>
 						        </div>
 						    </div>
@@ -28,7 +34,7 @@
 	  				<h3 style="color:#087D68;">พนักงานใหม่</h3>
 	  				<div class="row">
 				 		<?php foreach ($query_new_emp as $row): ?>
-					 		<div class="col s12 m12 l3">
+					 		<div class="col s12 m6 l3">
 	  							<div class="card-panel" style="padding: 25px 30px 10px 30px;margin:2%;">
 	                				<img class="circle responsive" src="<?php echo base_url().$row["EmpPictureImg"] ?>" width="100%" height="200"alt="" onerror="this.onerror=null;this.src='<?php echo base_url()."assets/images/no_image.jpg" ?>'">
 	                				<p class="truncate center-align"><b>

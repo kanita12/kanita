@@ -34,7 +34,7 @@ class News_model extends CI_Model
 			$this->db->where("IF(news_show_end_date = '0000-00-00',NOW(),news_show_end_date) >= NOW()");
 		}
 		$this->db->join($this->table_type,"news_newstype_id = newstype_id","left");
-
+		$this->db->order_by("news_id","DESC");
 		return $this->db->get();
 	}
 	public function get_detail_by_id($news_id)

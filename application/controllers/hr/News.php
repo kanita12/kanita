@@ -36,7 +36,7 @@ class News extends CI_Controller
     $data["value_keyword"] = $keyword == "0"? "":$keyword;
 
     //load view
-    parent::setHeader("ข่าวสาร","HR");
+    parent::setHeader("ข่าวสาร & กิจกรรม","HR");
     $this->load->view("News/List", $data);
     parent::setFooter();
   }
@@ -59,8 +59,8 @@ class News extends CI_Controller
     $this->form_validation->set_message("greater_than", "- เลือกประเภทข่าว");
     $this->form_validation->set_message("required", "- กรอกหัวข้อข่าว");
     if ($this->form_validation->run() === true) {
-      $this->_save_edit();
-      redirect("News");
+      $this->_save();
+      redirect("hr/News");
       exit();
     } else {
       //get data news
@@ -101,7 +101,7 @@ class News extends CI_Controller
     $this->form_validation->set_message("required", "- กรอกหัวข้อข่าว");
     if ($this->form_validation->run() === true) {
       $this->_save();
-      redirect("News");
+      redirect("hr/News");
       exit();
     } else {
       //set data
@@ -113,7 +113,7 @@ class News extends CI_Controller
       $data["value_show_start_date"] = "";
       $data["value_show_end_date"] = "";
       $data["value_news_image"] = array();
-      $data["value_news_id"] = 0;
+      $data["value_news_id"] = $this->gen_news_id(TRUE);
       //load view
       parent::setHeader($this->lang->line("title_page_news_add"),"HR");
       $this->load->view("News/Add", $data);
@@ -128,8 +128,8 @@ class News extends CI_Controller
     $newstype_id = $post["input_newstype"];
     $news_topic = $post["input_topic"];
     $news_detail = $post["input_detail"];
-    $news_show_start_date = $post["input_show_start_date"];
-    $news_show_end_date = $post["input_show_end_date"];
+    $news_show_start_date = $post["input_show_start_date"] == "" ? "" : dbDateFormatFromThaiUn543($post["input_show_start_date"]);
+    $news_show_end_date = $post["input_show_end_date"] == "" ? "" : dbDateFormatFromThaiUn543($post["input_show_end_date"]);
     //set data for insert
     $data = array();
     $data["news_newstype_id"] = $newstype_id;
@@ -163,10 +163,8 @@ class News extends CI_Controller
       $this->news->update($data, $where);
     }
   }
-  public function uploader()
+  public function gen_news_id($return = FALSE)
   {
-    $news_id = intval($this->input->post("news_id"));
-    if ($news_id === 0) {
       $data = array();
       $data["news_newstype_id"] = 0;
       $data["news_topic"] = "";
@@ -175,7 +173,17 @@ class News extends CI_Controller
       $data["news_latest_update_date"] = date('Y-m-d H:i:s');
       $data["news_status"] = "-999";
       $news_id = $this->news->insert($data);
-    }
+      if($return === TRUE)
+      {
+        return $news_id;
+      }
+      echo $news_id;
+      
+  }
+  public function uploader()
+  {
+    $news_id = intval($this->input->post("news_id"));
+
     //check image upload
     $config = array();
     $config['upload_path'] = $this->config->item("upload_news_image");

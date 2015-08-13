@@ -40,7 +40,7 @@
 					<?php if ($row["news_show_start_date"] === "0000-00-00" || $row["news_show_end_date"] === "0000-00-00"): ?>
 						แสดงตลอด
 					<?php else: ?>
-						<?php echo $row["news_show_start_date"] ?> - <?php echo $row["news_show_end_date"] ?>
+						<?php echo dateThaiFormatFromDB($row["news_show_start_date"]); ?> - <?php echo dateThaiFormatFromDB($row["news_show_end_date"]); ?>
 					<?php endif ?>
 				</td>
 				<td><?php echo date_time_thai_format_from_db($row["news_latest_update_date"]) ?></td>

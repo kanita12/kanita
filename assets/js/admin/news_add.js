@@ -1,7 +1,9 @@
 function initUploader()
 {
+	var url = window.location.protocol+"//"+window.location.hostname+"/hrsystem/";
+
 	$('#drag-and-drop-zone').dmUploader({
-		url: '/hrsystem/admin/News/uploader',
+		url: url+'hr/News/uploader',
 		dataType: 'json',
 		allowedTypes: 'image/*',
 		extraData: {news_id:$("#hd_news_id").val()},
@@ -33,7 +35,8 @@ function initUploader()
 			update_file_progress(id, '100%');
 
 			$("#hd_news_id").val(news_id);
-			var text = "<img class='responsive-img' src='"+window.location.protocol+"//"+window.location.hostname+"/hrsystem/"+filepath+"' style='width:200px;'>";
+			
+			var text = "<img class='responsive-img' src='"+url+filepath+"' style='width:200px;'>";
 			$("#file_pic").append(text);
 		},
 		onUploadError: function(id, message)
