@@ -82,7 +82,7 @@ class Worktime extends CI_Controller
 	{
 		if($emp_id !== "")
 		{ 
-	//check can see this profile is_your_headman or is_hr
+			//check can see this profile is_your_headman or is_hr
 			$user_detail = getEmployeeDetail($emp_id);
 			if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
 			{
@@ -171,9 +171,23 @@ class Worktime extends CI_Controller
   // Send JSON to the client.
 		echo json_encode($output_arrays);
 	}
-	public function printpdf($year,$month)
+	public function printpdf($year,$month,$emp_id = "")
 	{
 		$this->load->helper('pdf_helper');
+		if($emp_id !== "")
+		{ 
+			//check can see this profile is_your_headman or is_hr
+			$user_detail = getEmployeeDetail($emp_id);
+			if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+			{
+				$this->emp_id = $emp_id;
+				$this->user_id = $user_detail["UserID"];
+			}
+			else
+			{
+				$emp_id = "";
+			}
+		}
 		$query = $this->worktime->get_list_by_year_and_month($this->user_id, $year, $month);
 		
 

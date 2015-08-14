@@ -33,15 +33,16 @@
         <td><?php echo $row["EmpEmail"] ?></td>
         <td><?php echo $row["EmpMobilePhone"] ?></td>
         <td>
-          <a href="<?php echo site_url("Userprofile/userinfo/".$row['EmpID']); ?>" target="_blank">
-            ดูรายละเอียด
+          <a href="<?php echo site_url("Userprofile/userinfo/".$row['EmpID']); ?>" 
+          class="btn-floating btn-medium waves-effect waves-light blue tooltipped" 
+          data-position="bottom" data-tooltip="ดูรายละเอียด"
+          target="_blank">
+            <i class="material-icons">info_outline</i>
           </a>
-          <!-- <a href="<?php echo site_url("headman/Yourteam/Detail/".$row['EmpID']); ?>" target="_self">
-            ดูรายละเอียด
-          </a> -->
-          <a href="<?php  echo site_url("Worktime/show/".$row['EmpID']); ?>" onclick="backupValue();" target="_blank">
-            ตรวจสอบเวลาเข้า-ออก
-          </a> 
+          <a href="<?php  echo site_url("Worktime/show/".$row['EmpID']); ?>" 
+            class="btn-floating btn-small waves-effect waves-light orange tooltipped" onclick="backupValue();" target="_blank" data-position="bottom" data-tooltip="ตรวจสอบเวลาเข้า-ออก">
+            <i class="material-icons">query_builder</i>
+          </a>
         </td>
       </tr>
     <?php endforeach ?>

@@ -43,7 +43,7 @@
 				<td><?php echo $row["EmpFirstnameThai"]." ".$row["EmpLastnameThai"] ?></td>
 				<td id="<?php echo $row["LID"] ?>_workflow_name"><?php echo $row["WFName"] ?></td>
 				<td>
-						<a href="<?php echo site_url("Leave/detail/".$row["LID"]);?>" class="btn-floating btn-medium waves-effect waves-light blue">
+						<a href="<?php echo site_url("Leave/detail/".$row["LID"]);?>" class="btn-floating btn-medium waves-effect waves-light blue" target="_blank">
 						<i class="material-icons">info_outline</i>
 						</a>
 						<?php if($row["WFName"] === "รออนุมัติจากหัวหน้างาน Level ".$row["eh_headman_level"]): ?>
@@ -56,6 +56,9 @@
 						onclick="approve_disapprove(this,'disapprove','<?php echo $row["LID"]; ?>')">
 						<i class="material-icons">close</i>
 						</a>
+						<?php endif ?>
+						<?php if ($row["L_WFID"] == 10): ?>
+							<a href="<?php echo site_url("Leave/printpdf/".$row["LID"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a>
 						<?php endif ?>
 				</td>
 			</tr>

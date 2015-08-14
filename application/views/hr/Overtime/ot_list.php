@@ -50,6 +50,7 @@
 					<a href="<?php echo site_url("Overtime/detail/".$row["wot_id"]);?>" class="btn-floating btn-medium waves-effect waves-light blue" target="_blank">
 						<i class="material-icons">info_outline</i>
 					</a>
+					<a href="<?php echo site_url("Overtime/printpdf/".$row["wot_id"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a>
 				</td>
 			</tr>
 		<?php endforeach ?>

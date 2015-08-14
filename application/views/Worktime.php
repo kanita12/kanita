@@ -35,7 +35,9 @@ function printpdf()
 	var year =  moment.format('YYYY');
 	var month = parseInt(moment.format('MM'));
 	var site_url = "<?php echo site_url(); ?>";
-	var redirect_url = site_url+"Worktime/printpdf/"+year+"/"+month;
+	var emp_id = "<?php echo $emp_id; ?>";
+	if(emp_id != ""){ emp_id = emp_id;}
+	var redirect_url = site_url+"Worktime/printpdf/"+year+"/"+month+"/"+emp_id;
 	window.open(redirect_url, '_blank');
 	return false;
 }

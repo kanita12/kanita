@@ -51,6 +51,9 @@
 							</a>
 						<?php endif ?>
 					<?php endif ?>
+					<?php if ($row["l_wfid"] == 10): ?>
+						<a href="<?php echo site_url("Leave/printpdf/".$row["lid"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a>
+					<?php endif ?>
 				</td>
 			</tr>
 		<?php endforeach ?>
