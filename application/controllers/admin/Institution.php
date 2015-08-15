@@ -11,84 +11,108 @@ class Institution extends CI_Controller
 	}
 	public function index()
 	{
-		$this->showList();
+		$this->search();
 	}
-	public function showList()
+	public function search($keyword = "0")
 	{
-		$keyword = '';
-		$status = -1;
-		if($_POST)
-		{
-			$pData = $this->input->post();
-			$keyword = $pData['txtKeyword'];
-			$status = $pData['ddlStatus'];
-		}	
+		$keyword = $keyword == "0" ? "" : urldecode($keyword);
+
 		$config = array();
-		$config["total_rows"] = $this->inst->countAll($keyword,$status);
+		$config["total_rows"] = $this->inst->countAll($keyword);
 		$this->pagination->initialize($config);
-		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+		$page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
 
 		$data = array();
-		$data["query"] = $this->inst->getList($this->pagination->per_page, $page,$keyword,$status);
+		$data["query"] = $this->inst->getList($this->pagination->per_page, $page,$keyword);
 		$data["links"] = $this->pagination->create_links();
 		$data['vKeyword'] = $keyword;
-		$data['vStatus'] = $status;
 
-		$statusData = array();
-		$statusData['-1'] = 'ทั้งหมด';
-		$statusData['1'] = 'ใช้งาน';
-		$statusData['0'] = 'ปิดใช้งาน';
-		$data['queryStatus'] = $statusData;
-		
-		parent::setHeaderAdmin();
+
+		parent::setHeaderAdmin("หน่วยงาน");
 		$this->load->view('admin/institution/list',$data);
 		parent::setFooterAdmin();
 	}
-	public function addNew()
+	public function add()
 	{
-		if($_POST)
+		$rules = array(
+			array(
+				"field" => "input_name",
+				"label" => "ชื่อหน่วยงาน",
+				"rules" => "trim|required",
+				)
+			);
+		$this->form_validation->set_rules($rules);
+		$this->form_validation->set_message("required", "- ชื่อหน่วยงาน");
+		if ($this->form_validation->run() === true) 
 		{
-			$post = $this->input->post();
+			$this->_save();
+			redirect("admin/Institution/");
+			exit();
+		} 
+		else 
+		{
 			$data = array();
-			$data['INSName'] = $post['txtInstName'];
-			$data['INSDesc'] = $post['txtInstDesc'];
-			$data['INS_StatusID'] = $post['ddlStatus'];
-			$newID = $this->inst->insertNew($data);
-			$statusName = $data['INS_StatusID'] == '1' ? 'ใช้งาน' : 'ปิดใช้งาน';
+			$data["value_inst_name"] = "";
+			$data["value_inst_desc"] = "";
+			$data["value_inst_id"] = "";
 
-			//insert log admin
-			log_admin('insert',$newID,'institution','insert new institution [name] '.$post['txtInstName'],$this->user_id);
-		
-			$text = '';
-			$text .= "<tr id=\"trIns_".$newID."\">";
-			$text .= "<td id=\"tdInsName_".$newID."\">";
-			$text .= $data['INSName'];
-			$text .= '</td>';
-			$text .= "<td id=\"tdInsDesc_".$newID."\">";
-			$text .= $data['INSDesc'];
-			$text .= '</td>';
-			$text .= "<td id=\"tdInsStatus_".$newID."\">".$statusName."</td>";
-			$text .= '<td>';
-			$text .= "<a href=\"javascript:void(0);\" onclick=\"editThis('".$newID."');\">แก้ไข</a>";
-			$text .= " <a href=\"javascript:void(0);\" onclick=\"deleteThis(this,'institution/delete','".$newID."');\">ลบ</a>";
-			$text .= '</td>';
-			$text .= '</tr>';
-			echo $text;
+			parent::setHeaderAdmin("เพิ่มหน่วยงาน");
+			$this->load->view('admin/institution/inst_add',$data);
+			parent::setFooterAdmin();
 		}
 	}
-	public function edit()
+	private function _save()
 	{
-		if($_POST)
-		{
-			$post = $this->input->post();
-			$instID = $post['id'];
-			$data = array();
-			$data['INSName'] = $post['txtInstName'];
-			$data['INSDesc'] = $post['txtInstDesc'];
-			$data['INS_StatusID'] = $post['ddlStatus'];
-			$this->inst->edit($instID,$data);
+		$post = $this->input->post(NULL,TRUE);
+		$data = array();
+		$data['INSName'] = $post['input_name'];
+		$data['INSDesc'] = $post['input_desc'];
+		$newID = $this->inst->insertNew($data);
 
-			log_admin('insert',$instID,'institution','edit institution',$this->user_id);			
+		//insert log admin
+		log_admin('insert',$newID,'institution','insert new institution [name:'.$post['input_name']."]",$this->user_id);
+	}
+	public function _save_edit()
+	{
+		$post = $this->input->post(NULL,TRUE);
+		$instID = $post["hd_inst_id"];
+		$data = array();
+		$data['INSName'] = $post['input_name'];
+		$data['INSDesc'] = $post['input_desc'];
+		$this->inst->edit($instID,$data);
+
+		log_admin('edit',$instID,'institution','edit institution to [name:'.$post['input_name'].']',$this->user_id);			
+	}
+	public function edit($inst_id)
+	{
+		$rules = array(
+			array(
+				"field" => "input_name",
+				"label" => "ชื่อหน่วยงาน",
+				"rules" => "trim|required",
+				)
+			);
+		$this->form_validation->set_rules($rules);
+		$this->form_validation->set_message("required", "- ชื่อหน่วยงาน");
+		if ($this->form_validation->run() === true) 
+		{
+			$this->_save_edit();
+			redirect("admin/Institution/");
+			exit();
+		} 
+		else 
+		{
+			$query = $this->inst->get_detail_by_id($inst_id);
+			$query = $query->row_array();
+
+			$data = array();
+			$data["value_inst_name"] = $query["INSName"];
+			$data["value_inst_desc"] = $query["INSDesc"];
+			$data["value_inst_id"] = $inst_id;
+
+			parent::setHeaderAdmin("เพิ่มหน่วยงาน");
+			$this->load->view('admin/institution/inst_add',$data);
+			parent::setFooterAdmin();
 		}
 	}
 	public function delete()
@@ -105,11 +129,8 @@ class Institution extends CI_Controller
 
 				$this->inst->delete($instID);
 
-				log_admin('insert',$instID,'institution','delete institution [name] '.$inst_name.' [desc] '.$inst_desc,$this->user_id);
+				log_admin('delete',$instID,'institution','delete institution [name] '.$inst_name.' [desc] '.$inst_desc,$this->user_id);
 			}
-			
-
 		}
-		
 	}
 }

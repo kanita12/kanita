@@ -15,9 +15,9 @@ class Position_model extends CI_Model
         parent::__construct();
     }
 
-    public function get_list($department_id=0,$keyword='')
+    public function get_list($inst_id = 0 ,$department_id = 0)
     {
-        $this->db->select('PID,P_DID,PName,PDesc,IsHeadman,Headman_PID,P_StatusID');
+        $this->db->select('PID,P_DID,PName,PDesc,Headman_PID,P_StatusID');
         $this->db->select(',DName,DDesc,D_INSID');
         $this->db->select(',INSName,INSDesc');
         $this->db->from($this->table);
@@ -25,21 +25,26 @@ class Position_model extends CI_Model
         {
             $this->db->where('P_DID',$department_id);
         }
+        if($inst_id > 0)
+        {
+            $this->db->where("D_INSID",$inst_id);
+        }
         $this->db->where('P_StatusID <>','-999');
         $this->db->join($this->table_department,'DID = P_DID','left');
-        if( $keyword !== '' )
-        {
-            $this->db->like('PName',$keyword);
-            $this->db->or_like('DName',$keyword);
-        }
+        // if( $keyword !== '' )
+        // {
+        //     $this->db->like('PName',$keyword);
+        //     $this->db->or_like('DName',$keyword);
+        // }
         $this->db->join($this->table_insitution,'D_INSID = INSID','left');
+
         $this->db->order_by('D_INSID','asc')->order_by('P_DID','asc');
         $query = $this->db->get();
         return $query;
     }
     public function get_detail_by_id($position_id)
     {
-        $this->db->select('PID,P_DID,PName,PDesc,IsHeadman,Headman_PID,P_StatusID');
+        $this->db->select('PID,P_DID,PName,PDesc,Headman_PID,P_StatusID');
         $this->db->select(',DName,DDesc,D_INSID');
         $this->db->select(',INSName,INSDesc');
         $this->db->from($this->table);

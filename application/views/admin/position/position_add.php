@@ -1,19 +1,40 @@
 <?php echo form_open($form_url); ?>
 <input type='hidden' id='hd_position_id' name='hd_position_id' value='<?php echo $value_position_id ?>'>
-หน่วยงาน : <?php echo form_dropdown('select_insitution_id', $dropdown_institution, $value_institution_id,'id=select_insitution_id'); ?>
-<br>
-แผนก : <?php echo form_dropdown('select_department_id', $dropdown_department, $value_department_id,'id=select_department_id'); ?>
-<br>
-หัวหน้าของตำแหน่งนี้ : <?php echo form_dropdown('select_headman_position_id', $dropdown_position, $value_headman_position_id,'id=select_headman_position_id'); ?>
-<br>
-ชื่อตำแหน่ง : <input type='text' id='input_position_name' name='input_position_name' value='<?php echo $value_position_name ?>'>
-<br>
-คำอธิบายเพิ่มเติม :
-<br>
-<textarea name="input_position_desc" id="input_position_desc" cols="30" rows="10"><?php echo $value_position_desc ?></textarea>
-<br>
-<input type="submit" value='save' onclick='return check_before_submit();'>
-
+<div class="row">
+	<div class="col s12">
+		<div class="input-field col s6">
+			<?php echo form_dropdown('select_insitution_id', $dropdown_institution, $value_institution_id,'id=select_insitution_id'); ?>
+			<label for="select_institution_id">หน่วยงาน</label>
+		</div>
+		<div class="input-field col s6">
+			<?php echo form_dropdown('select_department_id', $dropdown_department, $value_department_id,'id=select_department_id'); ?>
+			<label for="select_department_id">แผนก</label>
+		</div>
+		<div class="input-field col s12">
+			<?php echo form_dropdown('select_headman_position_id', $dropdown_position, $value_headman_position_id,'id=select_headman_position_id'); ?>
+			<label for="select_headman_position_id">หัวหน้าของตำแหน่งนี้</label>
+		</div>
+		<div class="input-field col s12">
+			<input type='text' id='input_position_name' name='input_position_name' value='<?php echo $value_position_name ?>'>
+			<label for="input_position_name">ชื่อตำแหน่ง</label>
+		</div>
+		<div class="input-field col s12">
+			<textarea name="input_position_desc" id="input_position_desc" class="materialize-textarea"><?php echo $value_position_desc ?></textarea>
+			<label for="input_position_desc">คำอธิบายเพิ่มเติม</label>
+		</div>
+	</div>
+</div>
+<div class="divider"></div>
+<div class="section">
+	<div class="row">
+		<div class="col s4">
+			<button class="btn waves-effect waves-light" type="submit" name="action" onclick="return check_before_submit();">บันทึก</button>
+		</div>
+		<div class="col s4 offset-s4 right-align">
+			<a href="<?php echo site_url("admin/Position") ?>" class="btn waves-effect waves-light red">ยกเลิก</a>
+		</div>
+	</div>
+</div>
 <?php echo form_close(); ?>
 
 <script type='text/javascript'>

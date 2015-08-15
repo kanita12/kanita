@@ -2,7 +2,8 @@
 
 class Leavecondition_model extends CI_Model
 {
-  private $table = "T_LeaveCondition";
+  private $table = "t_leavecondition";
+  private $table_leavetype = "t_leavetype";
   function __construct()
   {
     parent::__construct();
@@ -11,7 +12,7 @@ class Leavecondition_model extends CI_Model
   {
     $this->db->select("LCID,LCWorkAge,LCCanLeave,LC_LTID,LTName");
     $this->db->from($this->table);
-    $this->db->join("T_LeaveType","LC_LTID = LTID","left");
+    $this->db->join($this->table_leavetype,"LC_LTID = LTID","left");
     $this->db->order_by("LTName","ASC");
     $this->db->order_by("LCWorkAge","ASC");
     $query = $this->db->get();

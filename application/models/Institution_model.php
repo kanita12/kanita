@@ -6,7 +6,7 @@ class Institution_model extends CI_Model
 	{
 		parent::__construct();
 	}
-    public function countAll($keyword = '',$status = -1)
+    public function countAll($keyword = '')
     {
         $this->db->select('INSID');
         $this->db->from($this->table);
@@ -14,10 +14,7 @@ class Institution_model extends CI_Model
         {
             $this->db->where("(INSName LIKE '%".$keyword."%' OR INSDesc LIKE '%".$keyword."%')");
         }
-        if($status > -1)
-        {
-            $this->db->where('INS_StatusID',$status);
-        }
+
         $this->db->where('INS_StatusID != -999');
         return $this->db->count_all_results();
     }
@@ -38,7 +35,7 @@ class Institution_model extends CI_Model
         }
         return $dropDownList;
     }
-    public function getList($perpage,$page,$keyword,$status)
+    public function getList($perpage,$page,$keyword)
     {
         $this->db->limit($perpage,$page);
         $this->db->select("INSID,INSName,INSDesc,INS_StatusID");
@@ -47,10 +44,6 @@ class Institution_model extends CI_Model
         if($keyword != '')
         {
             $this->db->where("(INSName LIKE '%".$keyword."%' OR INSDesc LIKE '%".$keyword."%')");
-        }
-        if($status > -1)
-        {
-            $this->db->where('INS_StatusID',$status);
         }
         $this->db->where('INS_StatusID != -999');
         $query = $this->db->get();

@@ -1,35 +1,37 @@
 <?php
 class Department extends CI_Controller
 {
-	private $data = array();
-
 	public function __construct()
 	{
 		parent::__construct();
 		$ci =& get_instance();
 		$ci->load->model('Department_model','department');
-		$this->user_id = $ci->session->userdata('userid');
-		$this->__default_value();
+		$ci->load->model('Institution_model','institution');
+
 	}
-	public function __default_value()
+	private function _default_value()
 	{
-		$this->data = 	array('value_department_name'=>''
+		$data = 	array('value_department_name'=>''
 						,'value_department_desc'=>''
 						,'value_institution_id'=>'0'
 						,'form_url'=>''
 						,'department_id'=>'0'
 						);
+		return $data;
 	}
 	public function index()
 	{
-		$this->show();
+		$this->search();
 	}
-	public function show()
+	public function search()
 	{
 		$query = $this->department->get_list();
+
 		$data = array();
+		$data["rowcount_query"] = $query->num_rows();
 		$data['query'] = $query->result_array();
-		parent::setHeaderAdmin();
+
+		parent::setHeaderAdmin("แผนก");
 		$this->load->view('admin/department/department_list',$data);
 		parent::setFooterAdmin();
 	}
@@ -37,10 +39,11 @@ class Department extends CI_Controller
 	{
 		$this->load->model('Institution_model','institution');
 
-		$data = $this->data;
+		$data = $this->_default_value();
 		$data['form_url'] = site_url('admin/Department/save_add');
 		$data['dropdown_institution'] = $this->institution->getListForDropDown();
-		parent::setHeaderAdmin();
+
+		parent::setHeaderAdmin("เพิ่มแผนก");
 		$this->load->view('admin/department/department_add',$data);
 		parent::setFooterAdmin();
 	}
@@ -63,13 +66,13 @@ class Department extends CI_Controller
 	}
 	public function edit($department_id)
 	{
-		$this->load->model('Institution_model','institution');
+		
 
 		$query = $this->department->get_detail_by_id($department_id);
 		if( $query->num_rows() > 0 )
 		{
 			$query = $query->row_array();
-			$data = $this->data;
+			$data = $this->_default_value();
 			$data['form_url'] = site_url('admin/Department/save_edit');
 			$data['department_id'] = $department_id;
 			$data['dropdown_institution'] = $this->institution->getListForDropDown();
@@ -77,7 +80,7 @@ class Department extends CI_Controller
 			$data['value_department_desc'] = $query['DDesc'];
 			$data['value_institution_id'] = $query['D_INSID'];
 
-			parent::setHeaderAdmin();
+			parent::setHeaderAdmin("แก้ไขแผนก");
 			$this->load->view('admin/department/department_add',$data);
 			parent::setFooterAdmin();
 		}

@@ -28,6 +28,7 @@ class News_model extends CI_Model
 		{
 			$this->db->where("news_newstype_id",$newstype_id);
 		}
+		if($keyword !== ""){ $this->db->like("news_topic",$keyword); }
 		if($show_all === FALSE)
 		{
 			$this->db->where("IF(news_show_start_date = '0000-00-00',NOW(),news_show_start_date) <= NOW()");

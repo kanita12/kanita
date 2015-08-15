@@ -21,7 +21,7 @@
           </ul>
         </div>
       </li>
-      <li class="bold"><a class="collapsible-header waves-effect waves-teal">Workflow</a>
+      <!-- <li class="bold"><a class="collapsible-header waves-effect waves-teal">Workflow</a>
         <div class="collapsible-body" style="">
           <ul>
           	<li><a href="<?php echo site_url('admin/Workflow/condition/'); ?>">Condition</a></li>
@@ -29,20 +29,22 @@
         		<li><a href="<?php echo site_url('admin/Workflow/process/'); ?>">Process</a></li>
           </ul>
         </div>
-      </li>
+      </li> -->
     </ul>
   </li>
-  <li class="bold"><a href="<?php echo site_url('admin/News') ?>">ข่าวสาร</a></li>
+  <!-- <li class="bold"><a href="<?php echo site_url('admin/News') ?>">ข่าวสาร</a></li> -->
   <ul class="collapsible collapsible-accordion">
       <li class="bold"><a class="collapsible-header waves-effect waves-teal">ระบบลา</a>
         <div class="collapsible-body" style="">
           <ul>
+            <li><a href="<?php echo site_url('admin/Leavegroup'); ?>">กรุ๊ปลา</a></li>
+            <li><a href="<?php echo site_url('admin/Leavetype'); ?>">ประเภทการลา</a></li>
             <li><a href="<?php echo site_url('admin/Config/Leave'); ?>">ตั้งค่าเงื่อนไขการลา</a></li>
           </ul>
         </div>
       </li>
   </ul>
-  <ul class="collapsible collapsible-accordion">
+  <? /* <ul class="collapsible collapsible-accordion">
       <li class="bold"><a class="collapsible-header waves-effect waves-teal">ทำงานล่วงเวลา</a>
         <div class="collapsible-body" style="">
           <ul>
@@ -50,8 +52,8 @@
           </ul>
         </div>
       </li>
-  </ul>
-  <li class="bold"><a href="<?php echo site_url('admin/Config') ?>">ตั้งค่า</a></li>
+  </ul> */ ?>
+ <!--  <li class="bold"><a href="<?php echo site_url('admin/Config') ?>">ตั้งค่า</a></li> -->
   <li class="bold"><a href="<?php echo site_url('Logout') ?>">ออกจากระบบ</a></li>
 </ul>
 <script type="text/javascript">

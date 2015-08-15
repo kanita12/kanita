@@ -18,6 +18,7 @@ class News extends CI_Controller
   }
   public function search($newstype_id = 0, $keyword = "")
   {
+    $keyword = urldecode($keyword);
     //set pagination
     $config = array();
     $config['total_rows'] = $this->news->count_all($newstype_id, $keyword);
@@ -30,6 +31,9 @@ class News extends CI_Controller
     //set data to view
     $data = array();
     $data["query"] = $query;
+    $data["dropdown_newstype"] = $this->newstype->get_list_for_dropdownlist();
+    $data["value_newstype"] = $newstype_id;
+    $data["value_keyword"] = $keyword;
 
     //load view
     parent::setHeaderAdmin("ข่าวสาร");
@@ -77,7 +81,7 @@ class News extends CI_Controller
         $data["value_news_image"] = $query_image;
         $data["value_news_id"] = $news_id;
         //load view
-        parent::setHeaderAdmin("ข่าวสาร / " . $this->lang->line("title_page_news_edit"));
+        parent::setHeaderAdmin($this->lang->line("title_page_news_edit"));
         $this->load->view("admin/News/Add", $data);
         parent::setFooterAdmin();
       } else {
@@ -111,7 +115,7 @@ class News extends CI_Controller
       $data["value_news_image"] = array();
       $data["value_news_id"] = 0;
       //load view
-      parent::setHeaderAdmin("ข่าวสาร / " . $this->lang->line("title_page_news_add"));
+      parent::setHeaderAdmin($this->lang->line("title_page_news_add"));
       $this->load->view("admin/News/Add", $data);
       parent::setFooterAdmin();
     }

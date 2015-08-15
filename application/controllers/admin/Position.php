@@ -4,34 +4,35 @@ class Position extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		
 		$ci =& get_instance();
-		
 		$ci->load->model('Position_model','position');
-
-		$this->emp_id = $ci->session->userdata('empid');
-		$this->user_id = $ci->session->userdata('userid');
+		$ci->load->model("Institution_model","institution");
+		$ci->load->model("Department_model","department");
 	}
 
 	public function index()
 	{
-		$this->show();
+		$this->search();
 	}
 
-	public function show($department_id=0,$keyword='')
+	public function search($inst_id = 0,$department_id = 0)
 	{
 		//position is too much 
 		//need paging and search by department and by keyword.
+		$query = $this->position->get_list($inst_id,$department_id);
+		$rowcount_query = $query->num_rows();
+		$query = $query->result_array();
+
 		$data = array();
-		$data['query'] = array();
+		$data['query'] = $query;
+		$data["rowcount_query"] = $rowcount_query;
+		$data['dropdown_institution'] = $this->get_list_for_dropdown('institution');
+		$data['dropdown_department'] = $this->get_list_for_dropdown('department');
+		$data["value_institution"] = $inst_id;
+		$data["value_department"] = $department_id;
+		
 
-		$query = $this->position->get_list($department_id,$keyword);
-		if( $query->num_rows() > 0 )
-		{
-			$data['query'] = $query->result_array();
-		}
-
-		parent::setHeaderAdmin();
+		parent::setHeaderAdmin("ตำแหน่ง");
 		$this->load->view('admin/position/position_list',$data);
 		parent::setFooterAdmin();
 	}
@@ -57,8 +58,10 @@ class Position extends CI_Controller
 		$data = $this->default_value();
 		$data['form_url'] = site_url('admin/Position/save_add');
 		$data['dropdown_institution'] = $this->get_list_for_dropdown('institution');
+		$data['dropdown_department'] = $this->get_list_for_dropdown('department');
+		$data['dropdown_position'] = $this->get_list_for_dropdown('position');
 
-		parent::setHeaderAdmin();
+		parent::setHeaderAdmin("เพิ่มตำแหน่ง");
 		$this->load->view('admin/position/position_add', $data);
 		parent::setFooterAdmin();
 	}
@@ -67,7 +70,6 @@ class Position extends CI_Controller
 		$data = array();
 		if( $list_type === 'department' )
 		{
-			$this->load->model('Department_model','department');
 
 			$institution_id = $id;
 
@@ -126,7 +128,7 @@ class Position extends CI_Controller
 			$department_id 			= $post['select_department_id'];
 			$position_name 			= $post['input_position_name'];
 			$position_desc 			= $post['input_position_desc'];
-			$headman_position_id 	= $post['select_headman_position_id'];
+			$headman_position_id 	= $post['select_headman_position_id'] == NULL ? 0 : $post["select_headman_position_id"];
 
 			$data = array();
 			$data['P_DID'] 			= $department_id;
@@ -163,7 +165,7 @@ class Position extends CI_Controller
 			$data['value_headman_position_id'] 	= $query['Headman_PID'];
 		}
 		
-		parent::setHeaderAdmin();
+		parent::setHeaderAdmin("แก้ไขตำแหน่ง");
 		$this->load->view('admin/position/position_add', $data);
 		parent::setFooterAdmin();
 	}

@@ -15,14 +15,14 @@ class Roles extends CI_Controller{
 			$keyword = $this->input->post('txtKeyword');
 		}
 		$config = array();
-		$config["total_rows"] = $this -> roles -> countAll($keyword);
-		$this -> pagination -> initialize($config);
-		$page = ($this -> uri -> segment(3)) ? $this -> uri -> segment(3) : 0;
+		$config["total_rows"] = $this->roles->countAll($keyword);
+		$this->pagination->initialize($config);
+		$page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
 		$data = array();
-		$data["query"] = $this -> roles -> getRoleList($this->pagination->per_page, $page,$keyword);
-		$data["links"] = $this -> pagination -> create_links();
+		$data["query"] = $this->roles->getRoleList($this->pagination->per_page, $page,$keyword);
+		$data["links"] = $this->pagination->create_links();
 
-		parent::setHeaderAdmin("จัดการ Role");
+		parent::setHeaderAdmin("Role");
 		$this->load->view('admin/roles/list',$data);
 		parent::setFooterAdmin();
 	}

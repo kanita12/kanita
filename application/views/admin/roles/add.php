@@ -1,7 +1,12 @@
-<h1><?php echo $topicTitle ?></h1>
 <?php echo form_open($formURL); ?>
 <input type="hidden" name="hdRoleID" value="<?php echo $roleID ?>" />
-Name : <?php echo form_input(array('name'=>'txtName','id'=>'txtName','value'=>"$varName")); ?>
+<div class="row">
+    <div class="col s12">
+        <div class="input-field col s12">
+            <?php echo form_input(array('name'=>'txtName','id'=>'txtName','value'=>"$varName")); ?>
+            <label for="txtName">ชื่อ Role</label>
+        </div>
+    </div>
             <table>
 	        
             <?php
@@ -42,7 +47,7 @@ Name : <?php echo form_input(array('name'=>'txtName','id'=>'txtName','value'=>"$
                             if ($rp === true && $roleID != ''){
                                 echo " checked=\"checked\"";
                             }
-                            echo " />";
+                            echo " /><label for='perm_" . $v['ID'] . "_1'></label>";
                         ?>
                      </td>
                      <td>
@@ -52,7 +57,7 @@ Name : <?php echo form_input(array('name'=>'txtName','id'=>'txtName','value'=>"$
                             if ($rp != true && $roleID != ''){
                                 echo " checked=\"checked\"";
                             }
-                            echo " />";
+                            echo " /><label for='perm_" . $v['ID'] . "_0'></label>";
                         ?>
                      </td>
                      <td>
@@ -62,7 +67,7 @@ Name : <?php echo form_input(array('name'=>'txtName','id'=>'txtName','value'=>"$
                             if ($roleID == '' || $rpExits == false){
                                 echo " checked=\"checked\"";
                             }
-                            echo " />";
+                            echo " /><label for='perm_" . $v['ID'] . "_X'></label>";
                         ?>
                      </td>
                 </tr> 
@@ -87,4 +92,6 @@ Name : <?php echo form_input(array('name'=>'txtName','id'=>'txtName','value'=>"$
 	            <tr><td colspan="3">
 	            <?php echo form_submit('btnSubmit','บันทึก'); ?>
 	        </td></tr>
+            </table>
+            </div>
 <?php echo form_close(); ?>

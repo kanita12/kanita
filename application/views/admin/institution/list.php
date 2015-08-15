@@ -1,126 +1,66 @@
-<a href="javascript:void(0);" onclick="addNew();">เพิ่ม</a>
-<?php echo form_open('admin/institution') ?>
-<div>
-	คำค้นหา 
-	<?php echo form_input('txtKeyword',$vKeyword,'id=txtKeyword'); ?>
-	สถานะ
-	<?php echo form_dropdown('ddlStatus',$queryStatus,$vStatus,'id=ddlStatus') ?>
-
-	<?php echo form_submit('btnSubmit','ค้นหา') ?>
+<div class="row">
+	<div class="col s10">
+		<div class="row">
+			<div class="input-field col s12">
+				<div class="col s2 m1 l1 left-align">
+					<a href="#!"><i class="medium material-icons">search</i></a>
+				</div>
+				<div class="input-field col s9 offset-s1 m9">
+					<input type="text" id="txtKeyword" name="txtKeyword" value="<?php echo $vKeyword ?>">
+					<label for="txtKeyword">คำค้นหา</label>
+				</div>
+				<div class="input-field col s12 m2">
+					<a href="javascript:void(0);" onclick="go_search();" class="btn" >ค้นหา</a>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="col s2">
+		<div class="row right-align">
+			<a href="<?php echo site_url("admin/Institution/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+		</div>
+	</div>
 </div>
-<?php echo form_close(); ?>
-<table id='listInst'>
-	<tr>
-		<td>ชื่อหน่วยงาน</td>
-		<td>คำอธิบายเพิ่มเติม</td>
-		<td>จัดการ</td>
-	</tr>
-	<?php foreach ($query->result_array() as $row): ?>
-		<tr id="trIns_<?php echo $row['INSID'];?>">
-			<td id='tdInsName_<?php echo $row['INSID'];?>'><?php echo $row['INSName'] ?></td>
-			<td id='tdInsDesc_<?php echo $row['INSID'];?>'><?php echo $row['INSDesc'] ?></td>
-			<td id='tdInsStatus_<?php echo $row['INSID'];?>'><?php echo $row['INS_StatusName'] ?></td>
-			<td>
-				<a href="javascript:void(0);" onclick="editThis('<?php echo $row['INSID'] ?>');">แก้ไข</a>
-				<a href="javascript:void(0);" onclick="deleteThis(this,'institution/delete','<?php echo $row['INSID'] ?>');">ลบ</a>
-			</td>
+
+<table class="responsive-table bordered highlight">
+	<thead>
+		<tr>
+			<th>ชื่อหน่วยงาน</th>
+			<th>คำอธิบายเพิ่มเติม</th>
+			<th>จัดการ</th>
 		</tr>
-	<?php endforeach ?>
+	</thead>
+	<tbody>
+		<?php foreach ($query->result_array() as $row): ?>
+			<tr id="trIns_<?php echo $row['INSID'];?>">
+				<td id='tdInsName_<?php echo $row['INSID'];?>'><?php echo $row['INSName'] ?></td>
+				<td id='tdInsDesc_<?php echo $row['INSID'];?>'><?php echo $row['INSDesc'] ?></td>
+				<td id='tdInsStatus_<?php echo $row['INSID'];?>'><?php echo $row['INS_StatusName'] ?></td>
+				<td>
+					<a href="<?php echo site_url('admin/Institution/edit/'.$row["INSID"]) ?>" 
+						class="btn-floating btn-small waves-effect waves-light blue">
+						<i class="material-icons">edit</i>
+					</a>
+					<a href="javascript:void(0);"
+						data-id="<?php echo $row["INSID"] ?>" 
+						class="btn-floating btn-small waves-effect waves-light red"
+						onclick="deleteThis(this,'institution/delete','<?php echo $row['INSID'] ?>');">
+						<i class="material-icons">delete</i>
+					</a>
+				</td>
+			</tr>
+		<?php endforeach ?>
+	</tbody>
 </table>
 <?php echo $links ?>
-<script type='text/javascript'>
-
-	function addNew()
+<script type="text/javascript">
+	function go_search()
 	{
-		var addHtml = '';
-		addHtml += "<table>";
-		addHtml += "<tr><td>ชื่อหน่วยงาน</td><td><input id='txtInstName' style='width:100%'></td></tr>";
-		addHtml += "<tr><td>คำอธิบายเพิ่มเติม</td><td><textarea id='txtInstDesc' cols='50' rows='10'></textarea></td></tr>";
-		addHtml += "<tr><td>สถานะ</td>";
-		addHtml += "<td>";
-		addHtml += "<select id='ddlInstStatus'><option value='1'>ใช้งาน</option><option value='0'>ปิดใช้งาน</otion></select>";
-		addHtml += "</td></tr>";
-		addHtml += "</table>";
-
-		swal({   
-			title: 'เพิ่มหน่วยงาน',   
-			html: addHtml,   
-			showCancelButton: true,   
-			closeOnConfirm: false 
-		},function() { 
-			var newName = $('#txtInstName').val();
-			var newDesc = $('#txtInstDesc').val(); 
-			var newStatus = $('#ddlInstStatus').val(); 
-			$.ajax({
-		        type: "POST",
-		        url: 'institution/addNew/',
-		        data: { txtInstName: newName,txtInstDesc:newDesc,ddlStatus:newStatus },
-		        cache: false,async: false,timeout: 30000,
-		        success: function (data) {
-		            $("#listInst").append(data);
-		            swal('เรียบร้อยแล้ว','','success'); 
-		        }
-		    }); 
-			
-		});
+		var site_url = '<?php echo site_url(); ?>';
+		var keyword = $("#txtKeyword").val();
+		if(keyword == ""){ keyword = "0";}
+		var redirect_url = site_url+"admin/Institution/search/"+keyword+"/";
+		window.location.href = redirect_url;
+		return false;
 	}
-
-	function editThis(insID)
-	{
-		var object = $("trIns_"+insID);
-		var name = $("#tdInsName_"+insID).html();
-		var desc = $("#tdInsDesc_"+insID).html();
-		var status = $("#tdInsStatus_"+insID).html();
-
-		var addHtml = '';
-		addHtml += "<table>";
-		addHtml += "<tr><td>ชื่อแผนก</td><td><input id='txtInstName' style='width:100%' value='"+name+"'></td></tr>";
-		addHtml += "<tr><td>คำอธิบายเพิ่มเติม</td><td><textarea id='txtInstDesc' cols='50' rows='10'>"+desc+"</textarea></td></tr>";
-		addHtml += "<tr><td>สถานะ</td>";
-		addHtml += "<td>";
-		addHtml += "<select id='ddlInstStatus'>";
-		if(status == "ใช้งาน")
-		{
-			addHtml += "<option value='1' selected='selected'>ใช้งาน</option>";
-		}
-		else
-		{
-			addHtml += "<option value='1' >ใช้งาน</option>";
-		}
-		if(status == "ปิดใช้งาน")
-		{
-			addHtml += "<option value='0' selected='selected'>ปิดใช้งาน</option>";
-		}
-		else
-		{
-			addHtml += "<option value='0' >ปิดใช้งาน</option>";
-		}
-		addHtml += "</td></tr>";
-		addHtml += "</table>";
-		swal({   
-			title: 'แก้ไขหน่วยงาน',   
-			html: addHtml,   
-			showCancelButton: true,   
-			closeOnConfirm: false 
-		},function() {  
-			var newName = $('#txtInstName').val();
-			var newDesc = $('#txtInstDesc').val();
-			var newStatus = $('#ddlInstStatus').val();
-			alert(newStatus); 
-			$.ajax({
-		        type: "POST",
-		        url: 'institution/edit/',
-		        data: { id:insID,txtInstName: newName,txtInstDesc:newDesc,ddlStatus:newStatus},
-		        cache: false,async: false,timeout: 30000,
-		        success: function (data) {
-		            $("#tdInsName_"+insID).html(newName);
-		            $("#tdInsDesc_"+insID).html(newDesc);
-		            $("#tdInsStatus_"+insID).html($('#ddlInstStatus option:selected').text());
-		            swal('เรียบร้อยแล้ว','','success'); 
-		        }
-		    }); 
-			
-		});
-	}
-	
 </script>

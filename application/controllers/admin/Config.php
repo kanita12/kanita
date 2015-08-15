@@ -26,7 +26,7 @@ class Config extends CI_Controller
   }
   public function leave()
   {
-    $this->load->model("LeaveCondition_Model","leavecon");
+    $this->load->model("Leavecondition_model","leavecon");
     $this->load->model("Leavetype_model","leavetype");
 
     $data = array();

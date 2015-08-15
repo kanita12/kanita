@@ -1,6 +1,6 @@
 <?php
 class Roles_model extends CI_Model{
-	private $table = 'T_Roles';
+	private $table = 't_roles';
 	public function __construct(){
 		parent::__construct();
 	}
