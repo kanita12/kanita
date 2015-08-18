@@ -1,7 +1,7 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-class News extends CI_Controller
+class Newsalert extends CI_Controller
 {
-	private $newstype_id = 1;
+	private $newstype_id = 3;
 	private $page_segment = 4;
 	public function __construct()
 	{
@@ -29,8 +29,8 @@ class News extends CI_Controller
 		$data = array();
 		$data["query"] = $query;
 
-		parent::setHeader("รายการข่าวสาร","News");
-		$this->load->view("News/news_list.php",$data);
+		parent::setHeader("รายการข่าวด่วน","News");
+		$this->load->view("Newsalert/news_list.php",$data);
 		parent::setFooter();
 	}
 	public function detail($news_id)
@@ -45,10 +45,10 @@ class News extends CI_Controller
 		$data = array();
 		$data["query"] = $query;
 		$data["query_image"] = $query_image;
-		$data["return_url"] = site_url("News");
+		$data["return_url"] = site_url("Newsalert");
  
 		parent::setHeader($query["news_topic"],"News");
-		$this->load->view("News/news_detail.php",$data);
+		$this->load->view("Newsalert/news_detail.php",$data);
 		parent::setFooter();
 	}
 }

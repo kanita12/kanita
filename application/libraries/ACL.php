@@ -265,7 +265,6 @@ field : restore -> AppRestore
 			return $data[0];
 		}
 
-
 		function get_users_in_permission($role_name)
 		{
 			$CI =& get_instance();
@@ -310,6 +309,29 @@ field : restore -> AppRestore
 				return $users_in_permission;
 			}
 		}
-	}
+		function is_user_in_role($user_id,$role_name)
+		{
+			$returner = FALSE;
+			
+			if($user_id == "" || $role_name == ""){ return $returner; exit(); }
+			$role_name = trim(strtolower($role_name));
+			$user_id = intval($user_id);
 
+			$ci =& get_instance();
+			$ci->load->model('User_roles_model','userroles');
+
+			$query_user_roles = $ci->userroles->get_list_by_user_id($user_id);
+			$query_user_roles = $query_user_roles->result_array();
+
+			foreach ($query_user_roles as $row) 
+			{
+				if(trim(strtolower($row["RoleName"])) == $role_name)
+				{
+					$returner = TRUE;
+					break;
+				}
+			}
+			return $returner;
+		}
+	}
 ?>

@@ -38,7 +38,7 @@
 					<div class="card-content white-text" style="height:275px;">
 						<div class="row">
 							<div class="col s6">
-								<img class="responsive" src="<?php echo base_url().$emp_detail["EmpPictureImg"] ?>" width="100%" alt="" onerror="this.onerror=null;this.src='<?php echo base_url()."assets/images/no_image.jpg" ?>'">
+								<img class="responsive" src="<?php echo base_url().$emp_detail["EmpPictureImg"] ?>" style="max-height:235px;max-width:100%;" alt="" onerror="this.onerror=null;this.src='<?php echo base_url()."assets/images/no_image.jpg" ?>'">
 							</div>
 							<div class="col s6">
 								<?php echo $emp_detail["EmpFullnameThai"] ?><br>
@@ -83,7 +83,7 @@
 	<div class="col s12 m12 l3">
 	    <div class="row">
 			<div class="col s12 m4 l12">
-				<a href="#!">
+				<a href="<?php echo site_url("News") ?>">
 					<div class="card hoverable" style="background-color:#FB6648;">
 						<div class="card-content white-text center-align">
 							<i class="material-icons medium">announcement</i>
@@ -93,7 +93,7 @@
 				</a>
 			</div>
 			<div class="col s12 m4 l12">
-				<a href="#!">
+				<a href="<?php echo site_url("Activity") ?>">
 					<div class="card hoverable" style="background-color:#0ECEAB;">
 						<div class="card-content white-text center-align">
 							<i class="material-icons medium">event</i>

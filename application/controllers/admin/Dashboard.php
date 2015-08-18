@@ -6,9 +6,9 @@ class Dashboard extends CI_Controller{
 	}
 	public function index()
 	{
-		$this->dashBoard();
+		$this->search();
 	}
-	public function dashBoard()
+	public function search()
 	{
 		parent::setHeaderAdmin();
 		$this->load->view('admin/dashboard');

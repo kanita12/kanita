@@ -1,5 +1,9 @@
-<div class="row right-align">
-<a href="<?php echo site_url("Leave/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+<div class="container">
+	<div class="row right-align">
+		<div class="col s12">
+			<a href="<?php echo site_url("Leave/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+		</div>
+	</div>
 </div>
 
 <div class="row">

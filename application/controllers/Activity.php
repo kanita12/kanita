@@ -45,6 +45,7 @@ class Activity extends CI_Controller
 		$data = array();
 		$data["query"] = $query;
 		$data["query_image"] = $query_image;
+		$data["return_url"] = site_url("Activity");
  
 		parent::setHeader($query["news_topic"],"Activity");
 		$this->load->view("Activity/Activity_detail.php",$data);

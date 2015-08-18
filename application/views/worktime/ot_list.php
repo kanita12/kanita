@@ -1,6 +1,10 @@
-<div class="row right-align">
-<a href="<?php echo site_url("overtime/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
-</div>
+<div class="container">
+	<div class="row right-align">
+		<div class="col s12">
+			<a href="<?php echo site_url("overtime/add"); ?>" class="btn-floating btn-large waves-effect waves-light red"><i class="material-icons">add</i></a>
+		</div>
+	</div>
+</div>	
 <div class="row">
 	<div class="col s12">
 		<div class="input-field col s2 m1 l1 left-align">

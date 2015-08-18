@@ -1,6 +1,10 @@
 <?php echo form_open(site_url("Message/save_message"));?>
-<div class="row right-align">
-	<a href="javascript:void(0);" class="btn-floating btn-large waves-effect waves-light red" onclick="$('#send_message').toggle('slow');"><i class="material-icons">add</i></a>
+<div class="container">
+	<div class="row right-align">
+		<div class="col s12">
+			<a href="javascript:void(0);" class="btn-floating btn-large waves-effect waves-light red" onclick="$('#send_message').toggle('slow');"><i class="material-icons">add</i></a>
+		</div>
+	</div>
 </div>
 <div id="send_message" class="card" style="display:none;">
   <div class="card-content">

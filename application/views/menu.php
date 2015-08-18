@@ -12,6 +12,7 @@
                 <li><a href="<?php echo site_url('company/Holiday')?>">วันหยุดประจำปี</a></li>
                 <li><a href="<?php echo site_url('news')?>">ข่าวสาร</a></li>
                 <li><a href="<?php echo site_url('Activity')?>">กิจกรรม</a></li>
+                <li><a href="<?php echo site_url('newsalert')?>">ข่าวด่วน</a></li>
             </ul>
         </li>
         <?php if (is_hr()): ?>

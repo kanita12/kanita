@@ -18,7 +18,7 @@ class News extends CI_Controller
 	}
 	public function search($keyword = "0",$newstype_id = "0")
 	{
-		$keyword = urldecode($keyword);
+		$keyword = $keyword == "0" ? "" : urldecode($keyword);
 	//set pagination
 		$config = array();
 		$config['total_rows'] = $this->news->count_all($newstype_id, $keyword);
@@ -27,6 +27,7 @@ class News extends CI_Controller
 		$page = ($this->uri->segment($config['uri_segment'])) ? $this->uri->segment($config['uri_segment']) : 0;
 	//get data
 		$query = $this->news->get_list($this->pagination->per_page, $page, $newstype_id, $keyword, true);
+
 		$query = $query->result_array();
 	//set data to view
 		$data = array();
