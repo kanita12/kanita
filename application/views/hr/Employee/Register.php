@@ -297,8 +297,8 @@
 				</div>
 				<!-- martial status -->
 				<div class="row">
-					<div class="col s12">
-						<div class="input-field col s12">
+					<div class="col s12 m3">
+						<div class="input-field col s8">
 							<input type="text" name="martial_hidden" id="martial_hidden" value="0" style="display:none;">
 							<label for="martial_hidden">สถานภาพ</label>
 							<br>
@@ -312,13 +312,26 @@
 							<?php endforeach?>
 						</div>
 					</div>
+					<br>&nbsp;<br>
+					<div class="col s4 m3">
+						<div class="input-field col s12">
+							<input type="text" name="txtNumberOfChildren" id="txtNumberOfChildren" value="<?php echo $empNumberOfChildren; ?>">
+							<label for="txtNumberOfChildren">จำนวนบุตร/คน</label>
+						</div>
+					</div>
+					<div class="col s8 m6">
+						<div class="input-field col s12">
+							<input type="text" name="txtNumberOfBrother" id="txtNumberOfBrother" value="<?php echo $empNumberOfBrother; ?>">
+							<label for="txtNumberOfBrother">มีพี่น้องทั้งหมดกี่คน(รวมเราด้วย)</label>
+						</div>
+					</div>
 				</div>
 				<!-- military status -->
 				<div class="row">
 					<div class="col s12">
 						<div class="input-field col s12">
 							<input type="text" name="military_hidden" id="military_hidden" value="0" style="display:none;">
-							<label for="military_hidden" class="green-text">สถานภาพทางทหาร</label>
+							<label for="military_hidden">สถานภาพทางทหาร</label>
 							<br>
 							<span style="padding-right:40px;">
 								<input name="rdoMilitaryStatus" id="rdoMilitaryStatus_1" type="radio" value="1"
@@ -374,6 +387,7 @@
 				<!-- Address -->
 				<div class="row">
 					<div class="col s12">
+						<h4 class="header">ที่อยู่ปัจจุบัน</h4>
 						<div class="input-field col s4">
 							<input type="text" id="txtAddressNumber" name="txtAddressNumber" class="validate" value="<?php echo $empAddressNumber?>">
 							<label for="txtAddressNumber">บ้านเลขที่</label>
@@ -406,6 +420,39 @@
 				</div>
 				<div class="row">
 					<div class="col s12">
+						<h4 class="header">ที่อยู่ตามทะเบียนบ้าน</h4>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressNumberHouseReg" name="txtAddressNumberHouseReg" value="<?php echo $empAddressNumberHouseReg?>">
+							<label for="txtAddressNumberHouseReg">บ้านเลขที่</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressMooHouseReg" name="txtAddressMooHouseReg" value="<?php echo $empAddressMooHouseReg?>">
+							<label for="txtAddressMooHouseReg">หมู่</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressRoadHouseReg" name="txtAddressRoadHouseReg" value="<?php echo $empAddressRoadHouseReg?>">
+							<label for="txtAddressRoadHouseReg">ถนน</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressProvinceHouseReg", $queryProvinceHouseReg, $empAddressProvinceHouseReg, "id='ddlAddressProvinceHouseReg'");?>
+							<label for="ddlAddressProvinceHouseReg">จังหวัด</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressAmphurHouseReg", $queryAmphurHouseReg, $empAddressAmphurHouseReg, "id='ddlAddressAmphurHouseReg'");?>
+							<label for="ddlAddressAmphurHouseReg">เขต/อำเภอ</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressDistrictHouseReg", $queryDistrictHouseReg, $empAddressDistrictHouseReg, "id='ddlAddressDistrictHouseReg'");?>
+							<label for="ddlAddressDistrictHouseReg">แขวง/ตำบล</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressZipcodeHouseReg", $queryZipcodeHouseReg, $empAddressZipcodeHouseReg, "id='ddlAddressZipcodeHouseReg'");?>
+							<label for="ddlAddressZipcodeHouseReg">รหัสไปรษณีย์</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
 						<div class="center-align">
 							<?php if ($empAddressImg != "") : ?>
 								<img src="<?php echo base_url($empAddressImg) ?>" class="responsive-img materialboxed" width="500px">
@@ -420,6 +467,124 @@
 				              <input class="file-path validate" type="text">
 				            </div>
 				        </div>
+					</div>
+				</div>
+			</div>
+			<div id="fathercontactinfo" class="section">
+				<h4 class="header">ประวัติบิดา</h4>
+				<div class="row">
+					<div class="col s12">
+						<div class="input-field col s3">
+							<?php echo form_dropdown("ddlNameTitleFather", $queryNameTitleFather, $empNameTitleFather, "id='ddlNameTitleFather'");?>
+							<label for="ddlNameTitleFather">คำนำหน้า</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtFirstnameFather" name="txtFirstnameFather" class="validate" value="<?php echo $empFirstnameFather?>">
+							<label for="txtFirstnameFather">ชื่อ</label>
+						</div>
+						<div class="input-field col s5">
+							<input type="text" id="txtLastnameFather" name="txtLastnameFather" class="validate" value="<?php echo $empLastnameFather?>">
+							<label for="txtLastnameFather">นามสกุล</label>
+						</div>
+					</div>
+					<div class="col s12">
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressNumberFather" name="txtAddressNumberFather" value="<?php echo $empAddressNumberFather?>">
+							<label for="txtAddressNumberFather">บ้านเลขที่</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressMooFather" name="txtAddressMooFather" value="<?php echo $empAddressMooFather?>">
+							<label for="txtAddressMooFather">หมู่</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressRoadFather" name="txtAddressRoadFather" value="<?php echo $empAddressRoadFather?>">
+							<label for="txtAddressRoadFather">ถนน</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressProvinceFather", $queryProvinceFather, $empAddressProvinceFather, "id='ddlAddressProvinceFather'");?>
+							<label for="ddlAddressProvinceFather">จังหวัด</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressAmphurFather", $queryAmphurFather, $empAddressAmphurFather, "id='ddlAddressAmphurFather'");?>
+							<label for="ddlAddressAmphurFather">เขต/อำเภอ</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressDistrictFather", $queryDistrictFather, $empAddressDistrictFather, "id='ddlAddressDistrictFather'");?>
+							<label for="ddlAddressDistrictFather">แขวง/ตำบล</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressZipcodeFather", $queryZipcodeFather, $empAddressZipcodeFather, "id='ddlAddressZipcodeFather'");?>
+							<label for="ddlAddressZipcodeFather">รหัสไปรษณีย์</label>
+						</div>
+					</div>
+					<div class="col s12">
+						<div class="input-field col s4">
+							<input type="text" id="txtTelePhoneFather" name="txtTelePhoneFather" class="validate" value="<?php echo $empTelePhoneFather?>">
+							<label for="txtTelePhoneFather">เบอร์โทรศัพท์</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtMobilePhoneFather" name="txtMobilePhoneFather" class="validate" value="<?php echo $empMobilePhoneFather?>">
+							<label for="txtMobilePhoneFather">เบอร์มือถือ</label>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div id="mothercontactinfo" class="section">
+				<h4 class="header">ประวัติมารดา</h4>
+				<div class="row">
+					<div class="col s12">
+						<div class="input-field col s3">
+							<?php echo form_dropdown("ddlNameTitleMother", $queryNameTitleMother, $empNameTitleMother, "id='ddlNameTitleMother'");?>
+							<label for="ddlNameTitleMother">คำนำหน้า</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtFirstnameMother" name="txtFirstnameMother" class="validate" value="<?php echo $empFirstnameMother?>">
+							<label for="txtFirstnameMother">ชื่อ</label>
+						</div>
+						<div class="input-field col s5">
+							<input type="text" id="txtLastnameMother" name="txtLastnameMother" class="validate" value="<?php echo $empLastnameMother?>">
+							<label for="txtLastnameMother">นามสกุล</label>
+						</div>
+					</div>
+					<div class="col s12">
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressNumberMother" name="txtAddressNumberMother" value="<?php echo $empAddressNumberMother?>">
+							<label for="txtAddressNumberMother">บ้านเลขที่</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressMooMother" name="txtAddressMooMother" value="<?php echo $empAddressMooMother?>">
+							<label for="txtAddressMooMother">หมู่</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtAddressRoadMother" name="txtAddressRoadMother" value="<?php echo $empAddressRoadMother?>">
+							<label for="txtAddressRoadMother">ถนน</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressProvinceMother", $queryProvinceMother, $empAddressProvinceMother, "id='ddlAddressProvinceMother'");?>
+							<label for="ddlAddressProvinceMother">จังหวัด</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressAmphurMother", $queryAmphurMother, $empAddressAmphurMother, "id='ddlAddressAmphurMother'");?>
+							<label for="ddlAddressAmphurMother">เขต/อำเภอ</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressDistrictMother", $queryDistrictMother, $empAddressDistrictMother, "id='ddlAddressDistrictMother'");?>
+							<label for="ddlAddressDistrictMother">แขวง/ตำบล</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlAddressZipcodeMother", $queryZipcodeMother, $empAddressZipcodeMother, "id='ddlAddressZipcodeMother'");?>
+							<label for="ddlAddressZipcodeMother">รหัสไปรษณีย์</label>
+						</div>
+					</div>
+					<div class="col s12">
+						<div class="input-field col s4">
+							<input type="text" id="txtTelePhoneMother" name="txtTelePhoneMother" class="validate" value="<?php echo $empTelePhoneMother?>">
+							<label for="txtTelePhoneMother">เบอร์โทรศัพท์</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtMobilePhoneMother" name="txtMobilePhoneMother" class="validate" value="<?php echo $empMobilePhoneMother?>">
+							<label for="txtMobilePhoneMother">เบอร์มือถือ</label>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -515,6 +680,16 @@
 						<div class="input-field col s4">
 							<?php echo form_dropdown("ddlAddressZipcodeFriend", $queryZipcodeFriend, $empAddressZipcodeFriend, "id='ddlAddressZipcodeFriend'");?>
 							<label for="ddlAddressZipcodeFriend">รหัสไปรษณีย์</label>
+						</div>
+					</div>
+					<div class="col s12">
+						<div class="input-field col s4">
+							<input type="text" id="txtTelePhoneFriend" name="txtTelePhoneFriend" class="validate" value="<?php echo $empTelePhoneFriend?>">
+							<label for="txtTelePhoneFriend">เบอร์โทรศัพท์</label>
+						</div>
+						<div class="input-field col s4">
+							<input type="text" id="txtMobilePhoneFriend" name="txtMobilePhoneFriend" class="validate" value="<?php echo $empMobilePhoneFriend?>">
+							<label for="txtMobilePhoneFriend">เบอร์มือถือ</label>
 						</div>
 					</div>
 				</div>

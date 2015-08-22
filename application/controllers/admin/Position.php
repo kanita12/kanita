@@ -19,7 +19,10 @@ class Position extends CI_Controller
 	{
 		//position is too much 
 		//need paging and search by department and by keyword.
-		$query = $this->position->get_list($inst_id,$department_id);
+		// $query = $this->position->get_list($inst_id,$department_id);
+		// $rowcount_query = $query->num_rows();
+		// $query = $query->result_array();
+		$query = $this->position->get_main_list($inst_id,$department_id);
 		$rowcount_query = $query->num_rows();
 		$query = $query->result_array();
 
@@ -30,6 +33,7 @@ class Position extends CI_Controller
 		$data['dropdown_department'] = $this->get_list_for_dropdown('department');
 		$data["value_institution"] = $inst_id;
 		$data["value_department"] = $department_id;
+
 		
 
 		parent::setHeaderAdmin("ตำแหน่ง");

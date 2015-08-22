@@ -84,7 +84,10 @@ class Worktime extends CI_Controller
 		{ 
 			//check can see this profile is_your_headman or is_hr
 			$user_detail = getEmployeeDetail($emp_id);
-			if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+			$checker = FALSE;
+			$headman_level = 0;
+			list($checker,$headman_level) = is_your_headman($user_detail["UserID"],$this->user_id);
+			if($checker == TRUE || is_hr())
 			{
 				$this->emp_id = $emp_id;
 				$this->user_id = $user_detail["UserID"];
@@ -114,9 +117,12 @@ class Worktime extends CI_Controller
 
 		if($emp_id !== "")
 		{ 
-	//check can see this profile is_your_headman or is_hr
+			//check can see this profile is_your_headman or is_hr
 			$user_detail = getEmployeeDetail($emp_id);
-			if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+			$checker = FALSE;
+			$headman_level = 0;
+			list($checker,$headman_level) = is_your_headman($user_detail["UserID"],$this->user_id);
+			if($checker == TRUE || is_hr())
 			{
 				$this->emp_id = $emp_id;
 				$this->user_id = $user_detail["UserID"];
@@ -178,7 +184,10 @@ class Worktime extends CI_Controller
 		{ 
 			//check can see this profile is_your_headman or is_hr
 			$user_detail = getEmployeeDetail($emp_id);
-			if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+			$checker = FALSE;
+			$headman_level = 0;
+			list($checker,$headman_level) = is_your_headman($user_detail["UserID"],$this->user_id);
+			if($checker == TRUE || is_hr())
 			{
 				$this->emp_id = $emp_id;
 				$this->user_id = $user_detail["UserID"];

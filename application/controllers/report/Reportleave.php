@@ -18,8 +18,8 @@ class Reportleave extends CI_Controller
 	public function show()
 	{
 		$data = array();
-		$data["topicPage"] = "รายงานเวลาเข้า-ออกงาน";
-		parent::setHeader($data["topicPage"]);
+		$data["topicPage"] = "";
+		parent::setHeader("รายงานการลา","Report");
 		$this->load->view("report/leave",$data);
 		parent::setFooter();
 	}

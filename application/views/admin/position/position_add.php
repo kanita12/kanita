@@ -89,7 +89,7 @@
 		var select_dept = $('#select_department_id');
 		var pos_name = $('#input_position_name'); 
 		var msg = '';
-		
+		$("input[type=text][type=select]").click();
 		if( select_dept.val() === '0' || select_dept.val() === null )
 		{
 			msg += '- แผนก<br/>';

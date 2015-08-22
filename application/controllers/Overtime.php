@@ -175,13 +175,11 @@ class Overtime extends CI_Controller
 	{
 		$is_my = FALSE;
 		$is_hr = is_hr();
-		$is_headman = is_your_ot_headman($this->user_id,$ot_id);
+		$is_headman = FALSE;
 		$headman_level = 0;
 		$can_approve   = FALSE;
-
-		if($is_headman === TRUE){ $headman_level = get_headman_level($this->user_id); }
-
-
+		list($is_hr,$headman_level) = is_your_ot_headman($this->user_id,$ot_id);
+	
 		//check if my owner or headman or hr
 		$query = $this->ot->get_detail_by_id($ot_id);
 		if( $query->num_rows() > 0 )
@@ -493,9 +491,62 @@ class Overtime extends CI_Controller
 			}	
 		}	
 	}
+	private function _instant_approve_disapprove_ot_by_headman($type,$headman_user_id,$ot_id,$remark = "")
+	{
+		$this->load->model("Workflow_model","workflow");
+		$headman_user_id = encrypt_decrypt('decrypt',$headman_user_id);
+		$ot_id = encrypt_decrypt('decrypt',$ot_id);
 
+		$headman_level = 0;
+		$checker = FALSE;
+		list($checker,$headman_level) = is_your_ot_headman($headman_user_id,$ot_id);
+		if( $checker === TRUE )
+		{
+			//check headman user id is sure for headman owner request ot
+			//get ot request detail for get owner user id
+			$query = $this->ot->get_detail_by_id($ot_id);
+			if( $query->num_rows() > 0 )
+			{
+				$query = $query->row_array();
+				$user_id = $query["wot_request_by"];
+				$workflow_id = $query["wot_workflow_id"];
+				$query2 = $this->empheadman->get_list_by_user_id($user_id)->result_array();
+				if( count($query2) > 0 )
+				{
+					foreach ($query2 as $qu) 
+					{
+						if( intval($qu["eh_headman_user_id"]) === intval($headman_user_id) )
+						{
+							$headman_level = $qu["eh_headman_level"];
+							break;
+						}
+					}
+					$query2 = $this->workflow->get_detail($workflow_id);
+					$query2 = $query2->row_array();
+					if( count($query2) > 0 )
+					{
+						$workflow_name = $query2["WFName"];
+						if( strpos(strtolower($workflow_name), 'level '.$headman_level) !== FALSE )
+						{
+							$this->load->library("WorkflowSystem");
+							$this->workflowsystem->set_require_data($ot_id,"overtime",$type,$remark);// leave_id,leave,approve/disapprove
+							$process = $this->workflowsystem->run();
+							echo swalc("สำเร็จ","การอนุมัติเรียบร้อยแล้ว","success","window.close();");
+
+						}
+						else
+						{
+							echo swalc("ผิดพลาด","ไม่สามารถทำการอนุมัติการทำงานล่วงเวลาได้","error","window.close();");
+						}
+					}
+				}
+			}
+		}
+	}
 	public function instant_approve_disapprove_ot_by_headman($type,$headman_user_id,$ot_id)
 	{
+		$this->_instant_approve_disapprove_ot_by_headman($type,$headman_user_id,$ot_id,"ผ่านอีเมล์");
+		exit();
 		$headman_user_id = encrypt_decrypt('decrypt',$headman_user_id);
 		$ot_id = encrypt_decrypt('decrypt',$ot_id);
 		$workflow_id = 0;

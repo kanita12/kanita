@@ -51,7 +51,7 @@
 					<a href="<?php echo site_url("Overtime/detail/".$row["wot_id"]);?>" class="btn-floating btn-medium waves-effect waves-light blue" target="_blank">
 						<i class="material-icons">info_outline</i>
 					</a>
-					<?php if($row["workflow_name"] === "รออนุมัติจากหัวหน้างาน Level ".$row["eh_headman_level"]): ?>
+					<?php if($row["workflow_name"] == "รออนุมัติจากหัวหน้างาน Level ".$row["eh_headman_level"]): ?>
 					<!-- Modal Trigger -->
 					  <a class="modal-trigger waves-effect waves-light btn" href="#modal<?php echo $row['wot_id'];?>"><i class="material-icons">reply</i></a>
 					  <!-- Modal Structure -->

@@ -7,6 +7,7 @@ function is_your_headman($user_id,$headman_user_id)
 	$ci =& get_instance();
 
 	$checker = FALSE;
+	$headman_level = 0;
 
 	$ci->load->model("Emp_headman_model","headman");
 	$query = $ci->headman->get_list_by_user_id($user_id);
@@ -18,11 +19,12 @@ function is_your_headman($user_id,$headman_user_id)
 			if( $row->eh_headman_user_id == $headman_user_id )
 			{
 				$checker = TRUE;
+				$headman_level = $row->eh_headman_level;
 				break;
 			}
 		}
 	}
-	return $checker;
+	return array($checker,$headman_level);
 }
 
 function is_your_leave($user_id,$leave_id)
@@ -44,6 +46,7 @@ function is_your_leave($user_id,$leave_id)
 function is_your_ot_headman($user_id,$ot_id)
 {
 	$checker = false;
+	$headman_level = 0;
 
 	$ci =& get_instance();
 	$ci->load->model('Worktime_ot_model','ot');
@@ -62,15 +65,17 @@ function is_your_ot_headman($user_id,$ot_id)
 			if( $row->eh_headman_user_id == $user_id )
 			{
 				$checker = true;
+				$headman_level = $row->eh_headman_level;
 				break;
 			}
 		}
 	}
-	return $checker;
+	return array($checker,$headman_level);
 }
 function is_your_leave_headman($user_id,$leave_id)
 {
 	$checker = false;
+	$headman_level = 0;
 
 	$ci =& get_instance();
 	$ci->load->model('Leave_model','leave');
@@ -90,11 +95,12 @@ function is_your_leave_headman($user_id,$leave_id)
 			if( $row->eh_headman_user_id == $user_id )
 			{
 				$checker = true;
+				$headman_level = $row->eh_headman_level;
 				break;
 			}
 		}
 	}
-	return $checker;
+	return array($checker,$headman_level);
 }
 
 function is_hr($user_id = 0)

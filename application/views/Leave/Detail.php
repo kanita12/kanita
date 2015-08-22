@@ -146,7 +146,14 @@
 							   	data: {type:type,user_id:user_id,leave_id:leave_id,remark:remark},
 							  })
 							  .done(function() {
-							  	swal("สำเร็จ!", alert_success, "success");   
+							  	swal({
+							  		title:"สำเร็จ!", 
+							  		html: alert_success, 
+							  		type:"success"
+							  	},function(){
+							  		window.location.href = window.location.href;
+							  	}); 
+
 							  });
 						} 
 					});

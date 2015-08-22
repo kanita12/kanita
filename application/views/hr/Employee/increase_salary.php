@@ -52,6 +52,32 @@
     </div>
 </div>
 <?php echo form_close(); ?>
+<div class="divider"></div>
+<div class="section">
+	<h4 class="header">ประวัติการปรับเงินเดือน</h4>
+	<table class="bordered highlight">
+		<thead>
+			<tr>
+				<th>จากเงินเดือน</th>
+				<th>เพิ่มขึ้น</th>
+				<th>เป็นเงินเดือน</th>
+				<th>หมายเหตุ</th>
+				<th>วันที่ปรับ</th>
+			</tr>
+		</thead>
+		<tbody>
+			<?php foreach ($query_log as $row): ?>
+				<tr>
+					<td><?php echo $row["sal_salary_from"]; ?></td>
+					<td><?php echo $row["sal_salary_increase"]; ?></td>
+					<td><?php echo $row["sal_salary_to"]; ?></td>
+					<td><?php echo $row["sal_remark"]; ?></td>
+					<td><?php echo date_time_thai_format_from_db($row["sal_change_date"]); ?></td>
+				</tr>
+			<?php endforeach ?>
+		</tbody>
+	</table>
+</div>
 <script type='text/javascript'>
 	$(document).ready(function(){
 		$("#txt_salary_net").keydown(function (e) {

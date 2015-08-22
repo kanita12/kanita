@@ -131,7 +131,7 @@
 <div class="section">
 	<div class="row">
 		<div class="col s4">
-			<button class="btn waves-effect waves-light" type="submit" name="action">Submit
+			<button class="btn waves-effect waves-light" type="submit" name="action" onclick="return checkBeforeSubmit();">Submit
 			  <i class="material-icons right">send</i>
 			</button>
 		</div>
@@ -241,10 +241,10 @@
 
 
 		if(lType.val() == '0') msg+="<br/>- ประเภทการลา";
-		if(sDate == '') msg += "<br/>- วันที่ขอลา";
-		if(sTime == '') msg += "<br/>- เวลาที่ขอลา";
-		if(eDate == '') msg += "<br/>- วันสิ้นสุดที่ขอลา";
-		if(eTime == '') msg += "<br/>- เวลาสิ้นสุดที่ขอลา";
+		if($.trim(sDate) == '') msg += "<br/>- วันที่ขอลา";
+		if($.trim(sTime) == '') {msg += "<br/>- เวลาที่ขอลา";}
+		if($.trim(eDate) == '') msg += "<br/>- วันสิ้นสุดที่ขอลา";
+		if($.trim(eTime) == '') msg += "<br/>- เวลาสิ้นสุดที่ขอลา";
 		else{
 			if(getHour(sTime) >= getHour(workTimeStart) && getHour(eTime) <= getHour(workTimeEnd)){
 
@@ -253,6 +253,7 @@
 				msg += "<br/>- เวลาเริ่มเวลาสิ้นสุดไม่ถูกต้อง";
 			}
 		}
+
 		if(msg !== '')
 		{
 			swal({

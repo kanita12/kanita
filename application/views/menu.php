@@ -27,7 +27,7 @@
                     <?php endif ?>
                     <li><a href="<?php echo site_url('hr/Verifyleave')?>">ตรวจสอบการลางาน</a></li>
                     <li class="divider"></li>
-                    <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
+                    <li><a href="<?php echo site_url('hr/HRMessage')?>">ตรวจสอบข้อความจากพนักงาน</a></li>
                     <li class="divider"></li>
                     <li><a href="<?php echo site_url('hr/Overtime')?>">ตรวจสอบ OT พนักงาน</a></li>
                     <li><a href="<?php echo site_url('hr/Reportot')?>">รายงาน OT พนักงาน</a></li>
@@ -65,7 +65,9 @@
             <ul id="ddl_userprofile" class="dropdown-content">
                 <li><a href="<?php echo site_url('Worktime');?>">เวลาเข้า-ออก</a></li>
                 <li><a href="<?php echo site_url('Userprofile');?>">ข้อมูลส่วนตัว</a></li>
-                <li><a href="<?php echo site_url('Usersalary');?>">เงินเดือน</a></li>
+                <?php if ($this->acl->hasPermission("access_salary")): ?>
+                    <li><a href="<?php echo site_url('Usersalary');?>">เงินเดือน</a></li>
+                <?php endif ?>
             </ul>
         </li>
         <li>
@@ -75,7 +77,7 @@
             <ul id="ddl_ot" class="dropdown-content">
                 <li><a href="<?php echo site_url('Overtime')?>">รายการ OT</a></li>
                 <li><a href="<?php echo site_url('Overtime/add')?>">ส่งใบขอทำ OT</a></li>
-                <li><a href="<?php echo site_url('Overtime/exchange_ot')?>" >แลกเวลาทำ OT</a>
+                <!-- <li><a href="<?php echo site_url('Overtime/exchange_ot')?>" >แลกเวลาทำ OT</a> -->
                 <li><a href="<?php echo site_url('Overtime/report')?>" >รายงานการทำงานล่วงเวลา</a>
             </ul>
         </li>

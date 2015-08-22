@@ -31,11 +31,14 @@ class Userprofile extends CI_Controller
   private function change_user_id($emp_id)
   {
     $returner = "";
+    $checker = FALSE;
+    $headman_level = 0;
     if($emp_id !== "")
     { 
       //check can see this profile is_your_headman or is_hr
       $user_detail = getEmployeeDetail($emp_id);
-      if(is_your_headman($user_detail["UserID"],$this->user_id) || is_hr())
+      list($checker,$headman_level) = is_your_headman($user_detail["UserID"],$this->user_id);
+      if($checker || is_hr())
       {
         $this->emp_id = $emp_id;
         $this->user_id = $user_detail["UserID"];

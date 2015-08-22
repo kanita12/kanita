@@ -1,5 +1,37 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
+function get_sub_position($position_id,$sub_level = 1)
+{
+	$ci =& get_instance();
+	$sub_position = $ci->position->get_sub_list($position_id);
+	$rowcount_sub = $sub_position->num_rows();
+	$padding_left = (2*intval($sub_level));
 
+	$text = "";
+	if($rowcount_sub > 0)
+	{
+		$sub_position = $sub_position->result_array();
+		
+		for ($j=0; $j < $rowcount_sub; $j++){
+			$text .= "<tr>
+						<td style='padding-left:".$padding_left."em;'>".$sub_position[$j]["PName"]."</td>
+						<td class='right-align'>
+							<a href='".site_url('admin/Position/edit/'.$sub_position[$j]["PID"])."' 
+							class='btn-floating btn-small waves-effect waves-light blue'>
+								<i class='material-icons'>edit</i>
+							</a>
+							<a href='javascript:void(0);'
+							data-id='".$sub_position[$j]["PID"]."' 
+							class='btn-floating btn-small waves-effect waves-light red'
+							onclick='deleteThis(this,Position/delete,".$sub_position[$j]['PID']."');>
+								<i class='material-icons'>delete</i>
+							</a>
+						</td>
+					</tr>";
+			$text .= get_sub_position($sub_position[$j]["PID"],($j+2));
+		}
+	}
+	return $text;
+}
 function encrypt_decrypt($action, $string) 
 {
     $output = false;

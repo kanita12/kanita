@@ -55,6 +55,10 @@
 				</a>
 			</td>
 		</tr>
+
+		<?php 
+			echo get_sub_position($query[$i]["PID"]);
+		?>
 	<?php if (empty($query[$i+1]["P_DID"]) || $last_department_id != $query[$i+1]["P_DID"]):  ?>
 			</table>
 		</div>

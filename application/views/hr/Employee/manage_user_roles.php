@@ -17,25 +17,25 @@
             <tr>
                 <td><?php echo $v['Name'] ?></td>
                 <td>
-                    <input type="radio" name='role_<?php echo $v['ID'] ?>' name='role_<?php echo $v['ID'] ?>_1'
+                    <input type="radio" id='<?php echo $v['ID'] ?>_1' name='role_<?php echo $v['ID'] ?>'
                     value='1'
                     <?php if ( $this->acl->userHasRole($v['ID']) ): ?>
-                        checked='checked'
+                        checked='checked' 
                     <?php endif ?>
-                    >
+                    ><label for="<?php echo $v['ID'] ?>_1"></label>
                 </td>
                 <td>
-                    <input type="radio" name='role_<?php echo $v['ID'] ?>' name='role_<?php echo $v['ID'] ?>_0'
+                    <input type="radio" id='<?php echo $v['ID'] ?>_0' name='role_<?php echo $v['ID'] ?>'
                     value='0'
                     <?php if ( ! $this->acl->userHasRole($v['ID']) ): ?>
                         checked='checked'
                     <?php endif ?>
-                    >
+                    ><label for="<?php echo $v['ID'] ?>_0"></label>
                 </td>
             </tr>
         <?php endforeach ?>
-    <table>
-        <input type="submit" name="Submit" value="Submit" />
+    </table>
+    <input type="submit" name="Submit" value="Submit" />
 <?php echo form_close(); ?>
-        
+
   

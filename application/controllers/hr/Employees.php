@@ -26,7 +26,7 @@ class Employees extends CI_Controller
         $CI->load->model('Users_Model','users');
         $CI->load->model('User_roles_model','userroles');
         $CI->load->model('Zipcode_Model','zipcode');
-
+        $CI->load->model('Salary_log_model', 'salarylog');
 
 	}
     public function index()
@@ -152,6 +152,8 @@ class Employees extends CI_Controller
         $data["empPositionID"] = "";
         $data["empDepartmentID"] = "";
         $data["empAddressZipcode"] = 0;
+        $data["empNumberOfChildren"] = 0;
+        $data["empNumberOfBrother"] = 0;
 
         $data["queryNameTitleFriend"] = $data["queryNameTitleThai"];
         $data["queryProvinceFriend"] = $data["queryProvince"];
@@ -171,6 +173,59 @@ class Employees extends CI_Controller
         $data["empTelePhoneFriend"] = "";
         $data["empMobilePhoneFriend"] = "";
 
+        $data["queryNameTitleFather"] = $data["queryNameTitleThai"];
+        $data["queryProvinceFather"] = $data["queryProvince"];
+        $data["queryAmphurFather"] = $data["queryAmphur"];
+        $data["queryDistrictFather"] = $data["queryDistrict"];
+        $data["queryZipcodeFather"] = $data["queryZipcode"];
+        $data["empNameTitleFather"] = "";
+        $data["empFirstnameFather"] = "";
+        $data["empLastnameFather"] = "";
+        $data["empAddressNumberFather"] = "";
+        $data["empAddressMooFather"] = "";
+        $data["empAddressRoadFather"] = "";
+        $data["empAddressDistrictFather"] = "";
+        $data["empAddressAmphurFather"] = "";
+        $data["empAddressProvinceFather"] = "";
+        $data["empAddressZipcodeFather"] = 0;
+        $data["empTelePhoneFather"] = "";
+        $data["empMobilePhoneFather"] = "";
+
+        $data["queryNameTitleMother"] = $data["queryNameTitleThai"];
+        $data["queryProvinceMother"] = $data["queryProvince"];
+        $data["queryAmphurMother"] = $data["queryAmphur"];
+        $data["queryDistrictMother"] = $data["queryDistrict"];
+        $data["queryZipcodeMother"] = $data["queryZipcode"];
+        $data["empNameTitleMother"] = "";
+        $data["empFirstnameMother"] = "";
+        $data["empLastnameMother"] = "";
+        $data["empAddressNumberMother"] = "";
+        $data["empAddressMooMother"] = "";
+        $data["empAddressRoadMother"] = "";
+        $data["empAddressDistrictMother"] = "";
+        $data["empAddressAmphurMother"] = "";
+        $data["empAddressProvinceMother"] = "";
+        $data["empAddressZipcodeMother"] = 0;
+        $data["empTelePhoneMother"] = "";
+        $data["empMobilePhoneMother"] = "";
+
+        $data["queryNameTitleHouseReg"] = $data["queryNameTitleThai"];
+        $data["queryProvinceHouseReg"] = $data["queryProvince"];
+        $data["queryAmphurHouseReg"] = $data["queryAmphur"];
+        $data["queryDistrictHouseReg"] = $data["queryDistrict"];
+        $data["queryZipcodeHouseReg"] = $data["queryZipcode"];
+        $data["empNameTitleHouseReg"] = "";
+        $data["empFirstnameHouseReg"] = "";
+        $data["empLastnameHouseReg"] = "";
+        $data["empAddressNumberHouseReg"] = "";
+        $data["empAddressMooHouseReg"] = "";
+        $data["empAddressRoadHouseReg"] = "";
+        $data["empAddressDistrictHouseReg"] = "";
+        $data["empAddressAmphurHouseReg"] = "";
+        $data["empAddressProvinceHouseReg"] = "";
+        $data["empAddressZipcodeHouseReg"] = 0;
+
+
         $data["empAddressImg"] = "";
         $data["empPictureImg"] = "";
         $data["empDocumentRegisterJobImg"] = "";
@@ -182,6 +237,7 @@ class Employees extends CI_Controller
         $data["empBankBranch"] = "";
         $data["empBankNumber"] = "";
         $data["empBankImg"] = "";
+
 
         $data["query_history_work"] = array();
         $data["query_history_study"] = array();
@@ -360,6 +416,8 @@ class Employees extends CI_Controller
           $data['Emp_MARSID'] = !isset($empData['rdoMartialStatus']) ? 0 : $empData['rdoMartialStatus'];
           $data['EmpMilitaryStatus'] = !isset($empData['rdoMilitaryStatus']) ? 0 : $empData['rdoMilitaryStatus'];
           $data['EmpMilitaryReason'] = $empData['txtMilitaryReason'];
+          $data["EmpNumberOfChildren"]    = $empData["txtNumberOfChildren"];
+          $data["EmpNumberOfBrother"]     = $empData["txtNumberOfBrother"];
           $data['Emp_BankID'] = $empData['ddlBank'];
           $data['EmpBankBranch'] = $empData['txtBankAccountBranch'];
           $data['EmpBankNumber'] = $empData['txtBankAccountNumber'];
@@ -374,6 +432,45 @@ class Employees extends CI_Controller
           $data['EmpFriend_AmphurID'] = $empData['ddlAddressAmphurFriend'];
           $data['EmpFriend_ProvinceID'] = $empData['ddlAddressProvinceFriend'];
           $data['EmpFriend_ZipcodeID'] = $empData['ddlAddressZipcodeFriend'];
+          $data["EmpFriendTelephone"] = $empData["txtTelePhoneFriend"];
+          $data["EmpFriendMobilePhone"] = $empData["txtMobilePhoneFriend"];
+
+          $data['EmpFatherNameTitleThai'] = $empData['ddlNameTitleFather'];
+          $data['EmpFatherFirstnameThai'] = $empData['txtFirstnameFather'];
+          $data['EmpFatherLastnameThai'] = $empData['txtLastnameFather'];
+          $data['EmpFatherAddressNumber'] = $empData['txtAddressNumberFather'];
+          $data['EmpFatherAddressMoo'] = $empData['txtAddressMooFather'];
+          $data['EmpFatherAddressRoad'] = $empData['txtAddressRoadFather'];
+          $data['EmpFather_DistrictID'] = $empData['ddlAddressDistrictFather'];
+          $data['EmpFather_AmphurID'] = $empData['ddlAddressAmphurFather'];
+          $data['EmpFather_ProvinceID'] = $empData['ddlAddressProvinceFather'];
+          $data['EmpFather_ZipcodeID'] = $empData['ddlAddressZipcodeFather'];
+          $data["EmpFatherTelephone"] = $empData["txtTelePhoneFather"];
+          $data["EmpFatherMobilePhone"] = $empData["txtMobilePhoneFather"];
+
+          $data['EmpMotherNameTitleThai'] = $empData['ddlNameTitleMother'];
+          $data['EmpMotherFirstnameThai'] = $empData['txtFirstnameMother'];
+          $data['EmpMotherLastnameThai'] = $empData['txtLastnameMother'];
+          $data['EmpMotherAddressNumber'] = $empData['txtAddressNumberMother'];
+          $data['EmpMotherAddressMoo'] = $empData['txtAddressMooMother'];
+          $data['EmpMotherAddressRoad'] = $empData['txtAddressRoadMother'];
+          $data['EmpMother_DistrictID'] = $empData['ddlAddressDistrictMother'];
+          $data['EmpMother_AmphurID'] = $empData['ddlAddressAmphurMother'];
+          $data['EmpMother_ProvinceID'] = $empData['ddlAddressProvinceMother'];
+          $data['EmpMother_ZipcodeID'] = $empData['ddlAddressZipcodeMother'];
+          $data["EmpMotherTelephone"] = $empData["txtTelePhoneMother"];
+          $data["EmpMotherMobilePhone"] = $empData["txtMobilePhoneMother"];
+
+
+          $data['EmpHouseRegAddressNumber'] = $empData['txtAddressNumberHouseReg'];
+          $data['EmpHouseRegAddressMoo'] = $empData['txtAddressMooHouseReg'];
+          $data['EmpHouseRegAddressRoad'] = $empData['txtAddressRoadHouseReg'];
+          $data['EmpHouseReg_DistrictID'] = $empData['ddlAddressDistrictHouseReg'];
+          $data['EmpHouseReg_AmphurID'] = $empData['ddlAddressAmphurHouseReg'];
+          $data['EmpHouseReg_ProvinceID'] = $empData['ddlAddressProvinceHouseReg'];
+          $data['EmpHouseReg_ZipcodeID'] = $empData['ddlAddressZipcodeHouseReg'];
+
+
           $data['EmpLatestUpdate'] = date('Y-m-d H:i:s');
           $this->employees->edit($data, $where);
 
@@ -462,7 +559,7 @@ class Employees extends CI_Controller
               );
             }
           }
-          swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url("hr/Employees/Detail/".$empID)."'");
+          swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url("hr/Employees/")."'");
         }
       }
     public function Detail($empID)
@@ -549,6 +646,8 @@ class Employees extends CI_Controller
           $data["empMartialStatus"] = $query['Emp_MARSID'];
           $data["empMilitaryStatus"] = $query['EmpMilitaryStatus'];
           $data["empMilitaryReason"] = $query['EmpMilitaryReason'];
+          $data["empNumberOfChildren"] = $query["EmpNumberOfChildren"];
+          $data["empNumberOfBrother"] = $query["EmpNumberOfBrother"];
 
           $data["empIDCard"] = $query['EmpIDCard'];
           $data["empIDCardImg"] = $query['EmpIDCardImg'];
@@ -586,6 +685,59 @@ class Employees extends CI_Controller
           }
           $data["empTelePhoneFriend"] = $query['EmpFriendTelephone'];
           $data["empMobilePhoneFriend"] = $query['EmpFriendMobilePhone'];
+
+
+          $data["empNameTitleFather"] = $query['EmpFatherNameTitleThai'];
+          $data["empFirstnameFather"] = $query['EmpFatherFirstnameThai'];
+          $data["empLastnameFather"] = $query['EmpFatherLastnameThai'];
+          //bind dropdownlist district,amphur,province
+          $data["empAddressNumberFather"] = $query['EmpFatherAddressNumber'];
+          $data["empAddressMooFather"] = $query['EmpFatherAddressMoo'];
+          $data["empAddressRoadFather"] = $query['EmpFatherAddressRoad'];
+          $data["empAddressProvinceFather"] = $query['EmpFather_ProvinceID'];
+          $data["empAddressAmphurFather"] = $query['EmpFather_AmphurID'];
+          $data["empAddressDistrictFather"] = $query['EmpFather_DistrictID'];
+          $data["empAddressZipcodeFather"] = $query['EmpFather_ZipcodeID'];
+          if ($data['empAddressProvinceFather'] != 0) {
+            $data['queryAmphurFather'] = $this->amphur->getListForDropDown($data['empAddressProvinceFather']);
+            $data['queryDistrictFather'] = $this->district->getListForDropDown($data['empAddressProvinceFather'], $data['empAddressAmphurFather']);
+            $data['queryZipcodeFather'] = $this->zipcode->getListForDropDown($data['empAddressProvinceFather'], $data['empAddressAmphurFather'], $data['empAddressDistrictFather']);
+          }
+          $data["empTelePhoneFather"] = $query['EmpFatherTelephone'];
+          $data["empMobilePhoneFather"] = $query['EmpFatherMobilePhone'];
+
+          $data["empNameTitleMother"] = $query['EmpMotherNameTitleThai'];
+          $data["empFirstnameMother"] = $query['EmpMotherFirstnameThai'];
+          $data["empLastnameMother"] = $query['EmpMotherLastnameThai'];
+          //bind dropdownlist district,amphur,province
+          $data["empAddressNumberMother"] = $query['EmpMotherAddressNumber'];
+          $data["empAddressMooMother"] = $query['EmpMotherAddressMoo'];
+          $data["empAddressRoadMother"] = $query['EmpMotherAddressRoad'];
+          $data["empAddressProvinceMother"] = $query['EmpMother_ProvinceID'];
+          $data["empAddressAmphurMother"] = $query['EmpMother_AmphurID'];
+          $data["empAddressDistrictMother"] = $query['EmpMother_DistrictID'];
+          $data["empAddressZipcodeMother"] = $query['EmpMother_ZipcodeID'];
+          if ($data['empAddressProvinceMother'] != 0) {
+            $data['queryAmphurMother'] = $this->amphur->getListForDropDown($data['empAddressProvinceMother']);
+            $data['queryDistrictMother'] = $this->district->getListForDropDown($data['empAddressProvinceMother'], $data['empAddressAmphurMother']);
+            $data['queryZipcodeMother'] = $this->zipcode->getListForDropDown($data['empAddressProvinceMother'], $data['empAddressAmphurMother'], $data['empAddressDistrictMother']);
+          }
+          $data["empTelePhoneMother"] = $query['EmpMotherTelephone'];
+          $data["empMobilePhoneMother"] = $query['EmpMotherMobilePhone'];
+
+          $data["empAddressNumberHouseReg"] = $query['EmpHouseRegAddressNumber'];
+          $data["empAddressMooHouseReg"] = $query['EmpHouseRegAddressMoo'];
+          $data["empAddressRoadHouseReg"] = $query['EmpHouseRegAddressRoad'];
+          $data["empAddressProvinceHouseReg"] = $query['EmpHouseReg_ProvinceID'];
+          $data["empAddressAmphurHouseReg"] = $query['EmpHouseReg_AmphurID'];
+          $data["empAddressDistrictHouseReg"] = $query['EmpHouseReg_DistrictID'];
+          $data["empAddressZipcodeHouseReg"] = $query['EmpHouseReg_ZipcodeID'];
+          if ($data['empAddressProvinceHouseReg'] != 0) {
+            $data['queryAmphurHouseReg'] = $this->amphur->getListForDropDown($data['empAddressProvinceHouseReg']);
+            $data['queryDistrictHouseReg'] = $this->district->getListForDropDown($data['empAddressProvinceHouseReg'], $data['empAddressAmphurHouseReg']);
+            $data['queryZipcodeHouseReg'] = $this->zipcode->getListForDropDown($data['empAddressProvinceHouseReg'], $data['empAddressAmphurHouseReg'], $data['empAddressDistrictHouseReg']);
+          }
+
           $data["empDocumentRegisterJobImg"] = $query['EmpDocRegisterJobImg'];
 
           $empBirthDay = $query['EmpBirthDay'];
@@ -682,10 +834,14 @@ class Employees extends CI_Controller
           $query = $this->employees->getDetailByEmpID($emp_id);
           if ($query->num_rows() > 0) {
             $query = $query->row_array();
+            
+            $query_log = $this->salarylog->get_list(intval($query["UserID"]));
+            $query_log = $query_log->result_array();
             //set data to view
             $data = array();
             $data['form_url'] = site_url('hr/Employees/saveSalary');
             $data['query'] = $query;
+            $data["query_log"] = $query_log;
 
             parent::setHeader('ปรับเงินเดือนพนักงาน',"HR");
             $this->load->view('hr/Employee/increase_salary', $data);
@@ -712,8 +868,8 @@ class Employees extends CI_Controller
           $where_emp = array('EmpID' => $emp_id);
 
           //update employee
-          $this->load->model('Employees_model', 'employee');
-          $this->employee->edit($emp, $where_emp);
+          
+          $this->employees->edit($emp, $where_emp);
 
           //prepare data for insert salary log
           $log = array();
@@ -726,7 +882,7 @@ class Employees extends CI_Controller
           $log['sal_remark'] = $remark;
 
           //insert salary log
-          $this->load->model('salary_log_model', 'salarylog');
+          
           $this->salarylog->insert($log);
 
           echo swalc('สำเร็จ', 'บันทึกการปรับเงินเดือนเรียบร้อยแล้ว', 'success', 'window.location.href = "' . site_url('hr/Employees/increaseSalary/'.$emp_id) . '"');
@@ -775,7 +931,7 @@ class Employees extends CI_Controller
           }
         }
       }
-      echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employee/user_roles/' . $user_id) . '"');
+      echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employees/userroles/' . $user_id) . '"');
     }
   }
   public function manage_user_permissions($user_id)

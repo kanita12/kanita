@@ -14,7 +14,39 @@ class Position_model extends CI_Model
     {
         parent::__construct();
     }
+    public function get_main_list($inst_id = 0,$department_id = 0)
+    {
+        $this->db->select('PID,P_DID,PName,PDesc,Headman_PID,P_StatusID');
+        $this->db->select(',DName,DDesc,D_INSID');
+        $this->db->select(',INSName,INSDesc');
+        $this->db->from($this->table);
+        if( $department_id > 0 )
+        {
+            $this->db->where('P_DID',$department_id);
+        }
+        if($inst_id > 0)
+        {
+            $this->db->where("D_INSID",$inst_id);
+        }
+        $this->db->where('P_StatusID <>','-999');
+        $this->db->where("Headman_PID",0);
+        $this->db->join($this->table_department,'DID = P_DID','left');
+        $this->db->join($this->table_insitution,'D_INSID = INSID','left');
 
+        $this->db->order_by('D_INSID','asc')->order_by('PName','asc');
+        $query = $this->db->get();
+        return $query;
+    }
+    public function get_sub_list($position_id)
+    {
+        $this->db->select('PID,P_DID,PName,PDesc,Headman_PID,P_StatusID');
+        $this->db->from($this->table);
+        $this->db->where('P_StatusID <>','-999');
+        $this->db->where("Headman_PID",$position_id);
+        $this->db->order_by('PName','asc');
+        $query = $this->db->get();
+        return $query;
+    }
     public function get_list($inst_id = 0 ,$department_id = 0)
     {
         $this->db->select('PID,P_DID,PName,PDesc,Headman_PID,P_StatusID');
@@ -38,7 +70,7 @@ class Position_model extends CI_Model
         // }
         $this->db->join($this->table_insitution,'D_INSID = INSID','left');
 
-        $this->db->order_by('D_INSID','asc')->order_by('P_DID','asc');
+        $this->db->order_by('D_INSID','asc')->order_by('P_DID','asc')->order_by("Headman_PID","ASC");
         $query = $this->db->get();
         return $query;
     }
@@ -48,6 +80,7 @@ class Position_model extends CI_Model
         $this->db->select(',DName,DDesc,D_INSID');
         $this->db->select(',INSName,INSDesc');
         $this->db->from($this->table);
+        $this->db->where("PID",$position_id);
         $this->db->where('P_StatusID <>','-999');
         $this->db->join($this->table_department,'DID = P_DID','left');
         $this->db->join($this->table_insitution,'D_INSID = INSID','left');

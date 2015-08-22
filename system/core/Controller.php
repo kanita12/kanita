@@ -106,7 +106,7 @@ class CI_Controller {
 		self::$instance =& $this;
 		$nowPage = strtolower($this->uri->uri_string());
 		$method_depth_2 = $this->uri->segment(2);
-		$not_login_method_depth_2 = array("instant_headman_approve_disapprove_from_email");
+		$not_login_method_depth_2 = array("instant_headman_approve_disapprove_from_email","instant_approve_disapprove_ot_by_headman");
 		$is_method_depth_2 = FALSE;
 		foreach ($not_login_method_depth_2 as $key => $value) 
 		{

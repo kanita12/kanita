@@ -128,7 +128,7 @@ class WorkflowSystem
 			if( $this->$function() === FALSE )
 			{
 				echo "error ".$function;
-				exit();
+				break;
 			}
 		}
 		$this->go_to_next_step();
@@ -221,11 +221,14 @@ class WorkflowSystem
 			$leave_because     = $this->main_detail['LBecause'];
 			$leave_start_date  = $this->main_detail['LStartDate'].' '.$this->main_detail['LStartTime'];
 			$leave_end_date    = $this->main_detail['LEndDate'].' '.$this->main_detail['LEndTime'];
-			$leave_attach_file = $this->main_detail['LAttachFile'];
-			$leave_attach_file_name = $this->main_detail["LAttachFilename"];
-			//อย่าลืมเปลี่ยนการวนลูปเพราะมีการเปลี่ยนแลง table ใหม่
-			$this->email_attach_file[0]["filepath"] = $leave_attach_file;
-			$this->email_attach_file[0]["filename"] = $leave_attach_file_name;
+			if($this->main_detail["LAttachFile"] != NULL && $this->main_detail["LAttachFile"] != "" )
+			{
+				$leave_attach_file = $this->main_detail['LAttachFile'];
+				$leave_attach_file_name = $this->main_detail["LAttachFilename"];
+				//อย่าลืมเปลี่ยนการวนลูปเพราะมีการเปลี่ยนแลง table ใหม่
+				$this->email_attach_file[0]["filepath"] = $leave_attach_file;
+				$this->email_attach_file[0]["filename"] = $leave_attach_file_name;
+			}
 			
 			//get leave time detail
 			$query_time        = $ci->leavetime->getDetailByLeaveID($leave_id);
@@ -242,7 +245,7 @@ class WorkflowSystem
 
 			if( $this->condition == 'request' || $this->condition == 'approve')
 			{
-				$subject = 'ลูกทีม '.$owner_firstname.' ขออนุญาต '.$leave_type;
+				$subject = '[ใบขอเลขที่ '.$leave_id.'] ลูกทีม '.$owner_firstname.' ขออนุญาต '.$leave_type;
 				$body    = file_get_contents(APPPATH.'views/Email/ask_approve_to_headman.html');
 				$search  = array('{{headman_fullname}}'
 												,'{{leave_type}}'
@@ -271,7 +274,7 @@ class WorkflowSystem
 			}
 			else if( $this->condition == "edit request" )
 			{
-				$subject = '[มีการแก้ไขใบลา] ลูกทีม '.$owner_firstname.' ขออนุญาต '.$leave_type;
+				$subject = '[ใบขอเลขที่ '.$leave_id.'][มีการแก้ไขใบลา] ลูกทีม '.$owner_firstname.' ขออนุญาต '.$leave_type;
 				$body    = file_get_contents(APPPATH.'views/Email/edit_ask_approve_to_headman.html');
 				$search  = array('{{headman_fullname}}'
 												,'{{leave_type}}'
@@ -323,7 +326,7 @@ class WorkflowSystem
 
 			if( $this->condition == 'request' || $this->condition == 'approve')
 			{
-				$subject = 'ลูกทีม '.$owner_firstname.' ขอทำงานล่วงเวลา ';
+				$subject = '[ใบขอเลขที่ '.$ot_id.'] ลูกทีม '.$owner_firstname.' ขอทำงานล่วงเวลา';
 				$body = file_get_contents(APPPATH.'/views/Email/request_ot_to_headman.html');	
 				$search = array(	
 					'{{headman_fullname}}'
@@ -336,6 +339,7 @@ class WorkflowSystem
 					,'{{ot_id}}'
 					,'{{headman_user_id}}'
 					,'{{en_ot_id}}'
+					,'{{site_url}}'
 				);
 				$replace = array(
 					$headman_fullname
@@ -348,6 +352,7 @@ class WorkflowSystem
 					,$ot_id
 					,encrypt_decrypt('encrypt',$headman_user_id)
 					,encrypt_decrypt('encrypt',$ot_id)
+					,site_url()
 				);
 			}
 		}
@@ -357,7 +362,7 @@ class WorkflowSystem
 
 		//send mail library
 		//non config because default set in phpmailer class
-		$ci->load->library('phpmailer');
+		$ci->load->library('Phpmailer','phpmailer');
 		$ci->phpmailer->ClearAllRecipients();
 		$ci->phpmailer->IsSMTP();	    
 		$ci->phpmailer->Subject = $this->subject;
@@ -377,7 +382,6 @@ class WorkflowSystem
 		} 
 		else 
 		{
-			
 			return 'success';
 		}
 	}

@@ -5,7 +5,7 @@
 	<div class="col s12">
 		<ul class="collection with-header">
 			<li class="collection-header">
-			 	<h4 class="header">Roles ของพนักงาน [<a href="<?php echo site_url('hr/Employee/manage_user_roles/'.$emp_detail['UserID']) ?>">จัดการ Roles</a>]</h4>
+			 	<h4 class="header">Roles ของพนักงาน [<a href="<?php echo site_url('hr/Employees/manage_user_roles/'.$emp_detail['UserID']) ?>">จัดการ Roles</a>]</h4>
 			</li>
 			<?php $roles = $this->acl->getUserRoles();
 			foreach ($roles as $k => $v): ?>

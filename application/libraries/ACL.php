@@ -312,6 +312,8 @@ field : restore -> AppRestore
 		function is_user_in_role($user_id,$role_name)
 		{
 			$returner = FALSE;
+			$checker = FALSE;
+			$checker2 = TRUE;
 			
 			if($user_id == "" || $role_name == ""){ return $returner; exit(); }
 			$role_name = trim(strtolower($role_name));
@@ -323,12 +325,39 @@ field : restore -> AppRestore
 			$query_user_roles = $ci->userroles->get_list_by_user_id($user_id);
 			$query_user_roles = $query_user_roles->result_array();
 
+			//ถ้าเป็น role admin แต่เป็น hr ด้วยให้แสดง
 			foreach ($query_user_roles as $row) 
 			{
-				if(trim(strtolower($row["RoleName"])) == $role_name)
+				$get_role_name = trim(strtolower($row["RoleName"]));
+				if($role_name != "administrators")
 				{
-					$returner = TRUE;
-					break;
+					if($get_role_name == $role_name)
+					{
+						$returner = TRUE;
+					}
+				}
+				else 
+				{
+					if($get_role_name == $role_name)
+					{
+						$checker = TRUE;
+					}
+					if($get_role_name == "hr")
+					{
+						$checker2 = FALSE;
+						
+					}
+				}
+			}
+			if($returner === FALSE)
+			{
+				if($checker2 === FALSE)
+				{
+					return $checker2;
+				}
+				else if($checker === TRUE)
+				{
+					return $checker;
 				}
 			}
 			return $returner;

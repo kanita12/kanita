@@ -71,7 +71,7 @@ class Leave_model extends CI_Model
 		$this->db->where("L_UserID",floatval($userID));
 		$this->db->where("LStartDate >=",$rangeStart);
 		$this->db->where("LEndDate <=",$rangeEnd);
-		$this->db->where("L_WFID",2);
+		$this->db->where("L_WFID",10);
 		$this->db->where('L_StatusID <> ','-999');
 		$this->db->join($this->table_leavetype,"LTID = L_LTID");
 		$query = $this->db->get();

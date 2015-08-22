@@ -30,7 +30,72 @@
 		</tbody>
 	</table>
 	<?php if ($can_approve): ?>
-		
+		<div class="divider"></div>
+		<div class="section">
+			<h4 class="header">สถานะใบขอทำงานล่วงเวลา : <?php echo $query["WFName"] ?></h4>
+				<div class="input-field">
+				 	<textarea name="txt_remark_approve_headman" id="txt_remark_approve_headman" class="materialize-textarea"></textarea>
+			    	<label for="txt_remark_approve_headman">เนื่องจาก</label>
+					<a href="javascript:void(0);" class="btn" onclick="approve_disapprove('approve','<?php echo $query["wot_request_by"] ?>','<?php echo $ot_id ?>');">อนุมัติ</a>
+					<a href="javascript:void(0);" class="btn red" onclick="approve_disapprove('disapprove','<?php echo $query["wot_request_by"] ?>','<?php echo $ot_id ?>');">ไม่อนุมัติ</a>
+					<!-- <a href="javascript:void(0);" class="btn orange" onclick="approve_disapprove('requestdocument','<?php echo $query["wot_request_by"] ?>','<?php echo $ot_id ?>');">ขอเอกสารเพิ่มเติม</a> -->
+					<script type="text/javascript">
+						function approve_disapprove(type,user_id,ot_id)
+						{
+							var title = '';
+							var alert_success = '';
+							if(type == 'approve')
+							{
+								title = 'ยืนยันการอนุมัติ';
+								alert_success = 'อนุมัติเรียบร้อยแล้ว';
+							}
+							else if(type == 'disapprove')
+							{
+								title = 'ยืนยัน ไม่อนุมัติ!!!';
+								alert_success = 'ไม่อนุมัติ เรียบร้อยแล้ว';
+							}
+							// else if(type == 'requestdocument')
+							// {
+							// 	title = 'ต้องการให้ผู้ขอลาส่งเอกสารเพิ่มเติม';
+							// 	alert_success = 'บันทึกเรียบร้อยแล้ว';
+							// }
+
+							swal({
+								title:title,
+								type:"warning",
+								showCancelButton: true,   
+								confirmButtonColor: "#DD6B55",   
+								confirmButtonText: "ใช่!",   
+								cancelButtonText: "ไม่!",   
+								closeOnConfirm: false,   
+								closeOnCancel: true
+							},function(isConfirm){
+								if (isConfirm) 
+								{
+									var remark = $('#txt_remark_approve_headman').val();  
+									var site_url = "<?php echo site_url();?>"; 
+									 $.ajax({
+									  	url: site_url+'headman/Verifyot/approve_disapprove/',
+									  	type: 'POST',
+									   	data: {type:type,id:ot_id,remark:remark},
+									  })
+									  .done(function() {
+									  	swal({
+									  		title:"สำเร็จ!", 
+									  		html: alert_success, 
+									  		type:"success"
+									  	},function(){
+									  		window.location.href = window.location.href;
+									  	}); 
+
+									  });
+								} 
+							});
+						}
+					</script>
+				</div>
+				<br><br>
+		</div>
 	<?php endif ?>
 <?php echo form_close(); ?>
 <div class="divider"></div>

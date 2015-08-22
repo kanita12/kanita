@@ -320,7 +320,7 @@ class Leave extends CI_Controller
 				$this->leavequota->calculate_quota($this->user_id,$leaveTypeID);
 				//ใช้การคำนวณร่วมกับ leavetimedetail
 				//หลังจากบันทึกทุกอย่างเสร็จแล้ว ส่ง อีเมล์บอกหัวหน้างานของตัวเองว่ามีการขอลา
-				
+			
 				//insert log
 				log_leave("send leave request",$leaveID,"ส่งใบลา",$this->user_id);
 
@@ -571,14 +571,13 @@ class Leave extends CI_Controller
 
 		//get all permission for see.
 		$is_my_leave = is_your_leave($this->user_id,$leave_id);
-		$is_headman  = is_your_leave_headman($this->user_id,$leave_id);
+		list($is_headman,$headman_level) = is_your_leave_headman($this->user_id,$leave_id);
+
 		$is_hr       = is_hr();
 
 		//if not all can see exit and redirect.
 		if($is_my_leave !== TRUE && $is_headman !== TRUE && $is_hr !== TRUE) { redirect($url_list); exit(); }
 
-		//if headman this employee get level headman.
-		if($is_headman === TRUE) { $headman_level = get_headman_level($this->user_id); }
 
 		//Get data to variable $query
 		if($is_my_leave === TRUE) { $query = $this->leave->getDetail($this->user_id,$leave_id); }
@@ -640,8 +639,12 @@ class Leave extends CI_Controller
 			$workflow_id   = 0;
 			$headman_level = 0;
 
+			$checker = FALSE;
+
+			list($checker,$headman_level) = is_your_leave_headman($this->user_id,$leave_id);
+
 			//check is your headman leave owner
-			if(is_your_leave_headman($this->user_id,$leave_id))
+			if($checker == TRUE)
 			{
 				//เช็คว่าหัวหน้าที่จะทำการอนุมัตินี้ เป็นหัวหน้าระดับที่เท่าไหร่ แล้วตรงกันกับระดับของ Workflow มั้ย
 				$query = $this->leave->getDetailByLeaveID($leave_id);
@@ -649,7 +652,7 @@ class Leave extends CI_Controller
 				if( count($query) > 0 )
 				{
 					$workflow_id = $query["L_WFID"];
-					$headman_level = get_headman_level($this->user_id);
+					//$headman_level = get_headman_level($this->user_id);
 
 					//หลังจากได้เลเวลของ headman ของตัวเองมาแล้วก็เอาไปเทียบกับ Workflow ตอนนี้
 					$query2 = $this->workflow->get_detail($workflow_id);
@@ -657,8 +660,10 @@ class Leave extends CI_Controller
 					if( count($query2) > 0 )
 					{
 						$workflow_name = $query2["WFName"];
+
 						if( strpos(strtolower($workflow_name), 'level '.$headman_level) !== FALSE )
 						{
+
 							$this->load->library("WorkflowSystem");
 							$this->workflowsystem->set_require_data($leave_id,"leave",$type,$remark);// leave_id,leave,approve/disapprove/requestdocument
 							$process = $this->workflowsystem->run();
@@ -746,7 +751,7 @@ class Leave extends CI_Controller
 		$remark = "ทำรายการผ่านอีเมล์";
 
 		//check you is a headman this owner request
-		$checker = is_your_leave_headman($headman_user_id,$leave_id);
+		list($checker,$headman_level) = is_your_leave_headman($headman_user_id,$leave_id);
 		if( $checker === TRUE )
 		{
 			//เช็คว่าหัวหน้าที่จะทำการอนุมัตินี้ เป็นหัวหน้าระดับที่เท่าไหร่ แล้วตรงกันกับระดับของ Workflow มั้ย
@@ -777,10 +782,12 @@ class Leave extends CI_Controller
 							$this->load->library("WorkflowSystem");
 							$this->workflowsystem->set_require_data($leave_id,"leave",$type,$remark);// leave_id,leave,approve/disapprove
 							$process = $this->workflowsystem->run();
+							echo swalc("สำเร็จ","การอนุมัติใบลาเรียบร้อยแล้ว","success","window.close();");
+
 						}
 						else
 						{
-							echo swalc("ผิดพลาด","ไม่สามารถทำการอนุมัติใบลาได้","error");
+							echo swalc("ผิดพลาด","ไม่สามารถทำการอนุมัติใบลาได้","error","window.close();");
 						}
 					}
 				}

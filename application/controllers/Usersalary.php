@@ -5,6 +5,11 @@ class Usersalary extends CI_Controller
 	{
 		parent::__construct();
 		$ci =& get_instance();
+		if(!$this->acl->hasPermission("access_salary"))
+		{
+			redirect("home");
+			exit();
+		}
 		$ci->load->model("Salary_pay_log_model","salarypay");
 	}
   	public function index()
@@ -18,6 +23,8 @@ class Usersalary extends CI_Controller
 		//set data
 		$data = array();
 		$data["query_now_salary"] = $query_now_salary->row_array();
+		$data["emp_detail"] = getEmployeeDetailByUserID($this->user_id);
+	
 
 		parent::setHeader("เงินเดือน","Userprofile");
 		$this->load->view("Userprofile/Usersalary",$data);
@@ -34,7 +41,7 @@ class Usersalary extends CI_Controller
 		$query = $this->salarypay->get_list($this->pagination->per_page, $page,$this->user_id,$year,$month,TRUE);
 		//set data
 		$data = array();
-		$data["query"] = $query->result_array();
+		$data["query"] = $query;
 		$data["links"] = $this->pagination->create_links();
 
 		parent::setHeader("ประวัติการจ่ายเงินเดือน","Salary");

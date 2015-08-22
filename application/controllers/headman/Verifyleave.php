@@ -67,7 +67,7 @@ class Verifyleave extends CI_Controller
 		$remark = "ทำรายการผ่านหน้ารายการ";
 
 		//check you is a headman this owner request
-		$checker = is_your_leave_headman($headman_user_id,$leave_id);
+		list($checker,$headman_level) = is_your_leave_headman($headman_user_id,$leave_id);
 		if( $checker === TRUE )
 		{
 			//เช็คว่าหัวหน้าที่จะทำการอนุมัตินี้ เป็นหัวหน้าระดับที่เท่าไหร่ แล้วตรงกันกับระดับของ Workflow มั้ย

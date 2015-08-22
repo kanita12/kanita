@@ -31,6 +31,10 @@ class Leavetype_model extends CI_Model
 		$query = $this->db->get();
 		return $query;
 	}
+	public function getDetailByID($id)
+	{
+		return $this->get_detail_by_id($id);
+	}
 	public function get_detail_by_id($id)
 	{
 		$this->db->select("LTName,LTDesc,LTGroup");

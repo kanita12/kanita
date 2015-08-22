@@ -1,4 +1,4 @@
-﻿<?php class Employee extends CI_Controller
+﻿<?php class Employee_OLD extends CI_Controller
 {
   public function __construct()
   {

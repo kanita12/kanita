@@ -27,26 +27,28 @@
 						$is_key_inheritted = $rPerms[$v['Key']]['inheritted'];
 					}	
 				?>
-	    		<select name='perm_<?php echo $v['ID'] ?>'>
-	    			<option value='1'
-	    				<?php if( $this->acl->hasPermission($v['Key']) && $is_key_exists !== false  && $is_key_inheritted != true ): ?> 
-						selected='selected'
-		    			<?php endif ?>
-		    		>Allow</option>
-		    		<option value='0'
-			    		<?php if ( $is_key_exists !== false && $rPerms[$v['Key']]['value'] === false && $is_key_inheritted != true ): ?>
-			    			selected='selected'
-			    		<?php endif ?>
-			    	>Deny</option>
-			    	<option value='x'
-			    		<?php if ( $is_key_exists !== false && $is_key_inheritted == true || !$is_key_exists ): ?>
-			    			selected='selected'
-			    			<?php if ( $is_key_exists !== false && $rPerms[$v['Key']]['value'] === true ): ?>
-			    				<?php $iVal = '(Allow)'; ?>
+				<div class="input-field">
+		    		<select name='perm_<?php echo $v['ID'] ?>'>
+		    			<option value='1'
+		    				<?php if( $this->acl->hasPermission($v['Key']) && $is_key_exists !== false  && $is_key_inheritted != true ): ?> 
+							selected='selected'
 			    			<?php endif ?>
-			    		<?php endif ?>
-			    	>Inherit <?php echo $iVal ?></option>
-		    	</select>
+			    		>Allow</option>
+			    		<option value='0'
+				    		<?php if ( $is_key_exists !== false && $rPerms[$v['Key']]['value'] === false && $is_key_inheritted != true ): ?>
+				    			selected='selected'
+				    		<?php endif ?>
+				    	>Deny</option>
+				    	<option value='x'
+				    		<?php if ( $is_key_exists !== false && $is_key_inheritted == true || !$is_key_exists ): ?>
+				    			selected='selected'
+				    			<?php if ( $is_key_exists !== false && $rPerms[$v['Key']]['value'] === true ): ?>
+				    				<?php $iVal = '(Allow)'; ?>
+				    			<?php endif ?>
+				    		<?php endif ?>
+				    	>Inherit <?php echo $iVal ?></option>
+			    	</select>
+		    	</div>
 	    	</td>
 	    </tr>
     <?php endforeach ?>  

@@ -23,7 +23,7 @@ class Permissions_model extends CI_Model{
 	public function getAllPerms(){
 		$this->db->select('PermID,Perm_PGID,PGName,PermKey,PermName');
 		$this->db->from($this->table);
-		$this->db->join('T_Permission_Group','Perm_PGID = PGID');
+		$this->db->join('t_permission_group','Perm_PGID = PGID');
 		$this->db->order_by('Perm_PGID','ASC');
 		$this->db->order_by('PermName','ASC');
 		$query = $this->db->get();

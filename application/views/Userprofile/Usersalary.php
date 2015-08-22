@@ -1,7 +1,11 @@
 <div class="row">
 	<div class="col s12">
+		<h5 class="header">
+			เงินเดือนปัจจุบันของคุณ : <?php echo number_format($emp_detail["EmpSalary"]); ?> บาท
+		</h5>
 		<?php if ($query_now_salary["sapay_salary"] == ""): ?>
-			<h4 class="header">คุณยังไม่มีข้อมูลรายได้ประจำเดือน</h4>
+			<br>
+			<h5 class="header">คุณยังไม่มีข้อมูลรายได้ประจำเดือน</h5>
 		<?php else: ?>
 			<h4 class="header">รายได้ประจำเดือน  <?php echo get_month_name_thai($query_now_salary["sapay_month"]); ?> ปี <?php echo year_thai($query_now_salary["sapay_year"]) ?></h4>
 			<br>

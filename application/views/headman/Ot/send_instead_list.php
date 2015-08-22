@@ -55,7 +55,9 @@
 					<?php echo $row['workflow_name'] ?>
 				</td>
 				<td>
-					btn Hover เพื่อดูรายละเอียด
+					<a href="javascript:void(0);" class="btn-floating btn-medium waves-effect waves-light blue" onclick="gotoURL('<?php echo site_url("Overtime/detail/".$row["wot_id"]);?>');">
+						<i class="material-icons">info_outline</i>
+					</a>
 				</td>
 			</tr>
 		<?php endforeach ?>

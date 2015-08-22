@@ -31,7 +31,7 @@
 	<thead>
 		<tr>
 			<th width="12%">รหัสพนักงาน</th>
-			<th>Username</th>
+			<!-- <th>Username</th> -->
 			<th>ชื่อ-นามสกุล</th>
 			<th>แผนก</th>
 			<th>ตำแหน่ง</th>
@@ -42,7 +42,7 @@
 		<?php foreach($query->result_array() as $row): ?>
 		<tr>
 			<td><?php echo $row['EmpID']; ?></td>
-			<td><?php echo $row['Username']; ?></td>
+			<!-- <td><?php echo $row['Username']; ?></td> -->
 			<td><?php echo $row['EmpFullnameThai'] ?></td>
 			<td><?php echo $row['DName']; ?></td>
 			<td><?php echo $row['PName']; ?></td>
@@ -96,6 +96,7 @@
   }
   function go_search(){
         var keyword = $("[id$='txtKeyword']").val();
+        if(keyword == ""){keyword = 0;}
         var department = $("[id$='ddlDepartment']").val();
         var position = $("[id$='ddlPosition']").val();
         var site_url = '<?php echo site_url();?>hr/Employees/search/'+keyword+'/'+department+'/'+position;

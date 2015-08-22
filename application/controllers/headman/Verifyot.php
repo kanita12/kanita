@@ -62,12 +62,14 @@ class Verifyot extends CI_Controller
 			$remark = $post["remark"];
 			$headman_user_id = $this->user_id;
 			$this->_instant_approve_disapprove_ot_by_headman($type,$headman_user_id,$ot_id,$remark);
+			echo "success";
 		}
 	}
 	private function _instant_approve_disapprove_ot_by_headman($type,$headman_user_id,$ot_id,$remark = "")
 	{
 		$headman_level = 0;
-		$checker = is_your_ot_headman($headman_user_id,$ot_id);
+		$checker = FALSE;
+		list($checker,$headman_level) = is_your_ot_headman($headman_user_id,$ot_id);
 		if( $checker === TRUE )
 		{
 			//check headman user id is sure for headman owner request ot
@@ -99,7 +101,8 @@ class Verifyot extends CI_Controller
 							$this->load->library("WorkflowSystem");
 							$this->workflowsystem->set_require_data($ot_id,"overtime",$type,$remark);// leave_id,leave,approve/disapprove
 							$process = $this->workflowsystem->run();
-							echo $this->workflowsystem->get_data("next_step_name");
+							//echo $this->workflowsystem->get_data("next_step_name");
+							echo swalc("สำเร็จ","การอนุมัติใบลาเรียบร้อยแล้ว","success");
 						}
 						else
 						{

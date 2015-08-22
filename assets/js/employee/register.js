@@ -22,7 +22,7 @@ $(document).ready(function() {
 	//limit text
 
 	
-	$("#txtTelePhone,#txtMobilePhone").keydown(function(e){
+	$("#txtTelePhone,#txtMobilePhone,#txtTelePhoneFriend,#txtMobilePhoneFriend,#txtTelePhoneFather,#txtMobilePhoneFather,#txtTelePhoneMother,#txtMobilePhoneMother").keydown(function(e){
 		// Allow: backspace, delete, tab, escape, enter and .
         if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
              // Allow: Ctrl+A, Command+A
@@ -31,6 +31,9 @@ $(document).ready(function() {
             (e.keyCode >= 35 && e.keyCode <= 40)) {
                  // let it happen, don't do anything
                  return;
+        }
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
         }
 		else if($(this).val().length > 9)
 		{
@@ -47,7 +50,28 @@ $(document).ready(function() {
                  // let it happen, don't do anything
                  return;
         }
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
 		else if($(this).val().length > 12)
+		{
+			e.preventDefault();
+		}
+	});
+	$("#txtNumberOfChildren,#txtNumberOfBrother").keydown(function(e){
+		// Allow: backspace, delete, tab, escape, enter and .
+        if ($.inArray(e.keyCode, [46, 8, 9, 27, 13, 110, 190]) !== -1 ||
+             // Allow: Ctrl+A, Command+A
+            (e.keyCode == 65 && ( e.ctrlKey === true || e.metaKey === true ) ) || 
+             // Allow: home, end, left, right, down, up
+            (e.keyCode >= 35 && e.keyCode <= 40)) {
+                 // let it happen, don't do anything
+                 return;
+        }
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
+        }
+		else if($(this).val().length > 0)
 		{
 			e.preventDefault();
 		}
@@ -61,6 +85,9 @@ $(document).ready(function() {
             (e.keyCode >= 35 && e.keyCode <= 40)) {
                  // let it happen, don't do anything
                  return;
+        }
+        if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
+            e.preventDefault();
         }
 		else if($(this).val().length > 2)
 		{

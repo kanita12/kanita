@@ -6,6 +6,8 @@ class Employees_model extends CI_Model
 	private $table_position = 't_position';
 	private $table_department = 't_department';
 	private $table_institution = "t_institution";
+	private $table_role = "t_roles";
+	private $table_user_role = "t_user_roles";
 
 	public function __construct()
 	{
@@ -31,7 +33,7 @@ class Employees_model extends CI_Model
 		}
 		return $new_id;
 	}
-	public function get_latest_new_employee($number = 4)
+	public function get_latest_new_employee($number = 25)
 	{
 		$this->db->limit($number,0);
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,PName,DName,INSName,
@@ -44,15 +46,20 @@ class Employees_model extends CI_Model
 		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
 		$this->db->join($this->table_institution,"Emp_InstitutionID = INSID","left");
 		$this->db->where("Emp_StatusID","1");
+		$this->db->order_by("EmpCreatedDate","DESC");
 		$query = $this->db->get();
 		return $query;
 	}
 	public function countAll($searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1)
 	{
+		$this->db->distinct();
 		$this->db->select('EmpID');
 		//เพื่อทำ paging ใช้คู่กับ function getList ด้วยเงื่อนไขที่เหมือนกัน
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
+		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
+		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
+		$this->db->where("RoleName <>","Administrators");
 		$this->db->where("Emp_StatusID",1);
 		if($searchDepartment != 0) $this->db->where("Emp_DepartmentID",$searchDepartment);
 		if($searchPosition != 0) $this->db->where("Emp_PositionID",$searchPosition);
@@ -70,6 +77,7 @@ class Employees_model extends CI_Model
 	}
 
 	function getList($limit, $start,$searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1) {
+		$this->db->distinct();
 		$this->db->limit($limit, $start);
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,PName,DName");
 		//for fullname thai and english
@@ -79,6 +87,9 @@ class Employees_model extends CI_Model
 		$this->db->join($this->table_position, "Emp_PositionID = PID",'left');
 		$this->db->join($this->table_department, "Emp_DepartmentID = DID",'left');
 		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
+		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
+		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
+		$this->db->where("RoleName <>","Administrators");
 		$this->db->where("Emp_StatusID",$searchStatus);
 
 		if($searchDepartment !=0) $this->db->where("Emp_DepartmentID",$searchDepartment);
@@ -124,11 +135,26 @@ class Employees_model extends CI_Model
 		$this->db->select(', EmpPromiseStartWorkDate, EmpSuccessTrialWorkDate, EmpSalary, EmpCallname');
 		$this->db->select(', EmpTelephone, EmpMobilePhone, EmpEmail, EmpSex, EmpHeight, EmpWeight, EmpBlood');
 		$this->db->select(', EmpNationality, EmpRace, EmpReligion, Emp_MARSID, EmpMilitaryStatus, EmpMilitaryReason');
+		$this->db->select(", EmpNumberOfChildren, EmpNumberOfBrother");
 		$this->db->select(', Emp_BankID, EmpBankBranch, EmpBankNumber, Emp_BankTypeID, EmpBankImg');
 		$this->db->select(', EmpFriendNameTitleThai, EmpFriendFirstnameThai, EmpFriendLastnameThai');
 		$this->db->select(', EmpFriendAddressNumber, EmpFriendAddressMoo, EmpFriendAddressRoad, EmpFriend_DistrictID');
 		$this->db->select(', EmpFriend_AmphurID, EmpFriend_ProvinceID, EmpFriend_ZipcodeID ');
     	$this->db->select(', EmpFriendTelephone, EmpFriendMobilePhone, Emp_StatusID');
+    	$this->db->select(', EmpFatherNameTitleThai, EmpFatherFirstnameThai, EmpFatherLastnameThai');
+		$this->db->select(', EmpFatherAddressNumber, EmpFatherAddressMoo, EmpFatherAddressRoad, EmpFather_DistrictID');
+		$this->db->select(', EmpFather_AmphurID, EmpFather_ProvinceID, EmpFather_ZipcodeID ');
+    	$this->db->select(', EmpFatherTelephone, EmpFatherMobilePhone');
+
+    	$this->db->select(', EmpMotherNameTitleThai, EmpMotherFirstnameThai, EmpMotherLastnameThai');
+		$this->db->select(', EmpMotherAddressNumber, EmpMotherAddressMoo, EmpMotherAddressRoad, EmpMother_DistrictID');
+		$this->db->select(', EmpMother_AmphurID, EmpMother_ProvinceID, EmpMother_ZipcodeID ');
+    	$this->db->select(', EmpMotherTelephone, EmpMotherMobilePhone');
+
+    	$this->db->select(', EmpHouseRegNameTitleThai, EmpHouseRegFirstnameThai, EmpHouseRegLastnameThai');
+		$this->db->select(', EmpHouseRegAddressNumber, EmpHouseRegAddressMoo, EmpHouseRegAddressRoad, EmpHouseReg_DistrictID');
+		$this->db->select(', EmpHouseReg_AmphurID, EmpHouseReg_ProvinceID, EmpHouseReg_ZipcodeID ');
+		
 		$this->db->select(', EmpCreatedDate, EmpLatestUpdate');
 		//T_Instituion
 		$this->db->select(', INSName InstitutionName');
@@ -162,11 +188,27 @@ class Employees_model extends CI_Model
 		$this->db->select(', EmpPromiseStartWorkDate, EmpSuccessTrialWorkDate, EmpSalary, EmpCallname');
 		$this->db->select(', EmpTelephone, EmpMobilePhone, EmpEmail, EmpSex, EmpHeight, EmpWeight, EmpBlood');
 		$this->db->select(', EmpNationality, EmpRace, EmpReligion, Emp_MARSID, EmpMilitaryStatus, EmpMilitaryReason');
+		$this->db->select(", EmpNumberOfChildren, EmpNumberOfBrother");
 		$this->db->select(', Emp_BankID, EmpBankBranch, EmpBankNumber, Emp_BankTypeID, EmpBankImg');
 		$this->db->select(', EmpFriendNameTitleThai, EmpFriendFirstnameThai, EmpFriendLastnameThai');
 		$this->db->select(', EmpFriendAddressNumber, EmpFriendAddressMoo, EmpFriendAddressRoad, EmpFriend_DistrictID');
 		$this->db->select(', EmpFriend_AmphurID, EmpFriend_ProvinceID, EmpFriend_ZipcodeID ');
     	$this->db->select(', EmpFriendTelephone, EmpFriendMobilePhone, Emp_StatusID');
+
+    	$this->db->select(', EmpFatherNameTitleThai, EmpFatherFirstnameThai, EmpFatherLastnameThai');
+		$this->db->select(', EmpFatherAddressNumber, EmpFatherAddressMoo, EmpFatherAddressRoad, EmpFather_DistrictID');
+		$this->db->select(', EmpFather_AmphurID, EmpFather_ProvinceID, EmpFather_ZipcodeID ');
+    	$this->db->select(', EmpFatherTelephone, EmpFatherMobilePhone');
+
+    	$this->db->select(', EmpMotherNameTitleThai, EmpMotherFirstnameThai, EmpMotherLastnameThai');
+		$this->db->select(', EmpMotherAddressNumber, EmpMotherAddressMoo, EmpMotherAddressRoad, EmpMother_DistrictID');
+		$this->db->select(', EmpMother_AmphurID, EmpMother_ProvinceID, EmpMother_ZipcodeID ');
+    	$this->db->select(', EmpMotherTelephone, EmpMotherMobilePhone');
+
+    	$this->db->select(', EmpHouseRegNameTitleThai, EmpHouseRegFirstnameThai, EmpHouseRegLastnameThai');
+		$this->db->select(', EmpHouseRegAddressNumber, EmpHouseRegAddressMoo, EmpHouseRegAddressRoad, EmpHouseReg_DistrictID');
+		$this->db->select(', EmpHouseReg_AmphurID, EmpHouseReg_ProvinceID, EmpHouseReg_ZipcodeID ');
+
 		$this->db->select(', EmpCreatedDate, EmpLatestUpdate');
 		//T_Instituion
 		$this->db->select(', INSName InstitutionName');
@@ -244,6 +286,8 @@ class Employees_model extends CI_Model
 		$data['Emp_MARSID'] 				= !isset($empData['rdoMaritalStatus'])?0:$empData['rdoMaritalStatus'];
 		$data['EmpMilitaryStatus'] 			= !isset($empData['rdoMilitaryStatus'])?0:$empData['rdoMilitaryStatus'];
 		$data['EmpMilitaryReason'] 			= $empData['txtMilitaryReason'];
+		$data["EmpNumberOfChildren"]		= $empData["txtNumberOfChildren"];
+		$data["EmpNumberOfBrother"]			= $empData["txtNumberOfBrother"];
 		$data['Emp_BankID'] 				= $empData['ddlBank'];
 		$data['EmpBankBranch'] 				= $empData['txtBankAccountBranch'];
 		$data['EmpBankNumber'] 				= $empData['txtBankAccountNumber'];
@@ -258,6 +302,46 @@ class Employees_model extends CI_Model
 		$data['EmpFriend_AmphurID'] 		= $empData['ddlAddressAmphurFriend'];
 		$data['EmpFriend_ProvinceID'] 		= $empData['ddlAddressProvinceFriend'];
 		$data['EmpFriend_ZipcodeID'] 		= $empData['ddlAddressZipcodeFriend'];
+		$data["EmpFriendTelephone"] 		= $empData["txtTelePhoneFriend"];
+        $data["EmpFriendMobilePhone"] 		= $empData["txtMobilePhoneFriend"];
+
+        $data['EmpFatherNameTitleThai'] = $empData['ddlNameTitleFather'];
+		$data['EmpFatherFirstnameThai'] = $empData['txtFirstnameFather'];
+		$data['EmpFatherLastnameThai'] = $empData['txtLastnameFather'];
+		$data['EmpFatherAddressNumber'] = $empData['txtAddressNumberFather'];
+		$data['EmpFatherAddressMoo'] = $empData['txtAddressMooFather'];
+		$data['EmpFatherAddressRoad'] = $empData['txtAddressRoadFather'];
+		$data['EmpFather_DistrictID'] = $empData['ddlAddressDistrictFather'];
+		$data['EmpFather_AmphurID'] = $empData['ddlAddressAmphurFather'];
+		$data['EmpFather_ProvinceID'] = $empData['ddlAddressProvinceFather'];
+		$data['EmpFather_ZipcodeID'] = $empData['ddlAddressZipcodeFather'];
+		$data["EmpFatherTelephone"] = $empData["txtTelePhoneFather"];
+		$data["EmpFatherMobilePhone"] = $empData["txtMobilePhoneFather"];
+
+		$data['EmpMotherNameTitleThai'] = $empData['ddlNameTitleMother'];
+		$data['EmpMotherFirstnameThai'] = $empData['txtFirstnameMother'];
+		$data['EmpMotherLastnameThai'] = $empData['txtLastnameMother'];
+		$data['EmpMotherAddressNumber'] = $empData['txtAddressNumberMother'];
+		$data['EmpMotherAddressMoo'] = $empData['txtAddressMooMother'];
+		$data['EmpMotherAddressRoad'] = $empData['txtAddressRoadMother'];
+		$data['EmpMother_DistrictID'] = $empData['ddlAddressDistrictMother'];
+		$data['EmpMother_AmphurID'] = $empData['ddlAddressAmphurMother'];
+		$data['EmpMother_ProvinceID'] = $empData['ddlAddressProvinceMother'];
+		$data['EmpMother_ZipcodeID'] = $empData['ddlAddressZipcodeMother'];
+		$data["EmpMotherTelephone"] = $empData["txtTelePhoneMother"];
+		$data["EmpMotherMobilePhone"] = $empData["txtMobilePhoneMother"];
+
+		$data['EmpHouseRegNameTitleThai'] = $empData['ddlNameTitleHouseReg'];
+          $data['EmpHouseRegFirstnameThai'] = $empData['txtFirstnameHouseReg'];
+          $data['EmpHouseRegLastnameThai'] = $empData['txtLastnameHouseReg'];
+          $data['EmpHouseRegAddressNumber'] = $empData['txtAddressNumberHouseReg'];
+          $data['EmpHouseRegAddressMoo'] = $empData['txtAddressMooHouseReg'];
+          $data['EmpHouseRegAddressRoad'] = $empData['txtAddressRoadHouseReg'];
+          $data['EmpHouseReg_DistrictID'] = $empData['ddlAddressDistrictHouseReg'];
+          $data['EmpHouseReg_AmphurID'] = $empData['ddlAddressAmphurHouseReg'];
+          $data['EmpHouseReg_ProvinceID'] = $empData['ddlAddressProvinceHouseReg'];
+          $data['EmpHouseReg_ZipcodeID'] = $empData['ddlAddressZipcodeHouseReg'];
+
 		$data['Emp_StatusID'] 				= 1;
 		$data['EmpCreatedDate'] 			= date('Y-m-d H:i:s');
 		$data['EmpLatestUpdate'] 			= date('Y-m-d H:i:s');

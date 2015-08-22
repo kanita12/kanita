@@ -40,7 +40,7 @@ if (version_compare(PHP_VERSION, '5.0.0', '<') ) exit("Sorry, this version of PH
  * PHP email creation and transport class
  * @package PHPMailer
  */
-class PHPMailer {
+class Phpmailer {
 
   ///// My Variable /////
   public $set_address = 'kane@catyard.net';
@@ -86,7 +86,7 @@ class PHPMailer {
    * Sets the From email address for the message.
    * @var string
    */
-  public $From              = 'noreply@hrsystem';
+  public $From              = 'noreply@hrs.catyard.net';
 
   /**
    * Sets the From name of the message.
