@@ -52,7 +52,7 @@
 		<h4 class="header">ที่อยู่</h4>
 		<div class="input-field col s4">
 			<input type="text" id="inputAddressNumber" name="inputAddressNumber" class="validate" value="<?php echo $query["CAddressNumber"]; ?>">
-			<label for="inputAddressNumber">บ้านเลขที่</label>
+			<label for="inputAddressNumber">เลขที่</label>
 		</div>
 		<div class="input-field col s4">
 			<input type="text" id="inputAddressMoo" name="inputAddressMoo" class="validate" value="<?php echo $query["CAddressMoo"]; ?>">
