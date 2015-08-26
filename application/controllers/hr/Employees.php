@@ -27,7 +27,7 @@ class Employees extends CI_Controller
         $CI->load->model('User_roles_model','userroles');
         $CI->load->model('Zipcode_Model','zipcode');
         $CI->load->model('Salary_log_model', 'salarylog');
-
+        $CI->load->model("Promoteposition_model","promoteposition");
 	}
     public function index()
     {
@@ -346,7 +346,7 @@ class Employees extends CI_Controller
             $contFile = array("fuEmpPicture", "fuIDCard", "fuAddress", "fuDocRegisterJob", "fuBank");
             foreach ($contFile as $file) {
               if ($file !== null) {
-                $nowPath = $this->uploadImg($file, $this->config->item('upload_employee') . $newUserID);
+                $nowPath = $this->uploadImg($file, $this->config->item('upload_employee') . intval($newUserID));
                 if ($nowPath != "") {
                   $this->employees->updateImage($empID, $file, $nowPath);
                 }
@@ -480,7 +480,7 @@ class Employees extends CI_Controller
           $contFile = array("fuEmpPicture", "fuIDCard", "fuAddress", "fuDocRegisterJob", "fuBank");
           foreach ($contFile as $file) {
 
-            $nowPath = $this->uploadImg($file, $this->config->item('upload_employee') . $userID);
+            $nowPath = $this->uploadImg($file, $this->config->item('upload_employee') . intval($userID));
             if ($nowPath != "") {
               $this->employees->updateImage($empID, $file, $nowPath);
             }
@@ -766,6 +766,43 @@ class Employees extends CI_Controller
         $this->load->view("hr/Employee/Register", $data);
         parent::setFooter();
     }
+    public function uploadFile($fuControlName, $uploadPath = "")
+    {
+        $nowPath = "";
+        $config = array();
+        $config['upload_path'] = $uploadPath == "" ? $this->config->item('upload_employee') : $uploadPath;
+        $config['allowed_types'] = '*';
+        $config['max_size'] = '10024000';
+        $uploadPath = $config["upload_path"];
+        if (!is_dir($uploadPath)) //สร้างโฟลเดอร์สำหรับเก็บข้อมูลพนักงาน
+        {
+          mkdir($uploadPath, 0755, true);
+        }
+        $this->load->library('upload', $config);
+        $this->load->library('image_lib');
+
+        if ($_FILES[$fuControlName]['name'] != "") {
+          $name = $_FILES[$fuControlName]['name'];
+          // get file name from form
+          $ext = explode(".", $name);
+          $fileExtension = strtolower(end($ext));
+          // give extension
+          $split_fu = explode("fu", $fuControlName);
+          $encripted_pic_name = strtolower(end($split_fu)) . "_" . md5(date_create()->getTimestamp()) . "." . $fileExtension;
+          // new file name
+          $_FILES[$fuControlName]['name'] = $encripted_pic_name;
+          if ($this->upload->do_upload($fuControlName)) {
+            $imageData = $this->upload->data();
+            $filename = $imageData["file_name"];
+            $nowPath = $config['upload_path']."/" .$filename;
+          } else {
+            $error = array('error' => $this->upload->display_errors());
+            echo $error['error'];
+            //$this->load->view('file_view', $error);
+          }
+        }
+        return $nowPath;
+    }
     public function uploadImg($fuControlName, $uploadPath = "")
     {
         $nowPath = "";
@@ -773,6 +810,7 @@ class Employees extends CI_Controller
         $config['upload_path'] = $uploadPath == "" ? $this->config->item('upload_employee') : $uploadPath;
         $config['allowed_types'] = 'gif|jpg|jpeg|png|doc|pdf';
         $config['max_size'] = '10024000';
+        $uploadPath = $config["upload_path"];
         if (!is_dir($uploadPath)) //สร้างโฟลเดอร์สำหรับเก็บข้อมูลพนักงาน
         {
           mkdir($uploadPath, 0755, true);
@@ -823,11 +861,14 @@ class Employees extends CI_Controller
         }
         return $thumb;
     }
+
+    /* section about promote & money */
+
     public function increaseSalary($emp_id)
     {
         if (!isset($emp_id)) 
         {
-          redirect(site_url('hr/Employee/'));
+          redirect(site_url('hr/Employees/'));
         } 
         else 
         {
@@ -847,7 +888,7 @@ class Employees extends CI_Controller
             $this->load->view('hr/Employee/increase_salary', $data);
             parent::setFooter();
           } else {
-            redirect(site_url('hr/Employee/'));
+            redirect(site_url('hr/Employees/'));
           }
         }
     }
@@ -888,16 +929,161 @@ class Employees extends CI_Controller
           echo swalc('สำเร็จ', 'บันทึกการปรับเงินเดือนเรียบร้อยแล้ว', 'success', 'window.location.href = "' . site_url('hr/Employees/increaseSalary/'.$emp_id) . '"');
         }
     }
+    public function promotePosition($empId)
+    { 
+        if (!isset($empId)) 
+        {
+            redirect(site_url('hr/Employees/'));
+            exit();
+        } 
+
+        $query = $this->employees->getDetailByEmpID($empId);
+        if($query->num_rows() < 1){ redirect(site_url('hr/Employees/')); exit();}
+        
+        $rules = array(
+            array(
+                "field" => "ddlPromotePosition",
+                "label" => "ปรับตำแหน่งเป็น",
+                "rules" => "is_natural|required"
+                )
+            );
+        $this->form_validation->set_rules($rules);
+        if ($this->form_validation->run() === true) {
+            $this->_savePromotePosition($empId);
+            redirect("hr/Employees/");
+            exit();
+        } 
+        else {   
+            $query = $query->row_array();
+
+            $query_log = $this->promoteposition->getList(intval($query["UserID"]));
+            $query_log = $query_log->result_array();
+            //set data to view
+            $data = array();
+            $data['query'] = $query;
+            $data["query_position"] = $this->position->getListForDropDown();
+            $data["query_log"] = $query_log;
+
+            parent::setHeader('ปรับตำแหน่งพนักงาน',"HR");
+            $this->load->view('hr/Employee/Promote_position', $data);
+            parent::setFooter();
+        }
+    }
+    private function _savePromotePosition($empId)
+    {
+        $empData = getEmployeeDetail($empId);
+        $post = $this->input->post(NULL,TRUE);
+
+        $data = array();
+        $data["PPUserID"] = $empData["UserID"];
+        $data["PPFrom_PositionID"] = $empData["Emp_PositionID"];
+        $data["PPFrom_PositionName"] = $empData["PositionName"];
+        $data["PPTo_PositionID"] = $post["ddlPromotePosition"];
+        $data["PPTo_PositionName"] = $this->position->getPositionName($post["ddlPromotePosition"]);
+        $data["PPDesc"] = $post["inputDesc"];
+        $data["PPCreatedDate"] = getDateTimeNow();
+        $data["PPCreatedByUserID"] = $this->user_id;
+        $data["PPCreatedIP"] = $this->input->ip_address();
+        $nowPath = $this->uploadFile("fuDoc", $this->config->item('upload_employee') . intval($empData["UserID"])."/promote/position/");
+        $data["PPDocument"] = $nowPath;
+        $this->promoteposition->insert($data);
+
+        $where = array("EmpID"=>$empId);
+        $data = array();
+        $data["Emp_PositionID"] = $post["ddlPromotePosition"];
+        $this->employees->edit($data,$where);
+        return TRUE;
+    }
+    public function specialMoney($empId)
+    {
+        $this->load->model("Specialmoneyofmonth_model", "specialmoney");
+
+        if (!isset($empId)) 
+        {
+            redirect(site_url('hr/Employees/'));
+            exit();
+        } 
+
+        $query = $this->employees->getDetailByEmpID($empId);
+        if($query->num_rows() < 1){ redirect(site_url('hr/Employees/')); exit();}
+        
+        $rules = array(
+            array(
+                "field" => "inputTopic",
+                "label" => "ชื่อรายการ",
+                "rules" => "trim|required"
+                ),
+            array(
+                "field" => "ddlYear",
+                "label" => "ชื่อรายการ",
+                "rules" => "is_natural|required"
+                ),
+            array(
+                "field" => "ddlMonth",
+                "label" => "ชื่อรายการ",
+                "rules" => "is_natural|required"
+                ),
+            array(
+                "field" => "inputMoney",
+                "label" => "จำนวนเงิน",
+                "rules" => "trim|required"
+                )
+            );
+        $this->form_validation->set_rules($rules);
+        if ($this->form_validation->run() === true) {
+            $this->_saveSpecialMoney($empId);
+            redirect("hr/Employees/");
+            exit();
+        } 
+        else {   
+            $query = $query->row_array();
+
+            $query_log = $this->specialmoney->getList(intval($query["UserID"]));
+            $query_log = $query_log->result_array();
+
+            //set data to view
+            $data = array();
+            $data['query'] = $query;
+            $data["queryYear"] = $this->common->getYearForDropDown("thai");
+            $data["queryMonth"] = $this->common->getMonth1To12("thai");
+            $data["query_log"] = $query_log;
+
+            parent::setHeader('รายได้/รายหัก พิเศษ',"HR");
+            $this->load->view('hr/Employee/Specialmoneyofmonth', $data);
+            parent::setFooter();
+        }
+    }
+    private function _saveSpecialMoney($empId)
+    {
+        $empData = getEmployeeDetail($empId);
+        $post = $this->input->post(NULL,TRUE);
+
+        $data = array();
+        $data["SMMUserID"] = $empData["UserID"];
+        $data["SMMYear"] = $post["ddlYear"];
+        $data["SMMMonth"] = $post["ddlMonth"];
+        $data["SMMTopic"] = $post["inputTopic"];
+        $data["SMMDesc"] = $post["inputDesc"];
+        $data["SMMMoney"] = $post["inputType"].$post["inputMoney"];
+        $data["SMMCreatedDate"] = getDateTimeNow();
+        $data["SMMCreatedByUserID"] = $this->user_id;
+        $data["SMMLatestUpdate"] = getDateTimeNow();
+        $data["SMMLatestUpdateByUserID"] = $this->user_id;
+
+        $this->specialmoney->insert($data);
+        return TRUE;
+    }
   /**
    * จัดการสิทธิ์การเข้าใช้งานของพนักงาน
    * @param  [int,string] $user_id [description]
    * @return [type]          [description]
    */
-  public function userroles($user_id)
+  public function userroles($emp_id)
   {
+    $emp_detail = getEmployeeDetail($emp_id);
     $data = array();
-    $data['user_id'] = $user_id;
-    $data['emp_detail'] = getEmployeeDetailByUserID(intval($user_id));
+    $data['user_id'] = $emp_detail["UserID"];
+    $data['emp_detail'] = $emp_detail;
 
     parent::setHeader('จัดการสิทธิ์ '.$data["emp_detail"]["EmpFullnameThai"], 'Roles');
     $this->load->view('hr/Employee/user_roles_list', $data);
@@ -983,6 +1169,8 @@ class Employees extends CI_Controller
         }
         return $text;
     }
+
+
 }
 /* End of file Employees.php */
 /* Location: ./application/controllers/hr/Employees.php */

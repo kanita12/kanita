@@ -145,4 +145,4 @@
 	{
 		return true;
 	}
-</script
+</script>

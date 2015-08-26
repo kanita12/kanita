@@ -54,7 +54,7 @@ class Roles extends CI_Controller{
 	}
 	public function saveRole(){
 			$roleID = $this->input->post('hdRoleID');
-			$strSQL = "REPLACE INTO T_Roles SET RoleID = ?, RoleName = ? ";
+			$strSQL = "REPLACE INTO t_roles SET RoleID = ?, RoleName = ? ";
 			$this->db->query($strSQL,array($roleID,$_POST['txtName']));
 			if ($this->db->affected_rows() < 2) //ถ้าไม่มี Role เลยให้ใช้ ID ที่ insert เข้าไปใหม่
 			{
@@ -68,11 +68,11 @@ class Roles extends CI_Controller{
 					$permID = str_replace("perm_","",$k);
 					if ($v == 'X')
 					{
-						$strSQL = 'DELETE FROM T_Role_Permissions WHERE RP_RoleID = ? AND RP_PermID = ?';
+						$strSQL = 'DELETE FROM t_role_permissions WHERE RP_RoleID = ? AND RP_PermID = ?';
 						$this->db->query($strSQL,array($roleID,$permID));
 						continue;
 					}
-					$strSQL = 'REPLACE INTO T_Role_Permissions SET RP_RoleID = ?, RP_PermID = ? ';
+					$strSQL = 'REPLACE INTO t_role_permissions SET RP_RoleID = ?, RP_PermID = ? ';
 					$strSQL .= ', RPValue = ?, RPCreatedDate = ?';
 					$this->db->query($strSQL,array($roleID,$permID,$v,date ("Y-m-d H:i:s")));
 				}

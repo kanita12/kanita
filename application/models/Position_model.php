@@ -87,7 +87,15 @@ class Position_model extends CI_Model
         $query = $this->db->get();
         return $query;
     }
-
+    public function getPositionName($pId)
+    {
+        $this->db->select("PName");
+        $this->db->from($this->table);
+        $this->db->where('PID',$pId);
+        $query = $this->db->get();
+        $query = $query->row_array();
+        return $query["PName"];
+    }
     public function getListPositionByDepartmentID($departmentID)
     {
         $this->db->select("PID,PName,PDesc");
