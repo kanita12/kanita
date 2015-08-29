@@ -9,6 +9,8 @@
         <div class="collapsible-body" style="">
           <ul>
             <li><a href="<?php echo site_url('admin/Company'); ?>">ข้อมูลบริษัท</a></li>
+            <li><a href="<?php echo site_url('admin/Company/Department'); ?>">ฝ่าย/แผนก/หน่วยงาน</a></li>
+            <li><a href="<?php echo site_url('admin/Company/Position'); ?>">ตำแหน่งใหม่</a></li>
             <li><a href="<?php echo site_url('admin/Institution'); ?>">หน่วยงาน</a></li>
             <li><a href="<?php echo site_url('admin/Department'); ?>">แผนก</a></li>
             <li><a href="<?php echo site_url('admin/Position'); ?>">ตำแหน่ง</a></li>

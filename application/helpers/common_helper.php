@@ -1,36 +1,45 @@
 <?php defined('BASEPATH') OR exit('No direct script access allowed');
-function get_sub_position($position_id,$sub_level = 1)
+/*
+$id กับ $field ใช้เทียบกันว่าให้ตรงกันนะ
+ส่วน $myFieldId พอสิ้นสุดแล้วเพื่อไม่ให้มันซ้ำกัน ให้เทียบกันด้วยฟิลด์อะไร*/
+function searchArrayById($array,$id,$field,$myFieldId = "")
 {
-	$ci =& get_instance();
-	$sub_position = $ci->position->get_sub_list($position_id);
-	$rowcount_sub = $sub_position->num_rows();
-	$padding_left = (2*intval($sub_level));
-
-	$text = "";
-	if($rowcount_sub > 0)
+	$returnArray = array();
+	$i = 0;
+	foreach ($array as $data) 
 	{
-		$sub_position = $sub_position->result_array();
-		
-		for ($j=0; $j < $rowcount_sub; $j++){
-			$text .= "<tr>
-						<td style='padding-left:".$padding_left."em;'>".$sub_position[$j]["PName"]."</td>
-						<td class='right-align'>
-							<a href='".site_url('admin/Position/edit/'.$sub_position[$j]["PID"])."' 
-							class='btn-floating btn-small waves-effect waves-light blue'>
-								<i class='material-icons'>edit</i>
-							</a>
-							<a href='javascript:void(0);'
-							data-id='".$sub_position[$j]["PID"]."' 
-							class='btn-floating btn-small waves-effect waves-light red'
-							onclick='deleteThis(this,Position/delete,".$sub_position[$j]['PID']."');>
-								<i class='material-icons'>delete</i>
-							</a>
-						</td>
-					</tr>";
-			$text .= get_sub_position($sub_position[$j]["PID"],($j+2));
+		if($data[$field] == $id && !in_array_key($myFieldId,$data[$myFieldId],$returnArray) )
+		{
+
+			$returnArray[$i] =  $data;
+			$i++;
 		}
 	}
-	return $text;
+	return $returnArray;
+}
+function in_array_r($needle, $haystack, $strict = false) 
+{
+    foreach ($haystack as $item) 
+    {
+        if (($strict ? $item === $needle : $item == $needle) || (is_array($item) && in_array_r($needle, $item, $strict))) 
+        {
+            return true;
+        }
+    }
+
+	return false;
+}
+function in_array_key($key ,$needle, $haystack, $strict = false) 
+{
+    foreach ($haystack as $item) 
+    {
+        if (($strict ? $item[$key] === $needle : $item[$key] == $needle) || (is_array($item[$key]) && in_array_r($needle, $item[$key], $strict))) 
+        {
+            return true;
+        }
+    }
+
+	return false;
 }
 function encrypt_decrypt($action, $string) 
 {

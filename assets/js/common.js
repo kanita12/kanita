@@ -1,4 +1,14 @@
 $(function(){
+  $(document).ready(function()
+  {
+    $("#inputKeyword").keyup(function (e) 
+    {
+      if(e.keyCode == 13) // enter key
+      {
+        $("#submitSearch").click();
+      }
+    });
+  });
 jQuery.fn.setTextboxShowUnShowMessage = function(textMessage){
     if($(this).val()=='')
     {
