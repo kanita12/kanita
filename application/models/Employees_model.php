@@ -9,9 +9,155 @@ class Employees_model extends CI_Model
 	private $table_role = "t_roles";
 	private $table_user_role = "t_user_roles";
 
+	private $tableCompanyDepartment = "t_company_department";
+	private $tableCompanySection = "t_company_section";
+	private $tableCompanyUnit = "t_company_unit";
+	private $tableCompanyGroup = "t_company_group";
+	private $tableCompanyPosition = "t_company_position";
+	private $selectAllField = "UserID,Username,Password,EmpID,
+							EmpNameTitleThai,EmpFirstnameThai,EmpLastnameThai,
+							EmpNameTitleEnglish,EmpFirstnameEnglish,EmpLastnameEnglish,
+							Emp_DepartmentID,Emp_SectionID,Emp_UnitID,Emp_GroupID,Emp_PositionID,
+							EmpBirthday,EmpBirthPlace,EmpIDCard,EmpIDCardImg,
+							EmpAddressNumber,EmpAddressMoo,EmpAddressRoad,Emp_DistrictID,Emp_AmphurID,Emp_ProvinceID,Emp_ZipcodeID,EmpAddressImg,
+							EmpPictureImg,EmpDocRegisterJobImg,EmpStartWorkDate,EmpSuccessTrialWorkDate,EmpSalary,EmpCallname,
+							EmpTelephone,EmpMobilePhone,EmpEmail,EmpSex,EmpHeight,EmpWeight,EmpBlood,EmpNationality,EmpRace,EmpReligion,
+							Emp_MARSID,EmpMilitaryStatus,EmpMilitaryReason,EmpNumberOfChildren,EmpNumberOfBrother,
+							Emp_BankID,EmpBankBranch,EmpBankNumber,Emp_BankTypeID,EmpBankImg,
+							EmpFriendNameTitleThai,EmpFriendFirstnameThai,EmpFriendLastnameThai,
+							EmpFriendAddressNumber, EmpFriendAddressMoo, EmpFriendAddressRoad, 
+							EmpFriend_DistrictID,EmpFriend_AmphurID, EmpFriend_ProvinceID, EmpFriend_ZipcodeID,
+							EmpFriendTelephone,EmpFriendMobilePhone,Emp_StatusID,
+							EmpFatherNameTitleThai,EmpFatherFirstnameThai,EmpFatherLastnameThai,
+							EmpFatherAddressNumber,EmpFatherAddressMoo,EmpFatherAddressRoad,EmpFather_DistrictID,
+							EmpFather_AmphurID,EmpFather_ProvinceID,EmpFather_ZipcodeID ,
+							EmpFatherTelephone,EmpFatherMobilePhone,
+							EmpMotherNameTitleThai,EmpMotherFirstnameThai,EmpMotherLastnameThai,
+							EmpMotherAddressNumber,EmpMotherAddressMoo,EmpMotherAddressRoad,EmpMother_DistrictID,
+							EmpMother_AmphurID,EmpMother_ProvinceID,EmpMother_ZipcodeID ,
+							EmpMotherTelephone,EmpMotherMobilePhone,
+							EmpHouseRegNameTitleThai,EmpHouseRegFirstnameThai,EmpHouseRegLastnameThai,
+							EmpHouseRegAddressNumber,EmpHouseRegAddressMoo,EmpHouseRegAddressRoad,EmpHouseReg_DistrictID,
+							EmpHouseReg_AmphurID,EmpHouseReg_ProvinceID,EmpHouseReg_ZipcodeID,
+							EmpCreatedDate,EmpLatestUpdate,
+							cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName
+							";
+	
 	public function __construct()
 	{
 		parent::__construct();
+	}
+
+	//New for new structure company Department -> Section -> Unit -> Group -> Position
+	public function countAll($searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "")
+	{
+		$this->db->select("*");
+		$this->db->from($this->table);
+		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
+		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
+		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
+		$this->db->where("RoleName <>","Administrators");
+		$this->db->where("Emp_StatusID",1);
+		if($searchDepartment != 0) 
+		{
+			$this->db->where("Emp_DepartmentID",$searchDepartment);
+		}
+		if($searchSection != 0)
+		{
+			$this->db->where("Emp_SectionID",$searchSection);
+		}
+		if($searchUnit != 0)
+		{
+			$this->db->where("Emp_UnitID",$searchUnit);
+		}
+		if($searchGroup != 0)
+		{
+			$this->db->where("Emp_GroupID",$searchGroup);
+		}
+		if($searchPosition != 0) 
+		{
+			$this->db->where("Emp_PositionID",$searchPosition);
+		}
+		if($searchKeyword != "") 
+		{
+			$this->db->group_start();
+			$this->db->like("EmpID",$searchKeyword);
+			$this->db->or_like("Username",$searchKeyword);
+			$this->db->or_like("EmpFirstnameThai",$searchKeyword);
+			$this->db->or_like("EmpFirstnameEnglish",$searchKeyword);
+			$this->db->or_like("EmpLastnameThai",$searchKeyword);
+			$this->db->or_like("EmpLastnameEnglish",$searchKeyword);
+			$this->db->or_like("cdname",$searchKeyword);
+			$this->db->or_like("csname",$searchKeyword);
+			$this->db->or_like("cuname",$searchKeyword);
+			$this->db->or_like("cgname",$searchKeyword);
+			$this->db->or_like("cpname",$searchKeyword);
+			$this->db->group_end();
+		}
+		return $this->db->count_all_results();
+	}
+	public function getList($start,$limit,$searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "")
+	{
+		$this->db->limit($start,$limit);
+		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg");
+		$this->db->select(",cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName");
+		//for fullname thai and english
+		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
+		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->from($this->table);
+		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
+		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
+		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
+		$this->db->where("RoleName <>","Administrators");
+		$this->db->where("Emp_StatusID",1);
+		if($searchDepartment != 0) 
+		{
+			$this->db->where("Emp_DepartmentID",$searchDepartment);
+		}
+		if($searchSection != 0)
+		{
+			$this->db->where("Emp_SectionID",$searchSection);
+		}
+		if($searchUnit != 0)
+		{
+			$this->db->where("Emp_UnitID",$searchUnit);
+		}
+		if($searchGroup != 0)
+		{
+			$this->db->where("Emp_GroupID",$searchGroup);
+		}
+		if($searchPosition != 0) 
+		{
+			$this->db->where("Emp_PositionID",$searchPosition);
+		}
+		if($searchKeyword != "") 
+		{
+			$this->db->group_start();
+			$this->db->like("EmpID",$searchKeyword);
+			$this->db->or_like("Username",$searchKeyword);
+			$this->db->or_like("EmpFirstnameThai",$searchKeyword);
+			$this->db->or_like("EmpFirstnameEnglish",$searchKeyword);
+			$this->db->or_like("EmpLastnameThai",$searchKeyword);
+			$this->db->or_like("EmpLastnameEnglish",$searchKeyword);
+			$this->db->or_like("cdname",$searchKeyword);
+			$this->db->or_like("csname",$searchKeyword);
+			$this->db->or_like("cuname",$searchKeyword);
+			$this->db->or_like("cgname",$searchKeyword);
+			$this->db->or_like("cpname",$searchKeyword);
+			$this->db->group_end();
+		}
+		$query = $this->db->get();
+		return $query;
 	}
 	public function get_new_id()
 	{
@@ -36,21 +182,23 @@ class Employees_model extends CI_Model
 	public function get_latest_new_employee($number = 25)
 	{
 		$this->db->limit($number,0);
-		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,PName,DName,INSName,
-			EmpCallname");
+		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,
+			cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName,EmpCallname");
 		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
 		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
 		$this->db->from($this->table);
-		$this->db->join($this->table_position, "Emp_PositionID = PID",'left');
-		$this->db->join($this->table_department, "Emp_DepartmentID = DID",'left');
+		$this->db->join($this->tableCompanyPosition, "Emp_PositionID = cpid",'left');
+		$this->db->join($this->tableCompanyDepartment, "Emp_DepartmentID = cdid",'left');
+		$this->db->join($this->tableCompanySection, "Emp_SectionID = csid",'left');
+		$this->db->join($this->tableCompanyUnit, "Emp_UnitID = cuid",'left');
+		$this->db->join($this->tableCompanyGroup, "Emp_GroupID = cgid",'left');
 		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
-		$this->db->join($this->table_institution,"Emp_InstitutionID = INSID","left");
 		$this->db->where("Emp_StatusID","1");
 		$this->db->order_by("EmpCreatedDate","DESC");
 		$query = $this->db->get();
 		return $query;
 	}
-	public function countAll($searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1)
+	public function countAll_old($searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1)
 	{
 		$this->db->distinct();
 		$this->db->select('EmpID');
@@ -76,7 +224,7 @@ class Employees_model extends CI_Model
 		return $this->db->count_all_results();
 	}
 
-	function getList($limit, $start,$searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1) {
+	function getList_old($limit, $start,$searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1) {
 		$this->db->distinct();
 		$this->db->limit($limit, $start);
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,PName,DName");
@@ -123,54 +271,21 @@ class Employees_model extends CI_Model
 		}
 		return $query;
 	}
+
+
 	public function getDetailByEmpID($empID) {
-		$this->db->select('UserID, Username, Password');//T_Users
-		//T_Employees
-		$this->db->select(', EmpID, EmpNameTitleThai, EmpFirstnameThai, EmpLastnameThai, EmpNameTitleEnglish');
-		$this->db->select(', EmpFirstnameEnglish, EmpLastnameEnglish, Emp_InstitutionID, Emp_PositionID');
-		$this->db->select(', Emp_DepartmentID,  EmpBirthday, EmpBirthDay, EmpBirthPlace');
-		$this->db->select(', EmpIDCard, EmpIDCardImg, EmpAddressNumber, EmpAddressMoo');
-		$this->db->select(', EmpAddressRoad, Emp_DistrictID, Emp_AmphurID, Emp_ProvinceID, Emp_ZipcodeID');
-		$this->db->select(', EmpAddressImg, EmpPictureImg, EmpDocRegisterJobImg, EmpStartWorkDate');
-		$this->db->select(', EmpPromiseStartWorkDate, EmpSuccessTrialWorkDate, EmpSalary, EmpCallname');
-		$this->db->select(', EmpTelephone, EmpMobilePhone, EmpEmail, EmpSex, EmpHeight, EmpWeight, EmpBlood');
-		$this->db->select(', EmpNationality, EmpRace, EmpReligion, Emp_MARSID, EmpMilitaryStatus, EmpMilitaryReason');
-		$this->db->select(", EmpNumberOfChildren, EmpNumberOfBrother");
-		$this->db->select(', Emp_BankID, EmpBankBranch, EmpBankNumber, Emp_BankTypeID, EmpBankImg');
-		$this->db->select(', EmpFriendNameTitleThai, EmpFriendFirstnameThai, EmpFriendLastnameThai');
-		$this->db->select(', EmpFriendAddressNumber, EmpFriendAddressMoo, EmpFriendAddressRoad, EmpFriend_DistrictID');
-		$this->db->select(', EmpFriend_AmphurID, EmpFriend_ProvinceID, EmpFriend_ZipcodeID ');
-    	$this->db->select(', EmpFriendTelephone, EmpFriendMobilePhone, Emp_StatusID');
-    	$this->db->select(', EmpFatherNameTitleThai, EmpFatherFirstnameThai, EmpFatherLastnameThai');
-		$this->db->select(', EmpFatherAddressNumber, EmpFatherAddressMoo, EmpFatherAddressRoad, EmpFather_DistrictID');
-		$this->db->select(', EmpFather_AmphurID, EmpFather_ProvinceID, EmpFather_ZipcodeID ');
-    	$this->db->select(', EmpFatherTelephone, EmpFatherMobilePhone');
-
-    	$this->db->select(', EmpMotherNameTitleThai, EmpMotherFirstnameThai, EmpMotherLastnameThai');
-		$this->db->select(', EmpMotherAddressNumber, EmpMotherAddressMoo, EmpMotherAddressRoad, EmpMother_DistrictID');
-		$this->db->select(', EmpMother_AmphurID, EmpMother_ProvinceID, EmpMother_ZipcodeID ');
-    	$this->db->select(', EmpMotherTelephone, EmpMotherMobilePhone');
-
-    	$this->db->select(', EmpHouseRegNameTitleThai, EmpHouseRegFirstnameThai, EmpHouseRegLastnameThai');
-		$this->db->select(', EmpHouseRegAddressNumber, EmpHouseRegAddressMoo, EmpHouseRegAddressRoad, EmpHouseReg_DistrictID');
-		$this->db->select(', EmpHouseReg_AmphurID, EmpHouseReg_ProvinceID, EmpHouseReg_ZipcodeID ');
-		
-		$this->db->select(', EmpCreatedDate, EmpLatestUpdate');
-		//T_Instituion
-		$this->db->select(', INSName InstitutionName');
-		//T_Department
-		$this->db->select(', DName DepartmentName');
-		//T_Position
-		$this->db->select(', PName PositionName');
+		$this->db->select($this->selectAllField);//T_Users
 		//for fullname thai and english
 		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
 		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
 		$this->db->from($this->table);
+		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
 		$this->db->where("EmpID",$empID);
-		$this->db->join("t_institution","INSID = Emp_InstitutionID","left");
-		$this->db->join("t_department","DID = Emp_DepartmentID",'left');
-		$this->db->join("t_position","PID = Emp_PositionID",'left');
-		$this->db->join('t_users','EmpID = User_EmpID','left');
 		$query = $this->db->get();
 		return $query;
 
@@ -252,9 +367,11 @@ class Employees_model extends CI_Model
 		$data['EmpNameTitleEnglish'] 	= $empData['ddlNameTitleEnglish'];
 		$data['EmpFirstnameEnglish'] 	= $empData['txtFirstnameEnglish'];
 		$data['EmpLastnameEnglish'] 	= $empData['txtLastnameEnglish'];
-		$data['Emp_InstitutionID'] 		= $empData['ddlInstitution'];
 		$data['Emp_PositionID'] 		= $empData['ddlPosition'];
 		$data['Emp_DepartmentID'] 		= $empData['ddlDepartment'];
+		$data["Emp_SectionID"] = $empData["ddlSection"];
+		$data["Emp_UnitID"] = $empData["ddlUnit"];
+		$data["Emp_GroupID"] = $empData["ddlGroup"];
 		$data["EmpBirthDay"] 			= $empData["ddlBirthDayYear"] . "-" . $empData["ddlBirthDayMonth"] .
 										"-" . $empData["ddlBirthDayDay"];
 		$data['EmpBirthPlace'] 			= $empData['txtBirthPlace'];
@@ -269,7 +386,6 @@ class Employees_model extends CI_Model
 
 		//dbDateFormatFromThai is function from common_helper
 		$data['EmpStartWorkDate'] 			= dbDateFormatFromThai($empData['txtStartWorkDate']);
-		$data['EmpPromiseStartWorkDate'] 	= dbDateFormatFromThai($empData['txtPromiseStartWorkDate']);
 		$data['EmpSuccessTrialWorkDate'] 	= dbDateFormatFromThai($empData['txtSuccessTrialWorkDate']);
 		$data['EmpSalary'] 					= $empData['txtSalary'];
 		$data['EmpCallname'] 				= $empData['txtCallName'];
@@ -475,16 +591,16 @@ class Employees_model extends CI_Model
 		return $query;
 	}
 
-	public function get_list_by_department($department_id)
+	public function get_list_by_section($id)
 	{
 		$this->db->select('UserID,EmpID,');
 		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
 		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
-		$this->db->select(', PName');
+		$this->db->select(', cpname PositionName');
 		$this->db->from($this->table);
-		$this->db->where('Emp_DepartmentID',$department_id);
+		$this->db->where('Emp_SectionID',$id);
 		$this->db->join($this->table_user,'User_EmpID = EmpID','left');
-		$this->db->join($this->table_position,'Emp_PositionID = PID','left');
+		$this->db->join($this->tableCompanyPosition,'Emp_PositionID = cpid','left');
 		$query = $this->db->get();
 		return $query;
 	}

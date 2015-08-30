@@ -66,8 +66,12 @@
       <div id="card_userdetail" class="card-panel center light-blue lighten-5">
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">รหัสพนักงาน <?php echo $emp_detail["EmpID"] ?></a>
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat"><?php echo $emp_detail["EmpFullnameThai"] ?></a>
-        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">หน่วยงาน <?php echo $emp_detail["InstitutionName"] ?></a>
-        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">แผนก <?php echo $emp_detail["DepartmentName"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">ฝ่าย <?php echo $emp_detail["DepartmentName"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">แผนก <?php echo $emp_detail["SectionName"] ?></a>
+        <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">หน่วย <?php echo $emp_detail["UnitName"] ?></a>
+        <?php if ($emp_detail["GroupName"] != ""): ?>
+            <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">กลุ่ม <?php echo $emp_detail["GroupName"] ?></a>
+        <?php endif ?>
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">ตำแหน่ง <?php echo $emp_detail["PositionName"] ?></a>
       </div>
       <?php if ($show_card_panel === TRUE): ?>

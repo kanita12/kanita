@@ -22,12 +22,20 @@
 <div class="row">
 	<div class="col s12">
 		<div class="input-field col s4">
-			<input readonly="true" type="text" id="input_inst_name" name="input_inst_name" value="<?php echo $query["InstitutionName"]?>">
-			<label for="input_inst_name" class="green-text">หน่วยงาน</label>
+			<input readonly="true" type="text" id="inputDepartment" name="inputDepartment" value="<?php echo $query["DepartmentName"]?>">
+			<label for="inputDepartment" class="green-text">ฝ่าย</label>
 		</div>
 		<div class="input-field col s4">
-			<input readonly="true" type="text" id="input_department_name" name="input_department_name" value="<?php echo $query["DepartmentName"]?>">
-			<label for="input_department_name" class="green-text">แผนก</label>
+			<input readonly="true" type="text" id="inputSection" name="inputSection" value="<?php echo $query["SectionName"]?>">
+			<label for="inputSection" class="green-text">แผนก</label>
+		</div>
+		<div class="input-field col s4">
+			<input readonly="true" type="text" id="inputUnit" name="inputUnit" value="<?php echo $query["UnitName"]?>">
+			<label for="inputUnit" class="green-text">หน่วยงาน</label>
+		</div>
+		<div class="input-field col s4">
+			<input readonly="true" type="text" id="inputGroup" name="inputGroup" value="<?php echo $query["GroupName"]?>">
+			<label for="inputGroup" class="green-text">กลุ่ม</label>
 		</div>
 		<div class="input-field col s4">
 			<input readonly="true" type="text" id="input_position_name" name="input_position_name" value="<?php echo $query["PositionName"]?>">
@@ -41,8 +49,8 @@
 		<?php foreach ($query_headman as $row): ?>
 			<?php $detail = getEmployeeDetailByUserID($row["eh_headman_user_id"]);?>
 			<div class="input-field col s4">
-				<input readonly="true" type="text" id="input_inst_name" name="input_inst_name" value="<?php echo $detail["EmpFullnameThai"]?>">
-				<label for="input_inst_name" class="green-text">หัวหน้าระดับที่<?php echo $row["eh_headman_level"]?></label>
+				<input readonly="true" type="text" id="inputHeadmanLevel<?php echo $row["eh_headman_level"]?>" name="inputHeadmanLevel<?php echo $row["eh_headman_level"]?>" value="<?php echo $detail["EmpFullnameThai"]?>">
+				<label for="inputHeadmanLevel<?php echo $row["eh_headman_level"]?>" class="green-text">หัวหน้าระดับที่<?php echo $row["eh_headman_level"]?></label>
 			</div>
 		<?php endforeach?>
 	</div>
@@ -58,10 +66,10 @@
 			<input readonly="true" type="text" id="input_success_trial_work_date" name="input_success_trial_work_date" value="<?php echo $query["EmpSuccessTrialWorkDate"]?>">
 			<label for="input_success_trial_work_date" class="green-text">วันที่ผ่านทดลองงาน</label>
 		</div>
-		<div class="input-field col s4">
+<!-- 		<div class="input-field col s4">
 			<input readonly="true" type="text" id="input_promise_start_work_date" name="input_promise_start_work_date" value="<?php echo $query["EmpPromiseStartWorkDate"]?>">
 			<label for="input_promise_start_work_date" class="green-text">วันที่เริ่มงาน (ตามสัญญา)</label>
-		</div>
+		</div> -->
 	</div>
 </div>
 <div class="row">

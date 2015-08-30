@@ -42,9 +42,13 @@
 							</div>
 							<div class="col s6">
 								<?php echo $emp_detail["EmpFullnameThai"] ?><br>
-								หน่วยงาน <?php echo $emp_detail["InstitutionName"] ?><br>
-								แผนก <?php echo $emp_detail["DepartmentName"] ?><br>
-								ตำแหน่ง <?php echo $emp_detail["PositionName"] ?><br>
+								ฝ่าย <?php echo $emp_detail["DepartmentName"] ?><br>
+								แผนก <?php echo $emp_detail["SectionName"] ?><br>
+								หน่วยงาน <?php echo $emp_detail["UnitName"] ?><br>
+								<?php if ($emp_detail["GroupName"] != ""): ?>
+									กลุ่ม <?php echo $emp_detail["GroupName"] ?><br>
+								<?php endif ?>
+								ตำแหน่ง <?php echo $emp_detail["PositionName"] ?>
 								<br>
 								<div class="card-panel teal accent-4 center-align">
 								ขาดงาน 0 วัน<br>

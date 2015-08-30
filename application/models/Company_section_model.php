@@ -10,6 +10,10 @@ class Company_section_model extends CI_Model {
 	}
 	public function getAllList($limit,$start,$keyword = "")
 	{
+		if($limit != 0)
+		{
+			$this->db->limit($start,$limit);
+		}
 		$this->db->limit($start,$limit);
 		$this->db->select("csid,cs_cdid,csname,csdesc,csstatus,
 			cscreateddate,cscreatedbyuserid,
@@ -24,7 +28,10 @@ class Company_section_model extends CI_Model {
 	}
 	public function getList($limit,$start,$depId,$keyword = "")
 	{
-		$this->db->limit($start,$limit);
+		if($limit != 0)
+		{
+			$this->db->limit($start,$limit);
+		}
 		$this->db->select("csid,cs_cdid,csname,csdesc,csstatus,
 			cscreateddate,cscreatedbyuserid,
 			cslatestupdate,cslatestupdatebyuserid");
@@ -64,11 +71,15 @@ class Company_section_model extends CI_Model {
 		$query = $this->db->get();
 		return $query;
 	}
-	public function getListForDropdownlist($firstRow="--เลือก--")
+	public function getListForDropdownlist($parentId = 0,$firstRow="--เลือก--")
 	{
 		$this->db->select("csid,csname");
         $this->db->from($this->table);
         $this->db->where("csstatus <>","-999");
+        if($parentId != 0)
+        {
+        	$this->db->where("cs_cdid",$parentId);
+        }
         $query = $this->db->get();
 
         $dropDownList = array();

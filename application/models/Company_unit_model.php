@@ -64,11 +64,15 @@ class Company_unit_model extends CI_Model {
 		$query = $this->db->get();
 		return $query;
 	}
-	public function getListForDropdownlist($firstRow="--เลือก--")
+	public function getListForDropdownlist($parentId = 0,$firstRow="--เลือก--")
 	{
 		$this->db->select("cuid,cuname");
         $this->db->from($this->table);
         $this->db->where("custatus <>","-999");
+        if($parentId != 0)
+        {
+        	$this->db->where("cu_csid",$parentId);
+        }
         $query = $this->db->get();
 
         $dropDownList = array();

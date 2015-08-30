@@ -30,9 +30,12 @@
 			<div class="col s12">
 				<div class="col s6">
 					<!-- ฝ่าย -->
-					<?php echo $data["cdname"]; ?>
+					ฝ่าย<?php echo $data["cdname"]; ?>
 					&nbsp;
-					<a href="<?php echo site_url("admin/Company/section/add/".$data["cdid"]) ?>" class="btn-flat waves-effect waves-teal"><i class="material-icons">add</i></a>
+					<a href="<?php echo site_url("admin/Company/section/add/".$data["cdid"]) ?>" 
+					class="btn-flat waves-effect waves-teal tooltipped"
+					data-position="bottom" data-tooltip="เพิ่มแผนก">
+					<i class="material-icons">add</i></a>
 					<a href="<?php echo site_url('admin/Company/department/edit/'.$data["cdid"]) ?>" 
 						class="btn-flat waves-effect waves-blue">
 						<i class="material-icons">edit</i>
@@ -54,10 +57,14 @@
 								<div class="col s12">
 									<div class="col s6"> 
 										<!-- แผนก -->
-										<?php echo $secData["csname"]; ?>
+										แผนก<?php echo $secData["csname"]; ?>
 									</div>
 									<div class="col s6 right-align"> 
-										<a href="<?php echo site_url("admin/Company/unit/add/".$secData["csid"]) ?>" class="btn-floating waves-effect waves-light red"><i class="material-icons">add</i></a>
+										<a href="<?php echo site_url("admin/Company/unit/add/".$data["csid"]) ?>" 
+										class="btn-floating waves-effect waves-teal tooltipped"
+										data-position="bottom" data-tooltip="เพิ่มหน่วยงาน">
+										<i class="material-icons">add</i></a>
+										
 										<a href="<?php echo site_url('admin/Company/section/edit/'.$secData["csid"]) ?>" 
 											class="btn-floating waves-effect waves-light blue">
 											<i class="material-icons">edit</i>
@@ -79,10 +86,14 @@
 											<div class="col s12">
 												<div class="col s6"> 
 													<!-- หน่วยงาน -->
-													<?php echo $unitData["cuname"]; ?>
+													หน่วยงาน<?php echo $unitData["cuname"]; ?>
 												</div>
 												<div class="col s6 right-align"> 
-													<a href="<?php echo site_url("admin/Company/group/add/".$unitData["cuid"]) ?>" class="btn-floating waves-effect waves-light red"><i class="material-icons">add</i></a>
+													<a href="<?php echo site_url("admin/Company/group/add/".$data["cuid"]) ?>" 
+													class="btn-floating waves-effect waves-teal tooltipped"
+													data-position="bottom" data-tooltip="เพิ่มกลุ่ม">
+													<i class="material-icons">add</i></a>
+													
 													<a href="<?php echo site_url('admin/Company/unit/edit/'.$unitData["cuid"]) ?>" 
 														class="btn-floating waves-effect waves-light blue">
 														<i class="material-icons">edit</i>
@@ -103,7 +114,7 @@
 															<li style="padding-top:3em">
 																<div class="col s12">
 																	<div class="col s6"> 
-																		<?php echo $groupData["cgname"]; ?>
+																		กลุ่ม<?php echo $groupData["cgname"]; ?>
 																	</div>
 																	<div class="col s6 right-align"> 
 																		<a href="<?php echo site_url('admin/Company/department/edit/'.$groupData["cgid"]) ?>" 

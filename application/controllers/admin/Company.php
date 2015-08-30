@@ -150,7 +150,7 @@ class Company extends CI_Controller {
     {
         $this->load->library('pagination');
         $config = array();
-        $config['base_url'] = site_url("admin/Company/department/list/".$keyword."/");
+        $config['base_url'] = site_url("admin/Company/position/list/".$keyword."/");
         $config['total_rows']   = $this->position->countAll($keyword);
         $config['use_page_numbers'] = TRUE;
         $config['page_query_string'] = TRUE;
@@ -217,28 +217,28 @@ class Company extends CI_Controller {
         if($type === "add")
         {
             $data = array();
-            $data["posheadmanposid"] = $post["inputParent"];
-            $data["posname"] = $post["inputName"];
-            $data["posdesc"] = $post["inputDesc"];
-            $data["posstatus"] = 1;
-            $data["poscreateddate"] = getDateTimeNow();
-            $data["poscreatedbyuserid"] = $this->user_id;
-            $data["poslatestupdate"] = getDateTimeNow();
-            $data["poslatestupdatebyuserid"] = $this->user_id;
+            $data["cpheadmancpid"] = $post["inputParent"];
+            $data["cpname"] = $post["inputName"];
+            $data["cpdesc"] = $post["inputDesc"];
+            $data["cpstatus"] = 1;
+            $data["cpcreateddate"] = getDateTimeNow();
+            $data["cpcreatedbyuserid"] = $this->user_id;
+            $data["cplatestupdate"] = getDateTimeNow();
+            $data["cplatestupdatebyuserid"] = $this->user_id;
 
             $newId = $this->position->insert($data);
         }
         else if($type === "edit")
         {
             $data = array();
-            $data["posheadmanposid"] = $post["inputParent"];
-            $data["posname"] = $post["inputName"];
-            $data["posdesc"] = $post["inputDesc"];
-            $data["poslatestupdate"] = getDateTimeNow();
-            $data["poslatestupdatebyuserid"] = $this->user_id;
+            $data["cpheadmancpid"] = $post["inputParent"];
+            $data["cpname"] = $post["inputName"];
+            $data["cpdesc"] = $post["inputDesc"];
+            $data["cplatestupdate"] = getDateTimeNow();
+            $data["cplatestupdatebyuserid"] = $this->user_id;
 
             $where = array();
-            $where["posid"] = $post["hdId"];
+            $where["cpid"] = $post["hdId"];
 
             $this->position->update($data,$where);
         }
@@ -267,10 +267,10 @@ class Company extends CI_Controller {
 
             $data = array();
             $data["dataParent"] = $this->position->getListForDropdownlist();
-            $data["valueParent"] = $query["posheadmanposid"];
+            $data["valueParent"] = $query["cpheadmancpid"];
             $data["valueId"] = $id;
-            $data["valueName"] = $query["posname"];
-            $data["valueDesc"] = $query["posdesc"];
+            $data["valueName"] = $query["cpname"];
+            $data["valueDesc"] = $query["cpdesc"];
 
             parent::setHeaderAdmin("แก้ไขตำแหน่ง");
             $this->load->view("admin/company/position_add",$data);
@@ -280,10 +280,10 @@ class Company extends CI_Controller {
     private function _positionDelete($id)
     {
         $data = array();
-        $data["posstatus"] = "-999";
+        $data["cpstatus"] = "-999";
 
         $where = array();
-        $where["posid"] = $id;
+        $where["cpid"] = $id;
 
         $this->position->update($data,$where);
     }

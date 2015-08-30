@@ -12,51 +12,83 @@ class Employees extends CI_Controller
         $CI->load->model('Bank_model','bank');
         $CI->load->model('Banktype_model','banktype');
         $CI->load->model('Common_model','common');
-        $CI->load->model('Department_Model','department');
+        
         $CI->load->model('District_Model','district');
         $CI->load->model('Employees_Model','employees');
         $CI->load->model('Emp_headman_model','empheadman');
         $CI->load->model('Emp_history_work_model','hiswork');
         $CI->load->model('Emp_history_study_model','hisstudy');
-        $CI->load->model('Institution_Model', 'institution');
         $CI->load->model('MartialStatus_Model', 'mars');
         $CI->load->model('Nametitle_model','nametitle');
-        $CI->load->model('Position_Model','position');
+        
         $CI->load->model('Province_model','province');
         $CI->load->model('Users_Model','users');
         $CI->load->model('User_roles_model','userroles');
         $CI->load->model('Zipcode_Model','zipcode');
         $CI->load->model('Salary_log_model', 'salarylog');
         $CI->load->model("Promoteposition_model","promoteposition");
+
+        $CI->load->model('Company_department_model','department');
+        $CI->load->model('Company_section_model','section');
+        $CI->load->model('Company_unit_model','unit');
+        $CI->load->model('Company_group_model','group');
+        $CI->load->model('Company_position_model','position');
 	}
     public function index()
     {
 		  $this->search();
-	  }
-	public function search($sKeyword="0",$sDepartment = "0",$sPosition = "0")
-	{
-        $sKeyword = $sKeyword == "0" ? "" : urldecode($sKeyword);
+	}
+    public function search($searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "0")
+    {
+        $keyword = $searchKeyword;
+        $searchKeyword = $searchKeyword == "0" ? "" : urldecode($searchKeyword);
 
-        $data = array();
-        $data["vddlDepartment"] = $sDepartment;
-        $data["vddlPosition"] = $sPosition;
-        $data["vtxtKeyword"] = $sKeyword;
-
+        //paging
+        $this->load->library('pagination');
         $config = array();
-        $config["total_rows"] = $this->employees->countAll($sKeyword, $sDepartment, $sPosition);
-        $this->pagination->initialize($config);
+        $config['base_url'] = site_url("hr/Employees/search/".$searchDepartment."/".$searchSection."/".$searchUnit."/".$searchGroup."/".$searchPosition."/".$keyword."/");
+        $config['total_rows']   = $this->employees->countAll($searchDepartment,$searchSection,$searchUnit,$searchGroup,$searchPosition,$searchKeyword);
+        $config['use_page_numbers'] = TRUE;
+        $config['page_query_string'] = TRUE;
+        $config['query_string_segment'] = 'page';
+        $config['full_tag_open'] = '<div class="center-align"><ul class="pagination">';
+        $config['prev_tag_open'] = '<li class="waves-effect">';
+        $config['prev_link'] = '<i class="material-icons">chevron_left</i>';
+        $config['prev_tag_close'] = '</li>';
+        $config['cur_tag_open'] = '<li class="active">';
+        $config['cur_tag_close'] = '</li>';
+        $config['num_tag_open'] = '<li class="waves-effect">';
+        $config['num_tag_close'] = '<li>';
+        $config['next_tag_open'] = '<li class="waves-effect">';
+        $config['next_link'] = '<i class="material-icons">chevron_right</i>';
+        $config['next_tag_close'] = '</li>';
+        $config['full_tag_close'] = '</ul></div>';
+        $this->pagination->initialize($config); 
+        $page = $this->input->get("page") ? $this->input->get("page")*$this->pagination->per_page : 0;
 
-        $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
-        $data["query"] = $this->employees->getList($this->pagination->per_page, $page, $sKeyword, $sDepartment, $sPosition);
-        $data["links"] = $this->pagination->create_links();
+        $query = $this->employees->getList($page,$this->pagination->per_page,$searchDepartment,$searchSection,$searchUnit,$searchGroup,$searchPosition,$searchKeyword);
+        
+        $data = array();
+        $data["query"] = $query->result_array();
+        $data["paging"] = $this->pagination->create_links();
 
-        $data["ddlDepartment"] = $this->department->getListForDropDown("ค้นหาจากแผนก");
-        $data["ddlPosition"] = $this->position->getListForDropDown("ค้นหาจากตำแหน่ง");
+        $data["valueKeyword"] = $searchKeyword;
+        $data["dataDepartment"] = $this->department->getListForDropdownlist("ค้นหาจากฝ่าย");
+        $data["dataSection"] = $this->section->getListForDropdownlist("ค้นหาจากแผนก");
+        $data["dataUnit"] = $this->unit->getListForDropdownlist("ค้นหาจากหน่วยงาน");
+        $data["dataGroup"] = $this->group->getListForDropdownlist("ค้นหาจากกลุ่ม");
+        $data["dataPosition"] = $this->position->getListForDropdownlist("ค้นหาจากตำแหน่ง");
+
+        $data["valueDepartment"] = $searchDepartment;
+        $data["valueSection"] = $searchSection;
+        $data["valueUnit"] = $searchUnit;
+        $data["valueGroup"] = $searchGroup;
+        $data["valuePosition"] = $searchPosition;
 
         parent::setHeader("รายชื่อพนักงานทั้งหมด", 'HR');
         $this->load->view("hr/Employee/ListEmployee", $data);
         parent::setFooter();
-	}
+    }
 	public function register()
     {
         $rules = array(
@@ -64,7 +96,6 @@ class Employees extends CI_Controller
           array("field" => "txtUsername", "label" => "Username", "rules" => "required"),
         );
         $this->form_validation->set_rules($rules);
-        $this->form_validation->set_message("required","กรุณากรอก {field}");
         if ($this->form_validation->run() === true) 
         {
           $this->AddEmployee();
@@ -94,8 +125,9 @@ class Employees extends CI_Controller
         $data["queryAmphur"] = array("0" => "--เลือก--");
         $data["queryDistrict"] = array("0" => "--เลือก--");
         $data["queryZipcode"] = array("0" => "--เลือก--");
-        $data["queryDepartment"] = array("0" => "--เลือก--");
-        $data["queryPosition"] = array("0" => "--เลือก--");
+        $data["querySection"] = array("0" => "--เลือก--");
+        $data["queryUnit"] = array("0" => "--เลือก--");
+        $data["queryGroup"] = array("0" => "--เลือก--");
         $data["queryHeadman_level_1"] = array("0" => "--เลือก--");
         $data["queryHeadman_level_2"] = array("0" => "--เลือก--");
         $data["queryHeadman_level_3"] = array("0" => "--เลือก--");
@@ -108,7 +140,8 @@ class Employees extends CI_Controller
         $data["ddlBirthDayDay"] = $this->common->getDay1To31();
         $data["ddlBirthDayMonth"] = $this->common->getMonth1To12();
         $data["ddlBirthDayYear"] = $this->common->getYearForDropDown();
-        $data['queryInstitution'] = $this->institution->getListForDropDown();
+        $data['queryDepartment'] = $this->department->getListForDropdownlist();
+        $data["queryPosition"] = $this->position->getListForDropdownlist();
         $data['queryMartialStatus'] = $this->mars->getListForRadioButton();
         $data['empHeadmanID'] = '';
         $data['empInstitutionID'] = '';
@@ -149,8 +182,11 @@ class Employees extends CI_Controller
         $data["empAddressDistrict"] = "";
         $data["empAddressAmphur"] = "";
         $data["empAddressProvince"] = "";
-        $data["empPositionID"] = "";
         $data["empDepartmentID"] = "";
+        $data["empSectionID"] = "";
+        $data["empUnitID"] = "";
+        $data["empGroupID"] = "";
+        $data["empPositionID"] = "";
         $data["empAddressZipcode"] = 0;
         $data["empNumberOfChildren"] = 0;
         $data["empNumberOfBrother"] = 0;
@@ -383,9 +419,11 @@ class Employees extends CI_Controller
           $data['EmpNameTitleEnglish'] = $empData['ddlNameTitleEnglish'];
           $data['EmpFirstnameEnglish'] = $empData['txtFirstnameEnglish'];
           $data['EmpLastnameEnglish'] = $empData['txtLastnameEnglish'];
-          $data['Emp_InstitutionID'] = $empData['ddlInstitution'];
           $data['Emp_PositionID'] = $empData['ddlPosition'];
           $data['Emp_DepartmentID'] = $empData['ddlDepartment'];
+          $data["Emp_SectionID"] = $empData["ddlSection"];
+            $data["Emp_UnitID"] = $empData["ddlUnit"];
+            $data["Emp_GroupID"] = $empData["ddlGroup"];
 
           $data["EmpBirthDay"] = $empData["ddlBirthDayYear"] . "-" . $empData["ddlBirthDayMonth"] . "-" . $empData["ddlBirthDayDay"];
           $data['EmpBirthPlace'] = $empData['txtBirthPlace'];
@@ -399,7 +437,6 @@ class Employees extends CI_Controller
           $data['Emp_ZipcodeID'] = $empData['ddlAddressZipcode'];
           //dbDateFormatFromThai is function from common_helper
           $data['EmpStartWorkDate'] = dbDateFormatFromThaiUn543($empData['txtStartWorkDate']);
-          $data['EmpPromiseStartWorkDate'] = dbDateFormatFromThaiUn543($empData['txtPromiseStartWorkDate']);
           $data['EmpSuccessTrialWorkDate'] = dbDateFormatFromThaiUn543($empData['txtSuccessTrialWorkDate']);
           $data['EmpSalary'] = $empData['txtSalary'];
           $data['EmpCallname'] = $empData['txtCallName'];
@@ -582,10 +619,30 @@ class Employees extends CI_Controller
           $query = $query[0];
           $user_id = $query["UserID"];
           $data["empID"] = $empID;
-          $data['empInstitutionID'] = $query['Emp_InstitutionID'];
-          $data['queryDepartment'] = $this->department->getListForDropDown($data['empInstitutionID']);
+          $data['queryDepartment'] = $this->department->getListForDropdownlist();
           $data["empDepartmentID"] = $query['Emp_DepartmentID'];
-          $data['queryPosition'] = $this->position->getListForDropDown($data['empDepartmentID']);
+          $data["empSectionID"] = $query["Emp_SectionID"];
+          $data["empUnitID"] = $query["Emp_UnitID"];
+            $data["empGroupID"] = $query["Emp_GroupID"];
+          if($data["empDepartmentID"] != 0)
+          {
+            $data["querySection"] = $this->section->getListForDropdownlist($data["empDepartmentID"]);
+            
+            if($data["empSectionID"] != 0)
+            {
+                $data["queryUnit"] = $this->unit->getListForDropdownlist($data["empSectionID"]);
+                
+                if($data["empUnitID"] != 0)
+                {
+                    $data["queryGroup"] = $this->group->getListForDropdownlist($data["empUnitID"]);
+                   
+                }
+            }
+          }
+          
+          
+          
+          $data['queryPosition'] = $this->position->getListForDropdownlist();
           $data['empPositionID'] = $query['Emp_PositionID'];
 
           //get headman
@@ -600,26 +657,25 @@ class Employees extends CI_Controller
               $data["empHeadmanID_level_" . $query_headman[$i]["eh_headman_level"]] = $query_headman[$i]["eh_headman_user_id"];
               if($headman_level == 1)
               {
-                $data["queryHeadman_level_1"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"]);
+                $data["queryHeadman_level_1"] = $this->get_list_headman($data["empSectionID"],$data["empID"]);
               }
               else if($headman_level == 2)
               {
-                $data["queryHeadman_level_2"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"],$data["empHeadmanID_level_1"]);
+                $data["queryHeadman_level_2"] = $this->get_list_headman($data["empSectionID"],$data["empID"],$data["empHeadmanID_level_1"]);
               }
               else{
-                $data["queryHeadman_level_3"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"],$data["empHeadmanID_level_1"],$data["empHeadmanID_level_2"]);
+                $data["queryHeadman_level_3"] = $this->get_list_headman($data["empSectionID"],$data["empID"],$data["empHeadmanID_level_1"],$data["empHeadmanID_level_2"]);
               }
             }
           }
           else
           {
-            $data["queryHeadman_level_1"] = $this->get_list_headman($data["empDepartmentID"],$data["empID"]);
+            $data["queryHeadman_level_1"] = $this->get_list_headman($data["empSectionID"],$data["empID"]);
           }
 
           //dateThaiFormatFromDB is function from common_helper.
-          $data['empStartWorkDate'] = dateThaiFormatFromDB($query['EmpStartWorkDate']);
-          $data['empPromiseStartWorkDate'] = dateThaiFormatFromDB($query['EmpPromiseStartWorkDate']);
-          $data['empSuccessTrialWorkDate'] = dateThaiFormatFromDB($query['EmpSuccessTrialWorkDate']);
+          $data['empStartWorkDate'] = dateThaiFormatUn543FromDB($query['EmpStartWorkDate']);
+          $data['empSuccessTrialWorkDate'] = dateThaiFormatUn543FromDB($query['EmpSuccessTrialWorkDate']);
           $data['empSalary'] = $query['EmpSalary'];
           $data["empUsername"] = $query['Username'];
           $data["empPassword"] = $query['Password'];
@@ -740,10 +796,10 @@ class Employees extends CI_Controller
 
           $data["empDocumentRegisterJobImg"] = $query['EmpDocRegisterJobImg'];
 
-          $empBirthDay = $query['EmpBirthDay'];
+          $empBirthDay = $query['EmpBirthday'];
           if ($empBirthDay !== '0000-00-00' && $empBirthDay !== null) {
             $empBirthDay = array();
-            $empBirthDay = explode('-', $query['EmpBirthDay']);
+            $empBirthDay = explode('-', $query['EmpBirthday']);
             $data["birthDayDay"] = $empBirthDay[2];
             $data["birthDayMonth"] = $empBirthDay[1];
             $data["birthDayYear"] = $empBirthDay[0];
@@ -961,7 +1017,7 @@ class Employees extends CI_Controller
             //set data to view
             $data = array();
             $data['query'] = $query;
-            $data["query_position"] = $this->position->getListForDropDown();
+            $data["query_position"] = $this->position->getListForDropdownlist();
             $data["query_log"] = $query_log;
 
             parent::setHeader('ปรับตำแหน่งพนักงาน',"HR");
@@ -973,13 +1029,15 @@ class Employees extends CI_Controller
     {
         $empData = getEmployeeDetail($empId);
         $post = $this->input->post(NULL,TRUE);
+        $newPositionData = $this->position->getDetail($post["ddlPromotePosition"]);
+        $newPositionData = $newPositionData->row_array();
 
         $data = array();
         $data["PPUserID"] = $empData["UserID"];
         $data["PPFrom_PositionID"] = $empData["Emp_PositionID"];
         $data["PPFrom_PositionName"] = $empData["PositionName"];
         $data["PPTo_PositionID"] = $post["ddlPromotePosition"];
-        $data["PPTo_PositionName"] = $this->position->getPositionName($post["ddlPromotePosition"]);
+        $data["PPTo_PositionName"] = $newPositionData["cpname"];
         $data["PPDesc"] = $post["inputDesc"];
         $data["PPCreatedDate"] = getDateTimeNow();
         $data["PPCreatedByUserID"] = $this->user_id;
@@ -1151,10 +1209,10 @@ class Employees extends CI_Controller
       echo swalc('บันทึกเรียบร้อย', '', 'success', 'window.location.href = "' . site_url('hr/Employees/userroles/' . $user_id) . '"');
     }
   }
-  public function get_list_headman($department_id,$emp_id = "",$selected_level_1 = 0,$selected_level_2 = 0)
+  public function get_list_headman($section_id,$emp_id = "",$selected_level_1 = 0,$selected_level_2 = 0)
     {
       $text = array(0=>"--เลือก--");
-      $query = $this->employees->get_list_by_department($department_id);
+      $query = $this->employees->get_list_by_section($section_id);
         if( $query->num_rows() > 0 )
         {
             foreach ($query->result_array() as $row) 

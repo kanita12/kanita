@@ -61,7 +61,7 @@
 				<input type="hidden" id="hd_emp_headman_level_1" value="<?php echo $empHeadmanID_level_1 ?>">
 				<input type="hidden" id="hd_emp_headman_level_2" value="<?php echo $empHeadmanID_level_2 ?>">
 				<input type="hidden" id="hd_emp_headman_level_3" value="<?php echo $empHeadmanID_level_3 ?>">
-				<input type="hidden" id="hd_site_url" value="<?php echo site_url() ?>/">
+				<input type="hidden" id="hd_site_url" value="<?php echo site_url() ?>">
 				<!-- emp id & username -->
 				<div class="input-field col s6">
 					<input type="text" class="validate" name="txtEmpID" id="txtEmpID" value="<?php echo set_value("txtEmpID",$empID) ?>">
@@ -75,12 +75,20 @@
 				<div class="row">
 					<div class="col s12">
 						<div class="input-field col s4">
-							<?php echo form_dropdown("ddlInstitution", $queryInstitution, $empInstitutionID, "id='ddlInstitution'"); ?>
-							<label for="ddlInstitution">หน่วยงาน</label>
+							<?php echo form_dropdown("ddlDepartment", $queryDepartment, $empDepartmentID, "id='ddlDepartment'"); ?>
+							<label for="ddlDepartment">ฝ่าย</label>
 						</div>
 						<div class="input-field col s4">
-							<?php echo form_dropdown("ddlDepartment", $queryDepartment, $empDepartmentID, "id='ddlDepartment'"); ?>
-							<label for="ddlDepartment">แผนก</label>
+							<?php echo form_dropdown("ddlSection", $querySection, $empSectionID, "id='ddlSection'"); ?>
+							<label for="ddlSection">แผนก</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlUnit", $queryUnit, $empUnitID, "id='ddlUnit'"); ?>
+							<label for="ddlUnit">หน่วยงาน</label>
+						</div>
+						<div class="input-field col s4">
+							<?php echo form_dropdown("ddlGroup", $queryGroup, $empGroupID, "id='ddlGroup'"); ?>
+							<label for="ddlGroup">กลุ่ม</label>
 						</div>
 						<div class="input-field col s4">
 							<?php echo form_dropdown("ddlPosition", $queryPosition, $empPositionID, "id='ddlPosition'"); ?>

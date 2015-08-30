@@ -22,51 +22,52 @@
 	</div>
 </div>
 <div class="divider"></div>
-<?php $mainList = searchArrayById($dataList,"0","posheadmanposid","posid"); ?>
+<?php $mainList = searchArrayById($dataList,"0","cpheadmancpid","cpid"); ?>
 <table class="bordered highlight" >
 <?php foreach ($mainList as $data): ?>
 		<tr>
-			<td><?php echo $data["posname"] ?></td>
+			<td><?php echo $data["cpname"] ?></td>
 			<td class="right-align">
-				<a href="<?php echo site_url('admin/Company/position/edit/'.$data["posid"]) ?>" 
+				<a href="<?php echo site_url('admin/Company/position/edit/'.$data["cpid"]) ?>" 
 					class="btn-floating btn-small waves-effect waves-light blue">
 					<i class="material-icons">edit</i>
 				</a>
 				<a href="javascript:void(0);"
-					data-id="<?php echo $data["posid"] ?>" 
+					data-id="<?php echo $data["cpid"] ?>" 
 					class="btn-floating btn-small waves-effect waves-light red"
-					onclick="deleteThis(this,'position/delete','<?php echo $data['posid'] ?>');">
+					onclick="deleteThis(this,'position/delete','<?php echo $data['cpid'] ?>');">
 					<i class="material-icons">delete</i>
 				</a>
 			</td>
 		</tr>
-		<?php echo getSubPosition($dataList,$data["posid"]); ?>
-	</table>
+		<?php echo getSubPosition($dataList,$data["cpid"]); ?>
+	
 <?php endforeach ?>
+</table>
 <?php
 
 function getSubPosition($array,$position_id,$sub_level = 1)
 {
-	$sub_position =  searchArrayById($array,$position_id,"posheadmanposid","posid");;
+	$sub_position =  searchArrayById($array,$position_id,"cpheadmancpid","cpid");;
 	$padding_left = (2*intval($sub_level));
 	$text = "";
 	foreach($sub_position as $row){
 		$text .= "<tr>
-					<td style='padding-left:".$padding_left."em;'>".$row["posname"]."</td>
+					<td style='padding-left:".$padding_left."em;'>".$row["cpname"]."</td>
 					<td class='right-align'>
-						<a href='".site_url('admin/Company/position/edit/'.$row["posid"])."' 
+						<a href='".site_url('admin/Company/position/edit/'.$row["cpid"])."' 
 						class='btn-floating btn-small waves-effect waves-light blue'>
 							<i class='material-icons'>edit</i>
 						</a>
 						<a href='javascript:void(0);'
-						data-id='".$row["posid"]."' 
+						data-id='".$row["cpid"]."' 
 						class='btn-floating btn-small waves-effect waves-light red'
-						onclick=\"deleteThis(this,'position/delete','".$row['posid']."');\">
+						onclick=\"deleteThis(this,'position/delete','".$row['cpid']."');\">
 							<i class='material-icons'>delete</i>
 						</a>
 					</td>
 				</tr>";
-		$text .= getSubPosition($array,$row["posid"],($sub_level+1));
+		$text .= getSubPosition($array,$row["cpid"],($sub_level+1));
 	}
 	
 	return $text;

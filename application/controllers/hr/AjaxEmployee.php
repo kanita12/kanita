@@ -53,13 +53,13 @@ class AjaxEmployee extends CI_Controller
         echo $text;
     }
 
-    public function get_list_headman($department_id,$emp_id = "",$selected_level_1 = 0,$selected_level_2 = 0)
+    public function get_list_headman($section_id,$emp_id = "",$selected_level_1 = 0,$selected_level_2 = 0)
     {
         $this->load->model('Employees_model','employee');
 
         $text = "<option value='0'>--เลือก--</option>";
 
-        $query = $this->employee->get_list_by_department($department_id);
+        $query = $this->employee->get_list_by_section($section_id);
 
  
         if( $query->num_rows() > 0 )
@@ -72,7 +72,7 @@ class AjaxEmployee extends CI_Controller
                     $row['UserID'] != $selected_level_1 && 
                     $row['UserID'] != $selected_level_2 )
                 {
-                    $nowP = $row['PName'];
+                    //$nowP = $row['PositionName'];
                     // if($nowG != $nowP)
                     // {
                     //      $text = $text."<optgroup label='".$nowP."'>";
@@ -129,6 +129,45 @@ class AjaxEmployee extends CI_Controller
         if ($query->num_rows() > 0) {
             foreach ($query->result_array() as $row) {
                 $text = $text . "<option value='" . $row['DID'] . "'>" . $row['DName'] . "</option>";
+            }
+        }
+        echo $text;
+    }
+    public function getListSection($parentId)
+    {
+        $this->load->model('Company_section_model','section');
+        $query = $this->section->getList(0,0,$parentId,"");
+        $text = '';
+        $text = $text . "<option value='0'>--เลือก--</option>";
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $text = $text . "<option value='" . $row['csid'] . "'>" . $row['csname'] . "</option>";
+            }
+        }
+        echo $text;
+    }
+    public function getListUnit($parentId)
+    {
+        $this->load->model('Company_unit_model','unit');
+        $query = $this->unit->getList(0,0,$parentId,"");
+        $text = '';
+        $text = $text . "<option value='0'>--เลือก--</option>";
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $text = $text . "<option value='" . $row['cuid'] . "'>" . $row['cuname'] . "</option>";
+            }
+        }
+        echo $text;
+    }
+    public function getListGroup($parentId)
+    {
+        $this->load->model('Company_group_model','group');
+        $query = $this->group->getList(0,0,$parentId,"");
+        $text = '';
+        $text = $text . "<option value='0'>--เลือก--</option>";
+        if ($query->num_rows() > 0) {
+            foreach ($query->result_array() as $row) {
+                $text = $text . "<option value='" . $row['cgid'] . "'>" . $row['cgname'] . "</option>";
             }
         }
         echo $text;

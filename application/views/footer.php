@@ -48,9 +48,13 @@
 												<?php endif ?>
 											</b>
 										</p>
-										หน่วยงาน <?php echo $row["INSName"] ?><br>
-										แผนก <?php echo $row["DName"] ?><br>
-										ตำแหน่ง <?php echo $row["PName"] ?>
+										ฝ่าย <?php echo $row["DepartmentName"] ?><br>
+										แผนก <?php echo $row["SectionName"] ?><br>
+										หน่วยงาน <?php echo $row["UnitName"] ?><br>
+										<?php if ($row["GroupName"] != ""): ?>
+											กลุ่ม <?php echo $row["GroupName"] ?><br>
+										<?php endif ?>
+										ตำแหน่ง <?php echo $row["PositionName"] ?>
 									</div>
 								</div>
 							<?php $i++;endif; ?>

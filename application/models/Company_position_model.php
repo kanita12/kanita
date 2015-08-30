@@ -10,43 +10,43 @@ class Company_position_model extends CI_Model {
 	}
 	public function countAll($keyword = "")
 	{
-		$this->db->select("posid,posname,posdesc,posstatus,
-			posheadmanposid,
-			poscreateddate,poscreatedbyuserid,
-			poslatestupdate,poslatestupdatebyuserid");
+		$this->db->select("cpid,cpname,cpdesc,cpstatus,
+			cpheadmancpid,
+			cpcreateddate,cpcreatedbyuserid,
+			cplatestupdate,cplatestupdatebyuserid");
 		$this->db->from($this->table);
-		$this->db->where("posstatus <>","-999");
+		$this->db->where("cpstatus <>","-999");
 		if(trim($keyword) !== "")
 		{
-			$this->db->like("posname",$keyword);
+			$this->db->like("cpname",$keyword);
 		}
 		return $this->db->count_all_results();
 	}
 	public function getList($limit,$start,$keyword = "")
 	{
 		$this->db->limit($limit,$start);
-		$this->db->select("posid,posname,posdesc,posstatus,
-			posheadmanposid,
-			poscreateddate,poscreatedbyuserid,
-			poslatestupdate,poslatestupdatebyuserid");
+		$this->db->select("cpid,cpname,cpdesc,cpstatus,
+			cpheadmancpid,
+			cpcreateddate,cpcreatedbyuserid,
+			cplatestupdate,cplatestupdatebyuserid");
 		$this->db->from($this->table);
-		$this->db->where("posstatus <>","-999");
+		$this->db->where("cpstatus <>","-999");
 		if(trim($keyword) !== "")
 		{
-			$this->db->like("posname",$keyword);
+			$this->db->like("cpname",$keyword);
 		}
 		$query = $this->db->get();
 		return $query;
 	}
 	public function getDetail($id)
 	{
-		$this->db->select("posid,posname,posdesc,posstatus,
-			posheadmanposid,
-			poscreateddate,poscreatedbyuserid,
-			poslatestupdate,poslatestupdatebyuserid");
+		$this->db->select("cpid,cpname,cpdesc,cpstatus,
+			cpheadmancpid,
+			cpcreateddate,cpcreatedbyuserid,
+			cplatestupdate,cplatestupdatebyuserid");
 		$this->db->from($this->table);
-		$this->db->where("posstatus <>","-999");
-		$this->db->where("posid",$id);
+		$this->db->where("cpstatus <>","-999");
+		$this->db->where("cpid",$id);
 		$query = $this->db->get();
 		return $query;
 	}
@@ -69,16 +69,16 @@ class Company_position_model extends CI_Model {
 	}
 	public function getListForDropdownlist($firstRow="--เลือก--")
 	{
-		$this->db->select("posid,posname");
+		$this->db->select("cpid,cpname");
         $this->db->from($this->table);
-        $this->db->where("posstatus <>","-999");
+        $this->db->where("cpstatus <>","-999");
         $query = $this->db->get();
 
         $dropDownList = array();
         $dropDownList[0] = $firstRow;
         foreach ($query->result_array() as $dropdown) 
         {
-            $dropDownList[$dropdown["posid"]] = $dropdown["posname"];
+            $dropDownList[$dropdown["cpid"]] = $dropdown["cpname"];
         }
         
         return $dropDownList;

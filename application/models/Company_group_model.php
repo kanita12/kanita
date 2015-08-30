@@ -54,7 +54,26 @@ class Company_group_model extends CI_Model {
 		$this->db->delete($this->table);
 		return $this->db->affected_rows();
 	}
+	public function getListForDropdownlist($parentId = 0,$firstRow="--เลือก--")
+	{
+		$this->db->select("cgid,cgname");
+        $this->db->from($this->table);
+        $this->db->where("cgstatus <>","-999");
+        if($parentId != 0)
+        {
+        	$this->db->where("cg_cuid",$parentId);
+        }
+        $query = $this->db->get();
 
+        $dropDownList = array();
+        $dropDownList[0] = $firstRow;
+        foreach ($query->result_array() as $dropdown) 
+        {
+            $dropDownList[$dropdown["cgid"]] = $dropdown["cgname"];
+        }
+        
+        return $dropDownList;
+	}
 }
 
 /* End of file Company_group_model.php */

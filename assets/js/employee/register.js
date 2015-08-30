@@ -1,6 +1,6 @@
 $(document).ready(function() {
 
-	var department = $("#ddlDepartment").val();
+	var section = $("#ddlSection").val();
 	var emp_id = $("#hdEmpID").val();
 	var site_url = $("#hd_site_url").val();
 	//set input only numeric
@@ -126,21 +126,21 @@ $(document).ready(function() {
 		closeOnDateSelect:true
 	});
 	//dropdownlist
-	if( department !== "0" )
+	if( section !== "0" )
 	{
 		if( $("#hd_emp_headman_level_1").val() !== "" )
 		{
 			var thisval = $("#hd_emp_headman_level_1").val();
 			$.ajax({
 				type : "POST",
-				url : site_url+"hr/AjaxEmployee/get_list_headman/"+department+"/"+emp_id,
+				url : site_url+"hr/AjaxEmployee/get_list_headman/"+section+"/"+emp_id,
 				async:false,
 				success : function(data) {
 					$("#ddlHeadman_level_1").html(data).val(thisval); 
 
 					$.ajax({
 						type : "POST",
-						url : site_url+"hr/AjaxEmployee/get_list_headman/" + department+"/"+emp_id+"/"+thisval,
+						url : site_url+"hr/AjaxEmployee/get_list_headman/" + section+"/"+emp_id+"/"+thisval,
 						async:false,
 						success : function(data) {
 							$("[id$='ddlHeadman_level_2']").html(data);
@@ -156,7 +156,7 @@ $(document).ready(function() {
 
 				$.ajax({
 					type : "POST",
-					url : site_url+"hr/AjaxEmployee/get_list_headman/" +department+"/"+emp_id+"/"+thisval+"/"+thisval2,
+					url : site_url+"hr/AjaxEmployee/get_list_headman/" +section+"/"+emp_id+"/"+thisval+"/"+thisval2,
 					success : function(data) {
 						$("[id$='ddlHeadman_level_3']").html(data);
 					}
@@ -251,28 +251,42 @@ $(document).ready(function() {
 		});
 	});
 
-	$("[id$='ddlInstitution']").change(function() {
-		var ID = $(this).val();
-		$.ajax({
-			type : "POST",
-			url : site_url+"hr/AjaxEmployee/getListDepartment/" + ID,
-			success : function(data) {
-				$("[id$='ddlDepartment']").html(data).material_select();
-				$("select").closest('.input-field').children('span.caret').remove();
-			}
-		});
-	});
 	$("[id$='ddlDepartment']").change(function() {
 		var ID = $(this).val();
 		$.ajax({
 			type : "POST",
-			url : site_url+"hr/AjaxEmployee/getListPosition/" + ID,
+			url : site_url+"hr/AjaxEmployee/getListSection/" + ID,
 			success : function(data) {
-				$("[id$='ddlPosition']").html(data).material_select();
+				$("[id$='ddlSection']").html(data).material_select();
 				$("select").closest('.input-field').children('span.caret').remove();
-
 			}
 		});
+	});
+	$("[id$='ddlSection']").change(function() {
+		var ID = $(this).val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListUnit/" + ID,
+			success : function(data) {
+				$("[id$='ddlUnit']").html(data).material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+			}
+		});
+	});
+	$("[id$='ddlUnit']").change(function() {
+		var ID = $(this).val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListGroup/" + ID,
+			success : function(data) {
+				$("[id$='ddlGroup']").html(data).material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+			}
+		});
+	});
+
+	$("[id$='ddlSection']").change(function() {
+		var ID = $(this).val();
 		$.ajax({
 			type : "POST",
 			url : site_url+"hr/AjaxEmployee/get_list_headman/" + ID+"/"+emp_id,
@@ -286,7 +300,7 @@ $(document).ready(function() {
 
 	$('#ddlHeadman_level_1').change(function()
 	{
-		var ID = $('#ddlDepartment').val();
+		var ID = $('#ddlSection').val();
 		
 		if( $(this).val() != 0 )
 		{
@@ -302,7 +316,7 @@ $(document).ready(function() {
 	});
 	$('#ddlHeadman_level_2').change(function()
 	{
-		var ID = $('#ddlDepartment').val();
+		var ID = $('#ddlSection').val();
 		if( $(this).val() != 0 )
 		{
 			$.ajax({
