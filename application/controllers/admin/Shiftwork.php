@@ -118,11 +118,11 @@ class Shiftwork extends CI_Controller {
 				$data["swd_swid"] = $newId;
 				$data["swdday"] = $i;
 				$data["swdiswork"] = $post["inputWorkDay".$i];
-				$data["swdtimestart1"] = $post["inputTimeStart1Day".$i];
-				$data["swdtimeend1"] = $post["inputTimeEnd1Day".$i];
-				$data["swdtimestart2"] = $post["inputTimeStart2Day".$i];
-				$data["swdtimeend2"] = $post["inputTimeEnd2Day".$i];
-				$data["swdtotaltime"] = $post["inputTotalTimeDay".$i];
+				$data["swdtimestart1"] = $post["inputTimeStart1Day".$i] == "" ? NULL : $post["inputTimeStart1Day".$i];
+				$data["swdtimeend1"] = $post["inputTimeEnd1Day".$i] == "" ? NULL : $post["inputTimeEnd1Day".$i];
+				$data["swdtimestart2"] = $post["inputTimeStart2Day".$i] == "" ? NULL : $post["inputTimeStart2Day".$i];
+				$data["swdtimeend2"] = $post["inputTimeEnd2Day".$i] == "" ? NULL : $post["inputTimeEnd2Day".$i];
+				$data["swdtotaltime"] = $post["inputTotalTimeDay".$i] == "" ? NULL : $post["inputTotalTimeDay".$i];
 				$data["swdnumscanfinger"] = 2;
 
 				$this->shiftworkdetail->insert($data);
@@ -157,11 +157,11 @@ class Shiftwork extends CI_Controller {
 				$data = array();
 				$data["swdday"] = $i;
 				$data["swdiswork"] = $post["inputWorkDay".$i];
-				$data["swdtimestart1"] = $post["inputTimeStart1Day".$i];
-				$data["swdtimeend1"] = $post["inputTimeEnd1Day".$i];
-				$data["swdtimestart2"] = $post["inputTimeStart2Day".$i];
-				$data["swdtimeend2"] = $post["inputTimeEnd2Day".$i];
-				$data["swdtotaltime"] = $post["inputTotalTimeDay".$i];
+				$data["swdtimestart1"] = $post["inputTimeStart1Day".$i] == "" ? NULL : $post["inputTimeStart1Day".$i];
+				$data["swdtimeend1"] = $post["inputTimeEnd1Day".$i] == "" ? NULL : $post["inputTimeEnd1Day".$i];
+				$data["swdtimestart2"] = $post["inputTimeStart2Day".$i] == "" ? NULL : $post["inputTimeStart2Day".$i];
+				$data["swdtimeend2"] = $post["inputTimeEnd2Day".$i] == "" ? NULL : $post["inputTimeEnd2Day".$i];
+				$data["swdtotaltime"] = $post["inputTotalTimeDay".$i] == "" ? NULL : $post["inputTotalTimeDay".$i];
 				$data["swdnumscanfinger"] = 2;
 				
 				$where = array("swdid"=>$swdId[$i]);

@@ -37,16 +37,24 @@
 				<td><?php echo $data["swname"] ?></td>
 				<td class="right-align">
 					<a href="<?php echo site_url('admin/Shiftwork/detail/'.$data["swid"]) ?>" 
-						class="btn-floating btn-small waves-effect waves-light blue">
+						class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+						data-position="bottom" data-tooltip="เพิ่มพนักงานลงกะ">
+						<i class="material-icons">assignment_ind</i>
+					</a>
+					<a href="<?php echo site_url('admin/Shiftwork/detail/'.$data["swid"]) ?>" 
+						class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+						data-position="bottom" data-tooltip="รายละเอียด">
 						<i class="material-icons">info_outline</i>
 					</a>
 					<a href="<?php echo site_url('admin/Shiftwork/edit/'.$data["swid"]) ?>" 
-						class="btn-floating btn-small waves-effect waves-light blue">
+						class="btn-floating btn-small waves-effect waves-light blue tooltipped"
+						data-position="bottom" data-tooltip="แก้ไข">
 						<i class="material-icons">edit</i>
 					</a>
 					<a href="javascript:void(0);"
 						data-id="<?php echo $data["swid"] ?>" 
-						class="btn-floating btn-small waves-effect waves-light red"
+						class="btn-floating btn-small waves-effect waves-light red tooltipped"
+						data-position="bottom" data-tooltip="ลบ"
 						onclick="deleteThis(this,'Shiftwork/delete','<?php echo $data['swid'] ?>');">
 						<i class="material-icons">delete</i>
 					</a>

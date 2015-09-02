@@ -66,6 +66,20 @@
 				<?php endfor; ?>
 			</tbody>
 		</table>
+		<br>
+		<div class="col s4 input-field">
+			<input type="text" id="sumHourWeek" readonly="true">
+			<label for="sumHourDay">ชั่วโมงต่อสัปดาห์</label>
+		</div>
+		<div class="col s4 input-field">
+			<input type="text" id="sumHourMonth" readonly="true">
+			<label for="sumHourDay">ชั่วโมงต่อเดือน</label>
+		</div>
+		<div class="col s4 input-field">
+			<input type="text" id="sumHourYear" readonly="true">
+			<label for="sumHourDay">ชั่วโมงต่อปี</label>
+		</div>
+
 	</div>
 </div>
 <div class="divider"></div>
@@ -95,6 +109,10 @@
 			{
 				$(this).prop( "checked", true );
 			});
+		}
+		else
+		{
+			sumHour();
 		}
 	});
 	function setDatetimePicker()
@@ -135,7 +153,11 @@
 							$("[id^='"+id2+"']").not("[id$='All']").each(function(){
 								var id = $(this).attr("id");
 								var day = $(this).attr("id").slice(-1);
-								$(this).val(currentTime);
+								if( $("[name='inputWorkDay"+day+"']:checked").val() == 1)
+								{
+									$(this).val(currentTime);
+								}
+							
 								sumtime(day);
 
 								if(id.indexOf('Start') >= 0)
@@ -168,8 +190,10 @@
 				$("[id^='"+id2+"']").not("[id$='All']").each(function(){
 					var id = $(this).attr("id");
 					var day = $(this).attr("id").slice(-1);
-					
-					$(this).val(currentTime);
+					if( $("[name='inputWorkDay"+day+"']:checked").val() == 1)
+					{
+						$(this).val(currentTime);
+					}
 					
 					sumtime(day);
 
@@ -193,6 +217,12 @@
 								sumtime(day);
 							}
 						});
+
+						//เช็คว่าถ้าค่าใหม่ใส่เข้าไปใน Start เกิน End ให้ลบ End ออกด้วยเพื่อกำหนดค่าใหม่
+						if(timeDiff($input.val(),endid.val()) < 0)
+						{
+							endid.val("");
+						}
 					}
 				});
 				$input.val("");
@@ -228,6 +258,12 @@
 							sumtime(day);
 						}
 					});
+
+					//เช็คว่าถ้าค่าใหม่ใส่เข้าไปใน Start เกิน End ให้ลบ End ออกด้วยเพื่อกำหนดค่าใหม่
+					if(timeDiff($input.val(),endid.val()) < 0)
+					{
+						endid.val("");
+					}
 				}
 			}
 		});
@@ -242,6 +278,18 @@
 			});
 		});
 		$("input[id^='inputWorkDay']").click(function(){
+			//ถ้าเลือกเป็นไม่ใช่วันทำงาน เอาวันเวลาออก
+			if($(this).val() == 0)
+			{
+				var day = $(this).attr("id").slice(-3).slice(0,1);
+				$("#inputTimeStart1Day"+day).val("");
+				$("#inputTimeEnd1Day"+day).val("");
+				$("#inputTimeStart2Day"+day).val("");
+				$("#inputTimeEnd2Day"+day).val("");
+				$("#inputTotalTimeDay"+day).val("");
+				sumHour();//เอาออกแล้วคำนวณวันใหม่ด้วย
+			}
+
 			var counterYes = 0;
 			var counterNo = 0;
 			var numRadio = 7;
@@ -270,6 +318,7 @@
 	}
 	function sumtime(day)
 	{
+
 		var timestart1 = $.trim($("#inputTimeStart1Day"+day).val());
 		var timeend1 = $.trim($("#inputTimeEnd1Day"+day).val());
 		var timestart2 = $.trim($("#inputTimeStart2Day"+day).val());
@@ -279,10 +328,60 @@
 			var sumtime1 = timeDiff(timestart1,timeend1);
 			var sumtime2 = timeDiff(timestart2,timeend2);
 			$("#inputTotalTimeDay"+day).val(sumtime1+sumtime2);
+
+			sumHour();
+
 		}
+	}
+	function sumHour()
+	{
+		var sumWeek = 0;
+		var sumMonth = 0;
+		var sumYear = 0;
+
+		$("[id^='inputTotalTimeDay']").each(function()
+		{
+			sumWeek += parseInt($(this).val() == "" ? 0 : $(this).val());
+		});
+		sumMonth = Math.ceil((sumWeek / 7) * 30);
+		sumYear = sumMonth * 12;
+
+		$("#sumHourWeek").val(sumWeek);
+		$("#sumHourMonth").val(sumMonth);
+		$("#sumHourYear").val(sumYear);
 	}
 	function checkBeforeSubmit()
 	{
+		var msg = "";
+		//check ว่า ถ้า radio work day เป็น 1 ให้ตรวจสอบเวลาเข้าออก สามารถใส่อันเดียวได้ แต่ถ้าใส่ start แล้วต้องมี end หรือถ้ามี end ต้องมี start
+		$("input[name^='inputWorkDay']:checked").not("[id*='inputWorkDayAll']").each(function()
+		{
+			var thisvalue = $(this).val();
+			if(thisvalue == "1")
+			{
+				var day = $(this).attr("id").slice(-3).slice(0,1);
+				var start1 = $("#inputTimeStart1Day"+day).val();
+				var end1 = $("#inputTimeEnd1Day"+day).val();
+				var start2 = $("#inputTimeStart2Day"+day).val();
+				var end2 = $("#inputTimeEnd2Day"+day).val();
+
+				if(start1 == "" || end1 == "" || start2 == "" || end2 == "")
+				{
+					var dayNameThai = <?php echo json_encode($dayNameThai); ?>;
+					var dayname = dayNameThai[day];
+					msg += "- เวลาทำงาน วัน"+dayname+"<br>";
+				}
+			}
+		});
+		if(msg != "")
+		{
+			swal({
+				title : "กรุณากรอกข้อมูลให้ครบถ้วน",
+				type: "error",
+				html : msg
+			});
+			return false;
+		}
 		return true;
 	}
 </script>
