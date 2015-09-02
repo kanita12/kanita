@@ -254,6 +254,41 @@ class Leave_model extends CI_Model
 	/************************************************
 	 * ส่วนของหัวหน้า
 	 ************************************************/
+	public function countNotifyHeadmanLeave($userId)
+	{
+		$sql = "select IFNULL(sum(count),0) as countHeadmanLeave
+				from(
+					select case when eh_headman_level = WFName 
+					then 
+						case when L_WFID = WFID 
+						then 1 
+						else 0 
+					end
+					else 0 
+					end 
+					as count  
+					from(
+						select eh_headman_level,L_WFID from t_emp_headman
+						left join t_users on eh_user_id = UserID
+						left join t_employees on User_EmpId = EmpID
+						right join t_leave on UserID = L_UserID
+						left join t_workflow on L_WFID = WFID
+						where 1=1
+						and eh_headman_user_id = ".$this->db->escape($userId)."
+					)as a
+					left join(
+						select WFID,SUBSTRING(WFName,-1,1) WFName from t_workflow
+						where 1=1
+						and WFName like 'รออนุมัติ%'
+						and WFID < 11
+					)as b
+					on a.eh_headman_level = WFName
+				)as a
+				";
+		$query = $this->db->query($sql);
+		$query = $query->row_array();
+		return $query["countHeadmanLeave"];
+	}
 	public function count_list_for_verify($user_id="",$searchType="0",$searchKeyword="",$searchWorkflow="0")
 	{
 		$this->db->select("LID");

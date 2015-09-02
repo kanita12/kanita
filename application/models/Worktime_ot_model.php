@@ -9,15 +9,58 @@ class Worktime_ot_model extends CI_Model
 	private $table_headman 	= 't_emp_headman';
 	private $table_department = "t_department";
 	private $table_position = "t_position";
+	private $successWorkflowId = 21;
 
 	public function __construct()
 	{
 		parent::__construct();
 	}
-
+	public function countAllSuccess($userId)
+	{
+		$this->db->select("wot_id");
+		$this->db->from($this->table);
+		$this->db->where("wot_request_by",$userId);
+		$this->db->where("wot_workflow_id",$this->successWorkflowId);
+		return $this->db->count_all_results();
+	}
 	/**
 	 * headman section
 	 */
+	public function countNotifyHeadmanOvertime($userId)
+	{
+		$sql = "select IFNULL(sum(count),0) as countHeadmanOvertime
+				from(
+					select case when eh_headman_level = WFName 
+					then 
+						case when wot_workflow_id = WFID 
+						then 1 
+						else 0 
+					end
+					else 0 
+					end 
+					as count  
+					from(
+						select eh_headman_level,wot_workflow_id from t_emp_headman
+						left join t_users on eh_user_id = UserID
+						left join t_employees on User_EmpId = EmpID
+						right join t_worktime_ot on wot_request_by = UserID
+						left join t_workflow on wot_workflow_id = WFID
+						where 1=1
+						and eh_headman_user_id = ".$this->db->escape($userId)."
+					)as a
+					left join(
+						select WFID,SUBSTRING(WFName,-1,1) WFName from t_workflow
+						where 1=1
+						and WFName like 'รออนุมัติ%'
+						and WFID > 11 and WFID < 22
+					)as b
+					on a.eh_headman_level = WFName
+				)as a
+				";
+		$query = $this->db->query($sql);
+		$query = $query->row_array();
+		return $query["countHeadmanOvertime"];
+	}
 	public function headman_get_list($headman_user_id,$emp_id = "0",$year = "0",$month ="0")
 	{
 		$this->db->select(	'wot_id, wot_date, wot_time_from, wot_time_to, wot_request_hour, '.

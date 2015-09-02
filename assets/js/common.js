@@ -171,3 +171,20 @@ function deleteThis(object,url,nowID)
 
   });
 }
+function timeDiff(time1,time2)
+  {
+    time1 = time1.split(":");
+    var start1 = time1[0]*60*60;
+    var end1 = time1[1]*60;
+    var stime1 = start1+end1;
+
+    time2 = time2.split(":");
+    var start2 = time2[0]*60*60;
+    var end2 = time2[1]*60;
+    var stime2 = start2+end2;
+
+    var sumtime = (stime2-stime1)/  ( 60 * 60 ); // 1 Hour =  60*60
+
+    return sumtime;
+
+  }

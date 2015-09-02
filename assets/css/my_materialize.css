@@ -2381,6 +2381,23 @@ td, th {
   float: right;
   color: #26a69a; }
 
+label.badge{
+  min-width: 3rem;
+  padding: 0 6px;
+  text-align: center;
+  font-size: 1rem;
+  line-height: inherit;
+  color: #fff;
+  -webkit-box-sizing: border-box;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box; 
+}
+label.badge.error {
+    font-weight:300;
+    font-size: 0.8rem;
+    color: #fff;
+    background-color: #e53935 ;
+    border-radius: 2px; }
 span.badge {
   min-width: 3rem;
   padding: 0 6px;

@@ -10,15 +10,15 @@ class Userprofile extends CI_Controller
     $CI->load->model("Common_model", "common");
     $CI->load->model("Nametitle_model", "nametitle");
     $CI->load->model("Users_model", "user");
-    $CI->load->model("Department_model", "department");
-    $CI->load->model("Position_model", "position");
+    $CI->load->model("Company_Department_model", "department");
+    $CI->load->model("Company_Position_model", "position");
     $CI->load->model("Amphur_model", "amphur");
     $CI->load->model("District_model", "district");
     $CI->load->model("Province_model", "province");
     $CI->load->model("Zipcode_model", "zipcode");
     $CI->load->model("Emp_history_work_model", "hiswork");
     $CI->load->model("Emp_history_study_model", "hisstudy");
-    $CI->load->model("Institution_Model", "institution");
+ 
     $CI->load->model("MartialStatus_Model", "mars");
     $CI->load->model("Emp_headman_model", "headman");
     $CI->load->model("Bank_model", "bank");
@@ -128,8 +128,7 @@ class Userprofile extends CI_Controller
       $district_id = $query["Emp_DistrictID"];
 
       //bind control data
-      $data["queryDepartment"] = $this->department->getListForDropDown($query["Emp_InstitutionID"]);
-      $data["queryPosition"] = $this->position->getListForDropDown($query["Emp_DepartmentID"]);
+
       $data["queryNameTitleThai"] = $this->nametitle->getListForDropDownThai();
       $data["queryNameTitleEnglish"] = $this->nametitle->getListForDropDownEnglish();
       $data["queryProvince"] = $this->province->getListForDropDown();
@@ -143,9 +142,6 @@ class Userprofile extends CI_Controller
 
       $user_id = $query["UserID"];
       $data["empID"] = $query['EmpID'];
-      $data['empInstitutionID'] = $query['Emp_InstitutionID'];
-      $data["empDepartmentID"] = $query['Emp_DepartmentID'];
-      $data['empPositionID'] = $query['Emp_PositionID'];
 
       $data["empNameTitleThai"] = $query['EmpNameTitleThai'];
       $data["empFirstnameThai"] = $query['EmpFirstnameThai'];
@@ -187,13 +183,13 @@ class Userprofile extends CI_Controller
 
       $data["empDocumentRegisterJobImg"] = $query['EmpDocRegisterJobImg'];
 
-      $empBirthDay = $query['EmpBirthDay'];
+      $empBirthDay = $query['EmpBirthday'];
       $data["birthDayDay"] = 0;
       $data["birthDayMonth"] = 0;
       $data["birthDayYear"] = 0;
       if ($empBirthDay !== '0000-00-00' && $empBirthDay !== null) {
         $empBirthDay = array();
-        $empBirthDay = explode('-', $query['EmpBirthDay']);
+        $empBirthDay = explode('-', $query['EmpBirthday']);
         $data["birthDayDay"] = $empBirthDay[2];
         $data["birthDayMonth"] = $empBirthDay[1];
         $data["birthDayYear"] = $empBirthDay[0];

@@ -2,8 +2,8 @@
 class Emp_headman_model extends CI_Model
 {
 	private $table 				= 't_emp_headman';
-	private $table_position 	= 't_position';
-	private $table_department 	= 't_department';
+	private $table_position 	= 't_company_position';
+	private $table_department 	= 't_company_department';
 	private $table_user 		= 't_users';
 	private $table_employee 	= 't_employees';
 
@@ -51,15 +51,15 @@ class Emp_headman_model extends CI_Model
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai, ".
 			",EmpIDCardImg,EmpPictureImg".
 			",EmpEmail,EmpTelephone,EmpMobilePhone".
-			",PName PositionName,DName DepartmentName".
+			",cpname PositionName,cdname DepartmentName".
 			"");
 		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
 		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,'eh_user_id = UserID','left');
 		$this->db->join($this->table_employee,'EmpID = User_EmpID','left');
-		$this->db->join($this->table_position, "Emp_PositionID = PID",'left');
-		$this->db->join($this->table_department, "Emp_DepartmentID = DID",'left');
+		$this->db->join($this->table_position, "Emp_PositionID = cpid",'left');
+		$this->db->join($this->table_department, "Emp_DepartmentID = cdid",'left');
 		$this->db->where('eh_headman_user_id',$user_id)->where('Emp_StatusID',1);
 		if($keyword !== "")
 		{

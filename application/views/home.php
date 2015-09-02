@@ -1,5 +1,20 @@
 <div class="row">
+	<div class="col s12 center-align">
+			วัน-เวลางาน | มาสาย<label class="badge error <?php echo $notifyLate > 0 ? "" : "green";?>"><?php echo $notifyLate; ?></label>
+			&nbsp;&nbsp;&nbsp;
+			ขาดงาน<label class="badge error <?php echo $notifyAbsense > 0 ? "" : "green";?>"><?php echo $notifyAbsense; ?></label>
+			&nbsp;&nbsp;&nbsp;
+			<a href="<?php echo site_url("Leave"); ?>">การลางาน<label class="badge error green"><?php echo $notifyLeave; ?></label></a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="<?php echo site_url("Overtime"); ?>">การทำงานล่วงเวลา<label class="badge error green"><?php echo $notifyOvertime; ?></label></a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="<?php echo site_url("headman/Verifyleave"); ?>">ใบลารออนุมัติ<label class="badge error <?php echo $notifyHeadmanLeave > 0 ? "" : "green";?>"><?php echo $notifyHeadmanLeave; ?></label></a>
+			&nbsp;&nbsp;&nbsp;
+			<a href="<?php echo site_url("headman/Verifyot"); ?>">
+			การทำงานล่วงเวลารออนุมัติ<label class="badge error <?php echo $notifyHeadmanOvertime > 0 ? "" : "green";?>"><?php echo $notifyHeadmanOvertime; ?></label></a>
+		</div>
 	<div class="col s12 m12 l3">
+
 		<div class="col s12 m4 l12">
 			<a href="<?php echo site_url("Userprofile") ?>">
 				<div class="card light-blue hoverable center-align">
@@ -41,20 +56,15 @@
 								<img class="responsive" src="<?php echo base_url().$emp_detail["EmpPictureImg"] ?>" style="max-height:235px;max-width:100%;" alt="" onerror="this.onerror=null;this.src='<?php echo base_url()."assets/images/no_image.jpg" ?>'">
 							</div>
 							<div class="col s6">
-								<?php echo $emp_detail["EmpFullnameThai"] ?><br>
-								ฝ่าย <?php echo $emp_detail["DepartmentName"] ?><br>
-								แผนก <?php echo $emp_detail["SectionName"] ?><br>
-								หน่วยงาน <?php echo $emp_detail["UnitName"] ?><br>
+								<h4 class="white-text">Member Info</h4>
+								<p class="flow-text"><?php echo $emp_detail["EmpFullnameThai"] ?></p>
+								<p class="flow-text">ฝ่าย <?php echo $emp_detail["DepartmentName"] ?></p>
+								<p class="flow-text">แผนก <?php echo $emp_detail["SectionName"] ?></p>
+								<p class="flow-text">หน่วยงาน <?php echo $emp_detail["UnitName"] ?></p>
 								<?php if ($emp_detail["GroupName"] != ""): ?>
-									กลุ่ม <?php echo $emp_detail["GroupName"] ?><br>
+									<p class="flow-text">กลุ่ม <?php echo $emp_detail["GroupName"] ?></p>
 								<?php endif ?>
-								ตำแหน่ง <?php echo $emp_detail["PositionName"] ?>
-								<br>
-								<div class="card-panel teal accent-4 center-align">
-								ขาดงาน 0 วัน<br>
-								มาสาย 0 วัน<br>
-								ลางานไปแล้ว <?php echo $count_all_can_leave ?> วัน<br>
-								</div>
+								<p class="flow-text">ตำแหน่ง <?php echo $emp_detail["PositionName"] ?></p>
 							</div>
 						</div>
 					</div>

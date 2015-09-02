@@ -445,7 +445,7 @@
 		monthChangeSpinner: true,
 
 		closeOnDateSelect: false,
-		closeOnTimeSelect: false,
+		closeOnTimeSelect: true,
 		closeOnWithoutClick: true,
 		closeOnInputClick: true,
 

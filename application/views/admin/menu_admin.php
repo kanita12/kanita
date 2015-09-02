@@ -17,6 +17,13 @@
           </ul>
         </div>
       </li>
+      <li class="bold"><a class="collapsible-header waves-effect waves-teal">เวลาเข้า-ออก</a>
+        <div class="collapsible-body" style="">
+          <ul>
+            <li><a href="<?php echo site_url('admin/Shiftwork'); ?>">เวลาการทำงาน</a></li>
+          </ul>
+        </div>
+      </li>
       <li class="bold"><a class="collapsible-header waves-effect waves-teal">ผู้ใช้งาน</a>
         <div class="collapsible-body" style="">
           <ul>
