@@ -101,9 +101,13 @@ class Employees_model extends CI_Model
 		}
 		return $this->db->count_all_results();
 	}
-	public function getList($start,$limit,$searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "")
+	public function getList($start = 0,$limit = 0,$searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "")
 	{
-		$this->db->limit($start,$limit);
+		if($limit > 0)
+		{
+			$this->db->limit($start,$limit);
+		}
+		
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg");
 		$this->db->select(",cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName");
 		//for fullname thai and english

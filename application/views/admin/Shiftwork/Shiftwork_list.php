@@ -36,15 +36,10 @@
 				<td><?php echo $data["swcode"] ?></td>
 				<td><?php echo $data["swname"] ?></td>
 				<td class="right-align">
-					<a href="<?php echo site_url('admin/Shiftwork/detail/'.$data["swid"]) ?>" 
+					<a href="<?php echo site_url('admin/Shiftwork/assignment/'.$data["swid"]) ?>" 
 						class="btn-floating btn-small waves-effect waves-light blue tooltipped"
 						data-position="bottom" data-tooltip="เพิ่มพนักงานลงกะ">
 						<i class="material-icons">assignment_ind</i>
-					</a>
-					<a href="<?php echo site_url('admin/Shiftwork/detail/'.$data["swid"]) ?>" 
-						class="btn-floating btn-small waves-effect waves-light blue tooltipped"
-						data-position="bottom" data-tooltip="รายละเอียด">
-						<i class="material-icons">info_outline</i>
 					</a>
 					<a href="<?php echo site_url('admin/Shiftwork/edit/'.$data["swid"]) ?>" 
 						class="btn-floating btn-small waves-effect waves-light blue tooltipped"

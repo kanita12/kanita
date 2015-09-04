@@ -3,6 +3,7 @@
 class Shiftwork extends CI_Controller {
 
 	private $urlList = "admin/Shiftwork";
+	private $urlAssignment = "admin/Shiftwork/assignment";
 
 	public function __construct()
 	{
@@ -10,6 +11,8 @@ class Shiftwork extends CI_Controller {
 		$CI =& get_instance();
 		$CI->load->model("Shiftwork_model","shiftwork");
 		$CI->load->model("Shiftworkdetail_model","shiftworkdetail");
+		$CI->load->model("Emp_shiftwork_model","empshiftwork");
+		$CI->load->model("Employees_model","employees");
 		$CI->load->library('pagination');
 	}
 
@@ -222,6 +225,46 @@ class Shiftwork extends CI_Controller {
 	        $this->load->view("admin/Shiftwork/Shiftwork_add",$data);
 	        parent::setFooter();
         }
+	}
+	public function assignment($id)
+	{
+		if(empty($id))
+		{
+			redirect(site_url($this->urlList));
+			exit();
+		}
+		if($_POST)
+		{
+			$this->_saveAssignment();
+			echo swalc("บันทึกเรียบร้อยแล้ว","","success");
+			//exit();
+		}
+
+		$queryEmpShiftwork = $this->empshiftwork->getList($id);
+		$queryEmp = $this->employees->getList();
+
+		$data = array();
+		$data["dataEmpList"] = $queryEmp->result_array();
+		$data["dataEmpShiftworkList"] = $queryEmpShiftwork->result_array();
+		$data["valueId"] = $id;
+
+		parent::setHeaderAdmin("เวลาเข้า-ออก");
+        $this->load->view("admin/Shiftwork/Shiftwork_assignment",$data);
+        parent::setFooter();
+	}
+	private function _saveAssignment()
+	{
+		$post = $this->input->post();
+
+		$this->empshiftwork->deleteById($post["hdId"]);
+
+		for ($i=0; $i < count($post["hdUserId"]); $i++) 
+		{ 
+			$data = array();
+			$data["esw_userid"] = $post["hdUserId"][$i];
+			$data["esw_swid"] = $post["hdId"];
+			$this->empshiftwork->insert($data);
+		}
 	}
 }
 
