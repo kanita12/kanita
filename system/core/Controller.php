@@ -190,12 +190,23 @@ class CI_Controller {
 		$userID = $this->session->userdata('userid');
 		$empID = $this->session->userdata('empid');
 
+		$this->load->model("Leave_model", "leave");
+		$this->load->model("Worktime_ot_model","ot");
+
 		$data = array();
 		$data['title'] 		= $title;
 		$data['title_eng'] 	= $title_eng;
 		$data['emp_detail'] = getEmployeeDetail($empID);
 		$data["show_header_title"] = $show_header_title;
 		$data["show_card_panel"] = $show_card_panel;
+
+		$data["count_all_can_leave"] = $this->leave->count_all_can_leave($this->user_id);
+		$data["notifyLate"] = 0;
+		$data["notifyAbsense"] = 0;
+		$data["notifyLeave"] = $this->leave->count_all_can_leave($this->user_id);
+		$data["notifyOvertime"] = $this->ot->countAllSuccess($this->user_id);
+		$data["notifyHeadmanLeave"] = $this->leave->countNotifyHeadmanLeave($this->user_id);
+		$data["notifyHeadmanOvertime"] = $this->ot->countNotifyHeadmanOvertime($this->user_id);
 
 		$this->load->view("header",$data);
 	}

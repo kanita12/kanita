@@ -25,6 +25,7 @@
             if(page == "/home" || page == "/")
             {
                 $("#card_userdetail").hide();
+                $("#cardNotify").removeClass("hide");
             }
             //default control for materialize
             $(".dropdown-button-f").dropdown({
@@ -73,6 +74,29 @@
             <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">กลุ่ม <?php echo $emp_detail["GroupName"] ?></a>
         <?php endif ?>
         <a href="javascript:void(0);" class="waves-effect waves-teal btn-flat">ตำแหน่ง <?php echo $emp_detail["PositionName"] ?></a>
+      </div>
+      <div id="cardNotify" class="hide red lighten-2 white-text" style="padding: 8px 0 13px 0;">
+            <div class="notify-bar-icon">
+                <a href="<?php echo site_url("headman/Verifyleave"); ?>">
+                    <img src="<?php echo img_url()."Business-Overtime-icon.png";?>" style="width:25px;position:absolute;margin:5px 0 0 -15px;"><span class="mybadge error <?php echo $notifyHeadmanLeave > 0 ? "" : "green";?>"><?php echo $notifyHeadmanLeave; ?></span>
+                </a>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                <a href="<?php echo site_url("headman/Verifyot"); ?>">
+                    <img src="<?php echo img_url()."notepad_pen.png";?>" style="width:25px;position:absolute;margin:5px 0 0 -15px;">
+                    <span class="mybadge error <?php echo $notifyHeadmanLeave > 0 ? "" : "green";?>"><?php echo $notifyHeadmanLeave; ?></span>
+                </a>
+
+            </div>
+            <div class="right hide-on-small-only" style="padding-top:5px;">
+                มาสาย<label class="badge error <?php echo $notifyLate > 0 ? "" : "green";?>"><?php echo $notifyLate; ?></label>
+                &nbsp;
+                ขาดงาน<label class="badge error <?php echo $notifyAbsense > 0 ? "" : "green";?>"><?php echo $notifyAbsense; ?></label>
+                &nbsp;
+                <a href="<?php echo site_url("Leave"); ?>" class="white-text">การลางาน<label class="badge error green"><?php echo $notifyLeave; ?></label></a>
+                &nbsp;
+                <a href="<?php echo site_url("Overtime"); ?>" class="white-text">การทำงานล่วงเวลา<label class="badge error green"><?php echo $notifyOvertime; ?></label></a>
+            </div>
+            <div class="clearfix"></div>
       </div>
       <?php if ($show_card_panel === TRUE): ?>
         <div class="card-panel">

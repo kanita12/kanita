@@ -44,6 +44,11 @@ function printpdf()
 </script>
 <input type="hidden" name="hd_emp_id" id="hd_emp_id" value="<?php echo $emp_id ?>">
 <input type="hidden" name="hd_site_url" id="hd_site_url" value="<?php echo site_url(); ?>">
+<br>
+<div class="right-align">
+	<a href="<?php echo site_url("Worktime/myshiftwork/".$emp_id) ?>" class="btn waves-effect waves-light" target="_blank">ตารางเวลาเข้าออกงาน</a>
+</div>
+<br><br>
 <div id='calendar'></div>
 <br>
 <div class="divider"></div>

@@ -3,6 +3,7 @@ class Shiftwork_model extends CI_Model {
 
 	private $table = "t_shiftwork";
 	private $tableDetail = "t_shiftworkdetail";
+	private $tableEmpShiftwork = "t_emp_shiftwork";
 	private $selectWithDetail = "swid,swcode,swname,swdesc,
 	swcreateddate,swcreatedbyuserid,swlatestupdate,swlatestupdatebyuserid,swstatus,
 	swdid,swd_swid,swdday,swdiswork,swdtimestart1,swdtimeend1,swdtimestart2,swdtimeend2,
@@ -46,9 +47,13 @@ class Shiftwork_model extends CI_Model {
 		$query = $this->db->get();
 		return $query;
 	}
-	public function getList($limit,$start,$keyword = "")
+	public function getList($limit = 0,$start = 0,$keyword = "")
 	{
-		$this->db->limit($start,$limit);
+		if($limit > 0)
+		{
+			$this->db->limit($start,$limit);
+		}
+		
 		$this->db->select($this->select);
 		$this->db->from($this->table);
 		if(trim($keyword) !== "")
@@ -65,6 +70,17 @@ class Shiftwork_model extends CI_Model {
 		$this->db->from($this->table);
 		$this->db->join($this->tableDetail,"swid = swd_swid","left");
 		$this->db->where("swid",$id);
+		$this->db->where("swstatus <>","-999");
+		$query = $this->db->get();
+		return $query;
+	}
+	public function getDetailByUserId($id)
+	{
+		$this->db->select($this->selectWithDetail);
+		$this->db->from($this->table);
+		$this->db->join($this->tableDetail,"swid = swd_swid","left");
+		$this->db->join($this->tableEmpShiftwork,"swid = esw_swid","left");
+		$this->db->where("esw_userid",$id);
 		$this->db->where("swstatus <>","-999");
 		$query = $this->db->get();
 		return $query;

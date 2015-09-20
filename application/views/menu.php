@@ -68,6 +68,7 @@
                 <?php if ($this->acl->hasPermission("access_salary")): ?>
                     <li><a href="<?php echo site_url('Usersalary');?>">เงินเดือน</a></li>
                 <?php endif ?>
+                <li><a href="<?php echo site_url('Tax/taxform');?>">แบบฟอร์มลดหย่อนภาษี</a></li>
             </ul>
         </li>
         <li>

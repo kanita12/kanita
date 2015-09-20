@@ -29,7 +29,11 @@
 		<table class="bordered highlight" id="tableAllUser">
 			<tbody>
 				<?php foreach ($dataEmpList as $row): ?>
-					<tr>
+					<?php if(in_array_r($row["UserID"],$dataEmpShiftworkList)): ?>
+						<tr class="hide">
+					<?php else: ?>
+						<tr>
+					<?php endif; ?>
 						<td id="userID_<?php echo $row["UserID"]; ?>"><?php echo $row["EmpID"]; ?></td>
 						<td id="empFullnameThai_<?php echo $row["UserID"]; ?>"><?php echo $row["EmpFullnameThai"]; ?></td>
 						<td id="empSection_<?php echo $row["UserID"]; ?>"><?php echo $row["SectionName"]; ?></td>

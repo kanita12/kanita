@@ -55,7 +55,7 @@ class Shiftwork extends CI_Controller {
 
         parent::setHeaderAdmin("เวลาเข้า-ออก");
         $this->load->view("admin/Shiftwork/Shiftwork_list",$data);
-        parent::setFooter();
+        parent::setFooterAdmin();
 	}
 	public function add()
 	{
@@ -91,7 +91,7 @@ class Shiftwork extends CI_Controller {
 
         	parent::setHeaderAdmin("เวลาเข้า-ออก");
 	        $this->load->view("admin/Shiftwork/Shiftwork_add",$data);
-	        parent::setFooter();
+	        parent::setFooterAdmin();
         }
 	}
 	private function _saveShiftwork($type = "add")
@@ -223,7 +223,7 @@ class Shiftwork extends CI_Controller {
 
         	parent::setHeaderAdmin("เวลาเข้า-ออก");
 	        $this->load->view("admin/Shiftwork/Shiftwork_add",$data);
-	        parent::setFooter();
+	        parent::setFooterAdmin();
         }
 	}
 	public function assignment($id)
@@ -250,7 +250,7 @@ class Shiftwork extends CI_Controller {
 
 		parent::setHeaderAdmin("เวลาเข้า-ออก");
         $this->load->view("admin/Shiftwork/Shiftwork_assignment",$data);
-        parent::setFooter();
+        parent::setFooterAdmin();
 	}
 	private function _saveAssignment()
 	{

@@ -2,6 +2,7 @@
 class Emp_shiftwork_model extends CI_Model {
 
 	private $table = "t_emp_shiftwork";
+	private $tableShiftwork = "t_shiftwork";
 	private $tableEmployee = "t_employees";
 	private $tableUser = "t_users";
 	private $tableSection = "t_company_section";
@@ -23,6 +24,23 @@ class Emp_shiftwork_model extends CI_Model {
 		$this->db->join($this->tableEmployee,"User_EmpID = EmpID","left");
 		$this->db->join($this->tableSection,"Emp_SectionID = csid","left");
 		$this->db->join($this->tablePosition,"Emp_PositionID = cpid","left");
+		$this->db->where("esw_swid",$shiftworkId);
+		$query = $this->db->get();
+		return $query;
+	}
+	public function getListByUserId($id)
+	{
+		$this->db->select($this->select);
+		$this->db->select(",swname");
+		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
+		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->from($this->table);
+		$this->db->join($this->tableShiftwork,"esw_swid = swid","right");
+		$this->db->join($this->tableUser,"esw_userid = UserID","left");
+		$this->db->join($this->tableEmployee,"User_EmpID = EmpID","left");
+		$this->db->join($this->tableSection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tablePosition,"Emp_PositionID = cpid","left");
+		$this->db->where("esw_userid",$id);
 		$query = $this->db->get();
 		return $query;
 	}
@@ -46,6 +64,12 @@ class Emp_shiftwork_model extends CI_Model {
 	public function deleteById($id)
 	{
 		$this->db->where("esw_swid",$id);
+		$this->db->delete($this->table);
+		return $this->db->affected_rows();
+	}
+	public function deleteByUserId($id)
+	{
+		$this->db->where("esw_userid",$id);
 		$this->db->delete($this->table);
 		return $this->db->affected_rows();
 	}

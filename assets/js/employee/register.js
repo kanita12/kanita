@@ -885,3 +885,27 @@ function gen_history_work_template()
 		obj_card.effect("highlight", {}, 2000);
 	}
 }
+function selectShiftwork(id)
+{
+	var name = $("#allShiftworkList #shiftworkName_"+id).html();
+
+
+	var tr = "<tr>";
+	tr += "<input type=\"hidden\" name=\"hdShiftworkId[]\" value=\""+id+"\">";
+	tr += "<td id=\"shiftworkName_"+id+"\">"+name+"</td>";
+	tr += "<td class=\"right-align\"><a href=\"javascript:void(0);\" class=\"btn red\" onclick=\"removeShiftwork('"+id+"');\">ลบ</a></td>";
+	tr += "</tr>";
+
+	$("#selectedShiftworkList").append(tr);
+
+	//ซ่อนรายชื่อนี้จากรายการ
+	$("#allShiftworkList #shiftworkName_"+id).parent().addClass("hide");
+}
+function removeShiftwork(id)
+{
+	var tr = $("#selectedShiftworkList #shiftworkName_"+id).parent();
+	tr.remove();
+
+	//คืนรายชื่อนี้ไปสู่รายการ
+	$("#allShiftworkList #shiftworkName_"+id).parent().removeClass("hide");
+}

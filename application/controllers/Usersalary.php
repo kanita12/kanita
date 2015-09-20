@@ -11,6 +11,8 @@ class Usersalary extends CI_Controller
 			exit();
 		}
 		$ci->load->model("Salary_pay_log_model","salarypay");
+		$ci->load->model("Salary_pay_log_detail_specialmoney_model","detailspecialmoney");
+		$ci->load->model("Salary_pay_log_detail_deduct_model","detaildeduct");
 	}
   	public function index()
   	{

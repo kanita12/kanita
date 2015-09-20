@@ -24,6 +24,7 @@
             <a class="collection-item" href="#historystudyinfo">ประวัติการศึกษา</a>
             <a class="collection-item" href="#othercontactinfo">บุคคลอื่นที่ติดต่อได้</a>
             <a class="collection-item" href="#documentinfo">เอกสาร</a>
+            <a class="collection-item" href="#shiftworkinfo">กะงาน</a>
         </ul>
         <ul id="menu_mobile" class="collection hide-on-large-only">
             <a class="collection-item active" href="#userinfo">ข้อมูลพนักงาน</a>
@@ -32,6 +33,7 @@
             <a class="collection-item" href="#historystudyinfo">ประวัติการศึกษา</a>
             <a class="collection-item" href="#othercontactinfo">บุคคลอื่นที่ติดต่อได้</a>
             <a class="collection-item" href="#documentinfo">เอกสาร</a>
+            <a class="collection-item" href="#shiftworkinfo">กะงาน</a>
         </ul>
         &nbsp;
     </div>
@@ -760,6 +762,36 @@
 				              <input class="file-path validate" type="text">
 				            </div>
 				        </div>
+					</div>
+				</div>
+			</div>
+			<div class="divider"></div>
+			<div id="shiftworkinfo" class="section">
+				<h4 class="header">กะงาน</h4>
+				<div class="row">
+					<div class="col s12">
+						<table id="selectedShiftworkList" class="bordered highlight">
+							<?php foreach ($queryEmpShiftwork as $row): ?>
+								<tr>
+									<input type="hidden" name="hdShiftworkId[]" value="<?php echo $row["esw_swid"]; ?>">
+									<td id="shiftworkName_<?php echo $row["esw_swid"]; ?>"><?php echo $row["swname"] ?></td>
+									<td class="right-align"><a href="javascript:void(0);" class="btn red" onclick="removeShiftwork('<?php echo $row["esw_swid"]; ?>');">ลบ</a></td>
+								</tr>
+							<?php endforeach ?>
+						</table>
+						<a href="javascript:void(0);" class="btn" onclick="$('#allShiftworkList').toggleClass('hide');">เลือกกะงาน</a>
+						<table id="allShiftworkList" class="bordered highlight hide">
+							<?php foreach ($queryShiftwork as $row): ?>
+								<?php if(in_array_key("esw_swid",$row["swid"],$queryEmpShiftwork)): ?>
+									<tr class="hide">
+								<?php else: ?>
+									<tr>
+								<?php endif; ?>
+									<td id="shiftworkName_<?php echo $row["swid"]; ?>"><?php echo $row["swname"] ?></td>
+									<td class="right-align"><a href="javascript:void(0);" class="btn" onclick="selectShiftwork('<?php echo $row["swid"]; ?>');">เลือก</a></td>
+								</tr>
+							<?php endforeach ?>
+						</table>
 					</div>
 				</div>
 			</div>

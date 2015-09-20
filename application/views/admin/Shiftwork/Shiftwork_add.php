@@ -27,27 +27,27 @@
 		<table class="bordered highlight">
 			<thead>
 				<tr>
-					<th rowspan="2">วัน</th>
-					<th colspan="2">วันทำงาน</th>
-					<th colspan="2">เวลา 1</th>
-					<th rowspan="2">พัก</th>
-					<th colspan="2">เวลา 2</th>
-					<th rowspan="2">รวมจำนวนชั่วโมง</th>
+					<th rowspan="2" class="center-align">วัน</th>
+					<th colspan="2" class="center-align">วันทำงาน</th>
+					<th colspan="2" class="center-align">เวลา 1</th>
+					<th rowspan="2" class="center-align">พัก</th>
+					<th colspan="2" class="center-align">เวลา 2</th>
+					<th rowspan="2" class="center-align">รวมจำนวนชั่วโมง</th>
 				</tr>
 				<tr>
-					<th>ใช่
+					<th class="center-align">ใช่
 					<input name="inputWorkDayAll" type="radio" id="inputWorkDayAll_1" value="1" /><label for="inputWorkDayAll_1"></label></th>
-					<th>ไม่ใช่
+					<th class="center-align">ไม่ใช่
 					<input name="inputWorkDayAll" type="radio" id="inputWorkDayAll_0" value="0" /><label for="inputWorkDayAll_0"></label></th>
-					<th>เริ่ม
-					<input type="text" id="inputTimeStart1DayAll" name="inputTimeStart1DayAll" value="">
+					<th class="center-align">เริ่ม
+					<input type="text" id="inputTimeStart1DayAll" name="inputTimeStart1DayAll" value="" readonly="true">
 					</th>
-					<th>สิ้นสุด
-					<input type="text" id="inputTimeEnd1DayAll" name="inputTimeEnd1DayAll" value=""></th>
-					<th>เริ่ม
-					<input type="text" id="inputTimeStart2DayAll" name="inputTimeStart2DayAll" value=""></th>
-					<th>สิ้นสุด
-					<input type="text" id="inputTimeEnd2DayAll" name="inputTimeEnd2DayAll" value=""></th>
+					<th class="center-align">สิ้นสุด
+					<input type="text" id="inputTimeEnd1DayAll" name="inputTimeEnd1DayAll" value="" readonly="true"></th>
+					<th class="center-align">เริ่ม
+					<input type="text" id="inputTimeStart2DayAll" name="inputTimeStart2DayAll" value="" readonly="true"></th>
+					<th class="center-align">สิ้นสุด
+					<input type="text" id="inputTimeEnd2DayAll" name="inputTimeEnd2DayAll" value="" readonly="true"></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -68,15 +68,15 @@
 		</table>
 		<br>
 		<div class="col s4 input-field">
-			<input type="text" id="sumHourWeek" readonly="true">
+			<input type="text" id="sumHourWeek" value="0" readonly="true">
 			<label for="sumHourDay">ชั่วโมงต่อสัปดาห์</label>
 		</div>
 		<div class="col s4 input-field">
-			<input type="text" id="sumHourMonth" readonly="true">
+			<input type="text" id="sumHourMonth" value="0" readonly="true">
 			<label for="sumHourDay">ชั่วโมงต่อเดือน</label>
 		</div>
 		<div class="col s4 input-field">
-			<input type="text" id="sumHourYear" readonly="true">
+			<input type="text" id="sumHourYear" value="0" readonly="true">
 			<label for="sumHourDay">ชั่วโมงต่อปี</label>
 		</div>
 
@@ -323,15 +323,19 @@
 		var timeend1 = $.trim($("#inputTimeEnd1Day"+day).val());
 		var timestart2 = $.trim($("#inputTimeStart2Day"+day).val());
 		var timeend2 = $.trim($("#inputTimeEnd2Day"+day).val());
-		if(timestart1 != "" && timeend1 != "" && timestart2 != "" && timeend2 != "")
+
+		var sumtime1 = 0;
+		var sumtime2 = 0;
+		if(timestart1 != "" && timeend1 != "")
 		{
-			var sumtime1 = timeDiff(timestart1,timeend1);
-			var sumtime2 = timeDiff(timestart2,timeend2);
-			$("#inputTotalTimeDay"+day).val(sumtime1+sumtime2);
-
-			sumHour();
-
+			sumtime1 = timeDiff(timestart1,timeend1);
 		}
+		if(timestart2 != "" && timeend2 != ""){
+			sumtime2 = timeDiff(timestart2,timeend2);
+		}
+		$("#inputTotalTimeDay"+day).val(sumtime1+sumtime2);
+
+		sumHour();
 	}
 	function sumHour()
 	{

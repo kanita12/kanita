@@ -16,7 +16,7 @@ class Worktime_model extends CI_Model
 	{
 
 		$this -> db -> limit($limit, $start);
-		$this->db->select("WTID,WTDate,WTTimeStart,WTTimeEnd,WTLatestUpdate,User_EmpID");
+		$this->db->select("WTID,WTDate,WTTime,WTLatestUpdate,User_EmpID");
 		$this->db->from($this->table);
 		if($userID != "0")
 		{
@@ -31,7 +31,7 @@ class Worktime_model extends CI_Model
 	
 	public function getListForCalendar($userID,$rangeStart,$rangeEnd)
 	{
-		$this->db->select("WTID,WTDate,WTTimeStart,WTTimeEnd,WTLatestUpdate,User_EmpID");
+		$this->db->select("WTID,WTDate,WTTime,WTLatestUpdate,User_EmpID");
 		$this->db->from($this->table);
 		$this->db->where("WT_UserID",floatval($userID));
 		$this->db->where("WTDate >=",$rangeStart);
@@ -43,7 +43,7 @@ class Worktime_model extends CI_Model
 
 	public function get_list_by_year_and_month($user_id,$year,$month)
 	{
-		$this->db->select("WTID,WTDate,WTTimeStart,WTTimeEnd,WTLatestUpdate,User_EmpID");
+		$this->db->select("WTID,WTDate,WTTime,WTLatestUpdate,User_EmpID");
 		$this->db->from($this->table);
 		$this->db->where("WT_UserID",$user_id);
 		$this->db->where("year(WTDate)",$year);

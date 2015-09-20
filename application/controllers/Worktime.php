@@ -129,24 +129,24 @@ class Worktime extends CI_Controller
 			}
 		}
 
-  // Short-circuit if the client did not give us a date range.
+  		// Short-circuit if the client did not give us a date range.
 		if (!isset($_POST['start']) || !isset($_POST['end'])) {
 			die("Please provide a date range.");
 		}
 
-  // Parse the start/end parameters.
-  // These are assumed to be ISO8601 strings with no time nor timezone, like "2013-12-29".
-  // Since no timezone will be present, they will parsed as UTC.
+		  // Parse the start/end parameters.
+		  // These are assumed to be ISO8601 strings with no time nor timezone, like "2013-12-29".
+		  // Since no timezone will be present, they will parsed as UTC.
 		$range_start = $_POST['start'];
 		$range_end = $_POST['end'];
 
-  // Parse the timezone parameter if it is present.
+  		// Parse the timezone parameter if it is present.
 		$timezone = null;
 		if (isset($_GET['timezone'])) {
 			$timezone = new DateTimeZone($_GET['timezone']);
 		}
 
-  // Read and parse our events JSON file into an array of event data arrays.
+  		// Read and parse our events JSON file into an array of event data arrays.
 		$this->load->model("Worktime_model", "worktime");
 
 		$query = $this->worktime->getListForCalendar($this->user_id, $range_start, $range_end);
@@ -174,7 +174,7 @@ class Worktime extends CI_Controller
 			}
 		}
 
-  // Send JSON to the client.
+  		// Send JSON to the client.
 		echo json_encode($output_arrays);
 	}
 	public function printpdf($year,$month,$emp_id = "")
@@ -210,5 +210,33 @@ class Worktime extends CI_Controller
 
 		$this->load->view('report/Worktime', $data);
 
+	}
+	public function myShiftwork($id = "")
+	{
+		$empDetail = array();
+		if($id !== ""){
+			$checker;
+			$headman_level;
+			list($checker,$headman_level) = is_your_headman($id,$this->user_id);
+			if($checker || is_hr()){
+				$empDetail = getEmployeeDetail($id);
+			}else{
+				redirect(site_url("Worktime"));
+				exit();
+			}
+		}else{
+			$id = $this->user_id;
+		}
+
+		$this->load->model("Shiftwork_model","shiftwork");
+		$query = $this->shiftwork->getDetailByUserId($id);
+		$data = array();
+		$data["dataDetail"] = $query->row_array();
+		$data["dataList"] = $query->result_array();
+		$data["empDetail"] = $empDetail;
+		parent::setHeader("ตารางเวลาเข้าออกงาน","User Profile");
+		$this->load->view("Worktime_my_shiftwork.php", $data);
+		parent::setFooter();
+		
 	}
 }
