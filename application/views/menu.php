@@ -106,10 +106,12 @@
             </a>
             <ul id="m_ddl_company" class="dropdown-content">
                 <li><a href="<?php echo site_url('company/regulation')?>">กฏเกณฑ์-ข้อบังคับ</a></li>
-                <li><a href="<?php echo site_url('company/organization')?>">แผนผังองค์กร</a></li>
-                <li><a href="<?php echo site_url('company/wantedposition')?>">ตำแหน่งงานว่าง</a></li>
+                <!-- <li><a href="<?php echo site_url('company/organization')?>">แผนผังองค์กร</a></li>
+                <li><a href="<?php echo site_url('company/wantedposition')?>">ตำแหน่งงานว่าง</a></li> -->
                 <li><a href="<?php echo site_url('company/Holiday')?>">วันหยุดประจำปี</a></li>
-                <li><a href="<?php echo site_url('Activity')?>">กิจกรรมภายในองค์กร</a></li>
+                <li><a href="<?php echo site_url('news')?>">ข่าวสาร</a></li>
+                <li><a href="<?php echo site_url('Activity')?>">กิจกรรม</a></li>
+                <li><a href="<?php echo site_url('newsalert')?>">ข่าวด่วน</a></li>
             </ul>
         </li>
         <?php if (is_hr()): ?>
@@ -118,17 +120,23 @@
                     เมนู Hr<i class="material-icons right">keyboard_arrow_right</i>
                 </a>
                 <ul id="m_ddl_hr" class="dropdown-content">
-                    <li><a href="<?php echo site_url('hr/Employee');?>">รายชื่อพนักงานทั้งหมด</a></li>
+                    <?php if ($this->acl->hasPermission('access_listemployee')): ?>
+                        <li><a href="<?php echo site_url('hr/Employees');?>">รายชื่อพนักงานทั้งหมด</a></li>
+                        <li class="divider"></li>
+                    <?php endif ?>
                     <li><a href="<?php echo site_url('hr/Verifyleave')?>">ตรวจสอบการลางาน</a></li>
-                    <li><a href="#">ตรวจสอบข้อความจากพนักงาน</a></li>
-                    <li><a href="#">คำขอเพิ่มลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('hr/News')?>">จัดการข่าวสาร</a></li>
-                    <li><a href="<?php echo site_url('hr/Activity')?>">จัดการกิจกรรม</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('hr/HRMessage')?>">ตรวจสอบข้อความจากพนักงาน</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('hr/Overtime')?>">ตรวจสอบ OT พนักงาน</a></li>
+                    <li><a href="<?php echo site_url('hr/Reportot')?>">รายงาน OT พนักงาน</a></li>
+                    <!-- <li><a href="#">คำขอเพิ่มลูกทีม</a></li> -->
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('hr/News')?>">จัดการข่าวสาร & กิจกรรม</a></li>
                     <li><a href="<?php echo site_url('hr/Regulation')?>">จัดการกฎเกณฑ์-ข้อบังคับ</a></li>
-                    <li><a href="#">จัดการแผนผังองค์กร</a></li>
+                    <!-- <li><a href="#">จัดการแผนผังองค์กร</a></li> -->
                     <li><a href="<?php echo site_url('hr/Holiday')?>">จัดการวันหยุดประจำปี</a></li>
-                    <li><a href="#">เขียนใบลาแทน</a></li>
-                    <li><a href="<?php echo site_url('hr/salary')?>">ปรับเงินเดือนพนักงาน</a></li>
+                    <!-- <li><a href="#">เขียนใบลาแทน</a></li> -->
                 </ul>
             </li>
         <?php endif?>
@@ -139,10 +147,13 @@
                 </a>
                 <ul id="m_ddl_headman" class="dropdown-content">
                     <li><a href="<?php echo site_url('headman/Yourteam')?>">รายชื่อทีมตัวเอง</a></li>
-                    <li><a href="<?php echo site_url('headman/Verifyleave')?>">ตรวจสอบใบลาลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('headman/Verifyot')?>">ตรวจสอบ OT ลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('headman/Sendotinsteadteam')?>">ส่ง OT แทนลูกทีม</a></li>
-                    <li><a href="<?php echo site_url('headman/Requestemployee')?>">คำขอเพิ่มลูกทีม</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('headman/Verifyleave')?>">ตรวจสอบใบลาผู้ใต้บังคับบัญชา</a></li>
+                    <li class="divider"></li>
+                    <li><a href="<?php echo site_url('headman/Verifyot')?>">ตรวจสอบ OT ผู้ใต้บังคับบัญชา</a></li>
+                    <li><a href="<?php echo site_url('headman/Sendotinsteadteam')?>">ส่ง OT แทนผู้ใต้บังคับบัญชา</a></li>
+                    <li><a href="<?php echo site_url('headman/Reportot')?>">รายงาน OT ผู้ใต้บังคับบัญชา</a></li>
+                    <!-- <li><a href="<?php echo site_url('headman/Requestemployee')?>">คำขอเพิ่มลูกทีม</a></li> -->
                 </ul>
             </li>
         <?php endif?>
@@ -152,6 +163,11 @@
             </a>
             <ul id="m_ddl_userprofile" class="dropdown-content">
                 <li><a href="<?php echo site_url('Worktime');?>">เวลาเข้า-ออก</a></li>
+                <li><a href="<?php echo site_url('Userprofile');?>">ข้อมูลส่วนตัว</a></li>
+                <?php if ($this->acl->hasPermission("access_salary")): ?>
+                    <li><a href="<?php echo site_url('Usersalary');?>">เงินเดือน</a></li>
+                <?php endif ?>
+                <li><a href="<?php echo site_url('Tax/taxform');?>">แบบฟอร์มลดหย่อนภาษี</a></li>
             </ul>
         </li>
         <li>
@@ -161,7 +177,8 @@
             <ul id="m_ddl_ot" class="dropdown-content">
                 <li><a href="<?php echo site_url('Overtime')?>">รายการ OT</a></li>
                 <li><a href="<?php echo site_url('Overtime/add')?>">ส่งใบขอทำ OT</a></li>
-                <li><a href="<?php echo site_url('Overtime/exchange_ot')?>" >แลกเวลาทำ OT</a>
+                <!-- <li><a href="<?php echo site_url('Overtime/exchange_ot')?>" >แลกเวลาทำ OT</a> -->
+                <li><a href="<?php echo site_url('Overtime/report')?>" >รายงานการทำงานล่วงเวลา</a>
             </ul>
         </li>
         <li>

@@ -321,6 +321,26 @@ class Userprofile extends CI_Controller
     $this->load->view("Userprofile/Close");
     parent::setFooter();
   }
+  public function providentfundinfo($emp_id = "")
+  {
+    $emp_id = $this->change_user_id($emp_id);
+    $this->load->model("Provident_fund_model","providentfund");
+    $query = getEmployeeDetailByUserID($this->user_id);
+
+    $data = array();
+    $data["dataProvidentFund"] = $this->providentfund->getListForDropdownlist();
+    $data["valueProvidentFund"] = 0;
+    $data["isChoose"] = FALSE;
+
+    $data_open = array();
+    $data_open["emp_id"] = $emp_id;
+
+    parent::setHeader("กองทุนสำรองเลี้ยงชีพ", "Userprofile");
+    $this->load->view("Userprofile/Open",$data_open);
+    $this->load->view('Userprofile/Providentfundinfo', $data);
+    $this->load->view("Userprofile/Close");
+    parent::setFooter();
+  }
 }
 /* End of file Userprofile.php */
 /* Location: ./application/controllers/Userprofile.php */
