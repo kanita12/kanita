@@ -11,8 +11,8 @@ class Usersalary extends CI_Controller
 			exit();
 		}
 		$ci->load->model("Salary_pay_log_model","salarypay");
-		$ci->load->model("Salary_pay_log_detail_specialmoney_model","detailspecialmoney");
-		$ci->load->model("Salary_pay_log_detail_deduct_model","detaildeduct");
+		//$ci->load->model("Salary_pay_log_detail_specialmoney_model","detailspecialmoney");
+		//$ci->load->model("Salary_pay_log_detail_deduct_model","detaildeduct");
 	}
   	public function index()
   	{
@@ -26,7 +26,7 @@ class Usersalary extends CI_Controller
 		$data = array();
 		$data["query_now_salary"] = $query_now_salary->row_array();
 		$data["emp_detail"] = getEmployeeDetailByUserID($this->user_id);
-	
+
 
 		parent::setHeader("เงินเดือน","Userprofile");
 		$this->load->view("Userprofile/Usersalary",$data);
@@ -34,7 +34,7 @@ class Usersalary extends CI_Controller
 	}
 	public function history($year = 0, $month = 0)
 	{
-		//config paging	
+		//config paging
 		$config = array();
 		$config["total_rows"] = $this->salarypay->count_all($this->user_id,$year,$month);
 		$this->pagination->initialize($config);
@@ -55,7 +55,7 @@ class Usersalary extends CI_Controller
 		$this->load->helper('pdf_helper');
 
 		$query_now_salary = $this->salarypay->get_detail_by_year_and_month($this->user_id,$year,$month);
-		
+
 		$data = array();
 		$data["emp_detail"] = getEmployeeDetail($this->emp_id);
 		$data["month"] = $month;
@@ -65,7 +65,7 @@ class Usersalary extends CI_Controller
 		$data["query_now_salary"] = $query_now_salary->row_array();
 
     	$this->load->view('report/Usersalaryprint', $data);
-    	
+
 	}
 }
 /* End of file Usersalary.php */
