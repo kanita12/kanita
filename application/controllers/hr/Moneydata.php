@@ -13,6 +13,8 @@ class Moneydata extends CI_Controller
 {
 
 	private $emp_detail;
+	private $title_topic = "ข้อมูลทางการเงิน";
+	private $topic_page = "";
 
 	public function __construct()
 	{
@@ -30,6 +32,8 @@ class Moneydata extends CI_Controller
 	public function salary( $emp_id, $year = 0, $month = 0 )
 	{
 		$this->load->model("Salary_pay_log_model");
+
+		$this->topic_page = "เงินเดือน";
 
 		$this->_set_emp_detail( $emp_id );
 		$data = array( 'emp_id' => $emp_id, 'year' => $year, 'month' => $month );
@@ -98,6 +102,8 @@ class Moneydata extends CI_Controller
 	**/
 	public function bonus( $emp_id )
 	{
+		$this->topic_page = "โบนัส";
+
 		$this->_set_emp_detail( $emp_id );
 		$data = array( 'emp_id' => $emp_id );
 		$data['emp_detail'] = $this->emp_detail;
@@ -153,6 +159,8 @@ class Moneydata extends CI_Controller
 		$this->load->model( 'Provident_fund_model' );
 		$this->load->model( 'Salary_pay_log_detail_model' );
 
+		$this->topic_page = "กองทุนสำรองเลี้ยงชีพ";
+
 		$this->_set_emp_detail( $emp_id );
 		$data = array( 'emp_id' => $emp_id );
 		$data['emp_detail'] = $this->emp_detail;
@@ -177,6 +185,8 @@ class Moneydata extends CI_Controller
 			$year = date("Y");
 		}
 
+		$this->topic_page = "ทำงานล่วงเวลา";
+
 		$this->_set_emp_detail( $emp_id );
 		$data = array( 'emp_id' => $emp_id, 'year' => $year );
 		$data['emp_detail'] = $this->emp_detail;
@@ -195,6 +205,8 @@ class Moneydata extends CI_Controller
 	{
 		$this->load->model("Specialmoneyofmonth_model");
 		$this->load->model( "Salary_pay_log_detail_model" );
+
+		$this->topic_page = "รายได้/รายหัก";
 
 		$this->_set_emp_detail( $emp_id );
 
@@ -278,6 +290,9 @@ class Moneydata extends CI_Controller
 		{
 			$year = date("Y");
 		}
+
+		$this->topic_page = "ภาษีเงินได้";
+
 		$this->_set_emp_detail( $emp_id );
 		$data = array( 'emp_id' => $emp_id, 'year' => $year);
 	
@@ -300,6 +315,9 @@ class Moneydata extends CI_Controller
 		{
 			$year = date("Y");
 		}
+
+		$this->topic_page = "ประกันสังคม";
+
 		$this->_set_emp_detail( $emp_id );
 		$data = array( 'emp_id' => $emp_id, 'year' => $year);
 	
@@ -317,7 +335,7 @@ class Moneydata extends CI_Controller
 	}
 	private function _load_views( $your_view , $data )
 	{
-		parent::setHeader();
+		parent::setHeader( $this->topic_page, $this->title_topic);
 		$this->load->view( 'hr/Moneydata/sub_menu', $data );
 		$this->load->view( 'hr/Moneydata/' . $your_view, $data );
 		$this->load->view( 'hr/Moneydata/close' );

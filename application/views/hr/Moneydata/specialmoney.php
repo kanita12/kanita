@@ -2,50 +2,54 @@
 	$ci =& get_instance();
 	$ci->load->library('Input_element'); 
 ?>
-<h2 class="header">เพิ่มรายการ</h2>
-<?php echo form_open_multipart(); ?>
-<div class="row">
-	<div class="col s12">
-		<div class="input-field col s12">
-			<input type="text" name="inputTopic" id="inputTopic" value="<?php echo set_value("inputTopic"); ?>"/>
-			<label for="inputTopic">ชื่อรายการ</label>
-		</div>
-		<div class="input-field col s6">
-			<?php echo form_dropdown("ddlYear",$queryYear,set_value("ddlYear",date("Y")),"id='ddlYear'") ?>
-			<label for="ddlYear">ปี</label>
-		</div>
-		<div class="input-field col s6">
-			<?php echo form_dropdown("ddlMonth",$queryMonth,set_value("ddlMonth",date("m")),"id='ddlMonth'") ?>
-			<label for="ddlMonth">เดือน</label>
-		</div>
-		<div class="input-field col s3">
-			<input name="inputType" type="radio" id="type_plus" value="+" checked />
-      		<label for="type_plus">รายได้</label>
-      		<br>
-      		<input name="inputType" type="radio" id="type_minus" value="-" />
-      		<label for="type_minus">รายหัก</label>
-		</div>  
-		<div class="input-field col s8">
-			<input type="text" name="inputMoney" id="inputMoney" class="green-text" value="<?php echo set_value("inputMoney"); ?>"/>
-			<label id="label_desc" for="inputMoney" class="green-text">จำนวนเงิน</label>
-		</div>
-		<div class="input-field col s12">
-			<textarea name="inputDesc" id="inputDesc" class="materialize-textarea"></textarea>
-			<label for="inputDesc">คำอธิบายเพิ่มเติม</label>
+<div class="card-panel">
+	<h2 class="header">เพิ่มรายการ</h2>
+	<?php echo form_open_multipart(); ?>
+	<div class="row">
+		<div class="col s12">
+			<div class="input-field col s12">
+				<input type="text" name="inputTopic" id="inputTopic" value="<?php echo set_value("inputTopic"); ?>"/>
+				<label for="inputTopic">ชื่อรายการ</label>
+			</div>
+			<div class="input-field col s6">
+				<?php echo form_dropdown("ddlYear",$queryYear,set_value("ddlYear",date("Y")),"id='ddlYear'") ?>
+				<label for="ddlYear">ปี</label>
+			</div>
+			<div class="input-field col s6">
+				<?php echo form_dropdown("ddlMonth",$queryMonth,set_value("ddlMonth",date("m")),"id='ddlMonth'") ?>
+				<label for="ddlMonth">เดือน</label>
+			</div>
+			<div class="input-field col s3">
+				<input name="inputType" type="radio" id="type_plus" value="+" checked />
+	      		<label for="type_plus">รายได้</label>
+	      		<br>
+	      		<input name="inputType" type="radio" id="type_minus" value="-" />
+	      		<label for="type_minus">รายหัก</label>
+			</div>  
+			<div class="input-field col s8">
+				<input type="text" name="inputMoney" id="inputMoney" class="green-text" value="<?php echo set_value("inputMoney"); ?>"/>
+				<label id="label_desc" for="inputMoney" class="green-text">จำนวนเงิน</label>
+			</div>
+			<div class="input-field col s12">
+				<textarea name="inputDesc" id="inputDesc" class="materialize-textarea"></textarea>
+				<label for="inputDesc">คำอธิบายเพิ่มเติม</label>
+			</div>
 		</div>
 	</div>
+
+	<div class="divider"></div>
+	
+	<div class="section">
+	    <div class="row">
+	        <div class="col s2">
+	        		<input type="hidden" name="hd_user_id" value="<?php echo $emp_detail['UserID']; ?>" />
+	        		<input type="hidden" name="hd_emp_id" value="<?php echo $emp_detail['EmpID']; ?>" />
+	            <input type="submit" onclick="return check_before_submit();" class="btn" value="บันทึก">
+	        </div>
+	    </div>
+	</div>
+	<?php echo form_close(); ?>
 </div>
-<div class="divider"></div>
-<div class="section">
-    <div class="row">
-        <div class="col s2">
-        		<input type="hidden" name="hd_user_id" value="<?php echo $emp_detail['UserID']; ?>" />
-        		<input type="hidden" name="hd_emp_id" value="<?php echo $emp_detail['EmpID']; ?>" />
-            <input type="submit" onclick="return check_before_submit();" class="btn" value="บันทึก">
-        </div>
-    </div>
-</div>
-<?php echo form_close(); ?>
 
 
 
