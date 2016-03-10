@@ -53,6 +53,8 @@ class Login extends CI_Controller
 				{
 						$username = $this->input->post("input_username");
 						$password = $this->input->post("input_password");
+						$rememberme = $this->input->post("input_rememberme");
+
 						$is_headman = false;
 						//check login
 						$query = $this->users->checkLogin($username,$password);
@@ -68,6 +70,9 @@ class Login extends CI_Controller
 								$userData['empid']     = $query['User_EmpID'];
 								$userData['isheadman'] = $is_headman;
 								$userData['loggedin']  = true;
+
+								# set if remember me not clear session
+								if($rememberme === "rememberme"){ $this->session->sess_expiration = 0; }
 								//set session
 								$this->session->set_userdata($userData);
 								//insert log
