@@ -11,6 +11,12 @@ class Leave_model extends CI_Model
 	private $table_department = 't_department';
 	private $table_position = 't_position';
 
+	private $tableCompanyDepartment = "t_company_department";
+	private $tableCompanySection = "t_company_section";
+	private $tableCompanyUnit = "t_company_unit";
+	private $tableCompanyGroup = "t_company_group";
+	private $tableCompanyPosition = "t_company_position";
+
 	public function countAll($userID="",$searchLeaveType="0",$searchWorkFlow="0")
 	{
 		$this->db->select("LID");
@@ -207,15 +213,18 @@ class Leave_model extends CI_Model
 	{
 		$this->db->select("LID,L_LTID,L_UserID,LBecause,LStartDate,LStartTime,".
 			"LEndDate,LEndTime,L_WFID,L_StatusID,LCreatedDate,LLatestUpdate,".
-			"LTName,PName,DName");
+			"LTName,cpname as PName,cdname as DName");
 		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
 		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
 		$this->db->from($this->table);
 		$this->db->join($this->table_leavetype,"L_LTID = LTID","left");
 		$this->db->join($this->table_user,"L_UserID = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		$this->db->join($this->table_department,"Emp_DepartmentID = DID","left");
-		$this->db->join($this->table_position,"Emp_PositionID = PID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
 		$this->db->where("L_WFID",10);//Manual Workflow id
 		if($keyword !== "0")
 		{

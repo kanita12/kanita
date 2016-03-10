@@ -89,11 +89,7 @@
 							<i class="material-icons">security</i>
 						</a>
 					<?php endif ?>
-					<a href="<?php echo site_url('hr/Employees/specialmoney/'.$row['EmpID']); ?>" 
-						class="btn-floating btn-small waves-effect waves-light lime tooltipped"
-						data-position="bottom" data-tooltip="เงินพิเศษประจำเดือน">
-						<i class="material-icons">assessment</i>
-					</a>
+					<?php the_manage_small_button( site_url('hr/Moneydata/salary/'.$row['EmpID']) , "lime" , "ข้อมูลทางการเงิน" , "assessment" ); ?>
 				</td>
 			</tr>
 		<?php endforeach ?>

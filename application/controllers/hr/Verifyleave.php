@@ -12,11 +12,11 @@ class Verifyleave extends CI_Controller
 		$CI =& get_instance();
 		//load model
 		$CI->load->model("Common_model","common");
-		$CI->load->model("Department_model","department");
+		$CI->load->model("Company_department_model","department");
 		$CI->load->model("Leave_model","leave");
 		$CI->load->model("Leavelog_model","leavelog");
 		$CI->load->model("Leavetype_model","leavetype");
-		$CI->load->model("Position_model","position");
+		$CI->load->model("Company_position_model","position");
 	}
 	public function index()
 	{
@@ -36,8 +36,8 @@ class Verifyleave extends CI_Controller
 		$data = array();
 		$data["query"] = $query;
 		$data["ddlLeaveType"]  = $this->leavetype->getListForDropDown("ประเภทการลา");
-		$data["ddlDepartment"] = $this->department->getListForDropDown();
-		$data["ddlPosition"] = $this->position->getListForDropDown();
+		$data["ddlDepartment"] = $this->department->getListForDropdownlist();
+		$data["ddlPosition"] = $this->position->getListForDropdownlist();
 		$data["ddlYear"] = $this->common->getYearForDropDown("thai");
 		$data["ddlMonth"] = $this->common->getMonth1To12("thai");
 		$data["value_keyword"] = $keyword == "0" ? "" : $keyword;

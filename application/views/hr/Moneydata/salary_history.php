@@ -32,7 +32,7 @@
 				<td><?php echo get_month_name_thai($row["sapay_month"]); ?></td>
 				<td><?php echo $row["sapay_net"] ?></td>
 				<td><?php echo date_time_thai_format_from_db($row["sapay_created_date"]); ?></td>
-				<td><a href="<?php echo site_url("Usersalary/printpdf/".$row["sapay_year"]."/".$row["sapay_month"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a></td>
+				<td><a href="<?php echo site_url("hr/moneydata/salary_printpdf/".$emp_id."/".$row["sapay_year"]."/".$row["sapay_month"]) ?>" class="btn waves-effect waves-light" target="_blank">Print PDF</a></td>
 			</tr>
 		<?php endforeach ?>
 	</tbody>

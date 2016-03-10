@@ -3,8 +3,8 @@
 	<div class="row">
 	    <div class="col s4 m4 l4">รหัสพนักงาน <?php echo $emp_detail["EmpID"] ?></div>
 	    <div class="col s8 m8 l8"><?php echo $emp_detail["EmpFullnameThai"] ?></div>
-	    <div class="col s4 m4 l4">หน่วยงาน<?php echo $emp_detail["InstitutionName"] ?></div>
-	    <div class="col s4 m4 l4">แผนก<?php echo $emp_detail["DepartmentName"] ?></div>
+	    <div class="col s4 m4 l4">หน่วยงาน<?php echo $emp_detail["DepartmentName"] ?></div>
+	    <div class="col s4 m4 l4">แผนก<?php echo $emp_detail["SectionName"] ?></div>
 	    <div class="col s4 m4 l4">ตำแหน่ง<?php echo $emp_detail["PositionName"] ?></div>
   	</div>
   	<div style="padding: 1px;-color: cadetblue;margin-top: 1%;margin-bottom: 0;">

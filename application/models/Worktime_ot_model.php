@@ -9,6 +9,13 @@ class Worktime_ot_model extends CI_Model
 	private $table_headman 	= 't_emp_headman';
 	private $table_department = "t_department";
 	private $table_position = "t_position";
+
+	private $tableCompanyDepartment = "t_company_department";
+	private $tableCompanySection = "t_company_section";
+	private $tableCompanyUnit = "t_company_unit";
+	private $tableCompanyGroup = "t_company_group";
+	private $tableCompanyPosition = "t_company_position";
+
 	private $successWorkflowId = 21;
 
 	public function __construct()
@@ -302,8 +309,11 @@ class Worktime_ot_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"wot_request_by = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		$this->db->join($this->table_department,"Emp_DepartmentID = DID","left");
-		$this->db->join($this->table_position,"Emp_PositionID = PID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
 		if( $year > 0 ) $this->db->where('year(wot_date)',$year);
 		if( $month > 0 ) $this->db->where('month(wot_date)',$month);
 		if($keyword !== "")
@@ -313,8 +323,11 @@ class Worktime_ot_model extends CI_Model
             $this->db->or_like("EmpLastnameThai",$keyword);
             $this->db->or_like("EmpFirstnameEnglish",$keyword);
             $this->db->or_like("EmpLastnameEnglish",$keyword);
-            $this->db->or_like("DName",$keyword);
-            $this->db->or_like("PName",$keyword);
+            $this->db->or_like("cdname",$keyword);
+						$this->db->or_like("csname",$keyword);
+						$this->db->or_like("cuname",$keyword);
+						$this->db->or_like("cgname",$keyword);
+						$this->db->or_like("cpname",$keyword);
             $this->db->or_like("EmpID",$keyword);
             $this->db->or_like("UserID",$keyword);
             $this->db->group_end();
@@ -329,8 +342,11 @@ class Worktime_ot_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"wot_request_by = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		$this->db->join($this->table_department,"Emp_DepartmentID = DID","left");
-		$this->db->join($this->table_position,"Emp_PositionID = PID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
 		$this->db->join($this->table_workflow,"wot_workflow_id = WFID","left");
 		if( $year > 0 ) $this->db->where('year(wot_date)',$year);
 		if( $month > 0 ) $this->db->where('month(wot_date)',$month);
@@ -341,8 +357,11 @@ class Worktime_ot_model extends CI_Model
             $this->db->or_like("EmpLastnameThai",$keyword);
             $this->db->or_like("EmpFirstnameEnglish",$keyword);
             $this->db->or_like("EmpLastnameEnglish",$keyword);
-            $this->db->or_like("DName",$keyword);
-            $this->db->or_like("PName",$keyword);
+            $this->db->or_like("cdname",$keyword);
+						$this->db->or_like("csname",$keyword);
+						$this->db->or_like("cuname",$keyword);
+						$this->db->or_like("cgname",$keyword);
+						$this->db->or_like("cpname",$keyword);
             $this->db->or_like("EmpID",$keyword);
             $this->db->or_like("UserID",$keyword);
             $this->db->group_end();
@@ -362,5 +381,16 @@ class Worktime_ot_model extends CI_Model
 		$this->db->where("WFID",$workflow_id);
 		$query = $this->db->get();
         return $query;
+	}
+
+	public function ot_hour_for_pay( $user_id, $year, $month )
+	{
+		$this->db->select( 'wot_id,wot_date,wot_time_from,wot_time_to,wot_request_hour,wot_remark,wot_request_by,wot_request_date,wot_workflow_id,wot_headman_remark,wot_hr_remark,wot_status_id,wot_otx_id,wot_headman_user_id_send_instead,wot_latest_update' );
+		$this->db->from( $this->table );
+		$this->db->where( 'wot_request_by', $user_id );
+		$this->db->where( 'YEAR(wot_date)', $year );
+		$this->db->where( 'MONTH(wot_date)', $month );
+		$query = $this->db->get();
+		return $query;
 	}
 }

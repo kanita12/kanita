@@ -37,11 +37,11 @@ ob_start();
 		</tr>
 		<tr>
 			<td>แผนก</td>
-			<td><?php echo $emp_detail["DepartmentName"] ?></td>
+			<td><?php echo $emp_detail["SectionName"] ?></td>
 			<td>ตำแหน่ง</td>
 			<td width="23%"><?php echo $emp_detail["PositionName"] ?></td>
 			<td width="10%">หน่วยงาน</td>
-			<td width="22%"><?php echo $emp_detail["InstitutionName"] ?></td>
+			<td width="22%"><?php echo $emp_detail["UnitName"] ?></td>
 		</tr>
 	</table>
 	&nbsp;<br>&nbsp;

@@ -33,6 +33,23 @@ class Specialmoneyofmonth_model extends CI_Model {
 		$this->db->insert($this->table,$data);
 		return $this->db->insert_id();
 	}
+
+	public function pay_special_money( $user_id, $year, $month )
+	{
+		$this->db->select("SMMID,SMMUserID,SMMYear,SMMMonth,SMMTopic,SMMDesc,
+			SMMMoney,SMMIsPay,SMMCreatedDate,SMMCreatedByUserID,
+			SMMLatestUpdate,SMMLatestUpdateByUserID");
+		$this->db->from($this->table);
+		$this->db->where("SMMUserID",$user_id);
+		if($year > 0){
+			$this->db->where("SMMYear",$year);
+		}
+		if($month > 0){
+			$this->db->where("SMMMonth",$month);
+		}
+		$query = $this->db->get();
+		return $query;
+	}
 }
 
 /* End of file Specialmoneyofmonth_model.php */

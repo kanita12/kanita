@@ -103,20 +103,20 @@ function getUserIDByEmpID($empID)
 
  function getEmployeeDetail($empID)
  {
-	$ci =& get_instance();
-	$ci->load->model("Employees_Model","employee");
-	$query = $ci->employee->getDetailByEmpID($empID);
-	if($query->num_rows() > 0)
-	{
-		$query = $query->result_array();
-		$query = $query[0];
-	}
-	else
-	{
-		$query = array();
-	}
-	return $query;
-}
+		$ci =& get_instance();
+		$ci->load->model("Employees_Model","employee");
+		$query = $ci->employee->getDetailByEmpID($empID);
+		if($query->num_rows() > 0)
+		{
+			$query = $query->result_array();
+			$query = $query[0];
+		}
+		else
+		{
+			$query = array();
+		}
+		return $query;
+ }
 
 function getEmployeeDetailByUserID($userID)
 {
@@ -134,7 +134,7 @@ function getEmployeeDetailByUserID($userID)
 	{
 		$query = array();
 	}
-    return $query;
+  return $query;
 }
 
 /**
@@ -626,3 +626,78 @@ function calc_ot_by_money_percent($salary,$year,$month,$total_work_hour,$ot_mone
 	$get_ot = $get_ot * $ot_hour;
 	return ceil($get_ot);
 }
+
+function the_manage_small_button($href,$color,$tooltip,$icon,$onclick = "")
+{
+	$btn_class = "btn-floating btn-small waves-effect waves-light tooltipped " . $color;
+	$element = '<a href="' . $href . '" class="' . $btn_class . '" onclick="'.$onclick.'" target="_blank"\
+	data-position="bottom" data-tooltip="'.$tooltip.'"><i class="material-icons">'.$icon.'</i></a>';
+	echo $element;
+}
+
+
+/**
+ * ไปหาเรทโอทีทั้งหมด
+ * @return array
+ */
+function get_all_ot_rate()
+{
+	$ci =& get_instance();
+	$ci->load->model( 'Worktime_ot_conditions_model' );
+
+	$query = $ci->Worktime_ot_conditions_model->get_list();
+
+	return $query->result_array();
+}
+function is_holiday_shiftwork( $user_id, $date )
+{
+	//หาว่าอยู่กะงานไหน
+	//กะงานนั้นหยุดวันอะไรบ้าง
+	//แล้วเอาวันที่ไปเทียบว่าเป็นวันหยุดมั้ย
+	
+	$ci =& get_instance();
+	$ci->load->model( 'Shiftwork_model' );
+	$query = $ci->Shiftwork_model->getDetailByUserId( $user_id );
+	$query = $query->result_array();
+
+	$day_of_week = date( "w", strtotime( $date ) );
+	$holiday = FALSE;
+	foreach ($query as $row) 
+	{
+		if( $row['swdiswork'] == 0 )
+		{
+			if( $row['swdday'] == $day_of_week )
+			{
+				$holiday == TRUE;
+				break;
+			}
+		}
+	}
+	return $holiday;
+}
+function is_thailand_official_holiday( $date )
+{
+	$returner = FALSE;//ไม่ใช่วันหยุด
+	$ci =& get_instance();
+	$ci->load->model( 'Holiday_model' );
+	$query = $ci->Holiday_model->checkDate( $date );
+	if( $query->num_rows() > 0 )
+	{
+		$query = $query->row_array();
+		if( $query['HType'] == "3" || $query['HType'] == "1" )
+		{
+			$returner = TRUE;
+		}
+	}
+	return $returner;
+}
+function day_of_week( $date )
+{
+
+	return date( "w", strtotime( $date ) );
+}
+function days_in_month($month, $year) 
+{ 
+// calculate number of days in a month 
+return $month == 2 ? ($year % 4 ? 28 : ($year % 100 ? 29 : ($year % 400 ? 28 : 29))) : (($month - 1) % 7 % 2 ? 30 : 31); 
+} 

@@ -7,6 +7,13 @@ class Ot_pay_log_model extends CI_Model
 	private $table_user = 't_users';
 	private $table_department = "t_department";
 	private $table_position = "t_position";
+
+	private $tableCompanyDepartment = "t_company_department";
+	private $tableCompanySection = "t_company_section";
+	private $tableCompanyUnit = "t_company_unit";
+	private $tableCompanyGroup = "t_company_group";
+	private $tableCompanyPosition = "t_company_position";
+
 	public function __construct()
 	{
 		parent::__construct();
@@ -77,8 +84,11 @@ class Ot_pay_log_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"otpay_user_id = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		$this->db->join($this->table_department,"Emp_DepartmentID = DID","left");
-		$this->db->join($this->table_position,"Emp_PositionID = PID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
 		if($keyword !== "")
 		{
 			$this->db->group_start();
@@ -86,8 +96,11 @@ class Ot_pay_log_model extends CI_Model
 			$this->db->or_like("EmpLastnameThai",$keyword);
 			$this->db->or_like("EmpFirstnameEnglish",$keyword);
 			$this->db->or_like("EmpLastnameEnglish",$keyword);
-			$this->db->or_like("DName",$keyword);
-			$this->db->or_like("PName",$keyword);
+			$this->db->or_like("cdname",$keyword);
+			$this->db->or_like("csname",$keyword);
+			$this->db->or_like("cuname",$keyword);
+			$this->db->or_like("cgname",$keyword);
+			$this->db->or_like("cpname",$keyword);
 			$this->db->group_end();
 		}
 		if($year > 0){ $this->db->where("otpay_year",$year); }
@@ -104,8 +117,11 @@ class Ot_pay_log_model extends CI_Model
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"otpay_user_id = UserID","left");
 		$this->db->join($this->table_employee,"User_EmpID = EmpID","left");
-		$this->db->join($this->table_department,"Emp_DepartmentID = DID","left");
-		$this->db->join($this->table_position,"Emp_PositionID = PID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
 		if($keyword !== "")
 		{
 			$this->db->group_start();
@@ -113,8 +129,11 @@ class Ot_pay_log_model extends CI_Model
 			$this->db->or_like("EmpLastnameThai",$keyword);
 			$this->db->or_like("EmpFirstnameEnglish",$keyword);
 			$this->db->or_like("EmpLastnameEnglish",$keyword);
-			$this->db->or_like("DName",$keyword);
-			$this->db->or_like("PName",$keyword);
+			$this->db->or_like("cdname",$keyword);
+			$this->db->or_like("csname",$keyword);
+			$this->db->or_like("cuname",$keyword);
+			$this->db->or_like("cgname",$keyword);
+			$this->db->or_like("cpname",$keyword);
 			$this->db->or_like("EmpID",$keyword);
 			$this->db->or_like("UserID",$keyword);
 			$this->db->group_end();

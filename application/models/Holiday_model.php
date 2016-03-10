@@ -8,7 +8,7 @@ class Holiday_model extends CI_Model
 	}
 	public function getList($year = 0,$month = 0)
     {
-		$this->db->select("HID,HDate,year(HDate) HYear,month(HDate) HMonth,day(HDate) HDay,HName,HDesc");
+		$this->db->select("HID,HDate,year(HDate) HYear,month(HDate) HMonth,day(HDate) HDay,HName,HDesc,HType");
 		$this->db->from($this->table);
         if($year > 0)
         {
@@ -40,14 +40,14 @@ class Holiday_model extends CI_Model
         return $dropDownList;
     }
     public function getDetail($hid){
-    	$this->db->select("HID,HDate,HName,HDesc");
+    	$this->db->select("HID,HDate,HName,HDesc,HType");
 		$this->db->from($this->table);
 		$this->db->where("HID",$hid);
 		$query = $this->db->get();
 		return $query;
     }
     public function get_detail_by_id($hid){
-        $this->db->select("HID,HDate,HName,HDesc");
+        $this->db->select("HID,HDate,HName,HDesc,HType");
         $this->db->from($this->table);
         $this->db->where("HID",$hid);
         $query = $this->db->get();
@@ -55,7 +55,7 @@ class Holiday_model extends CI_Model
     }
     public function getListForCalendar($rangeStart,$rangeEnd)
     {
-        $this->db->select("HID,HDate,HName,HDesc");
+        $this->db->select("HID,HDate,HName,HDesc,HType");
         $this->db->from($this->table);
         $this->db->where("HDate >=",$rangeStart);
         $this->db->where("HDate <=",$rangeEnd);
@@ -78,7 +78,7 @@ class Holiday_model extends CI_Model
 		$this->db->delete($this->table);
     }
     public function checkDate($date){
-    	$this->db->select("HID");
+    	$this->db->select("HID,HType");
     	$this->db->from($this->table);
     	$this->db->where("HDate",$date);
     	$query = $this->db->get();

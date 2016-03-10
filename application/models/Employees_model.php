@@ -39,10 +39,10 @@ class Employees_model extends CI_Model
 							EmpHouseRegNameTitleThai,EmpHouseRegFirstnameThai,EmpHouseRegLastnameThai,
 							EmpHouseRegAddressNumber,EmpHouseRegAddressMoo,EmpHouseRegAddressRoad,EmpHouseReg_DistrictID,
 							EmpHouseReg_AmphurID,EmpHouseReg_ProvinceID,EmpHouseReg_ZipcodeID,
-							EmpCreatedDate,EmpLatestUpdate,
+							EmpCreatedDate,EmpLatestUpdate,EmpProvidentFund,
 							cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName
 							";
-	
+	private $table_salary_pay_log = 'salary_pay_log';
 	public function __construct()
 	{
 		parent::__construct();
@@ -100,6 +100,44 @@ class Employees_model extends CI_Model
 			$this->db->group_end();
 		}
 		return $this->db->count_all_results();
+	}
+	public function all_employees()
+	{
+		$this->db->select( $this->selectAllField );
+		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
+		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->from($this->table);
+		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
+		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
+		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
+		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
+		$this->db->join($this->tableCompanySection,"Emp_SectionID = csid","left");
+		$this->db->join($this->tableCompanyUnit,"Emp_UnitID = cuid","left");
+		$this->db->join($this->tableCompanyGroup,"Emp_GroupID = cgid","left");
+		$this->db->join($this->tableCompanyPosition,"Emp_PositionID = cpid","left");
+		$this->db->where("RoleName <>","Administrators");
+		$this->db->where("Emp_StatusID",1);
+		$query = $this->db->get();
+		return $query;
+	}
+	public function all_employees_not_pay( $year, $month )
+	{
+		$this->db->select( "UserID,EmpID,EmpProvidentFund,EmpSalary" );
+		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
+		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->from($this->table);
+		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
+		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
+		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
+		$this->db->join($this->table_salary_pay_log,"UserID = sapay_user_id","left");
+		$this->db->where("RoleName <>","Administrators");
+		$this->db->where("Emp_StatusID",1);
+		$this->db->group_start();
+		$this->db->where("IFNULL(sapay_year,0) <>",$year);
+		$this->db->or_where("IFNULL(sapay_month,0) <>",$month);
+		$this->db->group_end();
+		$query = $this->db->get();
+		return $query;
 	}
 	public function getList($start = 0,$limit = 0,$searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "")
 	{
@@ -328,7 +366,7 @@ class Employees_model extends CI_Model
 		$this->db->select(', EmpHouseRegAddressNumber, EmpHouseRegAddressMoo, EmpHouseRegAddressRoad, EmpHouseReg_DistrictID');
 		$this->db->select(', EmpHouseReg_AmphurID, EmpHouseReg_ProvinceID, EmpHouseReg_ZipcodeID ');
 
-		$this->db->select(', EmpCreatedDate, EmpLatestUpdate');
+		$this->db->select(', EmpCreatedDate, EmpLatestUpdate,EmpProvidentFund');
 		//T_Instituion
 		$this->db->select(', INSName InstitutionName');
 		//T_Department

@@ -1,0 +1,16 @@
+{
+    "remotePath": "./domains/toskysoft.com/public_html/hrs/",
+    "host": "toskysoft.com",
+    "username": "toskysof",
+    "password": "tss270159",
+    "port": 21,
+    "protocol": "ftp",
+    "uploadOnSave": false,
+    "passive": false,
+    "debug": false,
+    "privateKeyPath": null,
+    "ignore": [
+        "\\.vscode",
+        "\\.git"
+    ]
+}

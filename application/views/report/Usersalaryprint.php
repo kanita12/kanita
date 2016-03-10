@@ -38,11 +38,11 @@ ob_start();
 		</tr>
 		<tr>
 			<td>แผนก</td>
-			<td><?php echo $emp_detail["DepartmentName"] ?></td>
+			<td><?php echo $emp_detail["SectionName"] ?></td>
 			<td>ตำแหน่ง</td>
 			<td width="23%"><?php echo $emp_detail["PositionName"] ?></td>
 			<td width="10%">หน่วยงาน</td>
-			<td width="22%"><?php echo $emp_detail["InstitutionName"] ?></td>
+			<td width="22%"><?php echo $emp_detail["UnitName"] ?></td>
 		</tr>
 	</table>
 	&nbsp;<br>&nbsp;<br>&nbsp;
@@ -59,9 +59,24 @@ ob_start();
 				<td>-</td>
 			</tr>
 			<tr>
+				<td>รายได้พิเศษ</td>
+				<td><?php echo $query_now_salary["sapay_specialmoney_plus"] ?></td>
+				<td>-</td>
+			</tr>
+			<tr>
+				<td>โบนัส</td>
+				<td><?php echo $query_now_salary["sapay_bonus"] ?></td>
+				<td>-</td>
+			</tr>
+			<tr class="footer">
 				<td>รวมเงินได้</td>
 				<td><?php echo $query_now_salary["total_income"] ?></td>
 				<td>-</td>
+			</tr>
+			<tr>
+				<td>รายหักพิเศษ</td>
+				<td>-</td>
+				<td><?php echo $query_now_salary["sapay_specialmoney_minus"] ?></td>
 			</tr>
 			<tr>
 				<td>หักค่าประกันสังคม</td>
@@ -69,6 +84,11 @@ ob_start();
 				<td><?php echo $query_now_salary["sapay_deduction"] ?></td>
 			</tr>
 			<tr>
+				<td>กองทุนสำรองเลี้ยงชีพ</td>
+				<td>-</td>
+				<td><?php echo $query_now_salary["sapay_providentfund"] ?></td>
+			</tr>
+			<tr class="footer">
 				<td>เงินได้สุทธิ</td>
 				<td><?php echo $query_now_salary["total_income_deduction"] ?></td>
 				<td>-</td>

@@ -61,6 +61,7 @@ class Provident_fund_model extends CI_Model{
 		$this->db->where($this->fieldStatusName." <>",$this->fieldStatusValue);
 		$this->db->where("pvdid",$id);
 		$query = $this->db->get();
+
 		return $query;
 	}
 	public function insert($data){
