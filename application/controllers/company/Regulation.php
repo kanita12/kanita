@@ -4,9 +4,6 @@ class Regulation extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		//load model
-		$ci =& get_instance();
-		$ci->load->model("Configuration_model","configuration");
 	}
 	public function index()
 	{
@@ -14,9 +11,13 @@ class Regulation extends CI_Controller
 	}
 	public function show()
 	{
-		$config_desc = "";
+		$this->load->model("Configuration_model");
 
-		$query = $this->configuration->getDetailByNameEnglish("Regulations");
+		$config_desc 			= "";
+		$topicPage 				= $this->lang->line("title_regulation_page");
+		$titleMenuCompany = $this->lang->line("title_menu_company");
+
+		$query = $this->Configuration_model->getDetailByNameEnglish("Regulations");
 		$query = $query->row_array();
 		if(count($query) > 0)
 		{
@@ -24,11 +25,11 @@ class Regulation extends CI_Controller
 		}
 
 		$data               = array();
-		$data["topicPage"]  = $this->lang->line("title_regulation_page");
+		$data["topicPage"]  = $topicPage;
 		$data["configDesc"] = $config_desc;
 		
-		parent::setHeader($this->lang->line("title_regulation_page"),$this->lang->line("title_menu_company"));
-		$this->load->view("company/Showdesc",$data);
+		parent::setHeader($topicPage, $titleMenuCompany);
+		$this->load->view("company/Showdesc", $data);
 		parent::setFooter();
 	}
 }

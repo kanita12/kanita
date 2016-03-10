@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>เข้าสู่ระบบ | HRs</title>
     <link rel="stylesheet" href="<?php echo bootstrap_url(); ?>css/bootstrap.min.css">
-    <link rel="stylesheet" href="<?php echo css_url(); ?>Google-Style-Login.css">
+    <link rel="stylesheet" href="<?php echo css_url(); ?>login.css">
   </head>
   <body>
     <div class="login-card"><img src="<?php echo img_url(); ?>avatar_2x.png" class="profile-img-card">

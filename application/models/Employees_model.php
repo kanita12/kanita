@@ -1,19 +1,18 @@
 <?php
 class Employees_model extends CI_Model
 {
-	private $table 			= 't_employees';
-	private $table_user 	= 't_users';
-	private $table_position = 't_position';
-	private $table_department = 't_department';
-	private $table_institution = "t_institution";
-	private $table_role = "t_roles";
-	private $table_user_role = "t_user_roles";
+	private $table 							= "t_employees";
+	private $table_user 				= "t_users";
+	private $table_role 				= "t_roles";
+	private $table_user_role 		= "t_user_roles";
 
-	private $tableCompanyDepartment = "t_company_department";
-	private $tableCompanySection = "t_company_section";
-	private $tableCompanyUnit = "t_company_unit";
-	private $tableCompanyGroup = "t_company_group";
-	private $tableCompanyPosition = "t_company_position";
+	private $tableCompanyDepartment 	= "t_company_department";
+	private $tableCompanySection 			= "t_company_section";
+	private $tableCompanyUnit 				= "t_company_unit";
+	private $tableCompanyGroup 				= "t_company_group";
+	private $tableCompanyPosition 		= "t_company_position";
+	private $table_salary_pay_log 		= "salary_pay_log";
+	
 	private $selectAllField = "UserID,Username,Password,EmpID,
 							EmpNameTitleThai,EmpFirstnameThai,EmpLastnameThai,
 							EmpNameTitleEnglish,EmpFirstnameEnglish,EmpLastnameEnglish,
@@ -42,12 +41,38 @@ class Employees_model extends CI_Model
 							EmpCreatedDate,EmpLatestUpdate,EmpProvidentFund,
 							cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName
 							";
-	private $table_salary_pay_log = 'salary_pay_log';
+	
 	public function __construct()
 	{
 		parent::__construct();
 	}
 
+	# Have use.
+	public function get_latest_new_employee($limit = 25)
+	{
+		$this->db->limit($limit,0);
+		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,EmpCallname,
+											cdname DepartmentName,
+											csname SectionName,
+											cuname UnitName,
+											cgname GroupName,
+											cpname PositionName,");
+		$this->db->select("CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai,",false);
+		$this->db->select("CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish,",false);
+		$this->db->from($this->table);
+		$this->db->join($this->tableCompanyPosition, 		"Emp_PositionID = cpid",		"left");
+		$this->db->join($this->tableCompanyDepartment, 	"Emp_DepartmentID = cdid",	"left");
+		$this->db->join($this->tableCompanySection, 		"Emp_SectionID = csid",			"left");
+		$this->db->join($this->tableCompanyUnit, 				"Emp_UnitID = cuid",				"left");
+		$this->db->join($this->tableCompanyGroup, 			"Emp_GroupID = cgid",				"left");
+		$this->db->join($this->table_user,							"EmpID = User_EmpID",				"left");
+		$this->db->where("Emp_StatusID", "1");
+		$this->db->order_by("EmpCreatedDate", "DESC");
+		$query = $this->db->get();
+		return $query;
+	}
+
+	# Wait Check
 	//New for new structure company Department -> Section -> Unit -> Group -> Position
 	public function countAll($searchDepartment = 0,$searchSection = 0,$searchUnit = 0,$searchGroup = 0,$searchPosition = 0,$searchKeyword = "")
 	{
@@ -221,25 +246,7 @@ class Employees_model extends CI_Model
 		}
 		return $new_id;
 	}
-	public function get_latest_new_employee($number = 25)
-	{
-		$this->db->limit($number,0);
-		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,
-			cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName,EmpCallname");
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
-		$this->db->from($this->table);
-		$this->db->join($this->tableCompanyPosition, "Emp_PositionID = cpid",'left');
-		$this->db->join($this->tableCompanyDepartment, "Emp_DepartmentID = cdid",'left');
-		$this->db->join($this->tableCompanySection, "Emp_SectionID = csid",'left');
-		$this->db->join($this->tableCompanyUnit, "Emp_UnitID = cuid",'left');
-		$this->db->join($this->tableCompanyGroup, "Emp_GroupID = cgid",'left');
-		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
-		$this->db->where("Emp_StatusID","1");
-		$this->db->order_by("EmpCreatedDate","DESC");
-		$query = $this->db->get();
-		return $query;
-	}
+	
 	public function countAll_old($searchKeyword="",$searchDepartment=0,$searchPosition=0,$searchStatus=1)
 	{
 		$this->db->distinct();

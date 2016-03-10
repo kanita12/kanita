@@ -6,6 +6,7 @@ class Holiday_model extends CI_Model
     {
 		parent::__construct();
 	}
+    # use
 	public function getList($year = 0,$month = 0)
     {
 		$this->db->select("HID,HDate,year(HDate) HYear,month(HDate) HMonth,day(HDate) HDay,HName,HDesc,HType");

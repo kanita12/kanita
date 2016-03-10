@@ -11,19 +11,21 @@ class Home extends CI_Controller
 	}
 	public function defaults()
 	{	
-		$this->load->model("News_model","news");
-		$this->load->model("Employees_model","employees");
+		$this->load->model("News_model");
+		$this->load->model("Employees_model");
 
-		$query = $this->news->get_list(4,0,3);
-		$query_new_emp = $this->employees->get_latest_new_employee();
+		# 3 = ข่าวด่วน
+		$query = $this->News_model->get_list(4,0,3); # limit 4,0
 
-		$data_footer = array();
+		$query_new_emp = $this->Employees_model->get_latest_new_employee();
+
+		
 		$data["query_news_alert"] = $query->result_array();
 		$data["query_new_emp"] = $query_new_emp->result_array();
 
 		parent::setHeader("","",FALSE);
-		$this->load->view("home",$data);
-		$this->load->view("footer",$data_footer);
+		$this->load->view("home", $data);
+		parent::setFooter();
 	}
 }
 

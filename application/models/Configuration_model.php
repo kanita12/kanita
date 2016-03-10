@@ -2,14 +2,13 @@
 class Configuration_model extends CI_Model
 {
   private $table = "t_config";
+
   public function __construct()
   {
     parent::__construct();
   }
-  public function getList()
-  {
 
-  }
+  # use
   public function getDetailByNameEnglish($name)
   {
     $this->db->select("CFID,CFName,CFNameEnglish,CFDesc,CFValue");

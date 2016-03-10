@@ -10,7 +10,7 @@ class Logout extends CI_Controller
 	{
 		$this->session->sess_destroy();
 		redirect(base_url());
-		exit();
+		exit;
 	}
 }
 /* End of file Logout.php */

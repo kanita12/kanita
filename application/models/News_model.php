@@ -8,12 +8,14 @@ class News_model extends CI_Model
 	{
 		parent::__construct();
 	}
+	# use
 	public function count_all($newstype_id = 0, $keyword = "")
 	{
 		if($newstype_id > 0){ $this->db->where("news_newstype_id",$newstype_id); }
 		if($keyword !== ""){ $this->db->like("news_topic",$keyword); }
 		return $this->db->count_all_results($this->table);
 	}
+	# use
 	public function get_list($limit, $start, $newstype_id = 0, $keyword = "",$show_all = FALSE)
 	{
 		$this->db->limit($limit,$start);
@@ -38,6 +40,7 @@ class News_model extends CI_Model
 		$this->db->order_by("news_id","DESC");
 		return $this->db->get();
 	}
+	# use
 	public function get_detail_by_id($news_id)
 	{
 		$this->db->select("news_id,news_newstype_id,news_topic,news_detail".

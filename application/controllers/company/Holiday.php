@@ -4,9 +4,6 @@ class Holiday extends CI_Controller
 	public function __construct()
 	{
 		parent::__construct();
-		//load model
-		$ci =& get_instance();
-		$ci->load->model("Holiday_model","holiday");
 	}
 	public function index()
 	{
@@ -14,16 +11,22 @@ class Holiday extends CI_Controller
 	}
 	public function show()
 	{
-		$query             = $this->holiday->getList(date("Y"));
+		$this->load->model("Holiday_model");
+
+		$year 						= $date("Y");
+		$topicPage 				= $this->lang->line("title_page_holiday");
+		$titleMenuCompany = $this->lang->line("title_menu_company");
+
+		$query             = $this->Holiday_model->getList( $year );
 		$query             = $query->result_array();
 
 		$data              = array();
 		$data["ajaxUrl"]   = "Holiday/feed";
-		$data["topicPage"] = $this->lang->line("title_page_holiday");
+		$data["topicPage"] = $topicPage;
 		$data["query"]     = $query;
 
-		parent::setHeader($data["topicPage"],$this->lang->line("title_menu_company"));
-		$this->load->view("company/Holiday",$data);
+		parent::setHeader($topicPage, $titleMenuCompany);
+		$this->load->view("company/Holiday", $data);
 		parent::setFooter();
 	}
 	public function feed()

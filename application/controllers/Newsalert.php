@@ -16,38 +16,50 @@ class Newsalert extends CI_Controller
 	}
 	public function search($keyword = "")
 	{	
+		$this->load->model("News_model");
+
 		$keyword = urldecode($keyword);
+		$titleTopic = "Activity";
+		$topicPage = "รายการข่าวด่วน";
 
 		$config = array();
-		$config['total_rows'] 	= $this->news->count_all($this->newstype_id,$keyword);
+		$config['total_rows'] 	= $this->News_model->count_all($this->newstype_id,$keyword);
 		$config['uri_segment'] 	= $this->page_segment;
 		$this->load->library('pagination',$config);
+
 		$page = ($this->uri->segment($this->page_segment)) ? $this->uri->segment($this->page_segment) : 0;
 
-		$query = $this->news->get_list($this->pagination->per_page,$page,$this->newstype_id,$keyword);
+		$query = $this->News_model->get_list($this->pagination->per_page,$page,$this->newstype_id,$keyword);
 		$query = $query->result_array();
-		$data = array();
-		$data["query"] = $query;
 
-		parent::setHeader("รายการข่าวด่วน","News");
-		$this->load->view("Newsalert/news_list.php",$data);
+		$data = array("query"=>$query);
+
+		parent::setHeader($topicPage, $titleTopic);
+		$this->load->view("Newsalert/news_list.php", $data);
 		parent::setFooter();
 	}
 	public function detail($news_id)
 	{
-		$query = $this->news->get_detail_by_id($news_id);
-		$query = $query->result_array();
-		$query = $query[0];
+		$this->load->model("News_model");
+		$this->load->model("News_image_model");
 
-		$query_image = $this->newsimage->get_list_by_news_id($news_id);
+		$titleTopic = "Activity";
+		$topicPage = "";
+
+		$query = $this->News_model->get_detail_by_id($news_id);
+		$query = $query->row_array();
+
+		$topicPage = $query["news_topic"];
+
+		$query_image = $this->News_image_model->get_list_by_news_id($news_id);
 		$query_image = $query_image->result_array();
 		
 		$data = array();
 		$data["query"] = $query;
 		$data["query_image"] = $query_image;
-		$data["return_url"] = site_url("Newsalert");
+		$data["return_url"] = site_url("Activity");
  
-		parent::setHeader($query["news_topic"],"News");
+		parent::setHeader($topicPage,"Activity");
 		$this->load->view("Newsalert/news_detail.php",$data);
 		parent::setFooter();
 	}

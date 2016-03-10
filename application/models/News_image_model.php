@@ -11,6 +11,7 @@ class News_image_model extends CI_Model
 		$this->db->insert($this->table,$data);
 		return $this->db->insert_id();
 	}
+	# use
 	public function get_list_by_news_id($news_id)
 	{
 		$this->db->select("newsimage_id,newsimage_news_id,newsimage_filepath,newsimage_filename");
