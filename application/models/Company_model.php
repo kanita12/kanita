@@ -24,7 +24,11 @@ class Company_model extends CI_Model {
 		$this->db->update($this->table,$data);
 		return $this->db->affected_rows();
 	}
-
+	public function insert($data)
+	{
+		$this->db->insert($this->table,$data);
+		return $this->db->insert_id();
+	}
 }
 
 /* End of file Company_model.php */

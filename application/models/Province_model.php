@@ -10,7 +10,7 @@ class Province_model extends CI_Model
         $query = $this->db->get();
         return $query;
     }
-
+    # use
     function getListForDropDown()
     {
         $this->db->select('PROVINCE_ID,PROVINCE_NAME');

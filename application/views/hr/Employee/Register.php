@@ -54,7 +54,7 @@
 					else
 					{ //register
 
-						$descriptionPassword = "<p class='flow-text center-align red-text'>* พาสเวิร์ดอัตโนมัติเลขท้าย 4 ตัวสุดท้ายของเลขบัตรประชาชน</p>";
+						$descriptionPassword = "<p class='flow-text center-align red-text'>* พาสเวิร์ดอัตโนมัติเลขท้าย 6 ตัวสุดท้ายของเลขบัตรประชาชน</p>";
 
 					}
 				?>
@@ -126,17 +126,13 @@
 							<input type="text" class="validate" id="txtSuccessTrialWorkDate" name="txtSuccessTrialWorkDate" value="<?php echo $empSuccessTrialWorkDate?>">
 							<label for="txtSuccessTrialWorkDate">วันที่ผ่านทดลองงาน</label>
 						</div>
-						<div class="input-field col s4">
-							<input type="text" class="validate" id="txtPromiseStartWorkDate" name="txtPromiseStartWorkDate" value="<?php echo $empPromiseStartWorkDate?>">
-							<label for="txtPromiseStartWorkDate">วันที่เริ่มงาน (ตามสัญญา)</label>
-						</div>
 					</div>
 				</div>
 				<!-- Email -->
 				<div class="row">
 					<div class="col s12">
 						<div class="input-field col s12">
-							<input type="text" id="txtEmail" name="txtEmail" value="<?php echo $empEmail;?>">
+							<input type="text" class="validate" id="txtEmail" name="txtEmail" value="<?php echo set_value("txtEmail",$empEmail) ?>">
 							<label for="txtEmail">E-mail</label>
 						</div>
 					</div>
@@ -148,6 +144,33 @@
 							<input type="number" id="txtSalary" class="validate" name="txtSalary" value="<?php echo $empSalary;?>">
 							<label for="txtSalary">เงินเดือน</label>
 						</div>
+					</div>
+				</div>
+				<!-- Id card -->
+				<div class="row">
+					<div class="col s12">
+						<div class="input-field col s12">
+							<input type="number" class="validate" id="txtIDCard" name="txtIDCard" value="<?php echo set_value("txtIDCard",$empIDCard) ?>" length="13">
+							<label for="txtIDCard">รหัสบัตรประชาชน</label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col s12">
+						<div class="center-align">
+							<?php if ($empIDCardImg != "") : ?>
+								<img src="<?php echo base_url($empIDCardImg) ?>" class="responsive-img materialboxed" width="500px">
+							<?php endif ?>	
+						</div>
+						<div class="file-field input-field">
+				            <div class="btn">
+				              <span>รูปบัตรประชาชน</span>
+				              <input type="file" name="fuIDCard" id="fuIDCard">
+				            </div>
+				            <div class="file-path-wrapper">
+				              <input class="file-path validate" type="text">
+				            </div>
+				        </div>
 					</div>
 				</div>
 				<!-- Password -->
@@ -367,33 +390,7 @@
 						</div>
 					</div>
 				</div>
-				<!-- Id card -->
-				<div class="row">
-					<div class="col s12">
-						<div class="input-field col s12">
-							<input type="number" id="txtIDCard" name="txtIDCard" value="<?php echo $empIDCard?>" length="13">
-							<label for="txtIDCard">รหัสบัตรประชาชน</label>
-						</div>
-					</div>
-				</div>
-				<div class="row">
-					<div class="col s12">
-						<div class="center-align">
-							<?php if ($empIDCardImg != "") : ?>
-								<img src="<?php echo base_url($empIDCardImg) ?>" class="responsive-img materialboxed" width="500px">
-							<?php endif ?>	
-						</div>
-						<div class="file-field input-field">
-				            <div class="btn">
-				              <span>รูปบัตรประชาชน</span>
-				              <input type="file" name="fuIDCard" id="fuIDCard">
-				            </div>
-				            <div class="file-path-wrapper">
-				              <input class="file-path validate" type="text">
-				            </div>
-				        </div>
-					</div>
-				</div>
+				
 				<!-- Address -->
 				<div class="row">
 					<div class="col s12">

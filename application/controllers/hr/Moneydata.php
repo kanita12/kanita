@@ -298,6 +298,7 @@ class Moneydata extends CI_Controller
 	
 		$query_salary = $this->Salary_pay_log_model->get_detail_by_year_and_month( $this->emp_detail['UserID'], $year, 0 );
 		
+		
 		$data['history'] = $query_salary->result_array();
 		$data['emp_detail'] = $this->emp_detail;
 		

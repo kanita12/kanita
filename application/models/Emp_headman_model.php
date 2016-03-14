@@ -29,6 +29,7 @@ class Emp_headman_model extends CI_Model
 		$this->db->where("eh_headman_user_id",$headman_user_id);
 		return $this->db->get();
 	}
+	# use
 	public function get_list_by_user_id($user_id,$level = 0)
 	{
 		$this->db->select("eh_id,eh_user_id,eh_headman_user_id,eh_headman_level");

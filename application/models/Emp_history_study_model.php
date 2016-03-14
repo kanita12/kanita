@@ -19,6 +19,7 @@ class Emp_history_study_model extends CI_Model
 		$this->db->delete($this->table);
 		return $this->db->affected_rows();
 	}
+	# use
 	public function get_list_by_user_id($user_id)
 	{
 		$this->db->select("ehs_id,ehs_user_id,ehs_education_level_id,ehs_academy,ehs_bachelor

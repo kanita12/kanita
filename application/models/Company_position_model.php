@@ -10,7 +10,7 @@ class Company_position_model extends CI_Model {
 	}
 	public function countAll($keyword = "")
 	{
-		$this->db->select("cpid,cpname,cpdesc,cpstatus,
+		$this->db->select("cpid,cpname,cpname_eng,cpdesc,cpstatus,
 			cpheadmancpid,
 			cpcreateddate,cpcreatedbyuserid,
 			cplatestupdate,cplatestupdatebyuserid");
@@ -25,7 +25,7 @@ class Company_position_model extends CI_Model {
 	public function getList($limit,$start,$keyword = "")
 	{
 		$this->db->limit($limit,$start);
-		$this->db->select("cpid,cpname,cpdesc,cpstatus,
+		$this->db->select("cpid,cpname,cpname_eng,cpdesc,cpstatus,
 			cpheadmancpid,
 			cpcreateddate,cpcreatedbyuserid,
 			cplatestupdate,cplatestupdatebyuserid");
@@ -40,7 +40,7 @@ class Company_position_model extends CI_Model {
 	}
 	public function getDetail($id)
 	{
-		$this->db->select("cpid,cpname,cpdesc,cpstatus,
+		$this->db->select("cpid,cpname,cpname_eng,cpdesc,cpstatus,
 			cpheadmancpid,
 			cpcreateddate,cpcreatedbyuserid,
 			cplatestupdate,cplatestupdatebyuserid");

@@ -68,6 +68,7 @@ class Salary_pay_log_model extends CI_Model
  		$query = $this->db->get();
  		return $query;
  	}
+ 	# use
  	public function get_latest_log($user_id)
  	{
  		$this->db->limit(1,0);

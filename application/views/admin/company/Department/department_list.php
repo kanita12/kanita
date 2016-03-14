@@ -28,9 +28,12 @@
 <?php foreach ($departmentData as $data): ?>
 		<li class="card" style="padding:2em;">
 			<div class="col s12">
-				<div class="col s6">
+				<div class="col s12">
 					<!-- ฝ่าย -->
-					ฝ่าย<?php echo $data["cdname"]; ?>
+					ฝ่าย<?php echo $data["cdname"]; ?> 
+					<?php if ($data["cdname_eng"] != ""): ?>
+						(<?php echo $data["cdname_eng"]; ?>)
+					<?php endif ?>
 					&nbsp;
 					<a href="<?php echo site_url("admin/Company/section/add/".$data["cdid"]) ?>" 
 					class="btn-flat waves-effect waves-teal tooltipped"

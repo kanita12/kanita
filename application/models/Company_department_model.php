@@ -13,7 +13,7 @@ class Company_department_model extends CI_Model {
 	}
 	public function countAll($keyword = "")
 	{
-		$this->db->select("cdid,cdname,cddesc,cdstatus,
+		$this->db->select("cdid,cdname,cdname_eng,cddesc,cdstatus,
 			cdcreateddate,cdcreatedbyuserid,
 			cdlatestupdate,cdlatestupdatebyuserid");
 		$this->db->from($this->table);
@@ -48,7 +48,7 @@ class Company_department_model extends CI_Model {
 	public function getList($limit,$start,$keyword = "")
 	{
 		$this->db->limit($start,$limit);
-		$this->db->select("cdid,cdname,cddesc,cdstatus,
+		$this->db->select("cdid,cdname,cdname_eng,cddesc,cdstatus,
 			cdcreateddate,cdcreatedbyuserid,
 			cdlatestupdate,cdlatestupdatebyuserid");
 		$this->db->from($this->table);
@@ -62,7 +62,7 @@ class Company_department_model extends CI_Model {
 	}
 	public function getDetail($id)
 	{
-		$this->db->select("cdid,cdname,cddesc,cdstatus,
+		$this->db->select("cdid,cdname,cdname_eng,cddesc,cdstatus,
 			cdcreateddate,cdcreatedbyuserid,
 			cdlatestupdate,cdlatestupdatebyuserid");
 		$this->db->from($this->table);

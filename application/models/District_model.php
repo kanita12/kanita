@@ -9,6 +9,7 @@ class District_model extends CI_Model{
         $query = $this->db->get();
         return $query;
     }
+    # use
 	function getListForDropDown($provinceID,$amphurID)
     {
         $this->db->select("DISTRICT_ID,DISTRICT_CODE,DISTRICT_NAME,AMPHUR_ID,PROVINCE_ID,GEO_ID");

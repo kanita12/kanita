@@ -119,7 +119,7 @@ $(document).ready(function() {
 		});
 	}
 	//set date picker
-	$('#txtStartWorkDate,#txtSuccessTrialWorkDate,#txtPromiseStartWorkDate').datetimepicker({
+	$('#txtStartWorkDate,#txtSuccessTrialWorkDate').datetimepicker({
 		timepicker:false,
 		format:'d/m/Y',
 		lang:'th',
@@ -206,6 +206,123 @@ $(document).ready(function() {
 			success : function(data) {
 				$("[id$='ddlAddressZipcode']").html(data);
 				$('#ddlAddressZipcode').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+			}
+		});
+	});
+
+	$("[id$='ddlAddressProvinceHouseReg']").change(function() {
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListAmphur/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressAmphurHouseReg']").html(data);
+				$('#ddlAddressAmphurHouseReg').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+				$("[id$='ddlAddressAmphurHouseReg']").change();
+			}
+		});
+	});
+	$("[id$='ddlAddressAmphurHouseReg']").change(function() {
+		var provinceID = $("[id$='ddlAddressProvinceHouseReg']").val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListDistrict/" + provinceID + "/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressDistrictHouseReg']").html(data);
+				$('#ddlAddressDistrictHouseReg').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+				$("[id$='ddlAddressDistrictHouseReg']").change();
+			}
+		});
+	});
+	$("[id$='ddlAddressDistrictHouseReg']").change(function() {
+		var provinceID = $("[id$='ddlAddressProvinceHouseReg']").val();
+		var amphurID = $("[id$='ddlAddressAmphurHouseReg']").val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListZipcode/" + provinceID + "/" + amphurID + "/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressZipcodeHouseReg']").html(data);
+				$('#ddlAddressZipcodeHouseReg').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+			}
+		});
+	});
+
+	$("[id$='ddlAddressProvinceFather']").change(function() {
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListAmphur/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressAmphurFather']").html(data);
+				$('#ddlAddressAmphurFather').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+				$("[id$='ddlAddressAmphurFather']").change();
+			}
+		});
+	});
+	$("[id$='ddlAddressAmphurFather']").change(function() {
+		var provinceID = $("[id$='ddlAddressProvinceFather']").val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListDistrict/" + provinceID + "/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressDistrictFather']").html(data);
+				$('#ddlAddressDistrictFather').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+				$("[id$='ddlAddressDistrictFather']").change();
+			}
+		});
+	});
+	$("[id$='ddlAddressDistrictFather']").change(function() {
+		var provinceID = $("[id$='ddlAddressProvinceFather']").val();
+		var amphurID = $("[id$='ddlAddressAmphurFather']").val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListZipcode/" + provinceID + "/" + amphurID + "/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressZipcodeFather']").html(data);
+				$('#ddlAddressZipcodeFather').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+			}
+		});
+	});
+
+	$("[id$='ddlAddressProvinceMother']").change(function() {
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListAmphur/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressAmphurMother']").html(data);
+				$('#ddlAddressAmphurMother').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+				$("[id$='ddlAddressAmphurMother']").change();
+			}
+		});
+	});
+	$("[id$='ddlAddressAmphurMother']").change(function() {
+		var provinceID = $("[id$='ddlAddressProvinceMother']").val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListDistrict/" + provinceID + "/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressDistrictMother']").html(data);
+				$('#ddlAddressDistrictMother').material_select();
+				$("select").closest('.input-field').children('span.caret').remove();
+				$("[id$='ddlAddressDistrictMother']").change();
+			}
+		});
+	});
+	$("[id$='ddlAddressDistrictMother']").change(function() {
+		var provinceID = $("[id$='ddlAddressProvinceMother']").val();
+		var amphurID = $("[id$='ddlAddressAmphurMother']").val();
+		$.ajax({
+			type : "POST",
+			url : site_url+"hr/AjaxEmployee/getListZipcode/" + provinceID + "/" + amphurID + "/" + $(this).val(),
+			success : function(data) {
+				$("[id$='ddlAddressZipcodeMother']").html(data);
+				$('#ddlAddressZipcodeMother').material_select();
 				$("select").closest('.input-field').children('span.caret').remove();
 			}
 		});
@@ -334,6 +451,8 @@ $(document).ready(function() {
 	gen_history_study_template();
 	gen_history_work_template();
 });
+
+
 function activeCollection(obj)
 {
 	obj = $(obj);
@@ -353,41 +472,19 @@ function check_before_submit()
 {
 
 	var empID 			= $("#txtEmpID").val();
-	var inst 			= $("#ddlInstitution").val();
-	var dept 			= $("#ddlDepartment").val();
-	var	pos 			= $("#ddlPosition").val();
 	var user 			= $("#txtUsername").val();
-	var titleTH 		= $("#ddlNameTitleThai").val();
-	var firstnameTH 	= $("#txtFirstnameThai").val();
-	var lastnameTH 		= $("#txtLastnameThai").val();
 	var email 			= $("#txtEmail").val();
 	var idcard 			= $("#txtIDCard").val();
 	var msg = '';
-	$("input[type=text][type=select]").click();
+	$("input[type=text],input[type=select]").click();
 	
 	if(empID == '')
 	{
 		msg += '- รหัสพนักงาน';
 	}
-	if(inst == 0)
-	{
-		msg += '<br/>- หน่วยงาน';
-	}
-	if(dept == 0)
-	{
-		msg += '<br/>- แผนก';
-	}
-	if(pos == 0)
-	{
-		msg += '<br/>- ตำแหน่ง';
-	}
 	if(user == '')
 	{
 		msg += '<br/>- Username';
-	}
-	if(titleTH == 0 || firstnameTH == '' || lastnameTH == '')
-	{
-		msg += '<br/>- ชื่อ นามสกุล ภาษาไทย';
 	}
 	if(email == '')
 	{
@@ -397,7 +494,7 @@ function check_before_submit()
 	{
 		msg += '<br/>- รหัสบัตรประชาขน';
 	}
-	return true;
+
 	if(msg != '')
 	{
 		swal({

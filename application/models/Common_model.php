@@ -3,6 +3,7 @@ class Common_model extends CI_Model{
     public function __construct(){
         parent::__construct();
     }
+    # use
     function getDay1To31(){
         $data = array();
         $data[0] = "--เลือก--";
@@ -11,6 +12,7 @@ class Common_model extends CI_Model{
         }
         return $data;
     }
+    # use
     function getMonth1To12($language = "english"){
         $data = array();
         $data[0] = "--เลือก--";
@@ -27,6 +29,7 @@ class Common_model extends CI_Model{
         }
         return $data;
     }
+    # use
     function getYearForDropDown($language = "english",$start = 1900,$end = 0){
         $end = $end==0?date("Y"):$end;
         $data = array();

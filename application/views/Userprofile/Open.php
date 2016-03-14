@@ -8,6 +8,7 @@
         <a href="<?php echo site_url('Userprofile/othercontactinfo/'.$emp_id) ?>" class="collection-item">บุคคลอื่นที่ติดต่อได้</a>
         <a href="<?php echo site_url('Userprofile/documentinfo/'.$emp_id) ?>" class="collection-item">เอกสาร</a>
         <a href="<?php echo site_url('Userprofile/providentfundinfo/'.$emp_id) ?>" class="collection-item">กองทุนสำรองเลี้ยงชีพ</a>
+        <a href="<?php echo site_url('Userprofile/shiftworkinfo/'.$emp_id) ?>" class="collection-item">กะงาน</a>
     </div>
 	</div>
 	<div class="col s12 m9 l9 card-panel">

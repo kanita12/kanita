@@ -10,6 +10,7 @@ class Amphur_model extends CI_Model{
 
         return $query;
     }
+    # use
 	function getListForDropDown($provinceID)
     {
         $this->db->select("AMPHUR_ID,AMPHUR_NAME");

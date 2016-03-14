@@ -1,4 +1,4 @@
-<h5 class="header">เอกสารการโอนเงินเดือน</h5>
+<h3 class="header">เอกสารการโอนเงินเดือน</h3>
 <div class="divider"></div>
 <div class="section">
 	<div class="row">
@@ -21,14 +21,20 @@
 			</div>
 			<div class="input-field col s12">
 				<br><br><br>
-				<img class="responsive-img materialboxed" id="copy_bookbank" src="<?php echo $empBankImg?>">
+				<img src="<?php echo base_url($empBankImg) ?>" id="copy_bookbank" class="responsive-img materialboxed">
 				<label for="copy_bookbank" class="green-text">สำเนาสมุดบัญชี</label>
 			</div>
 		</div>
 	</div>
 </div>
-<h5 class="header">เอกสารอื่นๆ</h5>
+<h3 class="header">เอกสารการสมัครงาน</h3>
 <div class="divider"></div>
 <div class="section">
-
+	<div class="row">
+		<div class="col s12">
+			<div class="input-field col s12">
+				<img src="<?php echo base_url($empDocumentRegisterJobImg) ?>" id="copy_bookbank" class="responsive-img materialboxed">
+			</div>
+		</div>
+	</div>
 </div>

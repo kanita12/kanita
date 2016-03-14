@@ -65,6 +65,7 @@
 	  </li>
 	</ul> */ ?>
 	<!--  <li class="bold"><a href="<?php echo site_url('admin/Config') ?>">ตั้งค่า</a></li> -->
+	<li class="bold"><a href="<?php echo site_url('admin/providentfund') ?>">กองทุนสำรองเลี้ยงชีพ</a></li>
 	<li class="bold"><a href="<?php echo site_url('Logout') ?>">ออกจากระบบ</a></li>
 </ul>
 <script type="text/javascript">

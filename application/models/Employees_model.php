@@ -57,8 +57,14 @@ class Employees_model extends CI_Model
 											cuname UnitName,
 											cgname GroupName,
 											cpname PositionName,");
-		$this->db->select("CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai,",false);
-		$this->db->select("CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish,",false);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);
 		$this->db->from($this->table);
 		$this->db->join($this->tableCompanyPosition, 		"Emp_PositionID = cpid",		"left");
 		$this->db->join($this->tableCompanyDepartment, 	"Emp_DepartmentID = cdid",	"left");
@@ -129,8 +135,14 @@ class Employees_model extends CI_Model
 	public function all_employees()
 	{
 		$this->db->select( $this->selectAllField );
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
 		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
@@ -148,9 +160,14 @@ class Employees_model extends CI_Model
 	public function all_employees_not_pay( $year, $month )
 	{
 		$this->db->select( "UserID,EmpID,EmpProvidentFund,EmpSalary" );
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
-		$this->db->from($this->table);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);		$this->db->from($this->table);
 		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
 		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
 		$this->db->join($this->table_role,"UR_RoleID = RoleID","left");
@@ -174,8 +191,14 @@ class Employees_model extends CI_Model
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg");
 		$this->db->select(",cdname DepartmentName,csname SectionName,cuname UnitName,cgname GroupName,cpname PositionName");
 		//for fullname thai and english
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,"User_EmpID = EmpID","left");
 		$this->db->join($this->table_user_role,"UR_UserID = UserID","left");
@@ -278,8 +301,14 @@ class Employees_model extends CI_Model
 		$this->db->limit($limit, $start);
 		$this->db->select("UserID,Username,Password,EmpID,EmpFirstnameThai,EmpLastnameThai,EmpPictureImg,PName,DName");
 		//for fullname thai and english
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);
 		$this->db->from($this->table);
 		$this->db->join($this->table_position, "Emp_PositionID = PID",'left');
 		$this->db->join($this->table_department, "Emp_DepartmentID = DID",'left');
@@ -325,8 +354,14 @@ class Employees_model extends CI_Model
 	public function getDetailByEmpID($empID) {
 		$this->db->select($this->selectAllField);//T_Users
 		//for fullname thai and english
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);
 		$this->db->from($this->table);
 		$this->db->join($this->table_user,'EmpID = User_EmpID','left');
 		$this->db->join($this->tableCompanyDepartment,"Emp_DepartmentID = cdid","left");
@@ -421,7 +456,7 @@ class Employees_model extends CI_Model
 		$data["Emp_SectionID"] = $empData["ddlSection"];
 		$data["Emp_UnitID"] = $empData["ddlUnit"];
 		$data["Emp_GroupID"] = $empData["ddlGroup"];
-		$data["EmpBirthDay"] 			= $empData["ddlBirthDayYear"] . "-" . $empData["ddlBirthDayMonth"] .
+		$data["EmpBirthDay"] 			= intval($empData["ddlBirthDayYear"]) > 0 ? (intval($empData["ddlBirthDayYear"]) - 543) : 0 . "-" . $empData["ddlBirthDayMonth"] .
 										"-" . $empData["ddlBirthDayDay"];
 		$data['EmpBirthPlace'] 			= $empData['txtBirthPlace'];
 		$data['EmpIDCard'] 				= $empData['txtIDCard'];
@@ -434,8 +469,8 @@ class Employees_model extends CI_Model
 		$data['Emp_ZipcodeID'] 			= $empData['ddlAddressZipcode'];
 
 		//dbDateFormatFromThai is function from common_helper
-		$data['EmpStartWorkDate'] 			= dbDateFormatFromThai($empData['txtStartWorkDate']);
-		$data['EmpSuccessTrialWorkDate'] 	= dbDateFormatFromThai($empData['txtSuccessTrialWorkDate']);
+		$data['EmpStartWorkDate'] 			= dbDateFormatFromThaiUn543($empData['txtStartWorkDate']);
+		$data['EmpSuccessTrialWorkDate'] 	= dbDateFormatFromThaiUn543($empData['txtSuccessTrialWorkDate']);
 		$data['EmpSalary'] 					= $empData['txtSalary'];
 		$data['EmpCallname'] 				= $empData['txtCallName'];
 		$data['EmpTelephone'] 				= $empData['txtTelePhone'];
@@ -448,8 +483,8 @@ class Employees_model extends CI_Model
 		$data['EmpNationality'] 			= $empData['txtNationality'];
 		$data['EmpRace'] 					= $empData['txtRace'];
 		$data['EmpReligion'] 				= $empData['txtReligion'];
-		$data['Emp_MARSID'] 				= !isset($empData['rdoMaritalStatus'])?0:$empData['rdoMaritalStatus'];
-		$data['EmpMilitaryStatus'] 			= !isset($empData['rdoMilitaryStatus'])?0:$empData['rdoMilitaryStatus'];
+		$data['Emp_MARSID'] 				= !isset($empData['rdoMartialStatus']) ? 0 : $empData['rdoMartialStatus'];
+		$data['EmpMilitaryStatus'] 			= !isset($empData['rdoMilitaryStatus'])? 0:$empData['rdoMilitaryStatus'];
 		$data['EmpMilitaryReason'] 			= $empData['txtMilitaryReason'];
 		$data["EmpNumberOfChildren"]		= $empData["txtNumberOfChildren"];
 		$data["EmpNumberOfBrother"]			= $empData["txtNumberOfBrother"];
@@ -468,9 +503,9 @@ class Employees_model extends CI_Model
 		$data['EmpFriend_ProvinceID'] 		= $empData['ddlAddressProvinceFriend'];
 		$data['EmpFriend_ZipcodeID'] 		= $empData['ddlAddressZipcodeFriend'];
 		$data["EmpFriendTelephone"] 		= $empData["txtTelePhoneFriend"];
-        $data["EmpFriendMobilePhone"] 		= $empData["txtMobilePhoneFriend"];
+    $data["EmpFriendMobilePhone"] 		= $empData["txtMobilePhoneFriend"];
 
-        $data['EmpFatherNameTitleThai'] = $empData['ddlNameTitleFather'];
+    $data['EmpFatherNameTitleThai'] = $empData['ddlNameTitleFather'];
 		$data['EmpFatherFirstnameThai'] = $empData['txtFirstnameFather'];
 		$data['EmpFatherLastnameThai'] = $empData['txtLastnameFather'];
 		$data['EmpFatherAddressNumber'] = $empData['txtAddressNumberFather'];
@@ -496,16 +531,13 @@ class Employees_model extends CI_Model
 		$data["EmpMotherTelephone"] = $empData["txtTelePhoneMother"];
 		$data["EmpMotherMobilePhone"] = $empData["txtMobilePhoneMother"];
 
-		$data['EmpHouseRegNameTitleThai'] = $empData['ddlNameTitleHouseReg'];
-          $data['EmpHouseRegFirstnameThai'] = $empData['txtFirstnameHouseReg'];
-          $data['EmpHouseRegLastnameThai'] = $empData['txtLastnameHouseReg'];
-          $data['EmpHouseRegAddressNumber'] = $empData['txtAddressNumberHouseReg'];
-          $data['EmpHouseRegAddressMoo'] = $empData['txtAddressMooHouseReg'];
-          $data['EmpHouseRegAddressRoad'] = $empData['txtAddressRoadHouseReg'];
-          $data['EmpHouseReg_DistrictID'] = $empData['ddlAddressDistrictHouseReg'];
-          $data['EmpHouseReg_AmphurID'] = $empData['ddlAddressAmphurHouseReg'];
-          $data['EmpHouseReg_ProvinceID'] = $empData['ddlAddressProvinceHouseReg'];
-          $data['EmpHouseReg_ZipcodeID'] = $empData['ddlAddressZipcodeHouseReg'];
+    $data['EmpHouseRegAddressNumber'] = $empData['txtAddressNumberHouseReg'];
+    $data['EmpHouseRegAddressMoo'] = $empData['txtAddressMooHouseReg'];
+    $data['EmpHouseRegAddressRoad'] = $empData['txtAddressRoadHouseReg'];
+    $data['EmpHouseReg_DistrictID'] = $empData['ddlAddressDistrictHouseReg'];
+    $data['EmpHouseReg_AmphurID'] = $empData['ddlAddressAmphurHouseReg'];
+    $data['EmpHouseReg_ProvinceID'] = $empData['ddlAddressProvinceHouseReg'];
+    $data['EmpHouseReg_ZipcodeID'] = $empData['ddlAddressZipcodeHouseReg'];
 
 		$data['Emp_StatusID'] 				= 1;
 		$data['EmpCreatedDate'] 			= date('Y-m-d H:i:s');
@@ -643,8 +675,14 @@ class Employees_model extends CI_Model
 	public function get_list_by_section($id)
 	{
 		$this->db->select('UserID,EmpID,');
-		$this->db->select(", CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai) EmpFullnameThai",false);
-		$this->db->select(", CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish) AS EmpFullnameEnglish ",false);
+		$this->db->select(", CASE WHEN EmpNameTitleThai = 0 THEN 
+		                  			CONCAT( EmpFirstnameThai,' ',EmpLastnameThai )
+		                  		ELSE CONCAT(EmpNameTitleThai,EmpFirstnameThai,' ',EmpLastnameThai)
+		                  		END AS EmpFullnameThai",false);
+		$this->db->select(", CASE WHEN EmpNameTitleEnglish = 0 THEN 
+		                  			CONCAT( EmpFirstnameEnglish,' ',EmpLastnameEnglish )
+		                  		ELSE CONCAT(EmpNameTitleEnglish,EmpFirstnameEnglish,' ',EmpLastnameEnglish)
+		                  		END AS EmpFullnameEnglish",false);
 		$this->db->select(', cpname PositionName');
 		$this->db->from($this->table);
 		$this->db->where('Emp_SectionID',$id);

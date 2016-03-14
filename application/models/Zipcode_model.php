@@ -9,6 +9,7 @@ class Zipcode_model extends CI_Model{
         $query = $this->db->get();
         return $query;
     }
+    # use
 	function getListForDropDown($provinceID,$amphurID,$districtID)
     {
         $this->db->select("ZIPCODE_ID,ZIPCODE");

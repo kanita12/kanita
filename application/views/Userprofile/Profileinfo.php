@@ -170,6 +170,7 @@
 		</div>
 	</div>
 	<div class="col s12">
+		<h3 class="header">รูปบัตรประชาชน</h3>
 		<div class="input-field col s12">
 			<?php if ($empIDCardImg): ?>
 				<img src="<?php echo base_url($empIDCardImg);?>">
@@ -181,6 +182,7 @@
 <!-- Address -->
 <div class="row">
 	<div class="col s12">
+		<h3 class="header">ที่อยู่ปัจจุบัน</h3>
 		<div class="input-field col s4">
 			<input readonly="true" type="text" id="txtAddressNumber" name="txtAddressNumber" value="<?php echo $empAddressNumber?>">
 			<label for="txtAddressNumber" class="green-text">บ้านเลขที่</label>
@@ -209,7 +211,41 @@
 			<?php echo form_dropdown("ddlAddressZipcode", $queryZipcode, $empAddressZipcode, "id='ddlAddressZipcode' disabled");?>
 			<label for="ddlAddressZipcode" class="green-text">รหัสไปรษณีย์</label>
 		</div>
+	</div>
+</div>
+<div class="row">
+	<div class="col s12">
+		<h3 class="header">ที่อยู่ตามทะเบียนบ้าน</h3>
+		<div class="input-field col s4">
+			<input readonly="true" type="text" id="txtAddressNumberHouseReg" name="txtAddressNumberHouseReg" value="<?php echo $empAddressNumberHouseReg; ?>">
+			<label for="txtAddressNumberHouseReg" class="green-text">บ้านเลขที่</label>
+		</div>
+		<div class="input-field col s4">
+			<input readonly="true" type="text" id="txtAddressMooHouseReg" name="txtAddressMooHouseReg" value="<?php echo $empAddressMooHouseReg; ?>">
+			<label for="txtAddressMooHouseReg" class="green-text">หมู่</label>
+		</div>
+		<div class="input-field col s4">
+			<input readonly="true" type="text" id="txtAddressRoadHouseReg" name="txtAddressRoadHouseReg" value="<?php echo $empAddressRoadHouseReg; ?>">
+			<label for="txtAddressRoadHouseReg" class="green-text">ถนน</label>
+		</div>
+		<div class="input-field col s4">
+			<?php echo form_dropdown("ddlAddressProvinceHouseReg", $queryProvince, $empAddressProvinceHouseReg, "id='ddlAddressProvinceHouseReg' disabled");?>
+			<label for="ddlAddressProvinceHouseReg" class="green-text">จังหวัด</label>
+		</div>
+		<div class="input-field col s4">
+			<?php echo form_dropdown("ddlAddressAmphurHouseReg", $queryAmphurHouseReg, $empAddressAmphurHouseReg, "id='ddlAddressAmphurHouseReg' disabled");?>
+			<label for="ddlAddressAmphurHouseReg" class="green-text">เขต/อำเภอ</label>
+		</div>
+		<div class="input-field col s4">
+			<?php echo form_dropdown("ddlAddressDistrictHouseReg", $queryDistrictHouseReg, $empAddressDistrictHouseReg, "id='ddlAddressDistrictHouseReg' disabled");?>
+			<label for="ddlAddressDistrictHouseReg" class="green-text">แขวง/ตำบล</label>
+		</div>
+		<div class="input-field col s4">
+			<?php echo form_dropdown("ddlAddressZipcodeHouseReg", $queryZipcodeHouseReg, $empAddressZipcodeHouseReg, "id='ddlAddressZipcodeHouseReg' disabled");?>
+			<label for="ddlAddressZipcodeHouseReg" class="green-text">รหัสไปรษณีย์</label>
+		</div>
 		<div class="input-field col s12">
+			<h3 class="header">รูปสำเนาทะเบียนบ้าน</h3>
 			<?php if ($empAddressImg): ?>
 				<img src="<?php echo base_url($empAddressImg);?>">
 			<?php endif?>
@@ -217,6 +253,7 @@
 		</div>
 	</div>
 </div>
+
 <?php echo form_close();?>
 <div class="divider"></div>
 <input type="hidden" id="hd_validation_error" name="hd_validation_error" value="<?php echo validation_errors()?>">

@@ -39,11 +39,8 @@ class Roles_model extends CI_Model{
 		$query = $this->db->get();
 		return $query;
 	}
-	public function insert(){
-		
-	}
 	public function delete($roleID){
 		$this->db->where('RoleID',floatval($roleID));
-		$this->db->delete($this->table,$where);
+		$this->db->delete($this->table);
 	}
 }

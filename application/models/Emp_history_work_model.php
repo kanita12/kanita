@@ -18,6 +18,7 @@ class Emp_history_work_model extends CI_Model
 		$this->db->delete($this->table);
 		return $this->db->affected_rows();
 	}
+	# use
 	public function get_list_by_user_id($user_id)
 	{
 		$this->db->select("ehw_id, ehw_user_id, ehw_company, ehw_position, ehw_district, ehw_desc, ehw_date_from, ehw_date_to");

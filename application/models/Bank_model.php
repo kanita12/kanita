@@ -31,7 +31,7 @@ class Bank_model extends CI_Model
         $query = $this->db->get();
         return $query;
     }
-
+    # use
     function getListForDropDown(){
         $this->db->select("BID,BName");
         $this->db->from($this->table);

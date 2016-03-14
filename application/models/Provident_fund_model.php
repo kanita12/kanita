@@ -38,6 +38,7 @@ class Provident_fund_model extends CI_Model{
 		$query = $this->db->get();
 		return $query;
 	}
+	# use
 	public function getListForDropdownlist($firstRow="--เลือก--")
 	{
 		$this->db->select("pvdid,pvdcode,pvdname");

@@ -8,6 +8,7 @@ class Nametitle_model extends CI_Model{
         $query = $this->db->get();
         return $query;
     }
+    # use
     public function getListForDropDownThai(){
         $this->db->select("NTID,NTName");
         $this->db->from($this->table);
@@ -25,6 +26,7 @@ class Nametitle_model extends CI_Model{
         }
         return $dropDownList;
     }
+    # use
     public function getListForDropDownEnglish(){
         $this->db->select("NTID,NTName");
         $this->db->from($this->table);

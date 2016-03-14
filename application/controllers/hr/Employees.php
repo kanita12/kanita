@@ -97,6 +97,8 @@ class Employees extends CI_Controller
 		$rules = array(
 			array("field" => "txtEmpID", "label" => "รหัสพนักงาน", "rules" => "required"),
 			array("field" => "txtUsername", "label" => "Username", "rules" => "required"),
+			array("field" => "txtEmail", "label" => "Email", "rules" => "required"),
+			array("field" => "txtIDCard", "label" => "IDCard", "rules" => "required"),
 			);
 		$this->form_validation->set_rules($rules);
 		if ($this->form_validation->run() === true) 
@@ -141,8 +143,8 @@ class Employees extends CI_Controller
 		$data["queryBank"] = $this->bank->getListForDropDown();
 		$data["queryBankType"] = $this->banktype->getListForDropDown();
 		$data["ddlBirthDayDay"] = $this->common->getDay1To31();
-		$data["ddlBirthDayMonth"] = $this->common->getMonth1To12();
-		$data["ddlBirthDayYear"] = $this->common->getYearForDropDown();
+		$data["ddlBirthDayMonth"] = $this->common->getMonth1To12("thai");
+		$data["ddlBirthDayYear"] = $this->common->getYearForDropDown("thai");
 		$data['queryDepartment'] = $this->department->getListForDropdownlist();
 		$data["queryPosition"] = $this->position->getListForDropdownlist();
 		$data['queryMartialStatus'] = $this->mars->getListForRadioButton();
@@ -279,10 +281,9 @@ class Employees extends CI_Controller
 
 		$data["query_history_work"] = array();
 		$data["query_history_study"] = array();
-
-		$queryEmpShiftwork = $this->empshiftwork->getListByUserId($this->user_id);
+		
 		$queryShiftwork = $this->shiftwork->getList();
-		$data["queryEmpShiftwork"] = $queryEmpShiftwork->result_array();
+		$data["queryEmpShiftwork"] = array();
 		$data["queryShiftwork"] = $queryShiftwork->result_array();
 		return $data;
 	}
@@ -292,7 +293,7 @@ class Employees extends CI_Controller
 		{
 			$pdata = $this->input->post(NULL,TRUE);
 			$username = $pdata['txtUsername'];
-		  $newPassword = substr($pdata['txtIDCard'], -4); //Password คือ 4 ตัวท้ายบัตรประชาชน
+		  $newPassword = substr($pdata['txtIDCard'], -6); //Password คือ 4 ตัวท้ายบัตรประชาชน
 		  $empID = $pdata['txtEmpID'];
 
 		  //check ก่อนว่า ทั้ง T_Users กับ T_Employees สามารถ Insert ได้
@@ -326,12 +327,12 @@ class Employees extends CI_Controller
 		  	}
 
 			//insert emp history work if have
-		  	$ehw_company = $pdata['history_work_company'];
-		  	$ehw_position = $pdata['history_work_position'];
-		  	$ehw_district = $pdata['history_work_district'];
-		  	$ehw_desc = $pdata['history_work_desc'];
-		  	$ehw_date_from_day = $pdata['history_work_date_from_day'];
-		  	$ehw_date_from_month = $pdata['history_work_date_from_month'];
+	  	$ehw_company = $pdata['history_work_company'];
+	  	$ehw_position = $pdata['history_work_position'];
+	  	$ehw_district = $pdata['history_work_district'];
+	  	$ehw_desc = $pdata['history_work_desc'];
+	  	$ehw_date_from_day = $pdata['history_work_date_from_day'];
+	  	$ehw_date_from_month = $pdata['history_work_date_from_month'];
 			$ehw_date_from_year = $pdata['history_work_date_from_year']; //year thai
 			$ehw_date_to_day = $pdata['history_work_date_to_day'];
 			$ehw_date_to_month = $pdata['history_work_date_to_month'];
@@ -383,7 +384,7 @@ class Employees extends CI_Controller
 			}
 			
 			//Add user id into roles
-			$this->userroles->replace_into_roles(2, $newUserID); //2 ตอนนี้เป็น for all user
+			$this->userroles->replace_into_roles(3, $newUserID); //3 ตอนนี้เป็น for all user
 
 			//Section Picture Update T_Employees
 			$contFile = array("fuEmpPicture", "fuIDCard", "fuAddress", "fuDocRegisterJob", "fuBank");
@@ -398,20 +399,22 @@ class Employees extends CI_Controller
 
 			//insert shift work
 			$this->empshiftwork->deleteByUserId($newUserID);
-			for ($i=0; $i < count($pdata["hdShiftworkId"]); $i++) 
-			{ 
-				$dataSw = array();
-				$dataSw["esw_userid"] = $newUserID;
-				$dataSw["esw_swid"] = $pdata["hdShiftworkId"][$i];
-				$this->empshiftwork->insert($dataSw);
+			if( isset($pdata["hdShiftworkId"]) && count($pdata["hdShiftworkId"] > 0 ) ){
+				for ($i=0; $i < count($pdata["hdShiftworkId"]); $i++) 
+				{ 
+					$dataSw = array();
+					$dataSw["esw_userid"] = $newUserID;
+					$dataSw["esw_swid"] = $pdata["hdShiftworkId"][$i];
+					$this->empshiftwork->insert($dataSw);
+				}
 			}
 
-			echo swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url('hr/Employees/Detail/'.$newUserID)."'");
+			echo swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url('hr/Employees/Detail/'.$empID)."'");
 		} else {
 			echo swalc("รหัสพนักงานนี้ไม่สามารถใช้งานได้","","error","history.back();");
 		}
 	} else {
-		redirect(site_url("/hr/Employees/Register"));
+		redirect(site_url("/hr/Employees/"));
 	}
 }
 public function EditEmployee()
@@ -420,7 +423,7 @@ public function EditEmployee()
 		$empData = $this->input->post(null, true);
 		$empID = $empData["hdEmpID"];
 
-		if ($empData['txtPassword'] != '') {
+		if ( isset($empData['txtPassword']) && $empData['txtPassword'] != '' ) {
 			$data = array();
 			//เรื่องของรหัสผ่านแก้ที่ Table T_Users
 			$data['Password'] = $empData['txtPassword'];
@@ -443,7 +446,7 @@ public function EditEmployee()
 		$data["Emp_UnitID"] = $empData["ddlUnit"];
 		$data["Emp_GroupID"] = $empData["ddlGroup"];
 
-		$data["EmpBirthDay"] = $empData["ddlBirthDayYear"] . "-" . $empData["ddlBirthDayMonth"] . "-" . $empData["ddlBirthDayDay"];
+		$data["EmpBirthDay"] = intval($empData["ddlBirthDayYear"]) > 0 ? (intval($empData["ddlBirthDayYear"]) - 543) : 0  . "-" . $empData["ddlBirthDayMonth"] . "-" . $empData["ddlBirthDayDay"];
 		$data['EmpBirthPlace'] = $empData['txtBirthPlace'];
 		$data['EmpIDCard'] = $empData['txtIDCard'];
 		$data['EmpAddressNumber'] = $empData['txtAddressNumber'];
@@ -616,15 +619,17 @@ public function EditEmployee()
 		  }
 		//insert shift work
 		$this->empshiftwork->deleteByUserId($userID);
-		for ($i=0; $i < count($empData["hdShiftworkId"]); $i++) 
-		{ 
-			$dataSw = array();
-			$dataSw["esw_userid"] = $userID;
-			$dataSw["esw_swid"] = $empData["hdShiftworkId"][$i];
-			$this->empshiftwork->insert($dataSw);
+		if( isset($empData["hdShiftworkId"]) && count($empData["hdShiftworkId"] > 0 ) ){
+			for ($i=0; $i < count($empData["hdShiftworkId"]); $i++) 
+			{ 
+				$dataSw = array();
+				$dataSw["esw_userid"] = $userID;
+				$dataSw["esw_swid"] = $empData["hdShiftworkId"][$i];
+				$this->empshiftwork->insert($dataSw);
+			}
 		}
 
-		  swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url("hr/Employees/")."'");
+		  swalc("บันทึกเรียบร้อยแล้ว","","success","window.location.href = '".site_url("hr/Employees/Detail/".$empID)."'");
 		}
 	}
 	public function Detail($empID)
@@ -667,8 +672,6 @@ public function EditEmployee()
 					}
 				}
 			}
-
-
 
 			$data['queryPosition'] = $this->position->getListForDropdownlist();
 			$data['empPositionID'] = $query['Emp_PositionID'];
@@ -750,11 +753,10 @@ public function EditEmployee()
 
 			$data["empAddressImg"] = $query['EmpAddressImg'];
 			$data["empPictureImg"] = $query['EmpPictureImg'];
-
+			 #### บุคคลอื่นที่ติดต่อได้ ####
 			$data["empNameTitleFriend"] = $query['EmpFriendNameTitleThai'];
 			$data["empFirstnameFriend"] = $query['EmpFriendFirstnameThai'];
 			$data["empLastnameFriend"] = $query['EmpFriendLastnameThai'];
-		  //bind dropdownlist district,amphur,province
 			$data["empAddressNumberFriend"] = $query['EmpFriendAddressNumber'];
 			$data["empAddressMooFriend"] = $query['EmpFriendAddressMoo'];
 			$data["empAddressRoadFriend"] = $query['EmpFriendAddressRoad'];
@@ -769,12 +771,10 @@ public function EditEmployee()
 			}
 			$data["empTelePhoneFriend"] = $query['EmpFriendTelephone'];
 			$data["empMobilePhoneFriend"] = $query['EmpFriendMobilePhone'];
-
-
+ 			#### ประวัติบิดา ####
 			$data["empNameTitleFather"] = $query['EmpFatherNameTitleThai'];
 			$data["empFirstnameFather"] = $query['EmpFatherFirstnameThai'];
 			$data["empLastnameFather"] = $query['EmpFatherLastnameThai'];
-		  //bind dropdownlist district,amphur,province
 			$data["empAddressNumberFather"] = $query['EmpFatherAddressNumber'];
 			$data["empAddressMooFather"] = $query['EmpFatherAddressMoo'];
 			$data["empAddressRoadFather"] = $query['EmpFatherAddressRoad'];
@@ -789,11 +789,10 @@ public function EditEmployee()
 			}
 			$data["empTelePhoneFather"] = $query['EmpFatherTelephone'];
 			$data["empMobilePhoneFather"] = $query['EmpFatherMobilePhone'];
-
+			#### ประวัติมารดา ####
 			$data["empNameTitleMother"] = $query['EmpMotherNameTitleThai'];
 			$data["empFirstnameMother"] = $query['EmpMotherFirstnameThai'];
 			$data["empLastnameMother"] = $query['EmpMotherLastnameThai'];
-		  //bind dropdownlist district,amphur,province
 			$data["empAddressNumberMother"] = $query['EmpMotherAddressNumber'];
 			$data["empAddressMooMother"] = $query['EmpMotherAddressMoo'];
 			$data["empAddressRoadMother"] = $query['EmpMotherAddressRoad'];
@@ -808,7 +807,7 @@ public function EditEmployee()
 			}
 			$data["empTelePhoneMother"] = $query['EmpMotherTelephone'];
 			$data["empMobilePhoneMother"] = $query['EmpMotherMobilePhone'];
-
+			#### ที่อยู่ตามทะเบียนบ้าน ####
 			$data["empAddressNumberHouseReg"] = $query['EmpHouseRegAddressNumber'];
 			$data["empAddressMooHouseReg"] = $query['EmpHouseRegAddressMoo'];
 			$data["empAddressRoadHouseReg"] = $query['EmpHouseRegAddressRoad'];
@@ -821,9 +820,9 @@ public function EditEmployee()
 				$data['queryDistrictHouseReg'] = $this->district->getListForDropDown($data['empAddressProvinceHouseReg'], $data['empAddressAmphurHouseReg']);
 				$data['queryZipcodeHouseReg'] = $this->zipcode->getListForDropDown($data['empAddressProvinceHouseReg'], $data['empAddressAmphurHouseReg'], $data['empAddressDistrictHouseReg']);
 			}
-
+			#### เอกสารการสมัครงาน ####
 			$data["empDocumentRegisterJobImg"] = $query['EmpDocRegisterJobImg'];
-
+			#### วันเกิด ####
 			$empBirthDay = $query['EmpBirthday'];
 			if ($empBirthDay !== '0000-00-00' && $empBirthDay !== null) {
 				$empBirthDay = array();
@@ -832,19 +831,22 @@ public function EditEmployee()
 				$data["birthDayMonth"] = $empBirthDay[1];
 				$data["birthDayYear"] = $empBirthDay[0];
 			}
-
+			#### ธนาคาร ####
 			$data["empBankID"] = $query['Emp_BankID'];
 			$data["empBankType"] = $query['Emp_BankTypeID'];
 			$data["empBankBranch"] = $query['EmpBankBranch'];
 			$data["empBankNumber"] = $query['EmpBankNumber'];
 			$data["empBankImg"] = $query['EmpBankImg'];
-
-		  //get history work & study
+		  #### ประวัติการทำงาน ####
 			$query = $this->hiswork->get_list_by_user_id($user_id);
 			$data["query_history_work"] = $query->result_array();
-
+			#### ประวัติการศึกษา ####
 			$query = $this->hisstudy->get_list_by_user_id($user_id);
 			$data["query_history_study"] = $query->result_array();
+			#### กะงาน ####
+			$queryEmpShiftwork = $this->empshiftwork->getListByUserId($user_id);
+			$data["queryEmpShiftwork"] = $queryEmpShiftwork->result_array();
+			 
 		}
 		parent::setHeader('รายละเอียดพนักงาน',"HR",FALSE,FALSE);
 		$this->load->view("hr/Employee/Register", $data);

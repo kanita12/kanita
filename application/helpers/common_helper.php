@@ -252,7 +252,7 @@ function dbDateFormatFromThai($date)
 }
 function dbDateFormatFromThaiUn543($date)
 {
-	//from 23/03/2558 to 2015-03-23
+	//from 23/03/2016 to 2015-03-23
   $newDate = '';
   if($date != '')
 	{

@@ -60,7 +60,8 @@ class Company extends CI_Controller {
     private function _edit()
     {
     	$post = $this->input->post(NULL,TRUE);
-    	$where = array("CID"=>$post["hdCID"]);
+        $cid = $post["hdCID"];
+    	$where = array("CID"=>$cid);
     	
     	$data = array();
     	$data["CName"] = $post["inputName"];
@@ -85,7 +86,14 @@ class Company extends CI_Controller {
 	    	$data["CLogo"] = $nowPath;
 	    }
 
-	    $this->company->update($data,$where);
+        if( $cid == "" )
+        {
+            $this->company->insert($data);
+        }
+        else
+        {
+            $this->company->update($data,$where);
+        }
     }
     private function _uploadImg($fuControlName)
     {
@@ -204,6 +212,7 @@ class Company extends CI_Controller {
             $data["valueParent"] = "";
             $data["valueId"] = "";
             $data["valueName"] = "";
+            $data["valueNameEng"] = "";
             $data["valueDesc"] = "";
 
             parent::setHeaderAdmin("เพิ่มตำแหน่ง");
@@ -219,6 +228,7 @@ class Company extends CI_Controller {
             $data = array();
             $data["cpheadmancpid"] = $post["inputParent"];
             $data["cpname"] = $post["inputName"];
+            $data["cpname_eng"] = $post["inputNameEng"];
             $data["cpdesc"] = $post["inputDesc"];
             $data["cpstatus"] = 1;
             $data["cpcreateddate"] = getDateTimeNow();
@@ -233,6 +243,7 @@ class Company extends CI_Controller {
             $data = array();
             $data["cpheadmancpid"] = $post["inputParent"];
             $data["cpname"] = $post["inputName"];
+            $data["cpname_eng"] = $post["inputNameEng"];
             $data["cpdesc"] = $post["inputDesc"];
             $data["cplatestupdate"] = getDateTimeNow();
             $data["cplatestupdatebyuserid"] = $this->user_id;
@@ -270,6 +281,7 @@ class Company extends CI_Controller {
             $data["valueParent"] = $query["cpheadmancpid"];
             $data["valueId"] = $id;
             $data["valueName"] = $query["cpname"];
+            $data["valueNameEng"] = $query["cpname_eng"];
             $data["valueDesc"] = $query["cpdesc"];
 
             parent::setHeaderAdmin("แก้ไขตำแหน่ง");
@@ -375,6 +387,7 @@ class Company extends CI_Controller {
             $data = array();
             $data["valueId"] = "";
             $data["valueName"] = "";
+            $data["valueNameEng"] = "";
             $data["valueDesc"] = "";
 
             parent::setHeaderAdmin("เพิ่มฝ่าย");
@@ -390,6 +403,7 @@ class Company extends CI_Controller {
         {
             $data = array();
             $data["cdname"] = $post["inputName"];
+            $data["cdname_eng"] = $post["inputNameEng"];
             $data["cddesc"] = $post["inputDesc"];
             $data["cdstatus"] = 1;
             $data["cdcreateddate"] = getDateTimeNow();
@@ -403,6 +417,7 @@ class Company extends CI_Controller {
         {
             $data = array();
             $data["cdname"] = $post["inputName"];
+            $data["cdname_eng"] = $post["inputNameEng"];
             $data["cddesc"] = $post["inputDesc"];
             $data["cdlatestupdate"] = getDateTimeNow();
             $data["cdlatestupdatebyuserid"] = $this->user_id;
@@ -439,6 +454,7 @@ class Company extends CI_Controller {
             $data = array();
             $data["valueId"] = $query["cdid"];
             $data["valueName"] = $query["cdname"];
+            $data["valueNameEng"] = $query["cdname_eng"];
             $data["valueDesc"] = $query["cddesc"];
 
             parent::setHeaderAdmin("แก้ไขฝ่าย");

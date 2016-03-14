@@ -8,6 +8,10 @@
 			<label for="inputName">ชื่อ</label>
 		</div>
 		<div class="input-field col s12">
+			<input type="text" name="inputNameEng" id="inputNameEng" value="<?php echo $valueNameEng; ?>" />
+			<label for="inputNameEng">ชื่อภาษาอังกฤษ</label>
+		</div>
+		<div class="input-field col s12">
 			<textarea name="inputDesc" id="inputDesc" class="materialize-textarea"><?php echo $valueDesc; ?></textarea>
 			<label for="inputDesc">คำอธิบาย</label>
 		</div>
